@@ -1,0 +1,301 @@
+package com.uplink.carins.activity;
+
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.os.Handler;
+import android.os.Message;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.TextView;
+
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
+import com.uplink.carins.Own.Config;
+import com.uplink.carins.R;
+import com.uplink.carins.fragment.OrderListFragment;
+import com.uplink.carins.http.HttpClient;
+import com.uplink.carins.http.HttpResponseHandler;
+import com.uplink.carins.model.api.ApiResultBean;
+import com.uplink.carins.model.api.CarInsCompanyBean;
+import com.uplink.carins.ui.ViewHolder;
+import com.uplink.carins.ui.choicephoto.ChoicePhotoAndCropAndSwipeBackActivity;
+import com.uplink.carins.ui.my.MyHorizontalListView;
+import com.uplink.carins.ui.swipebacklayout.SwipeBackActivity;
+import com.uplink.carins.utils.BitmapUtil;
+import com.uplink.carins.utils.CommonUtil;
+import com.uplink.carins.utils.LogUtil;
+import com.uplink.carins.utils.StringUtil;
+
+import java.io.File;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import okhttp3.MediaType;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+
+public class CarInsureDocumentActivity extends ChoicePhotoAndCropAndSwipeBackActivity {
+
+    private String TAG = "CarInsureDocumentActivity";
+
+    private int choice_index = -1;
+    private final int choice_index_xingshizheng = 101;
+    private final int choice_index_shenfenzheng = 102;
+    private final int choice_index_CHECHUANSHUI = 103;
+    private final int choice_index_YANCHEZHENG = 104;
+
+    private ImageView btnHeaderGoBack;
+    private TextView txtHeaderTitle;
+
+    private Button btn_submit_carinsure;
+    private MyHorizontalListView list_selected_carinscompany;
+    private SelectedCarInsCompanyAdapter list_selected_carinscompany_adapter;
+
+    // 车辆行驶证
+    private LinearLayout layout_carinsure_xingshizheng;
+    private ImageView img_carinsure_xingshizheng;
+    private String path_carinsure_xingshizheng = "";
+
+    // 车辆行驶证
+    private LinearLayout layout_carinsure_shenfenzheng;
+    private ImageView img_carinsure_shenfenzheng;
+    private String path_carinsure_shenfenzheng = "";
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_carinsuredocument);
+
+        initView();
+        initEvent();
+
+        getIntentData();
+    }
+
+    public void getIntentData() {
+
+        List<CarInsCompanyBean> carInsCompanys = (List<CarInsCompanyBean>)getIntent().getSerializableExtra("insuranceCompany");
+
+        for (CarInsCompanyBean bean : carInsCompanys) {
+            LogUtil.i("选择的保险公司:"+bean.getName());
+        }
+
+        list_selected_carinscompany_adapter=new SelectedCarInsCompanyAdapter();
+        list_selected_carinscompany.setAdapter(list_selected_carinscompany_adapter);
+        list_selected_carinscompany_adapter.setData(carInsCompanys);
+    }
+
+    private void initView() {
+        btnHeaderGoBack = (ImageView) findViewById(R.id.btn_main_header_goback);
+        btnHeaderGoBack.setVisibility(View.VISIBLE);
+        txtHeaderTitle = (TextView) findViewById(R.id.txt_main_header_title);
+
+        btn_submit_carinsure = (Button) findViewById(R.id.btn_submit_carinsure);
+        list_selected_carinscompany= (MyHorizontalListView) findViewById(R.id.list_selected_carinscompany);
+
+        txtHeaderTitle.setText("上传证件");
+
+        // 车辆行驶证
+        layout_carinsure_xingshizheng = (LinearLayout) findViewById(R.id.layout_carinsure_xingshizheng);
+        img_carinsure_xingshizheng = (ImageView) findViewById(R.id.img_carinsure_xingshizheng);
+
+        // 身份证
+        layout_carinsure_shenfenzheng = (LinearLayout) findViewById(R.id.layout_carinsure_shenfenzheng);
+        img_carinsure_shenfenzheng = (ImageView) findViewById(R.id.img_carinsure_shenfenzheng);
+    }
+
+    private void initEvent() {
+        btnHeaderGoBack.setOnClickListener(this);
+
+        btn_submit_carinsure.setOnClickListener(this);
+
+        //车辆行驶证
+        layout_carinsure_xingshizheng.setOnClickListener(this);
+        layout_carinsure_shenfenzheng.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        super.onClick(v);
+        switch (v.getId()) {
+            case R.id.btn_main_header_goback:
+                finish();
+                break;
+            case R.id.btn_submit_carinsure:
+                submitInsure();
+                break;
+            case R.id.layout_carinsure_xingshizheng:
+                choice_index = choice_index_xingshizheng;
+                path_carinsure_xingshizheng="";
+                showChoiceDialog(CropType.need_crop_no_cropimage);
+                break;
+            case R.id.layout_carinsure_shenfenzheng:
+                choice_index = choice_index_shenfenzheng;
+                path_carinsure_shenfenzheng="";
+                showChoiceDialog(CropType.need_crop_no_cropimage);
+                break;
+        }
+    }
+
+
+    private  void  submitInsure() {
+
+
+        Map<String, String> params = new HashMap<>();
+        params.put("userId", "1027");
+        params.put("merchantId", "20");
+
+        //Map<String, String> files = new HashMap<>();
+        //files.put("xingshizheng",path_carinsure_xingshizheng);
+        //files.put("shenfenzheng",path_carinsure_shenfenzheng);
+        HttpClient.post(Config.URL.submitInsure, params,null, new CallBack());
+
+
+
+//        if (StringUtil.isEmpty(path_carinsure_xingshizheng)) {
+//            showToast("请上传车辆行驶证");
+//            return;
+//        }
+//
+//        if (StringUtil.isEmpty(path_carinsure_shenfenzheng)) {
+//            showToast("请上传身份证");
+//            return;
+//        }
+//
+//        showProgressDialog("请稍后...", false);
+    }
+
+
+    @Override
+    public void OnCropSuccess(String photo_path) {
+        switch (choice_index) {
+            case choice_index_xingshizheng:
+                path_carinsure_xingshizheng = photo_path;
+                img_carinsure_xingshizheng.setVisibility(View.VISIBLE);
+                loadImageHandler.sendEmptyMessage(choice_index_xingshizheng);
+                break;
+            case choice_index_shenfenzheng:
+                path_carinsure_shenfenzheng = photo_path;
+                img_carinsure_shenfenzheng.setVisibility(View.VISIBLE);
+                loadImageHandler.sendEmptyMessage(choice_index_shenfenzheng);
+                break;
+        }
+        LogUtil.d(TAG, "choice_index=" + choice_index + ">>>" + photo_path);
+        choice_index = 0;
+    }
+
+    private Handler loadImageHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case choice_index_xingshizheng:
+                    onLoad(img_carinsure_xingshizheng, path_carinsure_xingshizheng);
+                    break;
+                case choice_index_shenfenzheng:
+                    onLoad(img_carinsure_shenfenzheng, path_carinsure_shenfenzheng);
+                    break;
+            }
+        }
+    };
+
+    private void onLoad(ImageView iv, String imgPath) {
+        try {
+            Bitmap bm = BitmapUtil.decodeSampledBitmapFromFd(imgPath, dip2px(150), dip2px(100));
+            iv.setImageBitmap(bm);
+        } catch (Exception e) {
+            LogUtil.e(e.getMessage() + "");
+        }
+    }
+
+    @Override
+    public void OnCropFail(String error_tx) {
+        LogUtil.i(TAG, "choice_index=" + choice_index + ">error>>" + error_tx);
+    }
+
+    private class CallBack extends HttpResponseHandler {
+        @Override
+        public void onSuccess(String response) {
+            super.onSuccess(response);
+            removeProgressDialog();
+            LogUtil.e("onSuccess====>>>" + response);
+
+            ApiResultBean<Object> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<Object>>() {
+            });
+
+            int result = rt.getResult();
+            if (result == 1) {
+                showToast("提交成功！");
+            } else {
+                showToast("提交失败！");
+            }
+        }
+
+        @Override
+        public void onFailure(Request request, Exception e) {
+            super.onFailure(request, e);
+            removeProgressDialog();
+            LogUtil.e("onSuccess====>>>" + e.getMessage());
+            showToast("提交失败，请重试！");
+        }
+    }
+
+    private class SelectedCarInsCompanyAdapter extends BaseAdapter {
+
+
+        private  List<CarInsCompanyBean> carInsCompanys;
+
+
+        SelectedCarInsCompanyAdapter() {
+
+            this.carInsCompanys = new ArrayList<>();
+        }
+
+
+        public void setData(List<CarInsCompanyBean> carInsCompanys) {
+            this.carInsCompanys = carInsCompanys;
+            notifyDataSetChanged();
+        }
+
+
+
+        @Override
+        public int getCount() {
+            return carInsCompanys.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+
+            return carInsCompanys.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            CarInsCompanyBean carInsCompany = carInsCompanys.get(position);
+            if (convertView == null) {
+                convertView = LayoutInflater.from(CarInsureDocumentActivity.this).inflate(R.layout.item_carinsure_selectedcompany, parent, false);
+            }
+            ImageView item_img = ViewHolder.get(convertView, R.id.item_company_choice_img);
+            CommonUtil.loadImageFromUrl(CarInsureDocumentActivity.this,item_img,carInsCompany.getImgUrl() + "");
+            return convertView;
+        }
+    }
+}

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <color name="white">#FFFFFF</color>
+    <color name="default_bg">#F5F5F5</color>
+    <color name="loading_bg">#2000</color>
+    <color name="main_frame_bg">#FFFFFF</color>
+    <color name="main_footer_bg">#FFFFFF</color>
+    <color name="main_footer_line">#140000</color>
+    <color name="main_footer_text_color_normal">#333333</color>
+    <color name="main_footer_text_color_selected">#FA931E</color>
+
+
+    <color name="main_header_bg">#FFF</color>
+    <color name="main_header_title">#000000</color>
+    <color name="main_header_line">#14000000</color>
+
+
+
+    <color name="input_login_hint">#BFBFBF</color>
+    <color name="input_login_text">#333333</color>
+
+    <color name="login_logo">#FA931E</color>
+    <color name="login_logo_deep">#E7942A</color>
+
+
+    <color name="login_intput_line">#14000000</color>
+
+    <color name="home_gridview_ninegrid_hinttext">#999</color>
+    <color name="home_gridview_ninegrid_toptitle">#999999</color>
+    <color name="home_gridview_ninegrid_topline">#E6E6E6</color>
+
+    <color name="dialog_bg">#2000</color>
+    <color name="dialog_confirm_bg">#2000</color>
+    <color name="dialog_title">#333333</color>
+    <color name="dialog_tips">#333333</color>
+    <color name="dialog_line">#14000000</color>
+    <color name="dialog_confirm_btn_sure">#0099CC</color>
+    <color name="dialog_confirm_btn_cancle">#666</color>
+    <color name="dialog_confirm_bottom_lr_color">#fff8f8f8</color>
+
+
+    <color name="dialog_radio_kuang">#FF9100</color>
+    <color name="dialog_text_normal">#333333</color>
+    <color name="dialog_text_checked_true">#666</color>
+    <color name="dialog_text_checked_false">#ccc</color>
+    <color name="dialog_text_checked_kuang_green">#5ad485</color>
+
+    <color name="dialog_chooselist_bg">#FFF</color>
+    <color name="dialog_chooselist_title_bg">#0099CC</color>
+    <color name="dialog_chooselist_dividerline">#E6E6E6</color>
+    <color name="dialog_chooselist_seleced">#5ad485</color>
+
+    <color name="widget_common_btn_n">#0099CC</color>
+    <color name="widget_common_btn_f">#1279CE</color>
+    <color name="widget_btn_1_n">#0099CC</color>
+    <color name="widget_btn_1_f">#0099CC</color>
+
+    <color name="form_tb_title">#333333</color>
+    <color name="form_tb_line">#E6E6E6</color>
+    <color name="form_tb_content">#333333</color>
+    <color name="form_tb_content_hint">#999</color>
+    <color name="form_tb_radio_checked_true">#666</color>
+    <color name="form_tb_radio_checked_false">#ccc</color>
+
+    <color name="popu_list_bg">#FFF</color>
+    <color name="popu_list_line">#14000000</color>
+
+    <color name="tab_choice_radio_kuang">#0099CC</color>
+
+    <color name="transparent">#00000000</color>
+
+    <color name="item_carinsplankind_bg">#F5F5F5</color>
+    <color name="item_carinsplankind_title_big">#000000</color>
+    <color name="item_carinsplankind_title_small">#000000</color>
+    <color name="item_carinsplankind_text_checked_true">#666</color>
+    <color name="item_carinsplankind_text_checked_false">#ccc</color>
+
+
+    <color name="item_carinsplankind_text_checked_kuang_green">#5ad485</color>
+
+    <color name="tab1_bottom">#E6E6E6</color>
+    <color name="tab1_bottom_selected">#0099CC</color>
+    <color name="tab1_text">#666</color>
+    <color name="tab1_text_selected">#0099CC</color>
+
+    <color name="uploadimg_border">#E6E6E6</color>
+    <color name="uploadimg_title">#333</color>
+    <color name="uploadimg_required">#f33</color>
+    <color name="uploadimg_selectimg">#999</color>
+
+    <!-- crop图片用到 -->
+    <color name="crop_background">#737373</color>
+    <color name="window_bg">#7222</color>
+    <color name="darkgreen">#83a909</color>
+
+
+    <color name="item_order_area1_text">#999</color>
+    <color name="item_order_status_name">#5ad485</color>
+</resources>

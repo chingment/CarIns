@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:background="@color/item_carinsplankind_bg" />
+
+    <LinearLayout
+        android:id="@+id/item_carinsplankind_view_big"
+        android:layout_width="match_parent"
+        android:layout_height="38dp"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingBottom="7dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="20dp"
+        android:paddingTop="7dp">
+
+        <TextView
+            android:id="@+id/item_carinsplankind_txt_bigtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="商业险"
+            android:textColor="@color/item_carinsplankind_title_big"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/item_carinsplankind_view_small"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+
+        >
+
+
+        <ListView
+            android:id="@+id/form_carinsurekind_list_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:divider="@color/dialog_chooselist_dividerline"
+            android:dividerHeight="1px"
+            android:scrollbars="none" />
+
+    </RelativeLayout>
+</LinearLayout>

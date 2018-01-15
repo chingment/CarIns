@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    >
+
+
+    <include layout="@layout/layout_main_header" />
+
+    <RelativeLayout
+        android:id="@+id/tab_header"
+        android:layout_width="match_parent"
+        android:layout_height="42dp"
+        android:layout_below="@+id/layout_header"
+        android:background="@color/white"
+        >
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_alignParentBottom="true"
+            android:background="@color/tab1_bottom" />
+
+        <View
+            android:id="@+id/tab1_bottom_selected"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/tab1_bottom_selected" />
+
+        <RadioGroup
+            android:id="@+id/form_orderlist_rb_status"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:tag="0"
+            android:orientation="horizontal">
+
+
+            <RadioButton
+                android:id="@+id/form_orderlist_rb_status_0"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:background="@null"
+                android:button="@null"
+                android:gravity="center"
+                android:tag="0"
+                android:text="全&#160;&#160;&#8201;部"
+                android:textColor="@color/tab1_text_selector"
+                android:textSize="12sp" />
+
+            <RadioButton
+                android:id="@+id/form_orderlist_rb_status_1"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:background="@null"
+                android:button="@null"
+                android:gravity="center"
+                android:tag="1"
+                android:text="已提交"
+                android:textColor="@color/tab1_text_selector"
+                android:textSize="12sp" />
+
+            <RadioButton
+                android:id="@+id/form_orderlist_rb_status_2"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:background="@null"
+                android:button="@null"
+                android:gravity="center"
+                android:tag="2"
+                android:text="跟进中"
+                android:textColor="@color/tab1_text_selector"
+                android:textSize="12sp" />
+
+            <RadioButton
+                android:id="@+id/form_orderlist_rb_status_3"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:background="@null"
+                android:button="@null"
+                android:gravity="center"
+                android:tag="3"
+                android:text="待支付"
+                android:textColor="@color/tab1_text_selector"
+                android:textSize="12sp" />
+
+            <RadioButton
+                android:id="@+id/form_orderlist_rb_status_4"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:background="@null"
+                android:button="@null"
+                android:gravity="center"
+                android:tag="4"
+                android:text="已完成"
+                android:textColor="@color/tab1_text_selector"
+                android:textSize="12sp" />
+
+            <RadioButton
+                android:id="@+id/form_orderlist_rb_status_5"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:background="@null"
+                android:button="@null"
+                android:gravity="center"
+                android:tag="5"
+                android:text="已取消"
+                android:textColor="@color/tab1_text_selector"
+                android:textSize="12sp" />
+
+
+        </RadioGroup>
+    </RelativeLayout>
+
+    <com.uplink.carins.ui.my.MyViewPager
+        android:id="@+id/form_orderlist_viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</LinearLayout>

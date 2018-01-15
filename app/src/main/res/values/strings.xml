@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">好易联</string>
+
+
+    <string name="btn_login_text">登录</string>
+    <string name="btn_submit_carclaimservice">提交</string>
+    <string name="btn_next">下一步</string>
+    <string name="btn_submit_carinsure">提交</string>
+
+    <string name="main_footer_home_text">首页</string>
+    <string name="main_footer_my_text">我的</string>
+
+    <string name="item_ninegird_defaulttile">标题</string>
+
+
+    <string name="placeholder_login_username">账户</string>
+    <string name="placeholder_login_password">密码</string>
+    <string name="title_activity_car_insure_kind">CarInsureKind</string>
+    <string name="title_activity_order_list">OrderListActivity</string>
+    <string name="no_network_connection_toast">网络连接不可用</string>
+
+    <string name="image_content_description">描述</string>
+</resources>

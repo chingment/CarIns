@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/default_bg"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tx1"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:gravity="center_vertical|left"
+        android:text="状态"
+        android:textColor="@color/form_tb_title"
+        android:textSize="15.0sp"
+        android:visibility="gone"
+        />
+
+    <com.uplink.carins.ui.refreshview.SuperRefreshLayout
+        android:id="@+id/refresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/mylistview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </com.uplink.carins.ui.refreshview.SuperRefreshLayout>
+
+</LinearLayout>
