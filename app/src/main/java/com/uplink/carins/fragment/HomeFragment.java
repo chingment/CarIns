@@ -14,6 +14,7 @@ import android.widget.SimpleAdapter;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
+import com.uplink.carins.Own.AppCacheManager;
 import com.uplink.carins.Own.AppManager;
 import com.uplink.carins.Own.Config;
 import com.uplink.carins.R;
@@ -28,6 +29,7 @@ import com.uplink.carins.http.HttpClient;
 import com.uplink.carins.http.HttpResponseHandler;
 import com.uplink.carins.model.api.ApiResultBean;
 import com.uplink.carins.model.api.BannerBean;
+import com.uplink.carins.model.api.CarInsCompanyBean;
 import com.uplink.carins.model.api.HomePageBean;
 import com.uplink.carins.model.common.NineGridItemBean;
 import com.uplink.carins.model.common.NineGridItemType;
@@ -339,6 +341,10 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                  HomePageBean bean=rt.getData();
 
                  setBanner(bean.getBanner());//设置banner
+
+                AppCacheManager.setCarInsCompany(bean.getCarInsCompany());
+                AppCacheManager.setCarInsKind(bean.getCarInsKind());
+                AppCacheManager.setCarInsPlan(bean.getCarInsPlan());
             }
         }
 

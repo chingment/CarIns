@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -21,9 +22,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 
+import com.uplink.carins.Own.AppCacheManager;
 import com.uplink.carins.R;
+import com.uplink.carins.model.api.CarInsKindBean;
 import com.uplink.carins.model.api.CarInsPlanBean;
-import com.uplink.carins.model.api.CarInsPlanKindChildBean;
 import com.uplink.carins.model.api.CarInsPlanKindParentBean;
 import com.uplink.carins.ui.dialog.CustomChooseListDialog;
 import com.uplink.carins.ui.dialog.CustomEditTextDialog;
@@ -36,7 +38,9 @@ import com.uplink.carins.utils.LogUtil;
 import com.uplink.carins.utils.StringUtil;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class CarInsureKindActivity extends SwipeBackActivity implements View.OnClickListener {
@@ -60,6 +64,8 @@ public class CarInsureKindActivity extends SwipeBackActivity implements View.OnC
     private KindParentAdapter kindParentAdapter;
     private KindChildAdapter kindChildAdapter;
 
+    private Map<Integer, List<CarInsKindBean>> carInsPlanKindMap = new HashMap();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,8 +73,8 @@ public class CarInsureKindActivity extends SwipeBackActivity implements View.OnC
         initView();
         initEvent();
 
-        setTestData();
-        setInsurePlan();
+
+        setCarInsPlan(AppCacheManager.getCarInsPlan());
 
     }
 
@@ -95,12 +101,18 @@ public class CarInsureKindActivity extends SwipeBackActivity implements View.OnC
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
-        if (hasFocus){
-            CommonUtil.setRadioGroupCheckedByStringTag(form_carinsurekind_rb_insurekind, String.valueOf(0));
+        if (hasFocus) {
+
+            String checkedIndex = form_carinsurekind_rb_insurekind.getTag().toString();
+            if (checkedIndex.equals("0")) {
+                CommonUtil.setRadioGroupCheckedByStringTag(form_carinsurekind_rb_insurekind, String.valueOf(0));
+            }
         }
     }
 
-    private void setInsurePlan() {
+    private void setCarInsPlan(List<CarInsPlanBean> carInsPlans) {
+
+        this.carInsPlans = carInsPlans;
 
         if (carInsPlans != null && carInsPlans.size() > 0) {
 
@@ -114,79 +126,54 @@ public class CarInsureKindActivity extends SwipeBackActivity implements View.OnC
 
                 CarInsPlanBean item = carInsPlans.get(i);
 
-                RadioButton rb = (RadioButton)inflater.inflate(R.layout.tab1_item, null);
+                RadioButton rb = (RadioButton) inflater.inflate(R.layout.tab1_item, null);
 
                 rb.setLayoutParams(layoutparams);
                 rb.setText(item.getName() + "");
                 rb.setTag(i);
-                rb.setId(rd_Id_Prefix + i);
+
+                int rd_Id = rd_Id_Prefix + i;
+                LogUtil.i("rd_Id:" + rd_Id);
+                rb.setId(rd_Id);
 
                 form_carinsurekind_rb_insurekind.addView(rb);
+
+
+                carInsPlanKindMap.put(item.getId(), AppCacheManager.getCarInsKindByPlanId(item.getId()));
+
             }
 
             form_carinsurekind_rb_insurekind.setOnCheckedChangeListener(rb_insurekind_CheckedChangeListener);
         }
     }
 
-    private void setTestData() {
 
-        carInsPlans = new ArrayList<CarInsPlanBean>();
+    public CarInsKindBean getCarInsPlanKind(int planiId, int kindId) {
+        List<CarInsKindBean> carInsKinds = carInsPlanKindMap.get(planiId);
 
-        List<CarInsPlanKindParentBean> carInsPlanKindParents = new ArrayList<>();
+        CarInsKindBean carInsKind = null;
+        for (CarInsKindBean bean : carInsKinds) {
 
-        List<CarInsPlanKindParentBean> carInsPlanKindParents2 = new ArrayList<>();
+            if (bean.getId() == kindId) {
+                carInsKind = bean;
+                break;
+            }
+        }
 
-        List<CarInsPlanKindChildBean> carInsPlanKindChilds = new ArrayList<>();
+        return carInsKind;
+    }
 
-        CarInsPlanKindChildBean.InputValueBean inputValueBean = new CarInsPlanKindChildBean.InputValueBean();
-        inputValueBean.setDefaultVal("国产");
+    public void setCarInsPlanKind(int planiId, CarInsKindBean carInsKind) {
 
+        List<CarInsKindBean> carInsKinds = carInsPlanKindMap.get(planiId);
 
-        CarInsPlanKindChildBean.InputValueBean inputValueBean2 = new CarInsPlanKindChildBean.InputValueBean();
-        inputValueBean2.setDefaultVal("100W");
+        for (int i=0;i<carInsKinds.size();i++) {
 
-
-        List<String> s = new ArrayList<>();
-        s.add("国产");
-        s.add("进口");
-        inputValueBean.setValue(s);
-
-        List<String> s1 = new ArrayList<>();
-        s1.add("50W");
-        s1.add("100W");
-        s1.add("200W");
-        inputValueBean2.setValue(s1);
-
-        //    public CarInsPlanKindChildBean(int id, String name, String aliasName, String value, boolean isCheck, boolean canWaiverDeductible, int type, int inputType, String inputUnit, InputValueBean inputValue, boolean isHasDetails) {
-        carInsPlanKindChilds.add(new CarInsPlanKindChildBean(1, "交强险", "交强险", "", true, true, 1, 1, "元", inputValueBean, false));
-        carInsPlanKindChilds.add(new CarInsPlanKindChildBean(2, "车船税", "车船税", "", true, true, 1, 2, "", inputValueBean, false));
-        carInsPlanKindChilds.add(new CarInsPlanKindChildBean(3, "第三者", "第三者", "", true, true, 2, 3, "", inputValueBean2, false));
-        carInsPlanKindChilds.add(new CarInsPlanKindChildBean(4, "盗抢险", "盗抢险", "", true, true, 2, 1, "", null, false));
-        carInsPlanKindChilds.add(new CarInsPlanKindChildBean(5, "玻璃单独破碎险", "玻璃单独破碎险", "", true, false, 2, 3, "", inputValueBean, false));
-
-
-        carInsPlanKindChilds.add(new CarInsPlanKindChildBean(4, "新增加设备损失险", "新增加设备损失险", "", true, false, 2, 1, "元", null, true));
-
-
-        List<CarInsPlanKindChildBean> carInsPlanKindChilds2 = new ArrayList<>();
-
-
-        carInsPlanKindChilds2.add(new CarInsPlanKindChildBean(1, "交强险", "交强险", "", true, false, 1, 1, "", null, false));
-
-
-        carInsPlanKindParents.add(new CarInsPlanKindParentBean(1, "交强险", null));
-        carInsPlanKindParents.add(new CarInsPlanKindParentBean(2, "车船税（买交强且未完税者必买）", carInsPlanKindChilds));
-        carInsPlanKindParents.add(new CarInsPlanKindParentBean(3, "商业险", carInsPlanKindChilds2));
-        carInsPlanKindParents.add(new CarInsPlanKindParentBean(4, "附加险", carInsPlanKindChilds2));
-
-
-        carInsPlanKindParents2.add(new CarInsPlanKindParentBean(3, "商业险", carInsPlanKindChilds2));
-        carInsPlanKindParents2.add(new CarInsPlanKindParentBean(4, "附加险", carInsPlanKindChilds2));
-
-        carInsPlans.add(new CarInsPlanBean(1, "基础套餐a", "", carInsPlanKindParents));
-        carInsPlans.add(new CarInsPlanBean(2, "基础套餐b", "", carInsPlanKindParents));
-        carInsPlans.add(new CarInsPlanBean(3, "基础套餐c", "", carInsPlanKindParents2));
-        carInsPlans.add(new CarInsPlanBean(4, "基础套餐d", "", carInsPlanKindParents2));
+            if (carInsKinds.get(i).getId() == carInsKind.getId()) {
+                carInsKinds.set(i,carInsKind);
+                break;
+            }
+        }
 
     }
 
@@ -198,7 +185,7 @@ public class CarInsureKindActivity extends SwipeBackActivity implements View.OnC
 
             RadioButton currentCheckedRadio = (RadioButton) findViewById(group.getCheckedRadioButtonId());
 
-            int tabCurrentSelectPisition =(int)currentCheckedRadio.getTag();
+            int tabCurrentSelectPisition = (int) currentCheckedRadio.getTag();
 
 
             CarInsPlanBean carInsPlan = carInsPlans.get(tabCurrentSelectPisition);
@@ -208,10 +195,10 @@ public class CarInsureKindActivity extends SwipeBackActivity implements View.OnC
                 form_carinsurekind_list.setAdapter(kindParentAdapter);
             }
 
-            kindParentAdapter.setData(carInsPlan.getKindParent());
+            kindParentAdapter.setData(carInsPlan.getId(), carInsPlan.getKindParent());
 
 
-            AnimationUtil.SetTab1ImageSlide(group);
+            AnimationUtil.SetTab1ImageSlide(group, CarInsureKindActivity.this);
 
         }
     };
@@ -234,15 +221,15 @@ public class CarInsureKindActivity extends SwipeBackActivity implements View.OnC
     }
 
 
-   private class KindParentAdapter extends BaseAdapter {
+    private class KindParentAdapter extends BaseAdapter {
         protected static final String TAG = "KindParentAdapter";
+        private int plandId = 0;
         private List<CarInsPlanKindParentBean> carInsPlanKindParents;//车险父类别
 
-        public void setData(List<CarInsPlanKindParentBean> carInsPlanKindParents) {
+        public void setData(int plandId, List<CarInsPlanKindParentBean> carInsPlanKindParents) {
 
-            if (carInsPlanKindParents != null) {
-                this.carInsPlanKindParents = carInsPlanKindParents;
-            }
+            this.plandId = plandId;
+            this.carInsPlanKindParents = carInsPlanKindParents;
 
             notifyDataSetChanged();
         }
@@ -276,34 +263,28 @@ public class CarInsureKindActivity extends SwipeBackActivity implements View.OnC
                 CarInsPlanKindParentBean carInsPlanKindParent = carInsPlanKindParents.get(position);
                 if (carInsPlanKindParent != null) {
 
-                    int id = carInsPlanKindParent.getId();//父类别名称
-                    String name = carInsPlanKindParent.getName();//父类别名称
+                    CarInsKindBean carInsKind = AppCacheManager.getCarInsKind(carInsPlanKindParent.getId());
+
 
                     convertView = inflater.inflate(R.layout.item_carinsplankind_content, parent, false);//交强险或车船税视图
 
-                    LinearLayout view_big = ViewHolder.get(convertView, R.id.item_carinsplankind_view_big);
-                    RelativeLayout view_small = ViewHolder.get(convertView, R.id.item_carinsplankind_view_small);
-                    TextView txt_bigtitle = ViewHolder.get(convertView, R.id.item_carinsplankind_txt_bigtitle);
+                    TextView txt_carinskind_id = ViewHolder.get(convertView, R.id.item_carinskind_id);
+                    TextView txt_carinskind_name = ViewHolder.get(convertView, R.id.item_carinskind_name);
 
-                    txt_bigtitle.setText(name);
+                    txt_carinskind_id.setText(carInsKind.getId() + "");
+                    txt_carinskind_name.setText(carInsKind.getName() + "");
 
-                    if (id == 1 || id == 2) {
-                        // view_small.setVisibility(View.GONE);
-                    }
 
-                    ListView list_childs = ViewHolder.get(convertView, R.id.form_carinsurekind_list_content);
+                    ListView list_carinskind_childs = ViewHolder.get(convertView, R.id.form_carinsurekind_list_content);
 
 
                     kindChildAdapter = new KindChildAdapter();
-                    list_childs.setAdapter(kindChildAdapter);
+                    list_carinskind_childs.setAdapter(kindChildAdapter);
 
 
-                    kindChildAdapter.setData(carInsPlanKindParent.getChild());
+                    kindChildAdapter.setData(plandId,carInsPlanKindParent.getChild());
 
-                    CommonUtil.setListViewHeightBasedOnChildren(list_childs);
-
-                    list_childs.setVisibility(View.GONE);
-
+                    CommonUtil.setListViewHeightBasedOnChildren(list_carinskind_childs);
 
                 }
 
@@ -315,34 +296,36 @@ public class CarInsureKindActivity extends SwipeBackActivity implements View.OnC
     }
 
 
-   private class KindChildAdapter extends BaseAdapter {
+    private class KindChildAdapter extends BaseAdapter {
         protected static final String TAG = "KindChildAdapter";
-        private List<CarInsPlanKindChildBean> carInsPlanKindChilds;//车险父类别
+
+        private int plandId = 0;
+        private List<Integer> carInsKindIds;//车险父类别
 
 
-        public void setData(List<CarInsPlanKindChildBean> carInsPlanKindChilds) {
+        public void setData(int plandId, List<Integer> carInsKindIds) {
 
-            if (carInsPlanKindChilds != null) {
-                this.carInsPlanKindChilds = carInsPlanKindChilds;
-            }
+            this.plandId = plandId;
+            this.carInsKindIds = carInsKindIds;
+
 
             notifyDataSetChanged();
         }
 
 
-       KindChildAdapter() {
+        KindChildAdapter() {
 
-            this.carInsPlanKindChilds = new ArrayList<>();
+            this.carInsKindIds = new ArrayList<>();
         }
 
         @Override
         public int getCount() {
-            return carInsPlanKindChilds.size();
+            return carInsKindIds.size();
         }
 
         @Override
         public Object getItem(int position) {
-            return carInsPlanKindChilds.get(position);
+            return carInsKindIds.get(position);
         }
 
         @Override
@@ -369,42 +352,65 @@ public class CarInsureKindActivity extends SwipeBackActivity implements View.OnC
 //            * isCheck              bool      是否选择当前险种
 
 
-            if (carInsPlanKindChilds != null) {
+            if (carInsKindIds != null) {
 
-                CarInsPlanKindChildBean carInsPlanKindChild = carInsPlanKindChilds.get(position);
-                if (carInsPlanKindChild != null) {
+                CarInsKindBean carInsKind = getCarInsPlanKind(this.plandId,carInsKindIds.get(position));
+                if (carInsKind != null) {
 
-                    int id = carInsPlanKindChild.getId();//险种id
-                    String name = carInsPlanKindChild.getName();//险种名称
-                    String aliasName = carInsPlanKindChild.getAliasName();//险种名称别名
-                    boolean canWaiverDeductible = carInsPlanKindChild.getCanWaiverDeductible();//能否选择不计免赔额,当true,显示1个勾选框可选
-                    int type = carInsPlanKindChild.getType();//类型，1：交强险或车船税；2：商业险；3：附加险；
-                    int inputType = carInsPlanKindChild.getInputType();//文本输入类型，1：无；2：文本，3：下拉选择
-                    String inputUnit = carInsPlanKindChild.getInputUnit();//文本单位，当inputType为1为空
-                    CarInsPlanKindChildBean.InputValueBean inputValue = carInsPlanKindChild.getInputValue();//文本默认值和下拉值，当inputType为1为空
-                    boolean isHasDetails = carInsPlanKindChild.getIsHasDetails();//是否有投保明细
-                    boolean isCheck = carInsPlanKindChild.getIsCheck();//是否选择当前险种
-                    String value = carInsPlanKindChild.getValue();//投保的值
+                    //carInsKind=carInsPlanKindMap.get(carInsKind.getId());
+
+                    int id = carInsKind.getId();//险种id
+                    String name = carInsKind.getName();//险种名称
+                    String aliasName = carInsKind.getAliasName();//险种名称别名
+                    boolean canWaiverDeductible = carInsKind.getCanWaiverDeductible();//能否选择不计免赔额,当true,显示1个勾选框可选
+                    boolean isWaiverDeductible = carInsKind.getIsWaiverDeductible();//是否不计免赔额
+                    int type = carInsKind.getType();//类型，1：交强险或车船税；2：商业险；3：附加险；
+                    int inputType = carInsKind.getInputType();//文本输入类型，1：无；2：文本，3：下拉选择
+                    String inputUnit = carInsKind.getInputUnit();//文本单位，当inputType为1为空
+                    CarInsKindBean.InputValueBean inputValue = carInsKind.getInputValue();//文本默认值和下拉值，当inputType为1为空
+                    boolean isHasDetails = carInsKind.getIsHasDetails();//是否有投保明细
+                    boolean isCheck = carInsKind.getIsCheck();//是否选择当前险种
+
+
+                    String value = carInsKind.getValue();//投保的值
 
                     convertView = inflater.inflate(R.layout.item_carinsplankind_content_list_content, parent, false);
 
 
-                    TextView txt_id = ViewHolder.get(convertView, R.id.item_carinsplankind_txt_id);
-                    TextView txt_name = ViewHolder.get(convertView, R.id.item_carinsplankind_txt_name);
-                    CheckBox cb_canWaiverDeductible = ViewHolder.get(convertView, R.id.item_carinsplankind_cb_canWaiverDeductible);
-                    SlideSwitch ch_isCheck = ViewHolder.get(convertView, R.id.item_carinsplankind_ch_isCheck);
-                    TextView txt_input = ViewHolder.get(convertView, R.id.item_carinsplankind_txt_input);
-                    TextView txt_inputunit = ViewHolder.get(convertView, R.id.item_carinsplankind_txt_inputunit);
-                    TextView txt_details = ViewHolder.get(convertView, R.id.item_carinsplankind_txt_details);
-
+                    TextView txt_id = ViewHolder.get(convertView, R.id.item_carinskind_id);
                     txt_id.setText(id + "");
+
+                    TextView txt_name = ViewHolder.get(convertView, R.id.item_carinskind_name);
+                    txt_name.setEnabled(isCheck);
                     txt_name.setText(name);
+
+                    CheckBox cb_isWaiverDeductible = ViewHolder.get(convertView, R.id.item_carinskind_canWaiverDeductible);
+                    cb_isWaiverDeductible.setOnCheckedChangeListener(myCheckxCanWaiverDeductibleChangeListener);
+                    cb_isWaiverDeductible.setTag(id);
+                    cb_isWaiverDeductible.setEnabled(isCheck);
+
+                    SlideSwitch ch_isCheck = ViewHolder.get(convertView, R.id.item_carinskind_isCheck);
+                    ch_isCheck.setSlideCheckListener(mySlideIsCheckListener);
+                    ch_isCheck.setTag(id);
+                    ch_isCheck.setState(isCheck);
+
+                    TextView txt_input = ViewHolder.get(convertView, R.id.item_carinskind_input);
+                    txt_input.setEnabled(isCheck);
+
+                    TextView txt_inputunit = ViewHolder.get(convertView, R.id.item_carinskind_inputunit);
+                    txt_inputunit.setEnabled(isCheck);
+
+                    TextView txt_details = ViewHolder.get(convertView, R.id.item_carinskind_details);
+                    txt_details.setEnabled(isCheck);
+
+
 
                     //是否可以选择不计免赔
                     if (canWaiverDeductible) {
-                        cb_canWaiverDeductible.setVisibility(View.VISIBLE);
+                        cb_isWaiverDeductible.setVisibility(View.VISIBLE);
+                        cb_isWaiverDeductible.setChecked(isWaiverDeductible);
                     } else {
-                        cb_canWaiverDeductible.setVisibility(View.GONE);
+                        cb_isWaiverDeductible.setVisibility(View.GONE);
                     }
 
                     //文本单位
@@ -412,13 +418,14 @@ public class CarInsureKindActivity extends SwipeBackActivity implements View.OnC
                         txt_inputunit.setVisibility(View.GONE);
                     } else {
                         txt_inputunit.setVisibility(View.VISIBLE);
-                        txt_inputunit.setText(inputUnit);
+                        //txt_inputunit.setText(inputUnit);
                     }
 
                     //文本类型
                     switch (inputType) {
                         case 1:
                             txt_input.setVisibility(View.VISIBLE);
+                            txt_input.setOnClickListener(editEditClickListener);
                             break;
                         case 2:
                             txt_input.setVisibility(View.VISIBLE);
@@ -442,7 +449,7 @@ public class CarInsureKindActivity extends SwipeBackActivity implements View.OnC
                     }
 
                     if (inputValue != null) {
-                        LogUtil.i("默认值：" + inputValue.getDefaultVal());
+                        //LogUtil.i("默认值：" + inputValue.getDefaultVal());
 
                         if (inputValue.getDefaultVal() != null) {
                             txt_input.setText(inputValue.getDefaultVal() + "");
@@ -455,6 +462,7 @@ public class CarInsureKindActivity extends SwipeBackActivity implements View.OnC
                         txt_details.setVisibility(View.GONE);
                     }
 
+
                 }
 
             }
@@ -462,6 +470,29 @@ public class CarInsureKindActivity extends SwipeBackActivity implements View.OnC
 
             return convertView;
         }
+
+        private SlideSwitch.SlideCheckListener mySlideIsCheckListener = new SlideSwitch.SlideCheckListener() {
+            @Override
+            public void check(View v, boolean ifCheck) {
+                int kindId =Integer.parseInt(v.getTag().toString());
+                CarInsKindBean carInsKind = getCarInsPlanKind(plandId,kindId);
+                carInsKind.setIsCheck(ifCheck);
+                setCarInsPlanKind(plandId,carInsKind);
+
+                //((View)v.getParent()
+
+            }
+        };
+
+        private CheckBox.OnCheckedChangeListener myCheckxCanWaiverDeductibleChangeListener = new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton v, boolean isChecked) {
+                int kindId =Integer.parseInt(v.getTag().toString());
+                CarInsKindBean carInsKind = getCarInsPlanKind(plandId,kindId);
+                carInsKind.setIsWaiverDeductible(isChecked);
+                setCarInsPlanKind(plandId,carInsKind);
+            }
+        };
     }
 
 
@@ -470,7 +501,7 @@ public class CarInsureKindActivity extends SwipeBackActivity implements View.OnC
         @Override
         public void onClick(View v) {
 
-
+            LogUtil.i("点击");
             String title = "金额输入";
             if (dialog_EditText == null) {
 
@@ -541,17 +572,17 @@ public class CarInsureKindActivity extends SwipeBackActivity implements View.OnC
             }
 
 
-            CarInsPlanKindChildBean.InputValueBean inputValue = (CarInsPlanKindChildBean.InputValueBean) v.getTag();
+            CarInsKindBean.InputValueBean inputValue = (CarInsKindBean.InputValueBean) v.getTag();
 
 
-            TextView txt=(TextView)v;
+            TextView txt = (TextView) v;
             LogUtil.i("默认值1:" + inputValue.getDefaultVal());
             LogUtil.i("默认值2:" + txt.getText());
 
             List<String> items = inputValue.getValue();
 
             dialog_ChooseList.setTriggerView((TextView) v);
-            dialog_ChooseList.getAdapter().setData(items,txt.getText()+"");
+            dialog_ChooseList.getAdapter().setData(items, txt.getText() + "");
 
             dialog_ChooseList.show();
 

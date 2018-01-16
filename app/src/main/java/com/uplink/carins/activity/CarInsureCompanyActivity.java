@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.uplink.carins.Own.AppCacheManager;
 import com.uplink.carins.R;
 import com.uplink.carins.model.api.CarInsCompanyBean;
 import com.uplink.carins.ui.ViewHolder;
@@ -49,10 +50,11 @@ public class CarInsureCompanyActivity extends SwipeBackActivity implements View.
         initView();
         initEvent();
 
-        //List<CarInsCompanyBean> carInsCompanys = new ArrayList<CarInsCompanyBean>();
-        carInsCompanys.add(new CarInsCompanyBean(1, "平安保险","http://res.17fanju.com/webback/content/base/images/bg_login.jpg",true,true));
-        carInsCompanys.add(new CarInsCompanyBean(2,"太平洋保险","http://res.17fanju.com/webback/content/base/images/bg_login.jpg",true,true));
-        carInsCompanys.add(new CarInsCompanyBean(3,"阳光保险","http://res.17fanju.com/webback/content/base/images/bg_login.jpg",true,true));
+        carInsCompanys = AppCacheManager.getCarInsCompanyCanInsure();
+
+        //carInsCompanys.add(new CarInsCompanyBean(1, "平安保险","http://res.17fanju.com/webback/content/base/images/bg_login.jpg",true,true));
+        //carInsCompanys.add(new CarInsCompanyBean(2,"太平洋保险","http://res.17fanju.com/webback/content/base/images/bg_login.jpg",true,true));
+        //carInsCompanys.add(new CarInsCompanyBean(3,"阳光保险","http://res.17fanju.com/webback/content/base/images/bg_login.jpg",true,true));
 
         list_carinscompany_adapter = new CarInsCompanyAdapter();
         list_carinscompany.setAdapter(list_carinscompany_adapter);

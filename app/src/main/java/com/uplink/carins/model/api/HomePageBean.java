@@ -15,6 +15,8 @@ public class HomePageBean implements Serializable {
 
     private List<CarInsKindBean> carInsKind;
 
+    private List<CarInsPlanBean> carInsPlan;
+
     public void setBanner(List<BannerBean> banner) {
         this.banner = banner;
     }
@@ -37,6 +39,14 @@ public class HomePageBean implements Serializable {
 
     public List<CarInsKindBean> getCarInsKind() {
         return carInsKind;
+    }
+
+    public void setCarInsPlan(List<CarInsPlanBean> carInsPlan) {
+        this.carInsPlan = carInsPlan;
+    }
+
+    public List<CarInsPlanBean> getCarInsPlan() {
+        return carInsPlan;
     }
 
 }

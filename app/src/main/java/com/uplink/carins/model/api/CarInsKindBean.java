@@ -7,18 +7,20 @@ import java.util.List;
  * Created by chingment on 2018/1/15.
  */
 
-public class CarInsKindBean {
+public class CarInsKindBean implements Serializable{
 
     private int id;
+    private int pId=0;
     private String name;
     private String aliasName;
     private String value;
     private boolean isCheck = true;// 默认投保
-    private boolean canWaiverDeductible;
+    private boolean canWaiverDeductible;//是否能够选择不计免赔
+    private boolean isWaiverDeductible;//是否不计免赔
     private int type;
     private int inputType;
     private String inputUnit;
-    private CarInsPlanKindChildBean.InputValueBean inputValue;
+    private CarInsKindBean.InputValueBean inputValue;
     private boolean isHasDetails;
 
 
@@ -27,7 +29,7 @@ public class CarInsKindBean {
     }
 
     public void setIsCheck(boolean isCheck) {
-        isCheck = isCheck;
+        this.isCheck = isCheck;
     }
 
 
@@ -39,14 +41,22 @@ public class CarInsKindBean {
         this.value = value;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public int getId() {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setPId(int pId) {
+        this.pId = pId;
     }
+
+    public int getPId() {
+        return pId;
+    }
+
 
     public String getName() {
         return name;
@@ -70,6 +80,14 @@ public class CarInsKindBean {
 
     public void setCanWaiverDeductible(boolean canWaiverDeductible) {
         this.canWaiverDeductible = canWaiverDeductible;
+    }
+
+    public boolean getIsWaiverDeductible() {
+        return isWaiverDeductible;
+    }
+
+    public void setIsWaiverDeductible(boolean isWaiverDeductible) {
+        this.isWaiverDeductible = isWaiverDeductible;
     }
 
     public int getType() {
@@ -96,11 +114,11 @@ public class CarInsKindBean {
         this.inputUnit = inputUnit;
     }
 
-    public CarInsPlanKindChildBean.InputValueBean getInputValue() {
+    public CarInsKindBean.InputValueBean getInputValue() {
         return inputValue;
     }
 
-    public void setInputValue(CarInsPlanKindChildBean.InputValueBean inputValue) {
+    public void setInputValue(CarInsKindBean.InputValueBean inputValue) {
         this.inputValue = inputValue;
     }
 
@@ -144,21 +162,4 @@ public class CarInsKindBean {
 
     }
 
-
-
-
-    public CarInsKindBean(int id, String name, String aliasName, String value, boolean isCheck, boolean canWaiverDeductible, int type, int inputType, String inputUnit, CarInsPlanKindChildBean.InputValueBean inputValue, boolean isHasDetails) {
-        this.id = id;
-        this.name=name;
-        this.aliasName=aliasName;
-        this.value=value;
-        this.isCheck=isCheck;
-        this.canWaiverDeductible=canWaiverDeductible;
-        this.type=type;
-        this.inputType=inputType;
-        this.inputUnit=inputUnit;
-        this.inputValue=inputValue;
-        this.isHasDetails=isHasDetails;
-
-    }
 }

@@ -1,12 +1,13 @@
 package com.uplink.carins.model.api;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by chingment on 2017/12/19.
  */
 
-public class CarInsPlanBean {
+public class CarInsPlanBean implements Serializable {
     private int id;
     private String name;
     private String imgUrl;
@@ -44,16 +45,28 @@ public class CarInsPlanBean {
         return kindParent;
     }
 
-    public  CarInsPlanBean()
-    {
+    public CarInsPlanBean() {
 
     }
-    public  CarInsPlanBean(int id,String name,String imgUrl,List<CarInsPlanKindParentBean> kindParent)
-    {
-        this.id=id;
-        this.name=name;
-        this.imgUrl=imgUrl;
-        this.kindParent=kindParent;
+
+    public CarInsPlanBean(int id, String name, String imgUrl, List<CarInsPlanKindParentBean> kindParent) {
+        this.id = id;
+        this.name = name;
+        this.imgUrl = imgUrl;
+        this.kindParent = kindParent;
+    }
+
+    public boolean ContainPId(int pid) {
+        boolean isflag = false;
+        for (CarInsPlanKindParentBean bean : kindParent) {
+
+            if (bean.getId() == pid) {
+                isflag = true;
+                break;
+            }
+        }
+        return isflag;
+
     }
 
 }

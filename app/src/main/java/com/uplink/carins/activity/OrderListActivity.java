@@ -125,7 +125,7 @@ public class OrderListActivity extends SwipeBackActivity implements View.OnClick
             LogUtil.i("tab当前选择:" + tabCurrentSelectPisition);
             LogUtil.i("tab当前选择的宽度:" + currentCheckedRadio.getWidth());
 
-            AnimationUtil.SetTab1ImageSlide(group);
+            AnimationUtil.SetTab1ImageSlide(group,OrderListActivity.this);
 
             group.setTag(tabCurrentSelectPisition);
 

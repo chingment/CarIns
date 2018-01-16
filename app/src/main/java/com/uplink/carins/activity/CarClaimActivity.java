@@ -16,6 +16,7 @@ import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.uplink.carins.Own.AppCacheManager;
 import com.uplink.carins.R;
 import com.uplink.carins.model.api.CarInsCompanyBean;
 import com.uplink.carins.model.common.NineGridItemBean;
@@ -44,7 +45,7 @@ public class CarClaimActivity extends SwipeBackActivity implements View.OnClickL
 
 
     private LayoutInflater inflater;
-    private List<CarInsCompanyBean> carClaimCompanys;
+    private List<CarInsCompanyBean> carInsCompanyCanClaims;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +54,11 @@ public class CarClaimActivity extends SwipeBackActivity implements View.OnClickL
         inflater = LayoutInflater.from(CarClaimActivity.this);
         initView();
         initEvent();
-        loadCarClaimCompanys();
+
+        carInsCompanyCanClaims=AppCacheManager.getCarInsCompanyCanClaims();
+        CarInsCompanysPopuAdapter popupCompanysListView_Adapter = new CarInsCompanysPopuAdapter(carInsCompanyCanClaims);
+        popupCompanysListView.setAdapter(popupCompanysListView_Adapter);
+
     }
 
     private void initView() {
@@ -71,6 +76,11 @@ public class CarClaimActivity extends SwipeBackActivity implements View.OnClickL
         form_carclaim_claimtype1 = (CheckBox) findViewById(R.id.form_carclaim_claimtype1);
         form_carclaim_claimtype2 = (CheckBox) findViewById(R.id.form_carclaim_claimtype2);
 
+        LayoutInflater layoutInflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+        popupCompanysView = layoutInflater.inflate(R.layout.popu_list, null);
+        popupCompanysListView = (ListView)popupCompanysView.findViewById(R.id.popu_list);
+
+        popupCompanysWindow = new PopupWindow(popupCompanysView, 672, 500);
     }
 
     private void initEvent() {
@@ -102,15 +112,15 @@ public class CarClaimActivity extends SwipeBackActivity implements View.OnClickL
     private View popupCompanysView;
     private ListView popupCompanysListView;
     private void showPopuCompanys(View v) {
-        if (popupCompanysWindow == null) {
-            LayoutInflater layoutInflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
-            popupCompanysView = layoutInflater.inflate(R.layout.popu_list, null);
-            popupCompanysListView = (ListView)popupCompanysView.findViewById(R.id.popu_list);
-
-            MyPopuAdapter groupAdapter = new MyPopuAdapter();
-            popupCompanysListView.setAdapter(groupAdapter);
-            popupCompanysWindow = new PopupWindow(popupCompanysView, 672, 500);
-        }
+//        if (popupCompanysWindow == null) {
+//            LayoutInflater layoutInflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+//            popupCompanysView = layoutInflater.inflate(R.layout.popu_list, null);
+//            popupCompanysListView = (ListView)popupCompanysView.findViewById(R.id.popu_list);
+//
+//            MyPopuAdapter groupAdapter = new MyPopuAdapter();
+//            popupCompanysListView.setAdapter(groupAdapter);
+//            popupCompanysWindow = new PopupWindow(popupCompanysView, 672, 500);
+//        }
         popupCompanysWindow.setFocusable(true);
         popupCompanysWindow.setOutsideTouchable(true);
         // 这个是为了点击“返回Back”也能使其消失，并且并不会影响你的背景
@@ -120,7 +130,7 @@ public class CarClaimActivity extends SwipeBackActivity implements View.OnClickL
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view,
                                     int position, long id) {
-                CarInsCompanyBean bean = carClaimCompanys.get(position);
+                CarInsCompanyBean bean = carInsCompanyCanClaims.get(position);
                 form_carclaim_txt_company.setText(bean.getName() + "");
                 form_carclaim_txt_company.setTag(bean.getId() + "");
                 if (popupCompanysWindow != null)
@@ -130,17 +140,24 @@ public class CarClaimActivity extends SwipeBackActivity implements View.OnClickL
     }
 
 
-    public class MyPopuAdapter extends BaseAdapter {
+    private class CarInsCompanysPopuAdapter extends BaseAdapter {
+
+        private  List<CarInsCompanyBean> carInsCompanys;
+
+        CarInsCompanysPopuAdapter(List<CarInsCompanyBean> carInsCompanys)
+        {
+            this.carInsCompanys=carInsCompanys;
+        }
 
         @Override
         public int getCount() {
-            return carClaimCompanys.size();
+            return carInsCompanys.size();
         }
 
         @Override
         public Object getItem(int position) {
 
-            return carClaimCompanys.get(position);
+            return carInsCompanys.get(position);
         }
 
         @Override
@@ -152,23 +169,12 @@ public class CarClaimActivity extends SwipeBackActivity implements View.OnClickL
         public View getView(int position, View convertView, ViewGroup viewGroup) {
             convertView = inflater.inflate(R.layout.item_company, null);
             TextView item_tv = ViewHolder.get(convertView, R.id.item_company);
-            CarInsCompanyBean bean = carClaimCompanys.get(position);
+            CarInsCompanyBean bean = carInsCompanys.get(position);
             item_tv.setText(bean.getName() + "");
             return convertView;
         }
 
     }
-
-    private void loadCarClaimCompanys() {
-
-        carClaimCompanys = new ArrayList<CarInsCompanyBean>();
-        carClaimCompanys.add(new CarInsCompanyBean(1, "平安保险","",true,true));
-        carClaimCompanys.add(new CarInsCompanyBean(2,"太平洋保险","",true,true));
-        carClaimCompanys.add(new CarInsCompanyBean(3,"阳光保险","",true,true));
-
-
-    }
-
 
     @Override
     public void onClick(View v) {

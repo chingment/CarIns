@@ -1,30 +1,20 @@
 package com.uplink.carins.activity.adapter;
 
-import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.CheckBox;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.uplink.carins.Own.AppContext;
 import com.uplink.carins.R;
-import com.uplink.carins.activity.OrderListActivity;
-import com.uplink.carins.model.api.CarInsPlanKindChildBean;
-import com.uplink.carins.model.api.CarInsPlanKindParentBean;
 import com.uplink.carins.model.api.OrderListBean;
-import com.uplink.carins.ui.SlideSwitch;
 import com.uplink.carins.ui.ViewHolder;
 import com.uplink.carins.ui.refreshview.MyViewHolder;
 import com.uplink.carins.ui.refreshview.RefreshAdapter;
 import com.uplink.carins.utils.CommonUtil;
 import com.uplink.carins.utils.LogUtil;
-import com.uplink.carins.utils.StringUtil;
 
 import java.util.ArrayList;
 import java.util.List;
