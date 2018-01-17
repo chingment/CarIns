@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:text="商业险"
             android:textColor="@color/item_carinsplankind_title_big"
-            android:textSize="10sp" />
+            android:textSize="@dimen/text_size_12" />
 
 
         <TextView

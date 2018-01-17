@@ -45,7 +45,7 @@
                     android:gravity="center_horizontal|center"
                     android:text="已选的保险公司"
                     android:textColor="@color/main_header_title"
-                    android:textSize="11sp" />
+                    android:textSize="@dimen/text_size_12" />
             </LinearLayout>
 
             <LinearLayout
@@ -96,7 +96,7 @@
                     android:gravity="center_horizontal|center"
                     android:text="上传证件"
                     android:textColor="@color/main_header_title"
-                    android:textSize="11sp" />
+                    android:textSize="@dimen/text_size_12" />
             </LinearLayout>
 
 
@@ -149,7 +149,7 @@
                                 android:layout_marginTop="16dp"
                                 android:text="选择图片"
                                 android:textColor="@color/uploadimg_selectimg"
-                                android:textSize="11sp" />
+                                android:textSize="@dimen/text_size_11" />
                         </LinearLayout>
 
                         <ImageView
@@ -183,14 +183,14 @@
                             android:layout_height="wrap_content"
                             android:text="车辆行驶证"
                             android:textColor="@color/uploadimg_title"
-                            android:textSize="11sp" />
+                            android:textSize="@dimen/text_size_10" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="（必上传）"
                             android:textColor="@color/uploadimg_required"
-                            android:textSize="9sp" />
+                            android:textSize="@dimen/text_size_9" />
                     </LinearLayout>
 
                 </LinearLayout>
@@ -230,7 +230,7 @@
                                 android:layout_marginTop="16dp"
                                 android:text="选择图片"
                                 android:textColor="@color/uploadimg_selectimg"
-                                android:textSize="11sp" />
+                                android:textSize="@dimen/text_size_11" />
                         </LinearLayout>
 
                         <ImageView
@@ -264,14 +264,14 @@
                             android:layout_height="wrap_content"
                             android:text="车辆行驶证"
                             android:textColor="@color/uploadimg_title"
-                            android:textSize="11sp" />
+                            android:textSize="@dimen/text_size_10" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="（必上传）"
                             android:textColor="@color/uploadimg_required"
-                            android:textSize="9sp" />
+                            android:textSize="@dimen/text_size_9" />
                     </LinearLayout>
 
                 </LinearLayout>
@@ -294,5 +294,5 @@
         android:background="@drawable/widget_common_btn"
         android:text="@string/btn_submit_carinsure"
         android:textColor="@color/white"
-        android:textSize="@dimen/text_size_12" />
+        android:textSize="@dimen/text_size_14" />
 </RelativeLayout>

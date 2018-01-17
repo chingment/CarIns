@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -22,6 +23,7 @@ import com.uplink.carins.model.api.OrderDetailsCarInsureBean;
 import com.uplink.carins.model.api.OrderListBean;
 import com.uplink.carins.ui.ViewHolder;
 import com.uplink.carins.ui.choicephoto.ChoicePhotoAndCropAndSwipeBackActivity;
+import com.uplink.carins.ui.my.MyListView;
 import com.uplink.carins.utils.CommonUtil;
 import com.uplink.carins.utils.LogUtil;
 
@@ -43,8 +45,14 @@ public class OrderDetailsCarInsrueActivity extends ChoicePhotoAndCropAndSwipeBac
     private TextView txt_order_sn;
     private TextView txt_order_statusname;
 
-    private ListView list_carinsoffercompany;
+    private MyListView list_carinsoffercompany;
     private CarInsOfferCompanyAdapter list_carinsoffercompany_adapter;
+
+
+    private LinearLayout layout_submittime;
+    private LinearLayout layout_paytime;
+    private LinearLayout layout_completetime;
+    private LinearLayout layout_cancletime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +75,12 @@ public class OrderDetailsCarInsrueActivity extends ChoicePhotoAndCropAndSwipeBac
 
         txt_order_sn = (TextView) findViewById(R.id.txt_order_sn);
         txt_order_statusname = (TextView) findViewById(R.id.txt_order_statusname);
-        list_carinsoffercompany = (ListView) findViewById(R.id.list_carinsoffercompany);
+        list_carinsoffercompany = (MyListView) findViewById(R.id.list_carinsoffercompany);
+
+        layout_submittime = (LinearLayout) findViewById(R.id.layout_submittime);
+        layout_paytime = (LinearLayout) findViewById(R.id.layout_paytime);
+        layout_completetime = (LinearLayout) findViewById(R.id.layout_completetime);
+        layout_cancletime = (LinearLayout) findViewById(R.id.layout_cancletime);
     }
 
     private void initEvent() {
@@ -95,6 +108,27 @@ public class OrderDetailsCarInsrueActivity extends ChoicePhotoAndCropAndSwipeBac
         list_carinsoffercompany_adapter = new CarInsOfferCompanyAdapter();
         list_carinsoffercompany.setAdapter(list_carinsoffercompany_adapter);
         list_carinsoffercompany_adapter.setData(bean.getOfferCompany());
+
+        switch (bean.getStatus())
+        {
+            case 1:
+                layout_submittime.setVisibility(View.VISIBLE);
+                break;
+            case 2:
+                layout_submittime.setVisibility(View.VISIBLE);
+                break;
+            case 3:
+                layout_submittime.setVisibility(View.VISIBLE);
+                break;
+            case 4:
+                layout_submittime.setVisibility(View.VISIBLE);
+                layout_paytime.setVisibility(View.VISIBLE);
+                layout_completetime.setVisibility(View.VISIBLE);
+                break;
+            case 5:
+                layout_cancletime.setVisibility(View.VISIBLE);
+                break;
+        }
     }
 
     @Override

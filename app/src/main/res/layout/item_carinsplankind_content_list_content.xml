@@ -30,7 +30,7 @@
         android:maxWidth="130dp"
         android:text="机动车损失保险机动车损失保险机动车损失保险"
         android:textColor="@color/item_carinsplankind_selector_text_color"
-        android:textSize="9sp"
+        android:textSize="@dimen/text_size_11"
          />
 
     <LinearLayout
@@ -57,7 +57,7 @@
                 android:singleLine="true"
                 android:text=""
                 android:textColor="@color/item_carinsplankind_selector_text_color"
-                android:textSize="9sp"
+                android:textSize="@dimen/text_size_11"
 
                 />
 
@@ -71,7 +71,7 @@
                 android:gravity="center"
                 android:textColor="@color/item_carinsplankind_selector_text_color"
                 android:text="元"
-                android:textSize="9sp" />
+                android:textSize="@dimen/text_size_11" />
 
             <TextView
                 android:id="@+id/item_carinskind_details"
@@ -102,7 +102,7 @@
             android:gravity="center"
             android:text="不计免赔"
             android:textColor="@color/item_carinsplankind_selector_text_color"
-            android:textSize="9sp"
+            android:textSize="@dimen/text_size_11"
 
             />
     </LinearLayout>

@@ -32,7 +32,6 @@
     <style name="main_header_title">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textSize">@dimen/text_size_19</item>
     </style>
 
     <style name="dialog_style">

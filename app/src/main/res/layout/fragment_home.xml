@@ -55,7 +55,7 @@
                     android:layout_centerInParent="true"
                     android:text="精心服务"
                     android:textColor="@color/home_gridview_ninegrid_toptitle"
-                    android:textSize="11sp"
+                    android:textSize="@dimen/text_size_12"
                     />
 
                 <View
