@@ -45,7 +45,7 @@ public class CustomConfirmDialog extends Dialog {
     }
 
 
-    public CustomConfirmDialog(Context context,String tips) {
+    public CustomConfirmDialog(Context context,String tips,boolean isCancle) {
         super(context,R.style.dialog_style);
         this.context = context;
         this.layoutRes = LayoutInflater.from(context).inflate(R.layout.dialog_confirm, null);
@@ -54,9 +54,13 @@ public class CustomConfirmDialog extends Dialog {
         btnSure=(Button)this.layoutRes.findViewById(R.id.dialog_confirm_btn_sure);
         btnCancle=(Button)this.layoutRes.findViewById(R.id.dialog_confirm_btn_cancle);
 
-        txtTips.setText(tips);
-    }
 
+        txtTips.setText(tips);
+
+        if(!isCancle) {
+            btnCancle.setVisibility(View.GONE);
+        }
+    }
 
 
     @Override

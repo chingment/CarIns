@@ -41,6 +41,12 @@
         <item name="android:windowIsTranslucent">true</item>
     </style>
 
+    <style name="dialog_loading_style">
+        <item name="android:windowBackground">@color/loading_bg</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
+
     <style name="dialog_confirm_style">
         <item name="android:windowBackground">@color/dialog_confirm_bg</item>
         <item name="android:windowNoTitle">true</item>

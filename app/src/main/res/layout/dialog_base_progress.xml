@@ -19,7 +19,9 @@
         android:layout_centerVertical="true"
         android:indeterminate="false"
         android:indeterminateBehavior="repeat"
-        android:indeterminateDuration="1000" />
+        android:indeterminateDuration="1000"
+
+        />
 
 
     <TextView

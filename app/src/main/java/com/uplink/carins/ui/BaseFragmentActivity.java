@@ -28,6 +28,8 @@ public class BaseFragmentActivity extends FragmentActivity {
         AppManager.getAppManager().addActivity(this);
         //app = (AppContext) getApplication();
 
+        mProgressDialog = new Dialog(this, R.style.dialog_loading_style);
+
     }
 
     public void showToast(String txt) {

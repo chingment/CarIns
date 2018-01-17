@@ -13,14 +13,14 @@ public class CarInsKindBean implements Serializable{
     private int pId=0;
     private String name;
     private String aliasName;
-    private String value;
     private boolean isCheck = true;// 默认投保
     private boolean canWaiverDeductible;//是否能够选择不计免赔
     private boolean isWaiverDeductible;//是否不计免赔
     private int type;
     private int inputType;
     private String inputUnit;
-    private CarInsKindBean.InputValueBean inputValue;
+    private String inputValue;
+    private List<String> inputOption;
     private boolean isHasDetails;
 
 
@@ -33,12 +33,12 @@ public class CarInsKindBean implements Serializable{
     }
 
 
-    public String getValue() {
-        return value;
+    public String getInputValue() {
+        return inputValue;
     }
 
-    public void setValue(String value) {
-        this.value = value;
+    public void setInputValue(String inputValue) {
+        this.inputValue = inputValue;
     }
 
     public void setId(int id) {
@@ -114,12 +114,12 @@ public class CarInsKindBean implements Serializable{
         this.inputUnit = inputUnit;
     }
 
-    public CarInsKindBean.InputValueBean getInputValue() {
-        return inputValue;
+    public List<String> getInputOption() {
+        return inputOption;
     }
 
-    public void setInputValue(CarInsKindBean.InputValueBean inputValue) {
-        this.inputValue = inputValue;
+    public void setInputOption(List<String>  inputOption) {
+        this.inputOption = inputOption;
     }
 
     public boolean getIsHasDetails() {
@@ -128,33 +128,6 @@ public class CarInsKindBean implements Serializable{
 
     public void setIsHasDetails(boolean isHasDetails) {
         this.isHasDetails = isHasDetails;
-    }
-
-    public static class InputValueBean implements Serializable {
-        /**
-         * default : 10w
-         * value : ["5w","10w","15w","20w","30w","50w","100w","150w","200w以上"]
-         */
-
-
-        private String defaultVal;
-        private List<String> value;
-
-        public String getDefaultVal() {
-            return defaultVal;
-        }
-
-        public void setDefaultVal(String defaultVal) {
-            this.defaultVal = defaultVal;
-        }
-
-        public List<String> getValue() {
-            return value;
-        }
-
-        public void setValue(List<String> value) {
-            this.value = value;
-        }
     }
 
 

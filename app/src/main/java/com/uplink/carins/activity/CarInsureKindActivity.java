@@ -39,6 +39,11 @@ import com.uplink.carins.utils.CommonUtil;
 import com.uplink.carins.utils.LogUtil;
 import com.uplink.carins.utils.StringUtil;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -220,6 +225,24 @@ public class CarInsureKindActivity extends SwipeBackActivity implements View.OnC
             case R.id.btn_submit_carinsurekind:
 
                 Intent intent = new Intent(CarInsureKindActivity.this, CarInsureCompanyActivity.class);
+
+                int plandIndex = Integer.parseInt(form_carinsurekind_rb_insurekind.getTag().toString());
+                CarInsPlanBean carInsPlan = carInsPlans.get(plandIndex);
+
+                List<CarInsKindBean> carInsKinds = carInsPlanKindMap.get(carInsPlan.getId());
+
+                LogUtil.i("当前选择的计划Id:" + carInsPlan.getId());
+
+
+                for (CarInsKindBean carInsKind : carInsKinds) {
+                    if (carInsKind.getIsCheck()) {
+                        LogUtil.i("当前选择的险种:" + carInsKind.getName() + "，投保值:" + carInsKind.getInputValue() + "，不计免赔:" + carInsKind.getIsWaiverDeductible());
+                    }
+                }
+
+                intent.putExtra("carInsPlanId", carInsPlan.getId());//投保计划Id
+                intent.putExtra("carInsKinds", (Serializable)carInsKinds);//投保计划险种
+
                 startActivity(intent);
 
                 break;
@@ -341,29 +364,15 @@ public class CarInsureKindActivity extends SwipeBackActivity implements View.OnC
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-//            * id                   int       险种id
-//            * name                 string    险种名称
-//            * aliasName            string    险种名称别名
-//            * canWaiverDeductible  bool      能否选择不计免赔额,当true,显示1个勾选框可选
-//            * type                 int       类型，1：交强险或车船税；2：商业险；3：附加险；
-//            * inputType            string    文本输入类型，1：无；2：文本，3：下拉选择
-//            * inputUnit            string    文本单位，当inputType为1为空
-//            * inputValue           string    文本默认值和下拉值，当inputType为1为空
-//            * isHasDetails         string    是否有投保明细
-//            *
-//            * APP加存数据：
-//            * value                string    投保的值
-//            * details              string    投保明细
-//            * isWaiverDeductible   bool      是否选择不计免赔 false/true
-//            * isCheck              bool      是否选择当前险种
 
+
+            convertView = inflater.inflate(R.layout.item_carinsplankind_content_list_content, parent, false);
 
             if (carInsKindIds != null) {
 
                 CarInsKindBean carInsKind = getCarInsPlanKind(this.plandId, carInsKindIds.get(position));
                 if (carInsKind != null) {
 
-                    convertView = inflater.inflate(R.layout.item_carinsplankind_content_list_content, parent, false);
 
                     int id = carInsKind.getId();//险种id
                     String name = carInsKind.getName();//险种名称
@@ -373,12 +382,13 @@ public class CarInsureKindActivity extends SwipeBackActivity implements View.OnC
                     int type = carInsKind.getType();//类型，1：交强险或车船税；2：商业险；3：附加险；
                     int inputType = carInsKind.getInputType();//文本输入类型，1：无；2：文本，3：下拉选择
                     String inputUnit = carInsKind.getInputUnit();//文本单位，当inputType为1为空
-                    CarInsKindBean.InputValueBean inputValue = carInsKind.getInputValue();//文本默认值和下拉值，当inputType为1为空
+                    List<String> inputOption = carInsKind.getInputOption();//文本默认值和下拉值，当inputType为1为空
+                    String inputValue = carInsKind.getInputValue();//投保的值
                     boolean isHasDetails = carInsKind.getIsHasDetails();//是否有投保明细
                     boolean isCheck = carInsKind.getIsCheck();//是否选择当前险种
-                    String value = carInsKind.getValue();//投保的值
 
-                    PlanKind planKind = new PlanKind(this.plandId, carInsKind.getId(),inputValue);
+
+                    PlanKind planKind = new PlanKind(this.plandId, carInsKind.getId(), inputOption);
 
                     //险种Id
                     TextView txt_id = ViewHolder.get(convertView, R.id.item_carinskind_id);
@@ -437,16 +447,12 @@ public class CarInsureKindActivity extends SwipeBackActivity implements View.OnC
                             break;
                     }
 
-                    LogUtil.i("value:" + value);
-                    if (StringUtil.isEmptyNotNull(value)) {
-                        if (inputValue != null) {
-                            if (inputValue.getDefaultVal() != null) {
-                                txt_input.setText(inputValue.getDefaultVal() + "");
-                            }
-                        }
-                    } else {
-                        txt_input.setText(value);
+                    LogUtil.i("value:" + inputValue);
+
+                    if (inputValue != null) {
+                        txt_input.setText(inputValue);
                     }
+
 
                     //文本单位
                     TextView txt_inputunit = ViewHolder.get(convertView, R.id.item_carinskind_inputunit);
@@ -483,7 +489,7 @@ public class CarInsureKindActivity extends SwipeBackActivity implements View.OnC
             @Override
             public void onClick(View v) {
 
-                showEditTextDialog(v,"金额输入", new View.OnClickListener() {
+                showEditTextDialog(v, "金额输入", new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
 
@@ -493,7 +499,7 @@ public class CarInsureKindActivity extends SwipeBackActivity implements View.OnC
 
                                 String val = dialog_EditText.getTxtEdit().getText() + "";
 
-                                carInsKind.setValue(val);
+                                carInsKind.setInputValue(val);
                                 setCarInsPlanKind(planKind.planId, carInsKind);
 
                                 dialog_EditText.getTriggerView().setText(val);
@@ -519,7 +525,7 @@ public class CarInsureKindActivity extends SwipeBackActivity implements View.OnC
         private TextView.OnClickListener myChooseListClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showChooseListDialog(v,"请选择",new AdapterView.OnItemClickListener() {
+                showChooseListDialog(v, "请选择", new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
 
@@ -529,7 +535,7 @@ public class CarInsureKindActivity extends SwipeBackActivity implements View.OnC
                         PlanKind planKind = (PlanKind) parent.getTag();
 
                         CarInsKindBean carInsKind = getCarInsPlanKind(planKind.planId, planKind.kindId);
-                        carInsKind.setValue(val);
+                        carInsKind.setInputValue(val);
                         setCarInsPlanKind(planKind.planId, carInsKind);
 
                         dialog_ChooseList.getTriggerView().setText(val);
@@ -568,7 +574,7 @@ public class CarInsureKindActivity extends SwipeBackActivity implements View.OnC
 
     private CustomEditTextDialog dialog_EditText;
 
-    private void showEditTextDialog(View v,String title, View.OnClickListener sure, View.OnClickListener cancle) {
+    private void showEditTextDialog(View v, String title, View.OnClickListener sure, View.OnClickListener cancle) {
 
         LogUtil.i("点击");
         if (dialog_EditText == null) {
@@ -599,18 +605,15 @@ public class CarInsureKindActivity extends SwipeBackActivity implements View.OnC
 
         dialog_ChooseList.getListView().setTag(v.getTag());
 
-        PlanKind planKind = (PlanKind)v.getTag();
+        PlanKind planKind = (PlanKind) v.getTag();
 
-        CarInsKindBean.InputValueBean inputValue = planKind.getInputValue();
+        List<String> inputOption = planKind.getInputOption();
 
         TextView txt = (TextView) v;
-        LogUtil.i("默认值1:" + inputValue.getDefaultVal());
-        LogUtil.i("默认值2:" + txt.getText());
 
-        List<String> items = inputValue.getValue();
 
         dialog_ChooseList.setTriggerView((TextView) v);
-        dialog_ChooseList.getAdapter().setData(items, txt.getText() + "");
+        dialog_ChooseList.getAdapter().setData(inputOption, txt.getText() + "");
 
         dialog_ChooseList.show();
 
@@ -619,7 +622,8 @@ public class CarInsureKindActivity extends SwipeBackActivity implements View.OnC
     private class PlanKind {
         private int kindId;
         private int planId;
-        private  CarInsKindBean.InputValueBean inputValue;
+        private List<String> inputOption;
+
         public void setKindId(int kindId) {
             this.kindId = kindId;
         }
@@ -640,18 +644,18 @@ public class CarInsureKindActivity extends SwipeBackActivity implements View.OnC
 
         }
 
-        public CarInsKindBean.InputValueBean getInputValue() {
-            return inputValue;
+        public List<String> getInputOption() {
+            return inputOption;
         }
 
-        public void setInputValue(CarInsKindBean.InputValueBean inputValue) {
-            this.inputValue = inputValue;
+        public void setInputOption(List<String> inputOption) {
+            this.inputOption = inputOption;
         }
 
-        public PlanKind(int planId, int kindId,CarInsKindBean.InputValueBean inputValue) {
+        public PlanKind(int planId, int kindId, List<String> inputOption) {
             this.planId = planId;
             this.kindId = kindId;
-            this.inputValue=inputValue;
+            this.inputOption = inputOption;
         }
     }
 

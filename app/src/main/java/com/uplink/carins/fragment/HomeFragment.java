@@ -158,7 +158,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 
                                 if (dialog_logout == null) {
 
-                                    dialog_logout = new CustomConfirmDialog(context, "确定要退出？");
+                                    dialog_logout = new CustomConfirmDialog(context, "确定要退出？",true);
 
                                     dialog_logout.getBtnSure().setOnClickListener(new View.OnClickListener() {
                                         @Override
@@ -199,7 +199,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 
                                 intent = new Intent(context, OrderListActivity.class);
 
-                                intent.putExtra("status1",0);//默认选择状态为 全部
+                                intent.putExtra("status",0);//默认选择状态为 全部
 
                                 startActivity(intent);
 

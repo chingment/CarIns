@@ -11,7 +11,7 @@
 
 
     <TextView
-        android:id="@+id/form_carinsurecompany_choosetips"
+        android:id="@+id/txt_carinsurecounttips"
         android:layout_width="match_parent"
         android:layout_height="32dp"
         android:layout_below="@+id/layout_header"
@@ -26,7 +26,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/btn_submit_carinsurecompany"
-        android:layout_below="@+id/form_carinsurecompany_choosetips"
+        android:layout_below="@+id/txt_carinsurecounttips"
         android:divider="@color/dialog_chooselist_dividerline"
         android:dividerHeight="1px"
         android:paddingLeft="10dp"

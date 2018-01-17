@@ -53,7 +53,7 @@ public class OrderListActivity extends SwipeBackActivity implements View.OnClick
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_orderlist);
 
-        currentStatus=getIntent().getIntExtra("status1",0);
+        currentStatus=getIntent().getIntExtra("status",0);
 
         LogUtil.i("当前状态:" + currentStatus);
 

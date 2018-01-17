@@ -19,21 +19,29 @@ import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
+import com.uplink.carins.Own.AppManager;
 import com.uplink.carins.Own.Config;
 import com.uplink.carins.R;
 import com.uplink.carins.fragment.OrderListFragment;
 import com.uplink.carins.http.HttpClient;
 import com.uplink.carins.http.HttpResponseHandler;
+import com.uplink.carins.model.MyJsonObject;
 import com.uplink.carins.model.api.ApiResultBean;
 import com.uplink.carins.model.api.CarInsCompanyBean;
+import com.uplink.carins.model.api.CarInsKindBean;
 import com.uplink.carins.ui.ViewHolder;
 import com.uplink.carins.ui.choicephoto.ChoicePhotoAndCropAndSwipeBackActivity;
+import com.uplink.carins.ui.dialog.CustomConfirmDialog;
 import com.uplink.carins.ui.my.MyHorizontalListView;
 import com.uplink.carins.ui.swipebacklayout.SwipeBackActivity;
 import com.uplink.carins.utils.BitmapUtil;
 import com.uplink.carins.utils.CommonUtil;
 import com.uplink.carins.utils.LogUtil;
 import com.uplink.carins.utils.StringUtil;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.Serializable;
@@ -73,6 +81,10 @@ public class CarInsureDocumentActivity extends ChoicePhotoAndCropAndSwipeBackAct
     private ImageView img_carinsure_shenfenzheng;
     private String path_carinsure_shenfenzheng = "";
 
+    private int carInsPlanId = 0;
+    private List<CarInsKindBean> carInsKinds = new ArrayList<>();
+    private List<CarInsCompanyBean> carInsCompanys = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,13 +98,15 @@ public class CarInsureDocumentActivity extends ChoicePhotoAndCropAndSwipeBackAct
 
     public void getIntentData() {
 
-        List<CarInsCompanyBean> carInsCompanys = (List<CarInsCompanyBean>)getIntent().getSerializableExtra("insuranceCompany");
+        carInsPlanId = (int) getIntent().getSerializableExtra("carInsPlanId");
+        carInsKinds = (List<CarInsKindBean>) getIntent().getSerializableExtra("carInsKinds");
+        carInsCompanys = (List<CarInsCompanyBean>) getIntent().getSerializableExtra("carInsCompanys");
 
         for (CarInsCompanyBean bean : carInsCompanys) {
-            LogUtil.i("选择的保险公司:"+bean.getName());
+            LogUtil.i("选择的保险公司:" + bean.getName());
         }
 
-        list_selected_carinscompany_adapter=new SelectedCarInsCompanyAdapter();
+        list_selected_carinscompany_adapter = new SelectedCarInsCompanyAdapter();
         list_selected_carinscompany.setAdapter(list_selected_carinscompany_adapter);
         list_selected_carinscompany_adapter.setData(carInsCompanys);
     }
@@ -103,7 +117,7 @@ public class CarInsureDocumentActivity extends ChoicePhotoAndCropAndSwipeBackAct
         txtHeaderTitle = (TextView) findViewById(R.id.txt_main_header_title);
 
         btn_submit_carinsure = (Button) findViewById(R.id.btn_submit_carinsure);
-        list_selected_carinscompany= (MyHorizontalListView) findViewById(R.id.list_selected_carinscompany);
+        list_selected_carinscompany = (MyHorizontalListView) findViewById(R.id.list_selected_carinscompany);
 
         txtHeaderTitle.setText("上传证件");
 
@@ -138,31 +152,19 @@ public class CarInsureDocumentActivity extends ChoicePhotoAndCropAndSwipeBackAct
                 break;
             case R.id.layout_carinsure_xingshizheng:
                 choice_index = choice_index_xingshizheng;
-                path_carinsure_xingshizheng="";
+                path_carinsure_xingshizheng = "";
                 showChoiceDialog(CropType.need_crop_no_cropimage);
                 break;
             case R.id.layout_carinsure_shenfenzheng:
                 choice_index = choice_index_shenfenzheng;
-                path_carinsure_shenfenzheng="";
+                path_carinsure_shenfenzheng = "";
                 showChoiceDialog(CropType.need_crop_no_cropimage);
                 break;
         }
     }
 
 
-    private  void  submitInsure() {
-
-
-        Map<String, String> params = new HashMap<>();
-        params.put("userId", "1027");
-        params.put("merchantId", "20");
-
-        //Map<String, String> files = new HashMap<>();
-        //files.put("xingshizheng",path_carinsure_xingshizheng);
-        //files.put("shenfenzheng",path_carinsure_shenfenzheng);
-        HttpClient.post(Config.URL.submitInsure, params,null, new CallBack());
-
-
+    private void submitInsure() {
 
 //        if (StringUtil.isEmpty(path_carinsure_xingshizheng)) {
 //            showToast("请上传车辆行驶证");
@@ -173,8 +175,55 @@ public class CarInsureDocumentActivity extends ChoicePhotoAndCropAndSwipeBackAct
 //            showToast("请上传身份证");
 //            return;
 //        }
-//
-//        showProgressDialog("请稍后...", false);
+
+        showProgressDialog("请稍后...", false);
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("userId", "1027");
+        params.put("merchantId", "20");
+        params.put("type", "2011");
+        params.put("insurePlanId", carInsPlanId);
+
+
+        JSONArray json_CarInsCompanys = new JSONArray();
+        for (CarInsCompanyBean carInsCompany : carInsCompanys) {
+            json_CarInsCompanys.put(carInsCompany.getId());
+        }
+
+        params.put("insuranceCompanyId", json_CarInsCompanys);
+
+
+        JSONArray json_CarInsKinds = new JSONArray();
+
+        try {
+            for (CarInsKindBean carInsKind : carInsKinds) {
+                if (carInsKind.getIsCheck()) {
+                    JSONObject jsonFa1 = new JSONObject();
+                    jsonFa1.put("id", carInsKind.getId());
+                    jsonFa1.put("value", carInsKind.getInputValue());
+                    jsonFa1.put("isWaiverDeductible", carInsKind.getIsWaiverDeductible());
+                    json_CarInsKinds.put(jsonFa1);
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return;
+        }
+
+
+        params.put("insureKind", json_CarInsKinds);
+
+        Map<String, String> files = new HashMap<>();
+        if (!StringUtil.isEmpty(path_carinsure_xingshizheng)) {
+            files.put("CZ_CL_XSZ_Img", path_carinsure_xingshizheng);
+        }
+
+        if (!StringUtil.isEmpty(path_carinsure_shenfenzheng)) {
+            files.put("CZ_CL_XSZ_Img", path_carinsure_shenfenzheng);
+        }
+
+        HttpClient.post(Config.URL.submitInsure, params, files, new CallBack());
+
     }
 
 
@@ -225,6 +274,43 @@ public class CarInsureDocumentActivity extends ChoicePhotoAndCropAndSwipeBackAct
         LogUtil.i(TAG, "choice_index=" + choice_index + ">error>>" + error_tx);
     }
 
+    private CustomConfirmDialog dialog_Success;
+    private void showSuccessDialog() {
+        if (dialog_Success == null) {
+
+            dialog_Success = new CustomConfirmDialog(CarInsureDocumentActivity.this, "投保订单提交成功",false);
+
+            dialog_Success.getBtnSure().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    dialog_Success.dismiss();
+
+                    Intent l_Intent = new Intent(CarInsureDocumentActivity.this, OrderListActivity.class);
+                    l_Intent.putExtra("status", 1);
+                    startActivity(l_Intent);
+                    AppManager.getAppManager().finishAllActivity();
+
+
+                }
+            });
+
+            dialog_Success.getBtnCancle().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    dialog_Success.dismiss();
+                }
+            });
+
+
+        }
+
+        dialog_Success.show();
+    }
+
+
+
     private class CallBack extends HttpResponseHandler {
         @Override
         public void onSuccess(String response) {
@@ -237,7 +323,7 @@ public class CarInsureDocumentActivity extends ChoicePhotoAndCropAndSwipeBackAct
 
             int result = rt.getResult();
             if (result == 1) {
-                showToast("提交成功！");
+                showSuccessDialog();
             } else {
                 showToast("提交失败！");
             }
@@ -255,7 +341,7 @@ public class CarInsureDocumentActivity extends ChoicePhotoAndCropAndSwipeBackAct
     private class SelectedCarInsCompanyAdapter extends BaseAdapter {
 
 
-        private  List<CarInsCompanyBean> carInsCompanys;
+        private List<CarInsCompanyBean> carInsCompanys;
 
 
         SelectedCarInsCompanyAdapter() {
@@ -268,7 +354,6 @@ public class CarInsureDocumentActivity extends ChoicePhotoAndCropAndSwipeBackAct
             this.carInsCompanys = carInsCompanys;
             notifyDataSetChanged();
         }
-
 
 
         @Override
@@ -294,7 +379,7 @@ public class CarInsureDocumentActivity extends ChoicePhotoAndCropAndSwipeBackAct
                 convertView = LayoutInflater.from(CarInsureDocumentActivity.this).inflate(R.layout.item_carinsure_selectedcompany, parent, false);
             }
             ImageView item_img = ViewHolder.get(convertView, R.id.item_company_choice_img);
-            CommonUtil.loadImageFromUrl(CarInsureDocumentActivity.this,item_img,carInsCompany.getImgUrl() + "");
+            CommonUtil.loadImageFromUrl(CarInsureDocumentActivity.this, item_img, carInsCompany.getImgUrl() + "");
             return convertView;
         }
     }

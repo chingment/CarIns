@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.uplink.carins.Own.AppCacheManager;
 import com.uplink.carins.R;
 import com.uplink.carins.model.api.CarInsCompanyBean;
+import com.uplink.carins.model.api.CarInsKindBean;
 import com.uplink.carins.ui.ViewHolder;
 import com.uplink.carins.ui.swipebacklayout.SwipeBackActivity;
 import com.uplink.carins.utils.CommonUtil;
@@ -27,20 +28,16 @@ import java.util.List;
 public class CarInsureCompanyActivity extends SwipeBackActivity implements View.OnClickListener {
 
     private String TAG = "CarInsureCompanyActivity";
-
     private ImageView btnHeaderGoBack;
     private TextView txtHeaderTitle;
-
     private ListView list_carinscompany;
     private CarInsCompanyAdapter list_carinscompany_adapter;
-
     private Button btn_submit_carinsurecompany;
-
     private List<CarInsCompanyBean> carInsCompanys = new ArrayList<>();
-
-
-    private List<String> selecedCarInsCompanyIds=new ArrayList<>();// 记录已选公司Id
-
+    private List<String> selecedCarInsCompanyIds=new ArrayList<>();// 记录已选公司I
+    private int carInsPlanId=0;
+    private List<CarInsKindBean> carInsKinds= new ArrayList<>();
+    private int canInsCount = 3;//可投保报价的数量
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +48,9 @@ public class CarInsureCompanyActivity extends SwipeBackActivity implements View.
         initEvent();
 
         carInsCompanys = AppCacheManager.getCarInsCompanyCanInsure();
+
+        carInsPlanId=(int)getIntent().getSerializableExtra("carInsPlanId");
+        carInsKinds= (List<CarInsKindBean>)getIntent().getSerializableExtra("carInsKinds");
 
         //carInsCompanys.add(new CarInsCompanyBean(1, "平安保险","http://res.17fanju.com/webback/content/base/images/bg_login.jpg",true,true));
         //carInsCompanys.add(new CarInsCompanyBean(2,"太平洋保险","http://res.17fanju.com/webback/content/base/images/bg_login.jpg",true,true));
@@ -67,11 +67,11 @@ public class CarInsureCompanyActivity extends SwipeBackActivity implements View.
         btnHeaderGoBack = (ImageView) findViewById(R.id.btn_main_header_goback);
         btnHeaderGoBack.setVisibility(View.VISIBLE);
         txtHeaderTitle = (TextView) findViewById(R.id.txt_main_header_title);
-
+        TextView txt_carinsurecounttips = (TextView) findViewById(R.id.txt_carinsurecounttips);
         list_carinscompany= (ListView) findViewById(R.id.list_carinscompany);
         btn_submit_carinsurecompany = (Button) findViewById(R.id.btn_submit_carinsurecompany);
-
         txtHeaderTitle.setText("选择保险公司");
+        txt_carinsurecounttips.setText("最多只能选"+canInsCount+"间保险公司");
     }
 
     private void initEvent() {
@@ -92,8 +92,14 @@ public class CarInsureCompanyActivity extends SwipeBackActivity implements View.
                     selecedCarInsCompanyIds.remove(bean.getId()+"");
                 }
                 else {
-                    item_cb.setChecked(true);
-                    selecedCarInsCompanyIds.add(bean.getId()+"");
+
+                    if(selecedCarInsCompanyIds.size()<canInsCount) {
+                        item_cb.setChecked(true);
+                        selecedCarInsCompanyIds.add(bean.getId() + "");
+                    }
+                    else {
+                        showToast("最多只能选择" + canInsCount + "间保险公司");
+                    }
                 }
             }
         });
@@ -120,13 +126,9 @@ public class CarInsureCompanyActivity extends SwipeBackActivity implements View.
                     }
                 }
 
-
-
-                //selecedCarInsCompanys.add(new CarInsCompanyBean(1,"平安保险","http://res.17fanju.com/webback/content/base/images/bg_login.jpg"));
-                //selecedCarInsCompanys.add(new CarInsCompanyBean(2,"阳光保险","http://res.17fanju.com/webback/content/base/images/bg_login.jpg"));
-
-
-                intent.putExtra("insuranceCompany", (Serializable)selecedCarInsCompanys);//选择所需报价的保险公司
+                intent.putExtra("carInsPlanId", carInsPlanId);//投保计划Id
+                intent.putExtra("carInsKinds", (Serializable)carInsKinds);//投保计划险种
+                intent.putExtra("carInsCompanys", (Serializable)selecedCarInsCompanys);//选择所需报价的保险公司
 
                 startActivity(intent);
 
