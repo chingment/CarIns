@@ -45,7 +45,7 @@
                     android:gravity="center_horizontal|center"
                     android:text="已选的保险公司"
                     android:textColor="@color/main_header_title"
-                    android:textSize="14sp" />
+                    android:textSize="11sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -63,7 +63,7 @@
                 <com.uplink.carins.ui.my.MyHorizontalListView
                     android:id="@+id/list_selected_carinscompany"
                     android:layout_width="match_parent"
-                    android:layout_height="60dp"
+                    android:layout_height="48dp"
                     />
             </LinearLayout>
 
@@ -96,7 +96,7 @@
                     android:gravity="center_horizontal|center"
                     android:text="上传证件"
                     android:textColor="@color/main_header_title"
-                    android:textSize="14sp" />
+                    android:textSize="11sp" />
             </LinearLayout>
 
 
@@ -183,7 +183,7 @@
                             android:layout_height="wrap_content"
                             android:text="车辆行驶证"
                             android:textColor="@color/uploadimg_title"
-                            android:textSize="14sp" />
+                            android:textSize="11sp" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -264,7 +264,7 @@
                             android:layout_height="wrap_content"
                             android:text="车辆行驶证"
                             android:textColor="@color/uploadimg_title"
-                            android:textSize="14sp" />
+                            android:textSize="11sp" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -279,8 +279,7 @@
 
             </LinearLayout>
         </LinearLayout>
-    </ScrollView
->
+    </ScrollView>
 
     <Button
         android:id="@+id/btn_submit_carinsure"
@@ -295,5 +294,5 @@
         android:background="@drawable/widget_common_btn"
         android:text="@string/btn_submit_carinsure"
         android:textColor="@color/white"
-        android:textSize="18.0sp" />
+        android:textSize="@dimen/text_size_12" />
 </RelativeLayout>

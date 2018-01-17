@@ -388,6 +388,8 @@ public class CarInsureKindActivity extends SwipeBackActivity implements View.OnC
                     boolean isCheck = carInsKind.getIsCheck();//是否选择当前险种
 
 
+                    LogUtil.i("isCheck:"+isCheck);
+
                     PlanKind planKind = new PlanKind(this.plandId, carInsKind.getId(), inputOption);
 
                     //险种Id

@@ -115,11 +115,11 @@ public class CarInsureDocumentActivity extends ChoicePhotoAndCropAndSwipeBackAct
         btnHeaderGoBack = (ImageView) findViewById(R.id.btn_main_header_goback);
         btnHeaderGoBack.setVisibility(View.VISIBLE);
         txtHeaderTitle = (TextView) findViewById(R.id.txt_main_header_title);
-
+        txtHeaderTitle.setText("上传证件");
         btn_submit_carinsure = (Button) findViewById(R.id.btn_submit_carinsure);
         list_selected_carinscompany = (MyHorizontalListView) findViewById(R.id.list_selected_carinscompany);
 
-        txtHeaderTitle.setText("上传证件");
+
 
         // 车辆行驶证
         layout_carinsure_xingshizheng = (LinearLayout) findViewById(R.id.layout_carinsure_xingshizheng);
@@ -222,7 +222,7 @@ public class CarInsureDocumentActivity extends ChoicePhotoAndCropAndSwipeBackAct
             files.put("CZ_CL_XSZ_Img", path_carinsure_shenfenzheng);
         }
 
-        HttpClient.post(Config.URL.submitInsure, params, files, new CallBack());
+        HttpClient.postWithMy(Config.URL.submitInsure, params, files, new CallBack());
 
     }
 

@@ -7,7 +7,7 @@ import java.util.List;
  * Created by chingment on 2018/1/10.
  */
 
-public class OrderListBean {
+public class OrderListBean implements Serializable {
 
     private int id;
     private String sn;

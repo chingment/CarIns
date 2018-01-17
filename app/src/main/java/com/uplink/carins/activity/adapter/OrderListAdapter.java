@@ -63,51 +63,42 @@ public class OrderListAdapter extends RefreshAdapter {
         ListView list_fields = (ListView) holder.itemView.findViewById(R.id.item_order_fields);
         TextView btn_cancle = (TextView) holder.itemView.findViewById(R.id.item_order_btn_cancel);
         TextView btn_details = (TextView) holder.itemView.findViewById(R.id.item_order_btn_details);
-        TextView btn_uploadcarclaim = (TextView) holder.itemView.findViewById(R.id.item_order_btn_uploadcarclaim);
-        TextView btn_pay = (TextView) holder.itemView.findViewById(R.id.item_order_btn_pay);
+
 
         txt_sn.setText(bean.getSn() + "");
         txt_product_name.setText(bean.getProduct() + "");
         txt_status_name.setText(bean.getStatusName() + "");
         txt_remarks.setText(bean.getRemarks());
 
-        int status=bean.getStatus();
-        int product_type=bean.getProductType();
-        int follow_status=bean.getFollowStatus();
-        switch (status)
-        {
+        int status = bean.getStatus();
+        int product_type = bean.getProductType();
+        int follow_status = bean.getFollowStatus();
+        switch (status) {
             case 1://已提交
                 btn_details.setVisibility(View.VISIBLE);
                 break;
             case 2://跟进中
 
-                if(product_type==2011||product_type==2012) {
-                    if(follow_status==1) {
+                if (product_type == 2011) {
+                    if (follow_status == 1) {
                         btn_details.setVisibility(View.VISIBLE);
                         btn_cancle.setVisibility(View.VISIBLE);
-                    }
-                    else if(follow_status==2) {
+                    } else if (follow_status == 2) {
                         btn_details.setVisibility(View.VISIBLE);
                     }
-                }
-                else if(product_type==2013)
-                {
-                    if(follow_status==2) {
-                        btn_uploadcarclaim.setVisibility(View.VISIBLE);
-                    }
-                    else {
+                } else if (product_type == 2013) {
+                    if (follow_status == 2) {
+
+                    } else {
                         btn_details.setVisibility(View.VISIBLE);
                     }
                 }
 
                 break;
             case 3://待支付
-                if(product_type==2011||product_type==2012) {
+                if (product_type == 2011 || product_type == 2012) {
                     btn_cancle.setVisibility(View.VISIBLE);
-                    btn_pay.setVisibility(View.VISIBLE);
-                }
-                else if(product_type==2013) {
-                    btn_pay.setVisibility(View.VISIBLE);
+                } else if (product_type == 2013) {
                 }
                 break;
             case 4://已完成
@@ -116,8 +107,21 @@ public class OrderListAdapter extends RefreshAdapter {
             case 5://已取消
                 btn_details.setVisibility(View.VISIBLE);
                 break;
+
         }
 
+        if (btn_details != null) {
+            btn_details.setTag(position);
+            btn_details.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = Integer.parseInt(v.getTag() + "");
+                    if (buttonsListner != null) {
+                        buttonsListner.openOrderDetail(data.get(position));
+                    }
+                }
+            });
+        }
 
 
         inflater = LayoutInflater.from(holder.itemView.getContext());
@@ -133,6 +137,15 @@ public class OrderListAdapter extends RefreshAdapter {
         return data.size();
     }
 
+    private onButtonClickListener buttonsListner;
+
+    public void setOnButtonClickListener(onButtonClickListener buttonsListner) {
+        this.buttonsListner = buttonsListner;
+    }
+
+    public interface onButtonClickListener {
+        void openOrderDetail(OrderListBean dataBean);
+    }
 
     private class OrderFieldsAdapter extends BaseAdapter {
         protected static final String TAG = "OrderFieldsAdapter";
@@ -140,7 +153,7 @@ public class OrderListAdapter extends RefreshAdapter {
 
 
         public void setData(List<OrderListBean.OrderFieldBean> orderFields) {
-            if(orderFields!=null) {
+            if (orderFields != null) {
                 this.orderFields = orderFields;
             }
             notifyDataSetChanged();
@@ -187,4 +200,6 @@ public class OrderListAdapter extends RefreshAdapter {
 
 
     }
+
+
 }

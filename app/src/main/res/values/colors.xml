@@ -100,4 +100,11 @@
 
     <color name="item_order_area1_text">#999</color>
     <color name="item_order_status_name">#5ad485</color>
+
+    <color name="line_bg">#E6E6E6</color>
+
+    <color name="text_999">#999</color>
+    <color name="text_f33">#f33</color>
+    <color name="text_5ad485">#5ad485</color>
+    <color name="text_333">#333333</color>
 </resources>

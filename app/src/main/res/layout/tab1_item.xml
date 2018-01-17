@@ -9,5 +9,5 @@
     android:gravity="center"
     android:tag="2"
     android:textColor="@color/tab1_text_selector"
-    android:textSize="12sp"
+    android:textSize="11sp"
     />

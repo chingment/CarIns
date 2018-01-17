@@ -169,8 +169,35 @@ public class HttpClient {
         });
     }
 
+    public static void getWithMy(String url, Map<String, String> param, final HttpResponseHandler handler) {
 
-    public static void post(String url, Map<String, Object> params,Map<String, String> filePaths, final HttpResponseHandler handler) {
+        if (!isNetworkAvailable()) {
+            Toast.makeText(AppContext.getInstance(), R.string.no_network_connection_toast, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (param != null && param.size() > 0) {
+            url = url + "?" + mapToQueryString(param);
+        }
+        Request request = new Request.Builder().url(url).build();
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onResponse(Call call, Response response) {
+                try {
+                    handler.sendSuccessMessage(response.body().string());
+                } catch (Exception e) {
+                    handler.sendFailureMessage(call.request(), e);
+                }
+            }
+
+            @Override
+            public void onFailure(Call call, IOException e) {
+                handler.sendFailureMessage(call.request(), e);
+            }
+        });
+    }
+
+    public static void postWithMy(String url, Map<String, Object> params,Map<String, String> filePaths, final HttpResponseHandler handler) {
         if (!isNetworkAvailable()) {
             Toast.makeText(AppContext.getInstance(), R.string.no_network_connection_toast, Toast.LENGTH_SHORT).show();
             return;

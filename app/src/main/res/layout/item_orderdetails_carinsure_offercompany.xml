@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="80dp">
+
+
+    <ImageView
+        android:id="@+id/item_offercompany_img"
+        android:layout_width="160dp"
+        android:layout_height="80dp"
+        android:scaleType="centerCrop" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        android:paddingLeft="24dp">
+
+        <TextView
+            android:id="@+id/item_offercompany_name"
+            android:layout_width="wrap_content"
+            android:layout_height="38dp"
+            android:gravity="center_vertical"
+            android:text="保险公司"
+            android:textColor="@color/text_333"
+            android:textSize="11sp" />
+
+        <TextView
+            android:id="@+id/item_offercompany_totalprice"
+            android:layout_width="wrap_content"
+            android:layout_height="38dp"
+            android:gravity="center_vertical"
+            android:text="总价"
+            android:textColor="@color/text_333"
+            android:textSize="11sp" />
+
+    </LinearLayout>
+
+    <CheckBox
+        android:id="@+id/item_offercompany_cb"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:button="@drawable/widget_fang_checkbox_green"
+        android:checked="true"
+        android:gravity="center"
+        android:textColor="@color/item_carinsplankind_selector_text_color"
+        android:textSize="9sp"
+
+        />
+
+</LinearLayout>

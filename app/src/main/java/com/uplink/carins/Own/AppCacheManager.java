@@ -75,6 +75,7 @@ public class AppCacheManager {
 
         for (CarInsKindBean b : been) {
             LogUtil.i("险种:" + b.getName());
+            b.setIsCheck(true);
         }
 
         AppCacheManager.getCache().put(Cache_Key_CarInsKind, been);

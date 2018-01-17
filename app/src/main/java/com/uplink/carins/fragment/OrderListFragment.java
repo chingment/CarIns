@@ -16,6 +16,7 @@ import com.google.gson.reflect.TypeToken;
 import com.uplink.carins.Own.AppManager;
 import com.uplink.carins.Own.Config;
 import com.uplink.carins.R;
+import com.uplink.carins.activity.OrderDetailsCarInsrueActivity;
 import com.uplink.carins.activity.OrderListActivity;
 import com.uplink.carins.activity.adapter.OrderListAdapter;
 import com.uplink.carins.http.HttpClient;
@@ -86,6 +87,30 @@ public class OrderListFragment extends BaseLazyFragment {
         mylistview.setLayoutManager(new LinearLayoutManager(context));
         mylistview.addItemDecoration(new ItemDivider().setDividerWith(16).setDividerColor(getResources().getColor(R.color.default_bg)));
         adapter = new OrderListAdapter();
+        adapter.setOnButtonClickListener(new OrderListAdapter.onButtonClickListener() {
+            @Override
+            public void openOrderDetail(OrderListBean dataBean) {
+                int status = dataBean.getStatus();
+                // 2011车险投保 2012车险续保 2013车险理赔
+                int productType = dataBean.getProductType();
+                Intent intent = null;
+
+                switch (productType) {
+                    case 2011:
+                        intent = new Intent(context, OrderDetailsCarInsrueActivity.class);
+                        break;
+                }
+
+
+                if (intent != null) {
+                    Bundle b = new Bundle();
+                    b.putSerializable("dataBean", dataBean);
+                    intent.putExtras(b);
+                    startActivity(intent);
+                }
+            }
+
+        });
         refresh.setAdapter(mylistview, adapter);
         refresh.setOnRefreshHandler(new OnRefreshHandler() {
             @Override
@@ -136,59 +161,7 @@ public class OrderListFragment extends BaseLazyFragment {
         params.put("merchantId", "20");
         params.put("pageIndex", String.valueOf(pageIndex));
         params.put("status", String.valueOf(status));
-        HttpClient.get(Config.URL.getOrderList, params, new onLoadDataCallBack());
-
-//        String response = "{\"result\":1,\"code\":\"1000\",\"message\":\"ssss\",\"data\":[{\"sn\":\"1\",\"orderField\":[{\"field\":\"1\",\"value\":\"3\"},{\"field\":\"2\",\"value\":\"4\"}]},{\"sn\":\"2\"}]}";
-//        ApiResultBean<List<OrderListBean>> result = JSON.parseObject(response, new TypeReference<ApiResultBean<List<OrderListBean>>>() {
-//        });
-//
-//        boolean isHasData = false;
-//        List<OrderListBean> data = result.getData();
-//        if (data != null) {
-//            if (data.size() > 0) {
-//                isHasData = true;
-//            }
-//        }
-//
-//        if (isHasData) {
-//
-//            for (int i = 0; i < data.size(); i++) {
-//                LogUtil.i("sn:" + data.get(i).getSn());
-//
-//                List<OrderListBean.OrderFieldBean> fields = data.get(i).getOrderField();
-//
-//                if (fields != null) {
-//                    for (int j = 0; j < fields.size(); j++) {
-//                        LogUtil.i("field:" + fields.get(j).getField() + ";value:" + fields.get(j).getValue());
-//                    }
-//                }
-//
-//            }
-//
-//            if (pageIndex == 0) {
-//                refresh.setRefreshing(false);
-//                adapter.setData(data);
-//
-//            } else {
-//                adapter.addData(data);
-//            }
-//            adapter.notifyDataSetChanged();
-//
-//            if (data.size() > 5) {
-//                refresh.loadComplete(true);
-//            } else {
-//                refresh.loadComplete(false);
-//            }
-//
-//        } else {
-//            if (pageIndex > 0) {
-//                refresh.loadComplete(false);
-//            } else {
-//                adapter.setData(new ArrayList<OrderListBean>());
-//                refresh.setRefreshing(false);
-//            }
-//        }
-
+        HttpClient.getWithMy(Config.URL.getOrderList, params, new onLoadDataCallBack());
     }
 
     @Override

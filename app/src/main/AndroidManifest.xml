@@ -5,7 +5,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
@@ -23,7 +23,7 @@
     <uses-permission android:name="android.permission.READ_LOGS" />
 
     <application
-        android:name="com.uplink.carins.Own.AppContext"
+        android:name=".Own.AppContext"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -40,13 +40,15 @@
         <activity android:name=".activity.MainActivity" />
         <activity android:name=".activity.CarClaimActivity" />
         <activity android:name=".activity.WebViewActivity" />
-        <activity android:name=".activity.CarInsureKindActivity"/>
-        <activity android:name=".activity.OrderListActivity"
-                  android:launchMode="singleTop"
-                  android:screenOrientation="portrait" />
+        <activity android:name=".activity.CarInsureKindActivity" />
+        <activity
+            android:name=".activity.OrderListActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
         <activity android:name=".activity.TalentDemandActivity" />
         <activity android:name=".activity.CarInsureCompanyActivity" />
-        <activity android:name=".activity.CarInsureDocumentActivity"/>
+        <activity android:name=".activity.CarInsureDocumentActivity" />
+        <activity android:name=".activity.OrderDetailsCarInsrueActivity"></activity>
     </application>
 
 </manifest>
