@@ -1,6 +1,7 @@
 package com.uplink.carins.utils;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.res.Resources;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +21,7 @@ import com.uplink.carins.R;
 
 public class CommonUtil {
 
-    public static void loadImageFromUrl(Activity context , final ImageView photoView, String imageUrl) {
+    public static void loadImageFromUrl(Context context , final ImageView photoView, String imageUrl) {
         if (StringUtil.isEmptyNotNull(imageUrl)) {
             photoView.setBackgroundResource(R.drawable.default_image);
         } else
@@ -29,7 +30,9 @@ public class CommonUtil {
                     .into(photoView, new Callback() {
                         @Override
                         public void onSuccess() {
+
                             photoView.setVisibility(View.VISIBLE);
+
                         }
 
                         @Override

@@ -89,7 +89,7 @@ public class OrderDetailsCarInsrueActivity extends ChoicePhotoAndCropAndSwipeBac
     private LinearLayout layout_imgs_row1;
     private List<ImageView> layout_imgs_view;
 
-    private List<ImageView> imgviews;
+    //private List<ImageView> imgviews;
     // 当前有几张图片
     private int hasPhotoSize = 0;
     private int index_photo = 0;
@@ -309,11 +309,11 @@ public class OrderDetailsCarInsrueActivity extends ChoicePhotoAndCropAndSwipeBac
 
         Map<String, String> files = new HashMap<>();
 
-//        for (int i=0;i<zhengjian_list.size();i++) {
-//            if (!StringUtil.isEmpty(zhengjian_list.get(i))) {
-//                files.put("ZJ"+(i+1)+"_Img", zhengjian_list.get(i));
-//            }
-//        }
+        for (int i = 0; i < list_order_zj_path.size(); i++) {
+            if (!StringUtil.isEmpty(list_order_zj_path.get(i))) {
+                files.put("ZJ" + (i + 1) + "_Img", list_order_zj_path.get(i));
+            }
+        }
 
         HttpClient.postWithMy(Config.URL.submitFollowInsure, params, files, new HttpResponseHandler() {
             @Override
@@ -347,11 +347,14 @@ public class OrderDetailsCarInsrueActivity extends ChoicePhotoAndCropAndSwipeBac
 
     @Override
     public void OnCropSuccess(String photo_path) {
+        LogUtil.i("photo_path:" + photo_path);
         list_order_zj_path.add(index_photo - hasPhotoSize, photo_path);
-        if (list_order_zj_path.size() < 4) {
-            imgviews.get(index_photo + 1).setVisibility(View.VISIBLE);
+        if (list_order_zj_path.size() <= 4) {
+            LogUtil.i("index_photo + 1:" + (index_photo + 1));
+            layout_imgs_view.get(index_photo + 1).setVisibility(View.VISIBLE);
+            loadImageHandler.sendEmptyMessage(layout_imgs_view.get(index_photo + 1).getId());
         }
-        loadImageHandler.sendEmptyMessage(XINGSHIZHENG);
+
     }
 
     @Override
@@ -359,17 +362,13 @@ public class OrderDetailsCarInsrueActivity extends ChoicePhotoAndCropAndSwipeBac
 
     }
 
-    private final int XINGSHIZHENG = 101;
-
     private Handler loadImageHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            switch (msg.what) {
-                case XINGSHIZHENG:
-                    onLoad(imgviews.get(index_photo), list_order_zj_path.get(index_photo - hasPhotoSize));
-                    break;
-            }
+
+            onLoad(layout_imgs_view.get(index_photo), list_order_zj_path.get(index_photo));
+
         }
     };
 
@@ -429,6 +428,8 @@ public class OrderDetailsCarInsrueActivity extends ChoicePhotoAndCropAndSwipeBac
             TextView txt_offercompany_description = ViewHolder.get(convertView, R.id.item_offercompany_description);
             CheckBox cb_offercompany = ViewHolder.get(convertView, R.id.item_offercompany_cb);
             cb_offercompany.setTag(position);
+            LinearLayout item_offercompany_info = ViewHolder.get(convertView, R.id.item_offercompany_info);
+            cb_offercompany.setTag(position);
             cb_offercompany.setOnCheckedChangeListener(myChecChangeListener);
 
             int order_status = order.getStatus();
@@ -440,6 +441,8 @@ public class OrderDetailsCarInsrueActivity extends ChoicePhotoAndCropAndSwipeBac
             CommonUtil.loadImageFromUrl(OrderDetailsCarInsrueActivity.this, img_offer, offerCompany.getInsureImgUrl());
 
             if (order_status == 3) {
+                item_offercompany_info.setTag(cb_offercompany);
+                item_offercompany_info.setOnClickListener(myInfoClick);
                 cb_offercompany.setVisibility(View.VISIBLE);
             } else {
                 cb_offercompany.setVisibility(View.GONE);
@@ -455,14 +458,27 @@ public class OrderDetailsCarInsrueActivity extends ChoicePhotoAndCropAndSwipeBac
                 int index = Integer.parseInt(v.getTag() + "");
                 Intent intent = new Intent(OrderDetailsCarInsrueActivity.this, ImageGalleryActivity.class);
 
-                ArrayList<String> img_gallery_Urls=new  ArrayList<String>();
-                for (OfferCompanyBean b:offerCompanys) {
+                ArrayList<String> img_gallery_Urls = new ArrayList<String>();
+                for (OfferCompanyBean b : offerCompanys) {
                     img_gallery_Urls.add(b.getInsureImgUrl());
                 }
 
-                intent.putStringArrayListExtra("images",img_gallery_Urls );
+                intent.putStringArrayListExtra("images", img_gallery_Urls);
                 intent.putExtra("position", index);
                 startActivity(intent);
+            }
+        };
+
+        View.OnClickListener myInfoClick = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CheckBox cb_offercompany = (CheckBox) v.getTag();
+
+                if (cb_offercompany.isChecked()) {
+                    cb_offercompany.setChecked(false);
+                } else {
+                    cb_offercompany.setChecked(true);
+                }
             }
         };
 
@@ -479,16 +495,26 @@ public class OrderDetailsCarInsrueActivity extends ChoicePhotoAndCropAndSwipeBac
                     cb.setChecked(false);
                 }
 
+                String order_insurancecompanyname = "";
+                String order_compulsoryprice = "";
+                String order_traveltaxprice = "";
+                String order_commercialprice = "";
+                String order_price = "";
                 if (isChecked) {
-                    LogUtil.i("InsuranceCompanyName:" + offerCompany.getInsuranceCompanyName());
 
-                    txt_order_insurancecompanyname.setText(offerCompany.getInsuranceCompanyName() + "");
-                    txt_order_compulsoryprice.setText(offerCompany.getCompulsoryPrice() + "");
-                    txt_order_traveltaxprice.setText(offerCompany.getTravelTaxPrice() + "");
-                    txt_order_commercialprice.setText(offerCompany.getCommercialPrice() + "");
-                    txt_order_price.setText(offerCompany.getInsureTotalPrice() + "");
-
+                    order_insurancecompanyname = offerCompany.getInsuranceCompanyName() + "";
+                    order_compulsoryprice = offerCompany.getCompulsoryPrice() + "";
+                    order_traveltaxprice = offerCompany.getTravelTaxPrice() + "";
+                    order_commercialprice = offerCompany.getCommercialPrice() + "";
+                    order_price = offerCompany.getInsureTotalPrice() + "";
                 }
+
+                txt_order_insurancecompanyname.setText(order_insurancecompanyname);
+                txt_order_compulsoryprice.setText(order_compulsoryprice);
+                txt_order_traveltaxprice.setText(order_traveltaxprice);
+                txt_order_commercialprice.setText(order_commercialprice);
+                txt_order_price.setText(order_price);
+
 
                 buttonView.setChecked(isChecked);
 
@@ -536,13 +562,13 @@ public class OrderDetailsCarInsrueActivity extends ChoicePhotoAndCropAndSwipeBac
         public View getView(int position, View convertView, ViewGroup parent) {
             ZjBean zj = zjs.get(position);
             if (convertView == null) {
-                convertView = LayoutInflater.from(OrderDetailsCarInsrueActivity.this).inflate(R.layout.item_carinsure_selectedcompany, parent, false);
+                convertView = LayoutInflater.from(OrderDetailsCarInsrueActivity.this).inflate(R.layout.item_zj, parent, false);
             }
             ImageView item_img = ViewHolder.get(convertView, R.id.item_company_choice_img);
             item_img.setTag(position);
             item_img.setOnClickListener(myImgClick);
-
-            CommonUtil.loadImageFromUrl(OrderDetailsCarInsrueActivity.this, item_img, zj.getUrl() + "");
+            LogUtil.i("");
+            CommonUtil.loadImageFromUrl(convertView.getContext(), item_img, zj.getUrl());
             return convertView;
         }
 
@@ -552,12 +578,12 @@ public class OrderDetailsCarInsrueActivity extends ChoicePhotoAndCropAndSwipeBac
                 int index = Integer.parseInt(v.getTag() + "");
                 Intent intent = new Intent(OrderDetailsCarInsrueActivity.this, ImageGalleryActivity.class);
 
-                ArrayList<String> img_gallery_Urls=new  ArrayList<String>();
-                for (ZjBean b:zjs) {
+                ArrayList<String> img_gallery_Urls = new ArrayList<String>();
+                for (ZjBean b : zjs) {
                     img_gallery_Urls.add(b.getUrl());
                 }
 
-                intent.putStringArrayListExtra("images",img_gallery_Urls );
+                intent.putStringArrayListExtra("images", img_gallery_Urls);
                 intent.putExtra("position", index);
                 startActivity(intent);
             }

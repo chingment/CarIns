@@ -112,7 +112,7 @@ public class OrderListActivity extends SwipeBackActivity implements View.OnClick
         form_orderlist_viewpager_Adapter = new MyViewPagerAdapter(getSupportFragmentManager(), form_orderlist_fragments);
         form_orderlist_viewpager.setPagingEnabled(false);
         form_orderlist_viewpager.setAdapter(form_orderlist_viewpager_Adapter);
-        form_orderlist_viewpager.setCurrentItem(0, true);
+        form_orderlist_viewpager.setCurrentItem(0, false);
         form_orderlist_viewpager.setOffscreenPageLimit(5);
     }
 
@@ -125,7 +125,7 @@ public class OrderListActivity extends SwipeBackActivity implements View.OnClick
 
             int tabCurrentSelectPisition = Integer.parseInt(currentCheckedRadio.getTag().toString());
 
-            form_orderlist_viewpager.setCurrentItem(tabCurrentSelectPisition,true);
+            form_orderlist_viewpager.setCurrentItem(tabCurrentSelectPisition,false);
 
             LogUtil.i("tab当前选择:" + tabCurrentSelectPisition);
             LogUtil.i("tab当前选择的宽度:" + currentCheckedRadio.getWidth());

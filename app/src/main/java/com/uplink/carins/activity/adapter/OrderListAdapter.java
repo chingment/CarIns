@@ -185,7 +185,9 @@ public class OrderListAdapter extends RefreshAdapter {
             OrderListBean.OrderFieldBean bean = orderFields.get(position);
 
             LogUtil.i("field-->>>>:" + bean.getField());
-            convertView = inflater.inflate(R.layout.item_orderlist_fields, parent, false);
+            if (convertView == null) {
+                convertView = inflater.inflate(R.layout.item_orderlist_fields, parent, false);
+            }
 //
             TextView txt_name = ViewHolder.get(convertView, R.id.item_order_field_name);
             TextView txt_value = ViewHolder.get(convertView, R.id.item_order_field_value);
