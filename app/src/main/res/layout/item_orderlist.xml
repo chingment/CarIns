@@ -105,7 +105,6 @@
             android:textSize="@dimen/text_size_12"
             android:textColor="@color/widget_btn_1_n"
             android:background="@drawable/widget_btn_1"
-            android:visibility="gone"
             />
     </LinearLayout>
 </LinearLayout>

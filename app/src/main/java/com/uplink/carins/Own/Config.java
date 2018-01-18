@@ -17,6 +17,6 @@ public class Config {
         public static final String submitClaim = BuildConfig.ENVIRONMENT + "/api/CarService/SubmitClaim";
         public static final String home = BuildConfig.ENVIRONMENT + "/api/Account/Home";
         public static final String getDetails = BuildConfig.ENVIRONMENT + "/api/Order/GetDetails";
-
+        public static final String submitFollowInsure = BuildConfig.ENVIRONMENT + "/api/CarService/SubmitFollowInsure";
     }
 }

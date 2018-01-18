@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.uplink.carins">
 
+    <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -49,6 +50,7 @@
         <activity android:name=".activity.CarInsureCompanyActivity" />
         <activity android:name=".activity.CarInsureDocumentActivity" />
         <activity android:name=".activity.OrderDetailsCarInsrueActivity"></activity>
+        <activity android:name=".activity.ImageGalleryActivity"></activity>
     </application>
 
 </manifest>

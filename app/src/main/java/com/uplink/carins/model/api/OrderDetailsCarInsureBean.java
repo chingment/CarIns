@@ -21,15 +21,19 @@ public class OrderDetailsCarInsureBean {
     private int insuranceCompanyId;
     private String insuranceCompanyName;
     private String insureImgUrl;
-    private String commercialAndTravelTaxPrice;
+    private String commercialPrice;
+    private String travelTaxPrice;
     private String compulsoryPrice;
     private String price;
-    private String shippingAddress;
+    private String recipient;
+    private String recipientPhoneNumber;
+    private String recipientAddress;
     private String remarks;
     private List<OfferCompanyBean> offerCompany;
     private List<OfferKindBean> offerKind;
     private List<ZjBean> zj;
-    private List<String> shippingAddressList;
+    private List<String> recipientAddressList;
+    private int followStatus;
 
     public int getId() {
         return id;
@@ -87,7 +91,7 @@ public class OrderDetailsCarInsureBean {
         this.cancleTime = cancleTime;
     }
 
-    public Object getPayTime() {
+    public String getPayTime() {
         return payTime;
     }
 
@@ -143,13 +147,23 @@ public class OrderDetailsCarInsureBean {
         this.insureImgUrl = insureImgUrl;
     }
 
-    public String getCommercialAndTravelTaxPrice() {
-        return commercialAndTravelTaxPrice;
+    public String getCommercialPrice() {
+        return commercialPrice;
     }
 
-    public void setCommercialAndTravelTaxPrice(String commercialAndTravelTaxPrice) {
-        this.commercialAndTravelTaxPrice = commercialAndTravelTaxPrice;
+    public void setCommercialPrice(String commercialPrice) {
+        this.commercialPrice = commercialPrice;
     }
+
+    public String getTravelTaxPrice() {
+        return travelTaxPrice;
+    }
+
+    public void setTravelTaxPrice(String travelTaxPrice) {
+        this.travelTaxPrice = travelTaxPrice;
+    }
+
+
 
     public String getCompulsoryPrice() {
         return compulsoryPrice;
@@ -167,13 +181,30 @@ public class OrderDetailsCarInsureBean {
         this.price = price;
     }
 
-    public String getShippingAddress() {
-        return shippingAddress;
+    public String getRecipientAddress() {
+        return recipientAddress;
     }
 
-    public void setShippingAddress(String shippingAddress) {
-        this.shippingAddress = shippingAddress;
+    public void setRecipientAddress(String recipientAddress) {
+        this.recipientAddress = recipientAddress;
     }
+
+    public String getRecipient() {
+        return recipient;
+    }
+
+    public void setRecipient(String recipient) {
+        this.recipient = recipient;
+    }
+
+    public String getRecipientPhoneNumber() {
+        return recipientPhoneNumber;
+    }
+
+    public void setRecipientPhoneNumber(String recipientPhoneNumber) {
+        this.recipientPhoneNumber = recipientPhoneNumber;
+    }
+
 
     public String getRemarks() {
         return remarks;
@@ -207,11 +238,19 @@ public class OrderDetailsCarInsureBean {
         this.zj = zj;
     }
 
-    public List<String> getShippingAddressList() {
-        return shippingAddressList;
+    public List<String> getRecipientAddressList() {
+        return recipientAddressList;
     }
 
-    public void setShippingAddressList(List<String> shippingAddressList) {
-        this.shippingAddressList = shippingAddressList;
+    public void setRecipientAddressList(List<String> recipientAddressList) {
+        this.recipientAddressList = recipientAddressList;
+    }
+
+    public int getFollowStatus() {
+        return followStatus;
+    }
+
+    public void setFollowStatus(int followStatus) {
+        this.followStatus = followStatus;
     }
 }

@@ -166,15 +166,15 @@ public class CarInsureDocumentActivity extends ChoicePhotoAndCropAndSwipeBackAct
 
     private void submitInsure() {
 
-//        if (StringUtil.isEmpty(path_carinsure_xingshizheng)) {
-//            showToast("请上传车辆行驶证");
-//            return;
-//        }
-//
-//        if (StringUtil.isEmpty(path_carinsure_shenfenzheng)) {
-//            showToast("请上传身份证");
-//            return;
-//        }
+        if (StringUtil.isEmpty(path_carinsure_xingshizheng)) {
+            showToast("请上传车辆行驶证");
+            return;
+        }
+
+        if (StringUtil.isEmpty(path_carinsure_shenfenzheng)) {
+            showToast("请上传身份证");
+            return;
+        }
 
         showProgressDialog("请稍后...", false);
 
@@ -219,10 +219,36 @@ public class CarInsureDocumentActivity extends ChoicePhotoAndCropAndSwipeBackAct
         }
 
         if (!StringUtil.isEmpty(path_carinsure_shenfenzheng)) {
-            files.put("CZ_CL_XSZ_Img", path_carinsure_shenfenzheng);
+            files.put("CZ_SFZ_Img", path_carinsure_shenfenzheng);
         }
 
-        HttpClient.postWithMy(Config.URL.submitInsure, params, files, new CallBack());
+        HttpClient.postWithMy(Config.URL.submitInsure, params, files,  new HttpResponseHandler() {
+
+            @Override
+            public void onSuccess(String response) {
+                super.onSuccess(response);
+                removeProgressDialog();
+                LogUtil.e("onSuccess====>>>" + response);
+
+                ApiResultBean<Object> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<Object>>() {
+                });
+
+                int result = rt.getResult();
+                if (result == 1) {
+                    showSuccessDialog();
+                } else {
+                    showToast(rt.getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                super.onFailure(request, e);
+                removeProgressDialog();
+                LogUtil.e("onSuccess====>>>" + e.getMessage());
+                showToast("提交失败，请重试！");
+            }
+        });
 
     }
 
@@ -307,35 +333,6 @@ public class CarInsureDocumentActivity extends ChoicePhotoAndCropAndSwipeBackAct
         }
 
         dialog_Success.show();
-    }
-
-
-
-    private class CallBack extends HttpResponseHandler {
-        @Override
-        public void onSuccess(String response) {
-            super.onSuccess(response);
-            removeProgressDialog();
-            LogUtil.e("onSuccess====>>>" + response);
-
-            ApiResultBean<Object> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<Object>>() {
-            });
-
-            int result = rt.getResult();
-            if (result == 1) {
-                showSuccessDialog();
-            } else {
-                showToast("提交失败！");
-            }
-        }
-
-        @Override
-        public void onFailure(Request request, Exception e) {
-            super.onFailure(request, e);
-            removeProgressDialog();
-            LogUtil.e("onSuccess====>>>" + e.getMessage());
-            showToast("提交失败，请重试！");
-        }
     }
 
     private class SelectedCarInsCompanyAdapter extends BaseAdapter {

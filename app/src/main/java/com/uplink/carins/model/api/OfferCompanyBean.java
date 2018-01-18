@@ -10,9 +10,12 @@ public class OfferCompanyBean {
     private  int insuranceCompanyId;
     private  String insuranceCompanyName;
     private  String insureImgUrl;
-    private  float commercialAndTravelTaxPrice;
+    private  float commercialPrice;
+    private  float travelTaxPrice;
     private  float compulsoryPrice;
     private  float insureTotalPrice;
+    private  String description;
+    private  Boolean isCheck;
 
     public int getInsuranceOfferId() {
         return insuranceOfferId;
@@ -46,12 +49,20 @@ public class OfferCompanyBean {
         this.insureImgUrl = insureImgUrl;
     }
 
-    public float getCommercialAndTravelTaxPrice() {
-        return commercialAndTravelTaxPrice;
+    public float getCommercialPrice() {
+        return commercialPrice;
     }
 
-    public void setCommercialAndTravelTaxPrice(float commercialAndTravelTaxPrice) {
-        this.commercialAndTravelTaxPrice = commercialAndTravelTaxPrice;
+    public void setCommercialPrice(float commercialPrice) {
+        this.commercialPrice = commercialPrice;
+    }
+
+    public float getTravelTaxPrice() {
+        return travelTaxPrice;
+    }
+
+    public void setTravelTaxPrice(float travelTaxPrice) {
+        this.travelTaxPrice = travelTaxPrice;
     }
 
     public float getCompulsoryPrice() {
@@ -68,6 +79,22 @@ public class OfferCompanyBean {
 
     public void setInsureTotalPrice(float insureTotalPrice) {
         this.insureTotalPrice = insureTotalPrice;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Boolean getIsCheck() {
+        return isCheck;
+    }
+
+    public void setIsCheck(Boolean isCheck) {
+        this.isCheck = isCheck;
     }
 
 }

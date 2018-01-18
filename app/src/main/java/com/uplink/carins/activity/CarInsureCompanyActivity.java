@@ -116,7 +116,7 @@ public class CarInsureCompanyActivity extends SwipeBackActivity implements View.
                 break;
             case R.id.btn_submit_carinsurecompany:
 
-                Intent intent = new Intent(CarInsureCompanyActivity.this, CarInsureDocumentActivity.class);
+
 
                 List<CarInsCompanyBean> selecedCarInsCompanys = new ArrayList<>();
 
@@ -126,6 +126,12 @@ public class CarInsureCompanyActivity extends SwipeBackActivity implements View.
                     }
                 }
 
+                if(selecedCarInsCompanys.size()<1) {
+                    showToast("至少选择1间保险公司");
+                    return;
+                }
+
+                Intent intent = new Intent(CarInsureCompanyActivity.this, CarInsureDocumentActivity.class);
                 intent.putExtra("carInsPlanId", carInsPlanId);//投保计划Id
                 intent.putExtra("carInsKinds", (Serializable)carInsKinds);//投保计划险种
                 intent.putExtra("carInsCompanys", (Serializable)selecedCarInsCompanys);//选择所需报价的保险公司

@@ -67,7 +67,12 @@ public class OrderListActivity extends SwipeBackActivity implements View.OnClick
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
         if (hasFocus){
-            CommonUtil.setRadioGroupCheckedByStringTag(form_orderlist_rb_status, String.valueOf(currentStatus));
+
+            String checkedIndex = form_orderlist_rb_status.getTag().toString();
+            if (checkedIndex.equals("0")) {
+                CommonUtil.setRadioGroupCheckedByStringTag(form_orderlist_rb_status, String.valueOf(currentStatus));
+            }
+
         }
     }
 

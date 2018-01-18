@@ -73,24 +73,25 @@ public class OrderListAdapter extends RefreshAdapter {
         int status = bean.getStatus();
         int product_type = bean.getProductType();
         int follow_status = bean.getFollowStatus();
+
         switch (status) {
             case 1://已提交
-                btn_details.setVisibility(View.VISIBLE);
+
                 break;
             case 2://跟进中
 
                 if (product_type == 2011) {
                     if (follow_status == 1) {
-                        btn_details.setVisibility(View.VISIBLE);
+
                         btn_cancle.setVisibility(View.VISIBLE);
                     } else if (follow_status == 2) {
-                        btn_details.setVisibility(View.VISIBLE);
+
                     }
                 } else if (product_type == 2013) {
                     if (follow_status == 2) {
 
                     } else {
-                        btn_details.setVisibility(View.VISIBLE);
+
                     }
                 }
 
@@ -102,10 +103,8 @@ public class OrderListAdapter extends RefreshAdapter {
                 }
                 break;
             case 4://已完成
-                btn_details.setVisibility(View.VISIBLE);
                 break;
             case 5://已取消
-                btn_details.setVisibility(View.VISIBLE);
                 break;
 
         }
