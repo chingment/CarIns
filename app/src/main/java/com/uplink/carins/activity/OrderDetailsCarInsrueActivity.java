@@ -14,7 +14,6 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
@@ -27,6 +26,7 @@ import com.uplink.carins.model.api.ApiResultBean;
 import com.uplink.carins.model.api.OfferCompanyBean;
 import com.uplink.carins.model.api.OrderDetailsCarInsureBean;
 import com.uplink.carins.model.api.OrderListBean;
+import com.uplink.carins.model.api.Result;
 import com.uplink.carins.model.api.ZjBean;
 import com.uplink.carins.ui.ViewHolder;
 import com.uplink.carins.ui.choicephoto.ChoicePhotoAndCropAndSwipeBackActivity;
@@ -182,8 +182,8 @@ public class OrderDetailsCarInsrueActivity extends ChoicePhotoAndCropAndSwipeBac
     private void loadData() {
         showProgressDialog(false);
         Map<String, String> params = new HashMap<>();
-        params.put("userId", "21");
-        params.put("merchantId", "2");
+        params.put("userId", this.getAppContext().getUser().getId()+"");
+        params.put("merchantId", this.getAppContext().getUser().getMerchantId()+"");
         params.put("orderId", order.getId() + "");
         params.put("productType", order.getProductType() + "");
         HttpClient.getWithMy(Config.URL.getDetails, params, new HttpResponseHandler() {
@@ -196,7 +196,7 @@ public class OrderDetailsCarInsrueActivity extends ChoicePhotoAndCropAndSwipeBac
                 ApiResultBean<OrderDetailsCarInsureBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<OrderDetailsCarInsureBean>>() {
                 });
 
-                if (rt.getResult() == 1) {
+                if (rt.getResult() == Result.SUCCESS) {
                     setView(rt.getData());
                 }
             }
@@ -288,7 +288,11 @@ public class OrderDetailsCarInsrueActivity extends ChoicePhotoAndCropAndSwipeBac
                 finish();
                 break;
             case R.id.btn_submit:
-                submitFollowInsure();
+                switch (order.getStatus()) {
+                    case 2:
+                        submitFollowInsure();
+                        break;
+                }
                 break;
         }
     }
@@ -302,9 +306,9 @@ public class OrderDetailsCarInsrueActivity extends ChoicePhotoAndCropAndSwipeBac
         showProgressDialog(false);
 
         Map<String, Object> params = new HashMap<>();
-        params.put("userId", "21");
+        params.put("userId", this.getAppContext().getUser().getId()+"");//21
         params.put("orderId", order.getId());
-        params.put("merchantId", "2");
+        params.put("merchantId", this.getAppContext().getUser().getMerchantId()+"");
 
 
         Map<String, String> files = new HashMap<>();
@@ -325,8 +329,7 @@ public class OrderDetailsCarInsrueActivity extends ChoicePhotoAndCropAndSwipeBac
                 ApiResultBean<Object> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<Object>>() {
                 });
 
-                int result = rt.getResult();
-                if (result == 1) {
+                if (rt.getResult() == Result.SUCCESS) {
                     showToast(rt.getMessage());
                     setResult(RESULT_OK);
                     finish();

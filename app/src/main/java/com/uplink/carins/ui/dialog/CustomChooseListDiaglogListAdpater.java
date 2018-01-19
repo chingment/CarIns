@@ -55,8 +55,8 @@ public class CustomChooseListDiaglogListAdpater extends BaseAdapter {
 
         item_tv.setText(str);
 
-        LogUtil.i("默认值-?:" + str);
-        LogUtil.i("默认值-?:" + choosedVal);
+        //LogUtil.i("默认值-?:" + str);
+        //LogUtil.i("默认值-?:" + choosedVal);
 
         if(str.equals(choosedVal))
         {

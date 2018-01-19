@@ -37,7 +37,6 @@ public class OrderListAdapter extends RefreshAdapter {
 
         notifyDataSetChanged();
 
-        LogUtil.i("in");
     }
 
     public void addData(List<OrderListBean> data) {
@@ -184,7 +183,7 @@ public class OrderListAdapter extends RefreshAdapter {
 
             OrderListBean.OrderFieldBean bean = orderFields.get(position);
 
-            LogUtil.i("field-->>>>:" + bean.getField());
+           // LogUtil.i("field-->>>>:" + bean.getField());
             if (convertView == null) {
                 convertView = inflater.inflate(R.layout.item_orderlist_fields, parent, false);
             }

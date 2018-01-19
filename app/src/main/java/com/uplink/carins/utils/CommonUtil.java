@@ -15,6 +15,10 @@ import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.uplink.carins.R;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * Created by chingment on 2017/12/18.
  */
@@ -103,4 +107,29 @@ public class CommonUtil {
         }
     }
 
+    public static  String getCurrentTime() {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date curDate = new Date(System.currentTimeMillis());
+        String   str   =   formatter.format(curDate);
+        return  str;
+    }
+
+    public static boolean isDateOneBigger(String str1, String str2) {
+        boolean isBigger = false;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date dt1 = null;
+        Date dt2 = null;
+        try {
+            dt1 = sdf.parse(str1);
+            dt2 = sdf.parse(str2);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        if (dt1.getTime() > dt2.getTime()) {
+            isBigger = true;
+        } else if (dt1.getTime() < dt2.getTime()) {
+            isBigger = false;
+        }
+        return isBigger;
+    }
 }

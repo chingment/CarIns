@@ -2,6 +2,7 @@ package com.uplink.carins.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,8 +30,8 @@ import com.uplink.carins.http.HttpClient;
 import com.uplink.carins.http.HttpResponseHandler;
 import com.uplink.carins.model.api.ApiResultBean;
 import com.uplink.carins.model.api.BannerBean;
-import com.uplink.carins.model.api.CarInsCompanyBean;
 import com.uplink.carins.model.api.HomePageBean;
+import com.uplink.carins.model.api.Result;
 import com.uplink.carins.model.common.NineGridItemBean;
 import com.uplink.carins.model.common.NineGridItemType;
 import com.uplink.carins.ui.BaseFragment;
@@ -82,7 +83,24 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 
         loadData();
 
-        //setTestData();
+
+        final Handler handler = new Handler();
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+
+               // TODO: 2018/1/19 暂时没有实现定时任务功能更新缓存
+                //AppCacheManager.setLastUpdateTime(CommonUtil.getCurrentTime());
+                LogUtil.i("测试定时任务:" + CommonUtil.getCurrentTime());
+                //loadData();
+                handler.postDelayed(this, 2000);
+            }
+        };
+
+
+        handler.postDelayed(runnable, 2000);//每两秒执行一次runnable.
+
+
     }
 
     public void initView() {
@@ -158,7 +176,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 
                                 if (dialog_logout == null) {
 
-                                    dialog_logout = new CustomConfirmDialog(context, "确定要退出？",true);
+                                    dialog_logout = new CustomConfirmDialog(context, "确定要退出？", true);
 
                                     dialog_logout.getBtnSure().setOnClickListener(new View.OnClickListener() {
                                         @Override
@@ -199,7 +217,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 
                                 intent = new Intent(context, OrderListActivity.class);
 
-                                intent.putExtra("status",0);//默认选择状态为 全部
+                                intent.putExtra("status", 0);//默认选择状态为 全部
 
                                 startActivity(intent);
 
@@ -243,35 +261,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 
     }
 
-    private void setTestData() {
 
-//        home_page_result = new ApiResultBean<HomePageBean>();
-//        HomePageBean homePage = new HomePageBean();
-//
-//
-//        List<BannerBean> banners = new ArrayList<BannerBean>();
-//        for (int i = 0; i < 5; i++) {
-//            BannerBean banner = new BannerBean();
-//            banner.setId(i);
-//            banner.setImgUrl("http://res.17fanju.com/webback/content/base/images/bg_login.jpg");
-//            banners.add(banner);
-//        }
-
-
-        //homePage.setBanner(banners);
-
-        //home_page_result.setData(homePage);
-
-
-        //home_banner_adapter = new GalleryPagerAdapter();
-        //home_banner_pager.setAdapter(home_banner_adapter);
-        //home_banner_indicator.setViewPager(home_banner_pager);
-        //home_banner_indicator.setPadding(5, 5, 10, 5);
-
-
-    }
-
-    private void  setBanner(List<BannerBean> banner) {
+    private void setBanner(List<BannerBean> banner) {
 
         home_banner_adapter = new GalleryPagerAdapter(banner);
         home_banner_pager.setAdapter(home_banner_adapter);
@@ -281,19 +272,18 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 
     private void loadData() {
 
-        Map<String, String> param = new HashMap<>();
-        param.put("userId",  "1");
-        param.put("merchantId", "2");
-        HttpClient.get(Config.URL.home, param, new CallBack());
+        Map<String, String> params = new HashMap<>();
+        params.put("userId", context.getAppContext().getUser().getId() + "");
+        params.put("merchantId", context.getAppContext().getUser().getMerchantId() + "");
+        HttpClient.getWithMy(Config.URL.home, params, new CallBack());
     }
 
     private class GalleryPagerAdapter extends PagerAdapter {
 
         private List<BannerBean> banner;
 
-        GalleryPagerAdapter(List<BannerBean>  banner)
-        {
-            this.banner=banner;
+        GalleryPagerAdapter(List<BannerBean> banner) {
+            this.banner = banner;
         }
 
         @Override
@@ -335,16 +325,30 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 
             LogUtil.i(TAG, "CallBack onSuccess====>>" + response);
 
-            ApiResultBean<HomePageBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<HomePageBean>>() {});
+            ApiResultBean<HomePageBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<HomePageBean>>() {
+            });
 
-            if(rt.getResult()==1) {
-                 HomePageBean bean=rt.getData();
+            LogUtil.i("rt.getResult()：" + rt.getResult());
 
-                 setBanner(bean.getBanner());//设置banner
+            if (rt.getResult() == Result.SUCCESS) {
 
-                AppCacheManager.setCarInsCompany(bean.getCarInsCompany());
-                AppCacheManager.setCarInsKind(bean.getCarInsKind());
-                AppCacheManager.setCarInsPlan(bean.getCarInsPlan());
+                HomePageBean bean = rt.getData();
+
+                Boolean isFlag = false;
+                if (bean.getLastUpdateTime() == null) {
+                    isFlag = true;
+                } else if (bean.getLastUpdateTime() != AppCacheManager.getLastUpdateTime()) {
+                    isFlag = true;
+                }
+
+                if (isFlag) {
+                    LogUtil.i("更新缓存数据");
+                    AppCacheManager.setLastUpdateTime(bean.getLastUpdateTime());
+                    setBanner(bean.getBanner());//设置banner
+                    AppCacheManager.setCarInsCompany(bean.getCarInsCompany());
+                    AppCacheManager.setCarInsKind(bean.getCarInsKind());
+                    AppCacheManager.setCarInsPlan(bean.getCarInsPlan());
+                }
             }
         }
 

@@ -142,10 +142,7 @@ public class CarInsureKindActivity extends SwipeBackActivity implements View.OnC
                 rb.setLayoutParams(layoutparams);
                 rb.setText(item.getName() + "");
                 rb.setTag(i);
-
-                int rd_Id = rd_Id_Prefix + i;
-                LogUtil.i("rd_Id:" + rd_Id);
-                rb.setId(rd_Id);
+                rb.setId((rd_Id_Prefix + i));
 
                 form_carinsurekind_rb_insurekind.addView(rb);
 
@@ -231,12 +228,12 @@ public class CarInsureKindActivity extends SwipeBackActivity implements View.OnC
 
                 List<CarInsKindBean> carInsKinds = carInsPlanKindMap.get(carInsPlan.getId());
 
-                LogUtil.i("当前选择的计划Id:" + carInsPlan.getId());
+                //LogUtil.i("当前选择的计划Id:" + carInsPlan.getId());
 
 
                 for (CarInsKindBean carInsKind : carInsKinds) {
                     if (carInsKind.getIsCheck()) {
-                        LogUtil.i("当前选择的险种:" + carInsKind.getName() + "，投保值:" + carInsKind.getInputValue() + "，不计免赔:" + carInsKind.getIsWaiverDeductible());
+                        //LogUtil.i("当前选择的险种:" + carInsKind.getName() + "，投保值:" + carInsKind.getInputValue() + "，不计免赔:" + carInsKind.getIsWaiverDeductible());
                     }
                 }
 
@@ -387,9 +384,6 @@ public class CarInsureKindActivity extends SwipeBackActivity implements View.OnC
                     boolean isHasDetails = carInsKind.getIsHasDetails();//是否有投保明细
                     boolean isCheck = carInsKind.getIsCheck();//是否选择当前险种
 
-
-                    LogUtil.i("isCheck:"+isCheck);
-
                     PlanKind planKind = new PlanKind(this.plandId, carInsKind.getId(), inputOption);
 
                     //险种Id
@@ -448,8 +442,6 @@ public class CarInsureKindActivity extends SwipeBackActivity implements View.OnC
                             txt_input.setVisibility(View.GONE);
                             break;
                     }
-
-                    LogUtil.i("value:" + inputValue);
 
                     if (inputValue != null) {
                         txt_input.setText(inputValue);
@@ -577,8 +569,7 @@ public class CarInsureKindActivity extends SwipeBackActivity implements View.OnC
     private CustomEditTextDialog dialog_EditText;
 
     private void showEditTextDialog(View v, String title, View.OnClickListener sure, View.OnClickListener cancle) {
-
-        LogUtil.i("点击");
+        
         if (dialog_EditText == null) {
             dialog_EditText = new CustomEditTextDialog(CarInsureKindActivity.this, title);
             dialog_EditText.getBtnSure().setOnClickListener(sure);

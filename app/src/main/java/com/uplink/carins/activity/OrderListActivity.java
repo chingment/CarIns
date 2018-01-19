@@ -96,7 +96,7 @@ public class OrderListActivity extends SwipeBackActivity implements View.OnClick
 
         statusItemCount=form_orderlist_rb_status.getChildCount();
 
-        LogUtil.i("tab item count:"+statusItemCount);
+        //LogUtil.i("tab item count:"+statusItemCount);
 
         form_orderlist_fragments = new ArrayList<>();
 
@@ -127,8 +127,8 @@ public class OrderListActivity extends SwipeBackActivity implements View.OnClick
 
             form_orderlist_viewpager.setCurrentItem(tabCurrentSelectPisition,false);
 
-            LogUtil.i("tab当前选择:" + tabCurrentSelectPisition);
-            LogUtil.i("tab当前选择的宽度:" + currentCheckedRadio.getWidth());
+            //LogUtil.i("tab当前选择:" + tabCurrentSelectPisition);
+            //LogUtil.i("tab当前选择的宽度:" + currentCheckedRadio.getWidth());
 
             AnimationUtil.SetTab1ImageSlide(group,OrderListActivity.this);
 

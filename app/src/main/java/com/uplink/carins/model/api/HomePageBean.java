@@ -1,5 +1,7 @@
 package com.uplink.carins.model.api;
 
+import com.uplink.carins.Own.AppCacheManager;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -8,6 +10,8 @@ import java.util.List;
  */
 
 public class HomePageBean implements Serializable {
+
+    private String lastUpdateTime;
 
     private List<BannerBean> banner;
 
@@ -47,6 +51,17 @@ public class HomePageBean implements Serializable {
 
     public List<CarInsPlanBean> getCarInsPlan() {
         return carInsPlan;
+    }
+
+    public void setLastUpdateTime(String lastUpdateTime ) {
+
+       this.lastUpdateTime=lastUpdateTime;
+    }
+
+    public String getLastUpdateTime() {
+
+        return this.lastUpdateTime;
+
     }
 
 }

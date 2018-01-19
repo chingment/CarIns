@@ -16,11 +16,31 @@ public class AppCacheManager {
     private static String Cache_Key_CarInsCompany = "Cache_CarInsCompany";
     private static String Cache_Key_CarInsKind = "Cache_CarInsKind";
     private static String Cache_Key_CarInsPlan = "Cache_CarInsPlan";
+    private static String Cache_LastUpdateTime = "Cache_LastUpdateTime";
 
     private static ACache getCache() {
 
         return ACache.get(AppContext.getInstance());
     }
+
+    public static void setLastUpdateTime(String lastUpdateTime) {
+
+        if (lastUpdateTime != null) {
+            AppCacheManager.getCache().put(Cache_LastUpdateTime, lastUpdateTime);
+        }
+    }
+
+    public static String getLastUpdateTime() {
+
+        String lastUpdateTime = null;
+        Object o = AppCacheManager.getCache().getAsObject(Cache_LastUpdateTime);
+        if (o != null)
+            lastUpdateTime = o.toString();
+
+        return lastUpdateTime;
+
+    }
+
 
     public static void setCarInsCompany(List<CarInsCompanyBean> carInsCompany) {
         ArrayList<CarInsCompanyBean> been = (ArrayList<CarInsCompanyBean>) carInsCompany;
@@ -37,13 +57,12 @@ public class AppCacheManager {
 
     public static List<CarInsCompanyBean> getCarInsCompanyCanClaims() {
 
-        ArrayList<CarInsCompanyBean> carInsCompanys=AppCacheManager.getCarInsCompany();
+        ArrayList<CarInsCompanyBean> carInsCompanys = AppCacheManager.getCarInsCompany();
         List<CarInsCompanyBean> carInsCompanyCanClaims = new ArrayList<>();
 
         for (CarInsCompanyBean bean : carInsCompanys) {
 
             if (bean.getCanClaims()) {
-                LogUtil.i("理赔公司名称:" + bean.getName());
                 carInsCompanyCanClaims.add(bean);
             }
         }
@@ -54,14 +73,13 @@ public class AppCacheManager {
 
     public static List<CarInsCompanyBean> getCarInsCompanyCanInsure() {
 
-        ArrayList<CarInsCompanyBean> carInsCompanys =AppCacheManager.getCarInsCompany();
+        ArrayList<CarInsCompanyBean> carInsCompanys = AppCacheManager.getCarInsCompany();
 
         List<CarInsCompanyBean> carInsCompanyCanInsures = new ArrayList<>();
 
         for (CarInsCompanyBean bean : carInsCompanys) {
 
             if (bean.getCanInsure()) {
-                LogUtil.i("投保公司名称:" + bean.getName());
                 carInsCompanyCanInsures.add(bean);
             }
         }
@@ -74,7 +92,6 @@ public class AppCacheManager {
         ArrayList<CarInsKindBean> been = (ArrayList<CarInsKindBean>) carInsKindBean;
 
         for (CarInsKindBean b : been) {
-            LogUtil.i("险种:" + b.getName());
             b.setIsCheck(true);
         }
 
@@ -93,7 +110,7 @@ public class AppCacheManager {
 
         List<CarInsKindBean> carInsKinds = AppCacheManager.getCarInsKind();
 
-        CarInsKindBean carInsKind=null;
+        CarInsKindBean carInsKind = null;
 
         for (CarInsKindBean bean : carInsKinds) {
 
@@ -111,11 +128,11 @@ public class AppCacheManager {
         List<CarInsKindBean> carInsKinds = AppCacheManager.getCarInsKind();
 
 
-        List<CarInsKindBean> carInsKindChilds=new ArrayList<>();
+        List<CarInsKindBean> carInsKindChilds = new ArrayList<>();
 
         for (CarInsKindBean carInsKind : carInsKinds) {
 
-            for (int id :ids) {
+            for (int id : ids) {
                 if (carInsKind.getId() == id) {
 
                     carInsKindChilds.add(carInsKind);
@@ -130,11 +147,6 @@ public class AppCacheManager {
 
     public static void setCarInsPlan(List<CarInsPlanBean> carInsPlan) {
         ArrayList<CarInsPlanBean> been = (ArrayList<CarInsPlanBean>) carInsPlan;
-
-        for (CarInsPlanBean b : been) {
-            LogUtil.i("保险计划:" + b.getName());
-        }
-
         AppCacheManager.getCache().put(Cache_Key_CarInsPlan, been);
     }
 
@@ -151,7 +163,7 @@ public class AppCacheManager {
 
         List<CarInsPlanBean> carInsPlans = AppCacheManager.getCarInsPlan();
 
-        CarInsPlanBean carInsPlan=null;
+        CarInsPlanBean carInsPlan = null;
 
         for (CarInsPlanBean bean : carInsPlans) {
 
@@ -167,20 +179,20 @@ public class AppCacheManager {
 
     }
 
-    public static  List<CarInsKindBean> getCarInsKindByPlanId(int id) {
+    public static List<CarInsKindBean> getCarInsKindByPlanId(int id) {
 
-        CarInsPlanBean  carInsPlan = AppCacheManager.getCarInsPlan(id);
+        CarInsPlanBean carInsPlan = AppCacheManager.getCarInsPlan(id);
 
-        List<CarInsKindBean> carInsKinds=new ArrayList<>();
+        List<CarInsKindBean> carInsKinds = new ArrayList<>();
 
         for (CarInsPlanKindParentBean p : carInsPlan.getKindParent()) {
 
-            CarInsKindBean bean=AppCacheManager.getCarInsKind(p.getId());
+            CarInsKindBean bean = AppCacheManager.getCarInsKind(p.getId());
             carInsKinds.add(bean);
 
             for (Integer child_id : p.getChild()) {
 
-                bean=AppCacheManager.getCarInsKind(child_id);
+                bean = AppCacheManager.getCarInsKind(child_id);
                 carInsKinds.add(bean);
             }
 

@@ -62,26 +62,26 @@ public class AnimationUtil {
 
        // Activity activity = AppManager.getAppManager().currentActivity();
 
-        LogUtil.i("tab当前选择getCheckedRadioButtonId:"+group.getCheckedRadioButtonId());
+        //LogUtil.i("tab当前选择getCheckedRadioButtonId:"+group.getCheckedRadioButtonId());
 
 
 
         RadioButton currentCheckedRadio = (RadioButton) activity.findViewById(group.getCheckedRadioButtonId());
 
         if (currentCheckedRadio == null) {
-            LogUtil.i("tab当前选择:null");
+            //LogUtil.i("tab当前选择:null");
             return;
         }
         if (currentCheckedRadio.getTag() == null) {
-            LogUtil.i("tab当前选择tag:null");
+            //LogUtil.i("tab当前选择tag:null");
             return;
         }
 
         int tabCurrentSelectPisition = Integer.parseInt(currentCheckedRadio.getTag().toString());
         int tabLastSelectPisition = Integer.parseInt(group.getTag().toString());
 
-        LogUtil.i("tab当前选择:" + tabCurrentSelectPisition);
-        LogUtil.i("tab当前选择的宽度:" + currentCheckedRadio.getWidth());
+        //LogUtil.i("tab当前选择:" + tabCurrentSelectPisition);
+        //LogUtil.i("tab当前选择的宽度:" + currentCheckedRadio.getWidth());
 
         int currentWidth = currentCheckedRadio.getWidth();
 

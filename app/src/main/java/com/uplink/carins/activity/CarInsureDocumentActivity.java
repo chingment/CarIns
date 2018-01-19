@@ -4,17 +4,14 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
@@ -22,18 +19,16 @@ import com.alibaba.fastjson.TypeReference;
 import com.uplink.carins.Own.AppManager;
 import com.uplink.carins.Own.Config;
 import com.uplink.carins.R;
-import com.uplink.carins.fragment.OrderListFragment;
 import com.uplink.carins.http.HttpClient;
 import com.uplink.carins.http.HttpResponseHandler;
-import com.uplink.carins.model.MyJsonObject;
 import com.uplink.carins.model.api.ApiResultBean;
 import com.uplink.carins.model.api.CarInsCompanyBean;
 import com.uplink.carins.model.api.CarInsKindBean;
+import com.uplink.carins.model.api.Result;
 import com.uplink.carins.ui.ViewHolder;
 import com.uplink.carins.ui.choicephoto.ChoicePhotoAndCropAndSwipeBackActivity;
 import com.uplink.carins.ui.dialog.CustomConfirmDialog;
 import com.uplink.carins.ui.my.MyHorizontalListView;
-import com.uplink.carins.ui.swipebacklayout.SwipeBackActivity;
 import com.uplink.carins.utils.BitmapUtil;
 import com.uplink.carins.utils.CommonUtil;
 import com.uplink.carins.utils.LogUtil;
@@ -43,16 +38,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import okhttp3.MediaType;
 import okhttp3.Request;
-import okhttp3.RequestBody;
 
 public class CarInsureDocumentActivity extends ChoicePhotoAndCropAndSwipeBackActivity {
 
@@ -101,10 +92,6 @@ public class CarInsureDocumentActivity extends ChoicePhotoAndCropAndSwipeBackAct
         carInsPlanId = (int) getIntent().getSerializableExtra("carInsPlanId");
         carInsKinds = (List<CarInsKindBean>) getIntent().getSerializableExtra("carInsKinds");
         carInsCompanys = (List<CarInsCompanyBean>) getIntent().getSerializableExtra("carInsCompanys");
-
-        for (CarInsCompanyBean bean : carInsCompanys) {
-            LogUtil.i("选择的保险公司:" + bean.getName());
-        }
 
         list_selected_carinscompany_adapter = new SelectedCarInsCompanyAdapter();
         list_selected_carinscompany.setAdapter(list_selected_carinscompany_adapter);
@@ -179,8 +166,8 @@ public class CarInsureDocumentActivity extends ChoicePhotoAndCropAndSwipeBackAct
         showProgressDialog("请稍后...", false);
 
         Map<String, Object> params = new HashMap<>();
-        params.put("userId", "1027");
-        params.put("merchantId", "20");
+        params.put("userId",this.getAppContext().getUser().getId());//1027
+        params.put("merchantId", this.getAppContext().getUser().getMerchantId()+"");
         params.put("type", "2011");
         params.put("insurePlanId", carInsPlanId);
 
@@ -233,8 +220,8 @@ public class CarInsureDocumentActivity extends ChoicePhotoAndCropAndSwipeBackAct
                 ApiResultBean<Object> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<Object>>() {
                 });
 
-                int result = rt.getResult();
-                if (result == 1) {
+
+                if (rt.getResult() == Result.SUCCESS) {
                     showSuccessDialog();
                 } else {
                     showToast(rt.getMessage());

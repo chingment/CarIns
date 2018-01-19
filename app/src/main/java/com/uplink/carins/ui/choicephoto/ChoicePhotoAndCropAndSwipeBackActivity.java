@@ -330,6 +330,9 @@ public abstract class ChoicePhotoAndCropAndSwipeBackActivity extends SwipeBackAc
                     contentUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
                 }
                 String selection = MediaStore.Images.Media._ID + "=?";
+
+
+
                 String[] selectionArgs = new String[]{split[1]};
                 return getDataColumn(context, contentUri, selection, selectionArgs);
             }
@@ -352,6 +355,13 @@ public abstract class ChoicePhotoAndCropAndSwipeBackActivity extends SwipeBackAc
         String column = MediaStore.Images.Media.DATA;
         String[] projection = {column};
         try {
+
+            LogUtil.i("context:"+context);
+            LogUtil.i("uri:"+uri);
+            LogUtil.i("selection:"+selection);
+            LogUtil.i("selectionArgs:"+selectionArgs);
+
+
             cursor = context.getContentResolver().query(uri, projection, selection, selectionArgs, null);
             if (cursor != null && cursor.moveToFirst()) {
                 int index = cursor.getColumnIndexOrThrow(column);

@@ -19,17 +19,21 @@ import com.uplink.carins.utils.StringUtil;
 
 public class BaseFragmentActivity extends FragmentActivity {
     private String tag = "BaseFragmentActivity";
-    public AppContext app;
+    public AppContext appContext;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         // 添加Activity到堆栈
         AppManager.getAppManager().addActivity(this);
-        //app = (AppContext) getApplication();
+        appContext = (AppContext)getApplication();
 
         mProgressDialog = new Dialog(this, R.style.dialog_loading_style);
 
+    }
+
+    public AppContext getAppContext() {
+        return  appContext;
     }
 
     public void showToast(String txt) {

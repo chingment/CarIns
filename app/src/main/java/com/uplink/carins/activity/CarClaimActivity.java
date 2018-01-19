@@ -25,18 +25,16 @@ import com.uplink.carins.Own.Config;
 import com.uplink.carins.http.HttpClient;
 import com.uplink.carins.http.HttpResponseHandler;
 import com.uplink.carins.model.api.ApiResultBean;
+import com.uplink.carins.model.api.Result;
 import com.uplink.carins.ui.dialog.CustomConfirmDialog;
 import com.uplink.carins.utils.LogUtil;
 import com.uplink.carins.utils.StringUtil;
 import com.uplink.carins.Own.AppCacheManager;
 import com.uplink.carins.R;
 import com.uplink.carins.model.api.CarInsCompanyBean;
-import com.uplink.carins.model.common.NineGridItemBean;
-import com.uplink.carins.model.common.NineGridItemType;
 import com.uplink.carins.ui.ViewHolder;
 import com.uplink.carins.ui.swipebacklayout.SwipeBackActivity;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -229,13 +227,13 @@ public class CarClaimActivity extends SwipeBackActivity implements View.OnClickL
         }
 
         Map<String, Object> params = new HashMap<>();
-        params.put("userId", "1027");
+        params.put("userId", this.getAppContext().getUser().getId());
         params.put("insuranceCompanyId", insuranceCompanyId);
         params.put("carLicenseNumber", carLicenseNumber);
         params.put("handPerson", handPerson);
         params.put("handPersonPhone", handPersonPhone);
         params.put("posMachineId","1");
-        params.put("merchantId", "20");
+        params.put("merchantId", this.getAppContext().getUser().getMerchantId()+"");
         params.put("repairsType", repairsType);
 
         HttpClient.postWithMy(Config.URL.submitClaim, params,null, new CallBack());
@@ -250,7 +248,7 @@ public class CarClaimActivity extends SwipeBackActivity implements View.OnClickL
             ApiResultBean<Object> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<Object>>() {
             });
 
-            if (rt.getResult() == 1) {
+            if (rt.getResult() == Result.SUCCESS) {
                 showSuccessDialog();
             } else {
                 showToast("提交理赔失败！");

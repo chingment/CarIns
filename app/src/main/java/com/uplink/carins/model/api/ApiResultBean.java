@@ -4,6 +4,7 @@ package com.uplink.carins.model.api;
  * Created by chingment on 2017/12/18.
  */
 
+
 public class ApiResultBean<T> {
     private int result;
     private int code;

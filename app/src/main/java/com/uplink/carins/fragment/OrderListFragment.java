@@ -16,6 +16,7 @@ import com.google.gson.reflect.TypeToken;
 import com.uplink.carins.Own.AppManager;
 import com.uplink.carins.Own.Config;
 import com.uplink.carins.R;
+import com.uplink.carins.activity.OrderDetailsCarClaimsActivity;
 import com.uplink.carins.activity.OrderDetailsCarInsrueActivity;
 import com.uplink.carins.activity.OrderListActivity;
 import com.uplink.carins.activity.adapter.OrderListAdapter;
@@ -99,6 +100,9 @@ public class OrderListFragment extends BaseLazyFragment {
                     case 2011:
                         intent = new Intent(context, OrderDetailsCarInsrueActivity.class);
                         break;
+                    case 2013:
+                        intent = new Intent(context, OrderDetailsCarClaimsActivity.class);
+                        break;
                 }
 
 
@@ -157,8 +161,8 @@ public class OrderListFragment extends BaseLazyFragment {
     private void onLoadData() {
         LogUtil.i(TAG, "onLoadData()");
         Map<String, String> params = new HashMap<>();
-        params.put("userId", "1027");
-        params.put("merchantId", "20");
+        params.put("userId", context.getAppContext().getUser().getId()+"");
+        params.put("merchantId", context.getAppContext().getUser().getMerchantId()+"");
         params.put("pageIndex", String.valueOf(pageIndex));
         params.put("status", String.valueOf(status));
         HttpClient.getWithMy(Config.URL.getOrderList, params, new onLoadDataCallBack());
@@ -195,9 +199,9 @@ public class OrderListFragment extends BaseLazyFragment {
             ApiResultBean<List<OrderListBean>> result = JSON.parseObject(response, new TypeReference<ApiResultBean<List<OrderListBean>>>() {
             });
 
-            LogUtil.i("result:" + result.getResult());
-            LogUtil.i("code:" + result.getCode());
-            LogUtil.i("message:" + result.getMessage());
+            //LogUtil.i("result:" + result.getResult());
+            //LogUtil.i("code:" + result.getCode());
+            //LogUtil.i("message:" + result.getMessage());
 
             boolean isHasData = false;
             List<OrderListBean> data = result.getData();
@@ -210,12 +214,12 @@ public class OrderListFragment extends BaseLazyFragment {
             if (isHasData) {
 
                 for (int i = 0; i < data.size(); i++) {
-                    LogUtil.i("sn:" + data.get(i).getSn());
+                    //LogUtil.i("sn:" + data.get(i).getSn());
 
                     List<OrderListBean.OrderFieldBean> fields = data.get(i).getOrderField();
                     if (fields != null) {
                         for (int j = 0; j < fields.size(); j++) {
-                            LogUtil.i("field:" + fields.get(j).getField() + ";value:" + fields.get(j).getValue());
+                            //LogUtil.i("field:" + fields.get(j).getField() + ";value:" + fields.get(j).getValue());
                         }
                     }
 

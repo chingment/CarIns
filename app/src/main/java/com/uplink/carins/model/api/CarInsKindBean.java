@@ -13,7 +13,7 @@ public class CarInsKindBean implements Serializable{
     private int pId=0;
     private String name;
     private String aliasName;
-    private boolean isCheck = true;// 默认投保
+    private boolean isCheck;// 默认投保
     private boolean canWaiverDeductible;//是否能够选择不计免赔
     private boolean isWaiverDeductible;//是否不计免赔
     private int type;

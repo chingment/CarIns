@@ -13,9 +13,11 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.uplink.carins.R;
+import com.uplink.carins.model.api.UserBean;
+import com.uplink.carins.ui.BaseFragmentActivity;
 import com.uplink.carins.utils.StringUtil;
 
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
+public class LoginActivity extends BaseFragmentActivity implements View.OnClickListener {
 
 
     Button btn_login;//登录按钮
@@ -92,6 +94,24 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                 break;
             case R.id.btn_login:
+
+                UserBean user=new UserBean();
+
+
+                if(txt_username.getText().equals("a")) {
+                    user.setId(1081);
+                    user.setMerchantId(115);
+                }
+                else
+                {
+                    user.setId(1027);
+                    user.setMerchantId(20);
+                }
+
+
+
+                this.getAppContext().setUser(user);
+
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 LoginActivity.this.startActivity(intent);
                 break;
