@@ -1,6 +1,9 @@
 package com.uplink.carins.activity;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -20,10 +23,13 @@ import com.uplink.carins.model.api.OrderDetailsCarClaimsBean;
 import com.uplink.carins.model.api.OrderListBean;
 import com.uplink.carins.model.api.Result;
 import com.uplink.carins.ui.choicephoto.ChoicePhotoAndCropAndSwipeBackActivity;
+import com.uplink.carins.utils.BitmapUtil;
 import com.uplink.carins.utils.CommonUtil;
 import com.uplink.carins.utils.LogUtil;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import okhttp3.Request;
@@ -71,12 +77,19 @@ public class OrderDetailsCarClaimsActivity extends ChoicePhotoAndCropAndSwipeBac
     private LinearLayout layout_estimatelist;
     private View layout_estimatelist_line;
 
+    private LinearLayout layout_uploadimgs;
+    private LinearLayout layout_imgs_row1;
+    private List<ImageView> layout_imgs_view;
+    private int index_photo = 0;
+    private List<String> list_order_zj_path;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_orderdetails_carclaims);
 
         order = (OrderListBean) getIntent().getSerializableExtra("dataBean");
+        list_order_zj_path = new ArrayList<>();
 
         initView();
         initEvent();
@@ -130,13 +143,36 @@ public class OrderDetailsCarClaimsActivity extends ChoicePhotoAndCropAndSwipeBac
         layout_estimatelist = (LinearLayout) findViewById(R.id.layout_estimatelist);
         layout_estimatelist_line = (View) findViewById(R.id.layout_estimatelist_line);
 
+
+        layout_imgs_row1 = (LinearLayout) findViewById(R.id.layout_imgs_row1);
+        layout_uploadimgs = (LinearLayout) findViewById(R.id.layout_uploadimgs);
+
+        layout_imgs_view = new ArrayList<>();
+        layout_imgs_view.add((ImageView) findViewById(R.id.img_zhengjian1));
+
     }
 
     private void initEvent() {
         btnHeaderGoBack.setOnClickListener(this);
         btn_submit.setOnClickListener(this);
 
+        for (int i = 0; i < layout_imgs_view.size(); i++) {
+            ImageView imageView = layout_imgs_view.get(i);
+            imageView.setTag(i);
+            imageView.setOnClickListener(imgClick);
+        }
+
     }
+
+    View.OnClickListener imgClick = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            int index = Integer.parseInt(v.getTag() + "");
+            index_photo = index;
+            showChoiceDialog(CropType.need_crop_no_cropimage);
+
+        }
+    };
 
     private void loadData() {
         showProgressDialog(false);
@@ -170,8 +206,6 @@ public class OrderDetailsCarClaimsActivity extends ChoicePhotoAndCropAndSwipeBac
     }
 
     public void setView(OrderDetailsCarClaimsBean bean) {
-        LayoutInflater inflater = LayoutInflater.from(OrderDetailsCarClaimsActivity.this);
-        LogUtil.i("SN:" + bean.getSn());
 
         txt_order_sn.setText(bean.getSn());
         txt_order_statusname.setText(bean.getStatusName());
@@ -216,6 +250,7 @@ public class OrderDetailsCarClaimsActivity extends ChoicePhotoAndCropAndSwipeBac
 
                         break;
                     case 2:
+                        layout_uploadimgs.setVisibility(View.VISIBLE);
                         btn_submit.setVisibility(View.VISIBLE);
                         btn_submit.setText("提交");
                         break;
@@ -250,10 +285,10 @@ public class OrderDetailsCarClaimsActivity extends ChoicePhotoAndCropAndSwipeBac
 
     private void submitEstimateList() {
 
-//        if (StringUtil.isEmptyNotNull()) {
-//            showToast("请上传定损单");
-//            return;
-//        }
+        if (list_order_zj_path.size() <= 0) {
+            showToast("请上传定损单");
+            return;
+        }
 
         showProgressDialog("正在上传中...", false);
         Map<String, Object> params = new HashMap<>();
@@ -262,6 +297,8 @@ public class OrderDetailsCarClaimsActivity extends ChoicePhotoAndCropAndSwipeBac
         params.put("merchantId", this.getAppContext().getUser().getMerchantId()+"");
 
         Map<String, String> files = new HashMap<>();
+
+        files.put("estimateListImg",list_order_zj_path.get(0));
 
         HttpClient.postWithMy(Config.URL.submitEstimateList, params, files, new HttpResponseHandler() {
             @Override
@@ -307,7 +344,33 @@ public class OrderDetailsCarClaimsActivity extends ChoicePhotoAndCropAndSwipeBac
     @Override
     public void OnCropSuccess(String photo_path) {
         LogUtil.i("photo_path:" + photo_path);
+
+        LogUtil.i("photo_path:" + photo_path);
+        list_order_zj_path.add(index_photo, photo_path);
+
+//        if (index_photo < 3) {
+//            layout_imgs_view.get(index_photo + 1).setVisibility(View.VISIBLE);
+//        }
+
+        loadImageHandler.sendEmptyMessage(layout_imgs_view.get(index_photo).getId());
     }
+
+    private Handler loadImageHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+
+            try {
+                ImageView iv = layout_imgs_view.get(index_photo);
+                String imgPath = list_order_zj_path.get(index_photo);
+                Bitmap bm = BitmapUtil.decodeSampledBitmapFromFd(imgPath, dip2px(150), dip2px(100));
+                iv.setImageBitmap(bm);
+            } catch (Exception e) {
+                LogUtil.e(e.getMessage() + "");
+            }
+
+        }
+    };
 
     @Override
     public void OnCropFail(String error_tx) {

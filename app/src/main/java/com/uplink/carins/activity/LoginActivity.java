@@ -98,7 +98,7 @@ public class LoginActivity extends BaseFragmentActivity implements View.OnClickL
                 UserBean user=new UserBean();
 
 
-                if(txt_username.getText().equals("a")) {
+                if(txt_username.getText().toString().equals("a")) {
                     user.setId(1081);
                     user.setMerchantId(115);
                 }

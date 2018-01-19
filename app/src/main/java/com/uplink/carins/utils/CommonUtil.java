@@ -29,8 +29,9 @@ public class CommonUtil {
         if (StringUtil.isEmptyNotNull(imageUrl)) {
             photoView.setBackgroundResource(R.drawable.default_image);
         } else
+            //.centerCrop()
             Picasso.with(context).load(imageUrl)
-                    .placeholder(R.drawable.default_image)
+                    .placeholder(R.drawable.default_image).fit().centerInside()
                     .into(photoView, new Callback() {
                         @Override
                         public void onSuccess() {

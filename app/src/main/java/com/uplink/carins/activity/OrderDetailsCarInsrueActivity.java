@@ -28,6 +28,7 @@ import com.uplink.carins.model.api.OrderDetailsCarInsureBean;
 import com.uplink.carins.model.api.OrderListBean;
 import com.uplink.carins.model.api.Result;
 import com.uplink.carins.model.api.ZjBean;
+import com.uplink.carins.ui.AutoNextLineLinearlayout;
 import com.uplink.carins.ui.ViewHolder;
 import com.uplink.carins.ui.choicephoto.ChoicePhotoAndCropAndSwipeBackActivity;
 import com.uplink.carins.ui.my.MyHorizontalListView;
@@ -83,7 +84,7 @@ public class OrderDetailsCarInsrueActivity extends ChoicePhotoAndCropAndSwipeBac
     private LinearLayout layout_paytime;
     private LinearLayout layout_completetime;
     private LinearLayout layout_cancletime;
-
+    private AutoNextLineLinearlayout lll;
 
     private LinearLayout layout_uploadimgs;
     private LinearLayout layout_imgs_row1;
@@ -91,7 +92,6 @@ public class OrderDetailsCarInsrueActivity extends ChoicePhotoAndCropAndSwipeBac
 
     //private List<ImageView> imgviews;
     // 当前有几张图片
-    private int hasPhotoSize = 0;
     private int index_photo = 0;
     private List<String> list_order_zj_path;
 
@@ -103,6 +103,7 @@ public class OrderDetailsCarInsrueActivity extends ChoicePhotoAndCropAndSwipeBac
         order = (OrderListBean) getIntent().getSerializableExtra("dataBean");
 
         list_order_zj_path = new ArrayList<>();
+
 
         initView();
         initEvent();
@@ -154,6 +155,8 @@ public class OrderDetailsCarInsrueActivity extends ChoicePhotoAndCropAndSwipeBac
         layout_imgs_view.add((ImageView) findViewById(R.id.img_zhengjian2));
         layout_imgs_view.add((ImageView) findViewById(R.id.img_zhengjian3));
         layout_imgs_view.add((ImageView) findViewById(R.id.img_zhengjian4));
+
+        //lll= (AutoNextLineLinearlayout) findViewById(R.id.lll);
     }
 
     private void initEvent() {
@@ -172,18 +175,17 @@ public class OrderDetailsCarInsrueActivity extends ChoicePhotoAndCropAndSwipeBac
         @Override
         public void onClick(View v) {
             int index = Integer.parseInt(v.getTag() + "");
-            if (index > (hasPhotoSize - 1)) {
-                index_photo = index;
-                showChoiceDialog(CropType.need_crop_no_cropimage);
-            }
+            index_photo = index;
+            showChoiceDialog(CropType.need_crop_no_cropimage);
+
         }
     };
 
     private void loadData() {
         showProgressDialog(false);
         Map<String, String> params = new HashMap<>();
-        params.put("userId", this.getAppContext().getUser().getId()+"");
-        params.put("merchantId", this.getAppContext().getUser().getMerchantId()+"");
+        params.put("userId", this.getAppContext().getUser().getId() + "");
+        params.put("merchantId", this.getAppContext().getUser().getMerchantId() + "");
         params.put("orderId", order.getId() + "");
         params.put("productType", order.getProductType() + "");
         HttpClient.getWithMy(Config.URL.getDetails, params, new HttpResponseHandler() {
@@ -212,8 +214,7 @@ public class OrderDetailsCarInsrueActivity extends ChoicePhotoAndCropAndSwipeBac
 
 
     public void setView(OrderDetailsCarInsureBean bean) {
-        LayoutInflater inflater = LayoutInflater.from(OrderDetailsCarInsrueActivity.this);
-        LogUtil.i("SN:" + bean.getSn());
+
 
         txt_order_sn.setText(bean.getSn());
         txt_order_statusname.setText(bean.getStatusName());
@@ -235,11 +236,31 @@ public class OrderDetailsCarInsrueActivity extends ChoicePhotoAndCropAndSwipeBac
         list_order_zj.setAdapter(list_order_zj_adapter);
         list_order_zj_adapter.setData(bean.getZj());
 
+//        for (int i=0;i<bean.getZj().size();i++) {
+//            LinearLayout.LayoutParams itemParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+//
+//
+//
+//            LinearLayout childBtn = (LinearLayout) LayoutInflater.from(this).inflate(R.layout.item_zj, null);
+//            childBtn.setLayoutParams(itemParams);
+//
+//            ImageView item_img = ViewHolder.get(childBtn, R.id.item_company_choice_img);
+//
+//            CommonUtil.loadImageFromUrl(childBtn.getContext(), item_img, bean.getZj().get(i).getUrl());
+//
+//
+//
+//            lll.addView(childBtn);
+//        }
+
+
         switch (bean.getStatus()) {
             case 1:
                 layout_submittime.setVisibility(View.VISIBLE);
                 break;
             case 2:
+                // list_carinsoffercompany.setVisibility(View.VISIBLE);
+                list_order_zj.setVisibility(View.VISIBLE);
                 layout_submittime.setVisibility(View.VISIBLE);
                 switch (bean.getFollowStatus()) {
                     case 1:
@@ -298,17 +319,17 @@ public class OrderDetailsCarInsrueActivity extends ChoicePhotoAndCropAndSwipeBac
     }
 
     private void submitFollowInsure() {
-//        if (hasPhotoSize <= 0) {
-//            showToast("请先上传证件");
-//            return;
-//        }
+        if (list_order_zj_path.size() <= 0) {
+            showToast("请上传证件");
+            return;
+        }
 
         showProgressDialog(false);
 
         Map<String, Object> params = new HashMap<>();
-        params.put("userId", this.getAppContext().getUser().getId()+"");//21
+        params.put("userId", this.getAppContext().getUser().getId() + "");//21
         params.put("orderId", order.getId());
-        params.put("merchantId", this.getAppContext().getUser().getMerchantId()+"");
+        params.put("merchantId", this.getAppContext().getUser().getMerchantId() + "");
 
 
         Map<String, String> files = new HashMap<>();
@@ -351,12 +372,14 @@ public class OrderDetailsCarInsrueActivity extends ChoicePhotoAndCropAndSwipeBac
     @Override
     public void OnCropSuccess(String photo_path) {
         LogUtil.i("photo_path:" + photo_path);
-        list_order_zj_path.add(index_photo - hasPhotoSize, photo_path);
-        if (list_order_zj_path.size() <= 4) {
-            LogUtil.i("index_photo + 1:" + (index_photo + 1));
+        list_order_zj_path.add(index_photo, photo_path);
+
+        if (index_photo < 3) {
             layout_imgs_view.get(index_photo + 1).setVisibility(View.VISIBLE);
-            loadImageHandler.sendEmptyMessage(layout_imgs_view.get(index_photo + 1).getId());
         }
+
+        loadImageHandler.sendEmptyMessage(layout_imgs_view.get(index_photo).getId());
+
 
     }
 
@@ -370,19 +393,19 @@ public class OrderDetailsCarInsrueActivity extends ChoicePhotoAndCropAndSwipeBac
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
 
-            onLoad(layout_imgs_view.get(index_photo), list_order_zj_path.get(index_photo));
+
+            try {
+                ImageView iv = layout_imgs_view.get(index_photo);
+                String imgPath = list_order_zj_path.get(index_photo);
+                Bitmap bm = BitmapUtil.decodeSampledBitmapFromFd(imgPath, dip2px(150), dip2px(100));
+                iv.setImageBitmap(bm);
+            } catch (Exception e) {
+                LogUtil.e(e.getMessage() + "");
+            }
+
 
         }
     };
-
-    private void onLoad(ImageView iv, String imgPath) {
-        try {
-            Bitmap bm = BitmapUtil.decodeSampledBitmapFromFd(imgPath, dip2px(150), dip2px(100));
-            iv.setImageBitmap(bm);
-        } catch (Exception e) {
-            LogUtil.e(e.getMessage() + "");
-        }
-    }
 
 
     private class CarInsOfferCompanyAdapter extends BaseAdapter { // shoplist适配器
