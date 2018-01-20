@@ -1,5 +1,7 @@
 package com.uplink.carins.activity;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.appcompat.BuildConfig;
@@ -15,6 +17,7 @@ import android.widget.ImageView;
 import com.uplink.carins.R;
 import com.uplink.carins.model.api.UserBean;
 import com.uplink.carins.ui.BaseFragmentActivity;
+import com.uplink.carins.utils.LogUtil;
 import com.uplink.carins.utils.StringUtil;
 
 public class LoginActivity extends BaseFragmentActivity implements View.OnClickListener {
@@ -26,6 +29,7 @@ public class LoginActivity extends BaseFragmentActivity implements View.OnClickL
 
     ImageView btn_show_password;//显示密码按钮
     ImageView btn_cancle_username;//显示密码按钮
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,11 +39,11 @@ public class LoginActivity extends BaseFragmentActivity implements View.OnClickL
     }
 
     public void initView() {
-        btn_login=(Button)this.findViewById(R.id.btn_login);
-        txt_username=(EditText)this.findViewById(R.id.txt_username);
-        txt_password=(EditText)this.findViewById(R.id.txt_password);
-        btn_cancle_username=(ImageView)this.findViewById(R.id.btn_cancle_username);
-        btn_show_password=(ImageView)this.findViewById(R.id.btn_show_password);
+        btn_login = (Button) this.findViewById(R.id.btn_login);
+        txt_username = (EditText) this.findViewById(R.id.txt_username);
+        txt_password = (EditText) this.findViewById(R.id.txt_password);
+        btn_cancle_username = (ImageView) this.findViewById(R.id.btn_cancle_username);
+        btn_show_password = (ImageView) this.findViewById(R.id.btn_show_password);
     }
 
     public void initViewEvent() {
@@ -78,15 +82,13 @@ public class LoginActivity extends BaseFragmentActivity implements View.OnClickL
                 txt_username.setText("");
                 break;
             case R.id.btn_show_password:
-                String isShow=(String)btn_show_password.getTag();
+                String isShow = (String) btn_show_password.getTag();
 
-                if(isShow.equals("hide")) {
+                if (isShow.equals("hide")) {
                     btn_show_password.setTag("show");
                     btn_show_password.setImageResource(R.drawable.login_showpsw_yes);
                     txt_password.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
-                }
-                else
-                {
+                } else {
                     btn_show_password.setTag("hide");
                     btn_show_password.setImageResource(R.drawable.login_showpsw_no);
                     txt_password.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
@@ -95,19 +97,16 @@ public class LoginActivity extends BaseFragmentActivity implements View.OnClickL
                 break;
             case R.id.btn_login:
 
-                UserBean user=new UserBean();
+                UserBean user = new UserBean();
 
 
-                if(txt_username.getText().toString().equals("a")) {
+                if (txt_username.getText().toString().equals("a")) {
                     user.setId(1081);
                     user.setMerchantId(115);
-                }
-                else
-                {
+                } else {
                     user.setId(1027);
                     user.setMerchantId(20);
                 }
-
 
 
                 this.getAppContext().setUser(user);

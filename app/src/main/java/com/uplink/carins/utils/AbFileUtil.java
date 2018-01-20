@@ -255,18 +255,30 @@ public class AbFileUtil {
 		Bitmap bit = null;
 		try {
 			// SD卡是否存在
-			if (!isCanUseSD()) {
-				return null;
-			}
-
-			if (type != AbImageUtil.ORIGINALIMG && (newWidth <= 0 || newHeight <= 0)) {
-				throw new IllegalArgumentException("缩放和裁剪图片的宽高设置不能小于0");
-			}
-
-			// 文件是否存在
-			if (!file.exists()) {
-				return null;
-			}
+//			if (!isCanUseSD()) {
+//				LogUtil.i("不存在sd卡");
+//				return null;
+//			}
+//
+//			if (type != AbImageUtil.ORIGINALIMG && (newWidth <= 0 || newHeight <= 0)) {
+//				throw new IllegalArgumentException("缩放和裁剪图片的宽高设置不能小于0");
+//			}
+//
+//			// 文件是否存在
+//			if (!file.exists()) {
+//				LogUtil.i("文件不存在");
+//
+//				Bitmap bitmap2 = getBitmapFormURL(file.getPath(), type, newWidth, newHeight);
+//                if(bitmap2==null)
+//				{
+//					LogUtil.i("文件不存在2");
+//				}
+//				else
+//				{
+//					LogUtil.i("文件存在2");
+//				}
+//				return null;
+//			}
 
 			// 文件存在
 			// if (type == AbImageUtil.CUTIMG) {
@@ -275,6 +287,12 @@ public class AbFileUtil {
 			// bit = AbImageUtil.scaleImg(file, newWidth, newHeight);
 			// } else {
 			bit = AbImageUtil.originalImg(file);
+			if(bit!=null) {
+				LogUtil.e("=》》》》》》文件不存在");
+			}
+			else {
+				LogUtil.e("=》》》》》》文件存在");
+			}
 			// }
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -98,7 +98,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         };
 
 
-        handler.postDelayed(runnable, 2000);//每两秒执行一次runnable.
+        //handler.postDelayed(runnable, 2000);//每两秒执行一次runnable.
 
 
     }
@@ -122,7 +122,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         NineGridItemBean gridviewitem1 = new NineGridItemBean();
         gridviewitems.add(new NineGridItemBean("一键投保", NineGridItemType.Window, "com.uplink.carins.activity.CarInsureKindActivity", R.drawable.ic_app_yjtb));
         gridviewitems.add(new NineGridItemBean("理赔服务", NineGridItemType.Window, "com.uplink.carins.activity.CarClaimActivity", R.drawable.ic_app_yjlp));
-        gridviewitems.add(new NineGridItemBean("人才输送", NineGridItemType.Url, "", R.drawable.ic_app_rcss));
+        gridviewitems.add(new NineGridItemBean("人才输送", NineGridItemType.Window, "com.uplink.carins.activity.TalentDemandActivity", R.drawable.ic_app_rcss));
         gridviewitems.add(new NineGridItemBean("违章缴罚", NineGridItemType.Url, "http://www.baidu.com", R.drawable.ic_app_wzcx));
         gridviewitems.add(new NineGridItemBean("我的订单", NineGridItemType.Window, "com.uplink.carins.activity.OrderListActivity", R.drawable.ic_app_wddd));
         gridviewitems.add(new NineGridItemBean("退出", NineGridItemType.Window, "com.uplink.carins.activity.LoginActivity", R.drawable.ic_app_tc));

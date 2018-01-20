@@ -26,6 +26,13 @@ public class AppContext extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+
+        // 注册App异常崩溃处理器
+        //registerUncaughtExceptionHandler();
+    }
+
+    private void registerUncaughtExceptionHandler() {
+        Thread.setDefaultUncaughtExceptionHandler(AppException.getAppExceptionHandler());
     }
 
     public UserBean user;

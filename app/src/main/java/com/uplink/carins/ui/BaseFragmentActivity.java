@@ -8,6 +8,7 @@ import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.umeng.analytics.MobclickAgent;
 import com.uplink.carins.Own.AppContext;
 import com.uplink.carins.Own.AppManager;
 import com.uplink.carins.R;
@@ -89,4 +90,15 @@ public class BaseFragmentActivity extends FragmentActivity {
             mProgressDialog.dismiss();
         }
     }
+
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        MobclickAgent.onResume(this);
+//    }
+//
+//    public void onPause() {
+//        super.onPause();
+//        MobclickAgent.onPause(this);
+//    }
 }

@@ -48,4 +48,5 @@ public class SwipeBackActivity extends BaseFragmentActivity implements SwipeBack
         getSwipeBackLayout().scrollToFinishActivity();
     }
 
+
 }

@@ -23,7 +23,7 @@ public class TalentDemandActivity extends SwipeBackActivity implements View.OnCl
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_orderlist);
+        setContentView(R.layout.activity_talentdemand);
         initView();
         initEvent();
     }
