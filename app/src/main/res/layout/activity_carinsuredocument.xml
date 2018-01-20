@@ -262,7 +262,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="车辆行驶证"
+                            android:text="车主身份证"
                             android:textColor="@color/uploadimg_title"
                             android:textSize="@dimen/text_size_10" />
 
