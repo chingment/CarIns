@@ -51,12 +51,18 @@
         <activity android:name=".activity.CarInsureDocumentActivity" />
         <activity android:name=".activity.OrderDetailsCarInsrueActivity" />
         <activity android:name=".activity.ImageGalleryActivity" />
-        <activity android:name=".activity.OrderDetailsCarClaimsActivity"/>
+        <activity android:name=".activity.OrderDetailsCarClaimsActivity" />
+        <activity android:name=".activity.SelectImageActivity" />
 
+        <!-- 友盟 -->
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="5a6313dcf43e482e16000109" />
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="HaoYiLian" />
 
-        <!-- 友盟-->
-        <meta-data android:value="5a6313dcf43e482e16000109" android:name="UMENG_APPKEY"/>
-        <meta-data android:value="HaoYiLian" android:name="UMENG_CHANNEL"/>
+        <activity android:name=".activity.OrderDetailsTalentDemandActivity"></activity>
     </application>
 
 </manifest>

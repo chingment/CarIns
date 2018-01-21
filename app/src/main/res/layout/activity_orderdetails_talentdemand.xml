@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@null"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <include layout="@layout/layout_main_header" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="32dp"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="订单号："
+            android:textColor="@color/text_999"
+            android:textSize="11sp" />
+
+        <TextView
+            android:id="@+id/txt_order_sn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textColor="@color/text_999"
+            android:textSize="11sp" />
+
+        <TextView
+            android:id="@+id/txt_order_statusname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:text="状态"
+            android:textColor="@color/text_5ad485"
+            android:textSize="11sp" />
+    </LinearLayout>
+
+    <com.uplink.carins.ui.my.MyScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_below="@+id/layout_header"
+        android:layout_weight="1"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="vertical">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="8dp"
+                android:background="@color/default_bg" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="vertical"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@drawable/boder_bottom"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="工种"
+                        android:textColor="@color/text_333"
+                        android:textSize="@dimen/text_size_12" />
+
+                    <TextView
+                        android:id="@+id/txt_order_workjob"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:textColor="@color/text_333"
+                        android:textSize="@dimen/text_size_12" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@drawable/boder_bottom"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="数量"
+                        android:textColor="@color/text_333"
+                        android:textSize="@dimen/text_size_12" />
+
+                    <TextView
+                        android:id="@+id/txt_order_quantity"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:textColor="@color/text_333"
+                        android:textSize="@dimen/text_size_12" />
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/layout_submittime"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@drawable/boder_bottom"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="提交时间"
+                        android:textColor="@color/text_333"
+                        android:textSize="@dimen/text_size_12" />
+
+                    <TextView
+                        android:id="@+id/txt_order_submittime"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:textColor="@color/text_333"
+                        android:textSize="@dimen/text_size_12" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/layout_completetime"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@drawable/boder_bottom"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="完成时间"
+                        android:textColor="@color/text_333"
+                        android:textSize="@dimen/text_size_12" />
+
+                    <TextView
+                        android:id="@+id/txt_order_completetime"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:textColor="@color/text_333"
+                        android:textSize="@dimen/text_size_12" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/layout_cancletime"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@drawable/boder_bottom"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="取消时间"
+                        android:textColor="@color/text_333"
+                        android:textSize="@dimen/text_size_12" />
+
+                    <TextView
+                        android:id="@+id/txt_order_cancletime"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:textColor="@color/text_333"
+                        android:textSize="@dimen/text_size_12" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="备注"
+                        android:textColor="@color/text_333"
+                        android:textSize="@dimen/text_size_12" />
+
+                    <TextView
+                        android:id="@+id/txt_order_remarks"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:textColor="@color/text_f33"
+                        android:textSize="@dimen/text_size_12" />
+                </LinearLayout>
+
+            </LinearLayout>
+        </LinearLayout>
+    </com.uplink.carins.ui.my.MyScrollView>
+</LinearLayout>

@@ -23,6 +23,7 @@ import com.uplink.carins.utils.StringUtil;
 public class LoginActivity extends BaseFragmentActivity implements View.OnClickListener {
 
 
+    ImageView logo_login;//logo
     Button btn_login;//登录按钮
     EditText txt_username;//账户
     EditText txt_password;//密码
@@ -44,6 +45,7 @@ public class LoginActivity extends BaseFragmentActivity implements View.OnClickL
         txt_password = (EditText) this.findViewById(R.id.txt_password);
         btn_cancle_username = (ImageView) this.findViewById(R.id.btn_cancle_username);
         btn_show_password = (ImageView) this.findViewById(R.id.btn_show_password);
+        logo_login=  (ImageView) this.findViewById(R.id.logo_login);
     }
 
     public void initViewEvent() {
@@ -113,7 +115,25 @@ public class LoginActivity extends BaseFragmentActivity implements View.OnClickL
 
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 LoginActivity.this.startActivity(intent);
+
+                //Intent intent = new Intent(LoginActivity.this, SelectImageActivity.class);
+                //intent.putExtra(SelectImageActivity.EXTRA, SelectImageActivity.OPENCAMERA);
+                //startActivityForResult(intent, SelectImageActivity.OPENCAMERA);
+
                 break;
+        }
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (data != null) {
+            if (requestCode == SelectImageActivity.OPENCAMERA
+                    || requestCode == SelectImageActivity.OPENALBUM) {
+                String url = data.getStringExtra(SelectImageActivity.IMAGEURL);
+                logo_login.setImageBitmap(BitmapFactory.decodeFile(url));
+            }
         }
     }
 

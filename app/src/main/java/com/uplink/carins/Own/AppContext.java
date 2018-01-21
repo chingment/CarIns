@@ -28,7 +28,7 @@ public class AppContext extends Application {
         super.onCreate();
 
         // 注册App异常崩溃处理器
-        //registerUncaughtExceptionHandler();
+        registerUncaughtExceptionHandler();
     }
 
     private void registerUncaughtExceptionHandler() {

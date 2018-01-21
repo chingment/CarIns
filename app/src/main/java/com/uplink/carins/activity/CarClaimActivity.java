@@ -90,10 +90,10 @@ public class CarClaimActivity extends SwipeBackActivity implements View.OnClickL
         form_carclaim_claimtype1 = (CheckBox) findViewById(R.id.form_carclaim_claimtype1);
         form_carclaim_claimtype2 = (CheckBox) findViewById(R.id.form_carclaim_claimtype2);
         btn_submit_carclaims=(Button) findViewById(R.id.btn_submit_carclaims);
+
         LayoutInflater layoutInflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
         popupCompanysView = layoutInflater.inflate(R.layout.popu_list, null);
         popupCompanysListView = (ListView) popupCompanysView.findViewById(R.id.popu_list);
-
         popupCompanysWindow = new PopupWindow(popupCompanysView, 672, 500);
     }
 
@@ -174,7 +174,9 @@ public class CarClaimActivity extends SwipeBackActivity implements View.OnClickL
 
         @Override
         public View getView(int position, View convertView, ViewGroup viewGroup) {
-            convertView = inflater.inflate(R.layout.item_company, null);
+            if(convertView==null) {
+                convertView = inflater.inflate(R.layout.item_company, null);
+            }
             TextView item_tv = ViewHolder.get(convertView, R.id.item_company);
             CarInsCompanyBean bean = carInsCompanys.get(position);
             item_tv.setText(bean.getName() + "");
@@ -236,33 +238,32 @@ public class CarClaimActivity extends SwipeBackActivity implements View.OnClickL
         params.put("merchantId", this.getAppContext().getUser().getMerchantId()+"");
         params.put("repairsType", repairsType);
 
-        HttpClient.postWithMy(Config.URL.submitClaim, params,null, new CallBack());
-    }
+        HttpClient.postWithMy(Config.URL.submitClaim, params,null, new  HttpResponseHandler() {
+            @Override
+            public void onSuccess(String response) {
+                super.onSuccess(response);
+                LogUtil.e(">>onSuccess>>>>" + response);
 
-    class CallBack extends HttpResponseHandler {
-        @Override
-        public void onSuccess(String response) {
-            super.onSuccess(response);
-            LogUtil.e(">>onSuccess>>>>" + response);
+                ApiResultBean<Object> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<Object>>() {
+                });
 
-            ApiResultBean<Object> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<Object>>() {
-            });
+                if (rt.getResult() == Result.SUCCESS) {
+                    showSuccessDialog();
+                } else {
+                    showToast("提交理赔失败！");
+                }
+                removeProgressDialog();
+            }
 
-            if (rt.getResult() == Result.SUCCESS) {
-                showSuccessDialog();
-            } else {
+            @Override
+            public void onFailure(Request request, Exception e) {
+                super.onFailure(request, e);
+                removeProgressDialog();
                 showToast("提交理赔失败！");
             }
-            removeProgressDialog();
-        }
-
-        @Override
-        public void onFailure(Request request, Exception e) {
-            super.onFailure(request, e);
-            removeProgressDialog();
-            showToast("提交理赔失败！");
-        }
+        });
     }
+
 
     private CustomConfirmDialog dialog_Success;
     private void showSuccessDialog() {

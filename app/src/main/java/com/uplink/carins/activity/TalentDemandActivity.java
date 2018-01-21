@@ -32,7 +32,7 @@ public class TalentDemandActivity extends SwipeBackActivity implements View.OnCl
         btnHeaderGoBack = (ImageView) findViewById(R.id.btn_main_header_goback);
         btnHeaderGoBack.setVisibility(View.VISIBLE);
         txtHeaderTitle = (TextView) findViewById(R.id.txt_main_header_title);
-        txtHeaderTitle.setText("人才需求");
+        txtHeaderTitle.setText("填写人才需求");
 
 
     }
