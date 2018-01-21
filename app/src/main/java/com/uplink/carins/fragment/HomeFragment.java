@@ -323,12 +323,10 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             super.onSuccess(response);
 
 
-            LogUtil.i(TAG, "CallBack onSuccess====>>" + response);
+            LogUtil.d(TAG,"onSuccess====>>>"+response);
 
             ApiResultBean<HomePageBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<HomePageBean>>() {
             });
-
-            LogUtil.i("rt.getResult()：" + rt.getResult());
 
             if (rt.getResult() == Result.SUCCESS) {
 
@@ -355,9 +353,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         @Override
         public void onFailure(Request request, Exception e) {
             super.onFailure(request, e);
-
-            LogUtil.e(TAG, e);
-            showToast("数据加载失败！");
+            LogUtil.e(TAG,"onFailure====>>>"+e.getMessage());
+            showToast("数据加载失败");
         }
     }
 }

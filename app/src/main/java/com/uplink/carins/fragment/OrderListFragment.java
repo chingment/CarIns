@@ -197,7 +197,7 @@ public class OrderListFragment extends BaseLazyFragment {
         public void onSuccess(String response) {
             super.onSuccess(response);
 
-            LogUtil.e(TAG, "response====>>>" + response);
+            LogUtil.d(TAG,"onSuccess====>>>" +response);
 
 
             ApiResultBean<List<OrderListBean>> result = JSON.parseObject(response, new TypeReference<ApiResultBean<List<OrderListBean>>>() {
@@ -257,6 +257,8 @@ public class OrderListFragment extends BaseLazyFragment {
         @Override
         public void onFailure(Request request, Exception e) {
             super.onFailure(request, e);
+            LogUtil.e(TAG,"onFailure====>>>" +e.getMessage());
+
             if (pageIndex > 0) {
                 refresh.loadError();
             } else {

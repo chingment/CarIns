@@ -242,24 +242,25 @@ public class CarClaimActivity extends SwipeBackActivity implements View.OnClickL
             @Override
             public void onSuccess(String response) {
                 super.onSuccess(response);
-                LogUtil.e(">>onSuccess>>>>" + response);
+                LogUtil.d(TAG,"onSuccess====>>>"+ response);
 
                 ApiResultBean<Object> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<Object>>() {
                 });
 
+                showToast(rt.getMessage());
                 if (rt.getResult() == Result.SUCCESS) {
                     showSuccessDialog();
-                } else {
-                    showToast("提交理赔失败！");
                 }
+
                 removeProgressDialog();
             }
 
             @Override
             public void onFailure(Request request, Exception e) {
                 super.onFailure(request, e);
+                LogUtil.e(TAG,"onFailure====>>>"+ e.getMessage());
                 removeProgressDialog();
-                showToast("提交理赔失败！");
+                showToast("提交失败");
             }
         });
     }

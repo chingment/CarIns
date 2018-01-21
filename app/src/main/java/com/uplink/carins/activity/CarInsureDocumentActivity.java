@@ -215,7 +215,7 @@ public class CarInsureDocumentActivity extends ChoicePhotoAndCropAndSwipeBackAct
             public void onSuccess(String response) {
                 super.onSuccess(response);
                 removeProgressDialog();
-                LogUtil.e("onSuccess====>>>" + response);
+                LogUtil.d(TAG,"onSuccess====>>>" + response);
 
                 ApiResultBean<Object> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<Object>>() {
                 });
@@ -232,8 +232,8 @@ public class CarInsureDocumentActivity extends ChoicePhotoAndCropAndSwipeBackAct
             public void onFailure(Request request, Exception e) {
                 super.onFailure(request, e);
                 removeProgressDialog();
-                LogUtil.e("onSuccess====>>>" + e.getMessage());
-                showToast("提交失败，请重试！");
+                LogUtil.e(TAG,"onFailure====>>>" + e.getMessage());
+                showToast("提交失败");
             }
         });
 

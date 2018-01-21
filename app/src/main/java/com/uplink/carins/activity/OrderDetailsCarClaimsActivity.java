@@ -186,7 +186,7 @@ public class OrderDetailsCarClaimsActivity extends ChoicePhotoAndCropAndSwipeBac
             public void onSuccess(String response) {
                 super.onSuccess(response);
                 removeProgressDialog();
-                LogUtil.e("response===>>>" + response);
+                LogUtil.d(TAG,"onSuccess====>>>" + response);
 
                 ApiResultBean<OrderDetailsCarClaimsBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<OrderDetailsCarClaimsBean>>() {
                 });
@@ -199,6 +199,7 @@ public class OrderDetailsCarClaimsActivity extends ChoicePhotoAndCropAndSwipeBac
             @Override
             public void onFailure(Request request, Exception e) {
                 super.onFailure(request, e);
+                LogUtil.e(TAG,"onFailure====>>>" + e.getMessage());
                 removeProgressDialog();
             }
 

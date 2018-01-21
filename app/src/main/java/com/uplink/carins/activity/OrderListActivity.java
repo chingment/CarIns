@@ -55,7 +55,7 @@ public class OrderListActivity extends SwipeBackActivity implements View.OnClick
 
         currentStatus=getIntent().getIntExtra("status",0);
 
-        LogUtil.i("当前状态:" + currentStatus);
+        LogUtil.d("当前状态:" + currentStatus);
 
         initView();
         initViewPager();
