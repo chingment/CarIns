@@ -22,6 +22,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.uplink.carins.utils.LogUtil;
 import com.uplink.carins.utils.StringUtil;
 
 import java.io.File;
@@ -87,6 +88,9 @@ public class SelectImageActivity extends Activity {
         if (outputImage.exists()) {
             outputImage.delete();
         }
+
+        LogUtil.i("outputImage"+outputImage.getPath());
+
         ///storage/emulated/0/Android/data/com.yeahis.school/cache/output_image.png
         if (Build.VERSION.SDK_INT >= 24) {
             imageUri = FileProvider.getUriForFile(SelectImageActivity.this,

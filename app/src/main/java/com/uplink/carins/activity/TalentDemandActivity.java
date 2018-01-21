@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -39,7 +40,7 @@ public class TalentDemandActivity extends SwipeBackActivity implements View.OnCl
 
     private TextView form_talentdemand_txt_workjob;
     private EditText form_talentdemand_txt_quantity;
-
+    private Button btn_submit_talentdemand;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,13 +56,18 @@ public class TalentDemandActivity extends SwipeBackActivity implements View.OnCl
         txtHeaderTitle.setText("填写人才需求");
 
 
-        form_talentdemand_txt_workjob = (TextView) findViewById(R.id.form_carclaim_txt_company);
-        form_talentdemand_txt_quantity = (EditText) findViewById(R.id.form_carclaim_txt_carplateno);
+        form_talentdemand_txt_workjob = (TextView) findViewById(R.id.form_talentdemand_txt_workjob);
+        form_talentdemand_txt_quantity = (EditText) findViewById(R.id.form_talentdemand_txt_quantity);
+
+        btn_submit_talentdemand = (Button) findViewById(R.id.btn_submit_talentdemand);
 
     }
 
     private void initEvent() {
         btnHeaderGoBack.setOnClickListener(this);
+
+        btn_submit_talentdemand.setOnClickListener(this);
+
     }
 
 
