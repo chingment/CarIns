@@ -117,8 +117,8 @@ public class LoginActivity extends BaseFragmentActivity implements View.OnClickL
                 LoginActivity.this.startActivity(intent);
 
                 //Intent intent = new Intent(LoginActivity.this, SelectImageActivity.class);
-                //intent.putExtra(SelectImageActivity.EXTRA, SelectImageActivity.OPENCAMERA);
-                //startActivityForResult(intent, SelectImageActivity.OPENCAMERA);
+                //intent.putExtra(SelectImageActivity.EXTRA, SelectImageActivity.OPENALBUM);
+                //startActivityForResult(intent, SelectImageActivity.OPENALBUM);
 
                 break;
         }

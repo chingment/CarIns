@@ -1,11 +1,13 @@
 package com.uplink.carins.ui.choicephoto;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -14,6 +16,8 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -25,6 +29,7 @@ import java.io.FileOutputStream;
 import com.uplink.carins.R;
 import com.uplink.carins.activity.CropImageActivity;
 import com.uplink.carins.Own.AppFIlePath;
+import com.uplink.carins.activity.SelectImageActivity;
 import com.uplink.carins.ui.bitmap.AbImageCache;
 import com.uplink.carins.ui.bitmap.AbImageUtil;
 import com.uplink.carins.ui.dialog.CustomDialog;
@@ -104,15 +109,24 @@ public abstract class ChoicePhotoAndCropAndSwipeBackActivity extends SwipeBackAc
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.choose_album:
-                mChoicePhotoDialog.dismiss();
-                // 从相册中去获取
-                Intent intent = new Intent();
-                try {
-                    intent.setAction(Intent.ACTION_GET_CONTENT);
-                    intent.setType("image/*");
-                    startActivityForResult(intent, PHOTO_PICKED_WITH_DATA);
-                } catch (ActivityNotFoundException e) {
-                    showToast("没有找到照片");
+
+                if (ContextCompat.checkSelfPermission(ChoicePhotoAndCropAndSwipeBackActivity.this,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(ChoicePhotoAndCropAndSwipeBackActivity.this,
+                            new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                                    Manifest.permission.READ_EXTERNAL_STORAGE}, 2);
+                } else {
+
+                    mChoicePhotoDialog.dismiss();
+                    // 从相册中去获取
+                    Intent intent = new Intent();
+                    try {
+                        intent.setAction(Intent.ACTION_GET_CONTENT);
+                        intent.setType("image/*");
+                        startActivityForResult(intent, PHOTO_PICKED_WITH_DATA);
+                    } catch (ActivityNotFoundException e) {
+                        showToast("没有找到照片");
+                    }
                 }
                 break;
             case R.id.choose_cam: // 拍照获取
@@ -145,6 +159,7 @@ public abstract class ChoicePhotoAndCropAndSwipeBackActivity extends SwipeBackAc
             case PHOTO_PICKED_WITH_DATA:
                 Uri uri = intent.getData();
                 old_path = getImageAbsolutePath(ChoicePhotoAndCropAndSwipeBackActivity.this, uri);
+
                 if (old_path != null) {
                     DoCropChoice(old_path);
                 } else {
@@ -154,6 +169,7 @@ public abstract class ChoicePhotoAndCropAndSwipeBackActivity extends SwipeBackAc
             case CAMERA_WITH_DATA: // 相机拍照完成；
                 try {
                     old_path = mCurrentPhotoFile.getPath();
+                    LogUtil.i("old_path:"+old_path);
                     if (old_path != null) {
                         DoCropChoice(old_path);
                     } else {

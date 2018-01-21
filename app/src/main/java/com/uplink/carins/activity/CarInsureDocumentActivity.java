@@ -215,7 +215,7 @@ public class CarInsureDocumentActivity extends ChoicePhotoAndCropAndSwipeBackAct
             public void onSuccess(String response) {
                 super.onSuccess(response);
                 removeProgressDialog();
-                LogUtil.d(TAG,"onSuccess====>>>" + response);
+                LogUtil.i(TAG,"onSuccess====>>>" + response);
 
                 ApiResultBean<Object> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<Object>>() {
                 });

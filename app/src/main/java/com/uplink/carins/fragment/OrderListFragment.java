@@ -197,15 +197,11 @@ public class OrderListFragment extends BaseLazyFragment {
         public void onSuccess(String response) {
             super.onSuccess(response);
 
-            LogUtil.d(TAG,"onSuccess====>>>" +response);
+            LogUtil.i(TAG,"onSuccess====>>>" +response);
 
 
             ApiResultBean<List<OrderListBean>> result = JSON.parseObject(response, new TypeReference<ApiResultBean<List<OrderListBean>>>() {
             });
-
-            //LogUtil.i("result:" + result.getResult());
-            //LogUtil.i("code:" + result.getCode());
-            //LogUtil.i("message:" + result.getMessage());
 
             boolean isHasData = false;
             List<OrderListBean> data = result.getData();
@@ -216,18 +212,6 @@ public class OrderListFragment extends BaseLazyFragment {
             }
 
             if (isHasData) {
-
-                for (int i = 0; i < data.size(); i++) {
-                    //LogUtil.i("sn:" + data.get(i).getSn());
-
-                    List<OrderListBean.OrderFieldBean> fields = data.get(i).getOrderField();
-                    if (fields != null) {
-                        for (int j = 0; j < fields.size(); j++) {
-                            //LogUtil.i("field:" + fields.get(j).getField() + ";value:" + fields.get(j).getValue());
-                        }
-                    }
-
-                }
 
                 if (pageIndex == 0) {
                     refresh.setRefreshing(false);

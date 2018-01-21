@@ -323,7 +323,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             super.onSuccess(response);
 
 
-            LogUtil.d(TAG,"onSuccess====>>>"+response);
+            LogUtil.i(TAG,"onSuccess====>>>"+response);
 
             ApiResultBean<HomePageBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<HomePageBean>>() {
             });

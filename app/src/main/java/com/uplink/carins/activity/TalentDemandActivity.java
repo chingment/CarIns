@@ -117,7 +117,7 @@ public class TalentDemandActivity extends SwipeBackActivity implements View.OnCl
             public void onSuccess(String response) {
                 super.onSuccess(response);
 
-                LogUtil.d(TAG,"onSuccess====>>>" +response);
+                LogUtil.i(TAG,"onSuccess====>>>" +response);
 
                 ApiResultBean<Object> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<Object>>() {
                 });
