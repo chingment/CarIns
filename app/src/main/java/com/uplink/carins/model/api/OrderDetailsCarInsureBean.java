@@ -30,7 +30,7 @@ public class OrderDetailsCarInsureBean {
     private String recipientAddress;
     private String remarks;
     private List<OfferCompanyBean> offerCompany;
-    private List<OfferKindBean> offerKind;
+   // private List<OfferKindBean> offerKind;
     private List<ZjBean> zj;
     private List<String> recipientAddressList;
     private int followStatus;
@@ -222,13 +222,13 @@ public class OrderDetailsCarInsureBean {
         this.offerCompany = offerCompany;
     }
 
-    public List<OfferKindBean> getOfferKind() {
-        return offerKind;
-    }
-
-    public void setOfferKind(List<OfferKindBean> offerKind) {
-        this.offerKind = offerKind;
-    }
+//    public List<OfferKindBean> getOfferKind() {
+//        return offerKind;
+//    }
+//
+//    public void setOfferKind(List<OfferKindBean> offerKind) {
+//        this.offerKind = offerKind;
+//    }
 
     public List<ZjBean> getZj() {
         return zj;

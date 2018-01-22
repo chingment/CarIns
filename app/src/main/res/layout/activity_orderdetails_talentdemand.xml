@@ -122,7 +122,7 @@
                     android:background="@drawable/boder_bottom"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
-                    android:visibility="gone">
+                    >
 
                     <TextView
                         android:layout_width="wrap_content"

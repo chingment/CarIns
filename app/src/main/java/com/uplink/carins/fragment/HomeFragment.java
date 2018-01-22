@@ -346,6 +346,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                     AppCacheManager.setCarInsCompany(bean.getCarInsCompany());
                     AppCacheManager.setCarInsKind(bean.getCarInsKind());
                     AppCacheManager.setCarInsPlan(bean.getCarInsPlan());
+                    AppCacheManager.setTalentDemandWorkJob(bean.getTalentDemandWorkJob());
                 }
             }
         }

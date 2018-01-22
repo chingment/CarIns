@@ -16,7 +16,8 @@ public class AppCacheManager {
     private static String Cache_Key_CarInsCompany = "Cache_CarInsCompany";
     private static String Cache_Key_CarInsKind = "Cache_CarInsKind";
     private static String Cache_Key_CarInsPlan = "Cache_CarInsPlan";
-    private static String Cache_LastUpdateTime = "Cache_LastUpdateTime";
+    private static String Cache_Key_LastUpdateTime = "Cache_LastUpdateTime";
+    private static String Cache_Key_TalentDemandWorkJob = "Cache_TalentDemandWorkJob";
 
     private static ACache getCache() {
 
@@ -26,14 +27,14 @@ public class AppCacheManager {
     public static void setLastUpdateTime(String lastUpdateTime) {
 
         if (lastUpdateTime != null) {
-            AppCacheManager.getCache().put(Cache_LastUpdateTime, lastUpdateTime);
+            AppCacheManager.getCache().put(Cache_Key_LastUpdateTime, lastUpdateTime);
         }
     }
 
     public static String getLastUpdateTime() {
 
         String lastUpdateTime = null;
-        Object o = AppCacheManager.getCache().getAsObject(Cache_LastUpdateTime);
+        Object o = AppCacheManager.getCache().getAsObject(Cache_Key_LastUpdateTime);
         if (o != null)
             lastUpdateTime = o.toString();
 
@@ -199,6 +200,20 @@ public class AppCacheManager {
 
         }
         return carInsKinds;
+    }
+
+
+    public static void setTalentDemandWorkJob(List<TalentDemandWorkJobBean> talentDemandWorkJob) {
+        ArrayList<TalentDemandWorkJobBean> been = (ArrayList<TalentDemandWorkJobBean>) talentDemandWorkJob;
+        AppCacheManager.getCache().put(Cache_Key_TalentDemandWorkJob, been);
+    }
+
+    public static ArrayList<TalentDemandWorkJobBean> getTalentDemandWorkJob() {
+
+        ArrayList<TalentDemandWorkJobBean> carInsKinds = (ArrayList<TalentDemandWorkJobBean>) AppCacheManager.getCache().getAsObject(Cache_Key_TalentDemandWorkJob);
+
+        return carInsKinds;
+
     }
 
 }

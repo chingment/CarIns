@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.widget.*;
 
 import com.squareup.picasso.Picasso;
@@ -14,6 +15,7 @@ import com.uplink.carins.R;
 import com.uplink.carins.fragment.HomeFragment;
 import com.uplink.carins.fragment.MyFragment;
 import com.uplink.carins.ui.*;
+import com.uplink.carins.utils.LogUtil;
 
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -108,6 +110,16 @@ public class MainActivity extends BaseFragmentActivity {
             default:
                 return null;
         }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            LogUtil.i("moveTaskToBack");
+            moveTaskToBack(true);
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
 }

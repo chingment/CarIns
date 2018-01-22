@@ -21,6 +21,8 @@ public class HomePageBean implements Serializable {
 
     private List<CarInsPlanBean> carInsPlan;
 
+    private  List<TalentDemandWorkJobBean> talentDemandWorkJob;
+
     public void setBanner(List<BannerBean> banner) {
         this.banner = banner;
     }
@@ -62,6 +64,14 @@ public class HomePageBean implements Serializable {
 
         return this.lastUpdateTime;
 
+    }
+
+    public void setTalentDemandWorkJob(List<TalentDemandWorkJobBean> talentDemandWorkJob) {
+        this.talentDemandWorkJob = talentDemandWorkJob;
+    }
+
+    public List<TalentDemandWorkJobBean> getTalentDemandWorkJob() {
+        return talentDemandWorkJob;
     }
 
 }

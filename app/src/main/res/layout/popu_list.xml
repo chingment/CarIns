@@ -10,9 +10,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:divider="@color/popu_list_line"
-        android:dividerHeight="1px"
-        android:paddingBottom="12px"
-        android:paddingLeft="12px"
-        android:paddingRight="12px"
+        android:dividerHeight="1dp"
+        android:paddingBottom="12dp"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
         android:scrollbars="none" />
 </LinearLayout>
