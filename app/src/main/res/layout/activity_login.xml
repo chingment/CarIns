@@ -28,12 +28,12 @@
             android:layout_below="@+id/logo_login"
             android:layout_marginLeft="12dp"
             android:layout_marginRight="12dp"
-            android:layout_marginTop="100dp">
+            android:layout_marginTop="45dp">
 
             <RelativeLayout
                 android:id="@+id/login_area_username"
                 android:layout_width="match_parent"
-                android:layout_height="38dp"
+                android:layout_height="42dp"
                 android:background="@drawable/boder_bottom">
 
                 <ImageView
@@ -53,8 +53,8 @@
                     android:background="@null"
                     android:hint="@string/placeholder_login_username"
                     android:maxLength="20"
-                    android:textColor="@color/input_login_text"
-                    android:textColorHint="@color/input_login_hint"
+                    android:textColor="@color/text"
+                    android:textColorHint="@color/text_hint"
                     android:textSize="12.0sp"
                     android:maxLines="1"
                     android:singleLine="true"
@@ -76,9 +76,8 @@
             <RelativeLayout
                 android:id="@+id/login_area_password"
                 android:layout_width="match_parent"
-                android:layout_height="38dp"
+                android:layout_height="42dp"
                 android:layout_below="@+id/login_area_username"
-                android:layout_marginTop="24dp"
                 android:background="@drawable/boder_bottom">
 
 
@@ -99,8 +98,8 @@
                     android:background="@null"
                     android:hint="@string/placeholder_login_password"
                     android:inputType="textPassword"
-                    android:textColor="@color/input_login_text"
-                    android:textColorHint="@color/input_login_hint"
+                    android:textColor="@color/text"
+                    android:textColorHint="@color/text_hint"
                     android:textSize="12.0sp"
                     android:maxLines="1"
                     android:singleLine="true"
@@ -119,6 +118,16 @@
                     />
             </RelativeLayout>
 
+            <TextView
+                android:id="@+id/btn_forgetpwd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/login_area_password"
+                android:layout_marginTop="24px"
+                android:text="忘记密码"
+                android:textColor="@color/text"
+                android:textSize="@dimen/text_size_12" />
         </RelativeLayout>
 
 
@@ -139,6 +148,17 @@
             android:background="@drawable/widget_common_btn"
             />
 
+
+        <TextView
+            android:id="@+id/btn_register"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_below="@+id/btn_login"
+            android:layout_marginTop="20dp"
+            android:text="注册用户"
+            android:textColor="@color/text"
+            android:textSize="@dimen/text_size_12" />
 
 
      </RelativeLayout>

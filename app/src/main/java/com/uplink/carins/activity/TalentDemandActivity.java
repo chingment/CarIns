@@ -77,9 +77,10 @@ public class TalentDemandActivity extends SwipeBackActivity implements View.OnCl
 
         talentDemandWorkJobs = AppCacheManager.getTalentDemandWorkJob();
 
-
-        TalentDemandWorkJobsAdapter popupCompanysListView_Adapter = new TalentDemandWorkJobsAdapter(talentDemandWorkJobs);
-        popupTalentdemandWorkJobsListView.setAdapter(popupCompanysListView_Adapter);
+        if(talentDemandWorkJobs!=null) {
+            TalentDemandWorkJobsAdapter popupCompanysListView_Adapter = new TalentDemandWorkJobsAdapter(talentDemandWorkJobs);
+            popupTalentdemandWorkJobsListView.setAdapter(popupCompanysListView_Adapter);
+        }
 
 
     }
@@ -159,7 +160,7 @@ public class TalentDemandActivity extends SwipeBackActivity implements View.OnCl
         LayoutInflater layoutInflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
         popupTalentdemandWorkJobsView = layoutInflater.inflate(R.layout.popu_list, null);
         popupTalentdemandWorkJobsListView = (ListView) popupTalentdemandWorkJobsView.findViewById(R.id.popu_list);
-        popupTalentdemandWorkJobsWindow = new PopupWindow(popupTalentdemandWorkJobsView, 672, 500);
+        popupTalentdemandWorkJobsWindow = new PopupWindow(popupTalentdemandWorkJobsView, 680, 500);
     }
 
     private void initEvent() {

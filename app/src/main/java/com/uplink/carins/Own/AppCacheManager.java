@@ -18,6 +18,7 @@ public class AppCacheManager {
     private static String Cache_Key_CarInsPlan = "Cache_CarInsPlan";
     private static String Cache_Key_LastUpdateTime = "Cache_LastUpdateTime";
     private static String Cache_Key_TalentDemandWorkJob = "Cache_TalentDemandWorkJob";
+    private static String Cache_Key_User = "Cache_User";
 
     private static ACache getCache() {
 
@@ -213,6 +214,18 @@ public class AppCacheManager {
         ArrayList<TalentDemandWorkJobBean> carInsKinds = (ArrayList<TalentDemandWorkJobBean>) AppCacheManager.getCache().getAsObject(Cache_Key_TalentDemandWorkJob);
 
         return carInsKinds;
+
+    }
+
+    public static void setUser(UserBean user) {
+        AppCacheManager.getCache().put(Cache_Key_User, user);
+    }
+
+    public static UserBean getUser() {
+
+        UserBean user = (UserBean) AppCacheManager.getCache().getAsObject(Cache_Key_User);
+
+        return user;
 
     }
 

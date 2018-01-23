@@ -70,8 +70,10 @@ public class CarClaimActivity extends SwipeBackActivity implements View.OnClickL
         initEvent();
 
         carInsCompanyCanClaims = AppCacheManager.getCarInsCompanyCanClaims();
-        CarInsCompanysPopuAdapter popupCompanysListView_Adapter = new CarInsCompanysPopuAdapter(carInsCompanyCanClaims);
-        popupCompanysListView.setAdapter(popupCompanysListView_Adapter);
+        if(carInsCompanyCanClaims!=null) {
+            CarInsCompanysPopuAdapter popupCompanysListView_Adapter = new CarInsCompanysPopuAdapter(carInsCompanyCanClaims);
+            popupCompanysListView.setAdapter(popupCompanysListView_Adapter);
+        }
 
     }
 
@@ -94,7 +96,7 @@ public class CarClaimActivity extends SwipeBackActivity implements View.OnClickL
         LayoutInflater layoutInflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
         popupCompanysView = layoutInflater.inflate(R.layout.popu_list, null);
         popupCompanysListView = (ListView) popupCompanysView.findViewById(R.id.popu_list);
-        popupCompanysWindow = new PopupWindow(popupCompanysView, 672, 500);
+        popupCompanysWindow = new PopupWindow(popupCompanysView, 680, 500);
     }
 
     private void initEvent() {

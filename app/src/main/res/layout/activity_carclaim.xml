@@ -49,8 +49,8 @@
                 android:gravity="center_vertical|left"
                 android:hint="选择保险公司"
                 android:maxLines="1"
-                android:textColor="@color/form_tb_content"
-                android:textColorHint="@color/form_tb_content_hint"
+                android:textColor="@color/text"
+                android:textColorHint="@color/text_hint"
                 android:textSize="@dimen/text_size_12" />
 
             <ImageView
@@ -86,8 +86,8 @@
                 android:hint="车牌号码"
                 android:maxLength="10"
                 android:maxLines="1"
-                android:textColor="@color/form_tb_content"
-                android:textColorHint="@color/form_tb_content_hint"
+                android:textColor="@color/text"
+                android:textColorHint="@color/text_hint"
                 android:textSize="@dimen/text_size_12" />
 
         </LinearLayout>
@@ -117,8 +117,8 @@
                 android:hint="姓名"
                 android:maxLength="20"
                 android:maxLines="1"
-                android:textColor="@color/form_tb_content"
-                android:textColorHint="@color/form_tb_content_hint"
+                android:textColor="@color/text"
+                android:textColorHint="@color/text_hint"
                 android:textSize="@dimen/text_size_12" />
         </LinearLayout>
 
@@ -148,8 +148,8 @@
                 android:inputType="phone"
                 android:maxLength="18"
                 android:maxLines="1"
-                android:textColor="@color/form_tb_content"
-                android:textColorHint="@color/form_tb_content_hint"
+                android:textColor="@color/text"
+                android:textColorHint="@color/text_hint"
                 android:textSize="@dimen/text_size_12" />
         </LinearLayout>
 

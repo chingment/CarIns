@@ -39,7 +39,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.MainActivity" />
-        <activity android:name=".activity.CarClaimActivity"  />
+        <activity android:name=".activity.CarClaimActivity" />
         <activity android:name=".activity.WebViewActivity" />
         <activity android:name=".activity.CarInsureKindActivity" />
         <activity
@@ -62,7 +62,11 @@
             android:name="UMENG_CHANNEL"
             android:value="HaoYiLian" />
 
-        <activity android:name=".activity.OrderDetailsTalentDemandActivity"></activity>
+        <activity android:name=".activity.OrderDetailsTalentDemandActivity" />
+        <activity android:name=".activity.PayConfirmActivity" />
+        <activity android:name=".activity.RegisterActivity" />
+        <activity android:name=".activity.ForgetPwdCheckUsernameActivity" />
+        <activity android:name=".activity.ForgetPwdModifyActivity"></activity>
     </application>
 
 </manifest>

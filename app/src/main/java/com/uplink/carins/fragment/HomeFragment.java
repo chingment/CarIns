@@ -16,6 +16,7 @@ import android.widget.SimpleAdapter;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.uplink.carins.Own.AppCacheManager;
+import com.uplink.carins.Own.AppContext;
 import com.uplink.carins.Own.AppManager;
 import com.uplink.carins.Own.Config;
 import com.uplink.carins.R;
@@ -183,6 +184,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                                         public void onClick(View v) {
 
                                             dialog_logout.dismiss();
+
+                                            AppContext.getInstance().setUser(null);
 
                                             Intent l_Intent = new Intent(context, LoginActivity.class);
                                             startActivity(l_Intent);

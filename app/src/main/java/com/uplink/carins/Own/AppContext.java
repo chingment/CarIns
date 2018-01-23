@@ -35,13 +35,13 @@ public class AppContext extends Application {
         Thread.setDefaultUncaughtExceptionHandler(AppException.getAppExceptionHandler());
     }
 
-    public UserBean user;
+
 
     public UserBean getUser() {
-        return user;
+        return AppCacheManager.getUser();
     }
 
     public void setUser(UserBean user) {
-        this.user = user;
+        AppCacheManager.setUser(user);
     }
 }

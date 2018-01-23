@@ -19,6 +19,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.uplink.carins.R;
 import com.uplink.carins.model.api.UserBean;
@@ -36,6 +37,10 @@ public class LoginActivity extends BaseFragmentActivity implements View.OnClickL
 
     ImageView btn_show_password;//显示密码按钮
     ImageView btn_cancle_username;//显示密码按钮
+
+    TextView btn_register;
+    TextView btn_forgetpwd;
+
     LinearLayout mRoot;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +54,11 @@ public class LoginActivity extends BaseFragmentActivity implements View.OnClickL
 
         //mRoot = (LinearLayout) findViewById(R.id.main);
         //controlKeyboardLayout(mRoot, btn_login);
+
+        if(this.getAppContext().getUser()!=null) {
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            LoginActivity.this.startActivity(intent);
+        }
     }
 
     public void initView() {
@@ -58,11 +68,14 @@ public class LoginActivity extends BaseFragmentActivity implements View.OnClickL
         btn_cancle_username = (ImageView) this.findViewById(R.id.btn_cancle_username);
         btn_show_password = (ImageView) this.findViewById(R.id.btn_show_password);
         logo_login = (ImageView) this.findViewById(R.id.logo_login);
+        btn_register= (TextView) this.findViewById(R.id.btn_register);
+        btn_forgetpwd= (TextView) this.findViewById(R.id.btn_forgetpwd);
     }
 
     public void initViewEvent() {
         btn_login.setOnClickListener(LoginActivity.this);
-
+        btn_register.setOnClickListener(LoginActivity.this);
+        btn_forgetpwd.setOnClickListener(LoginActivity.this);
 
         txt_username.addTextChangedListener(new TextWatcher() {
             @Override
@@ -91,6 +104,10 @@ public class LoginActivity extends BaseFragmentActivity implements View.OnClickL
 
     @Override
     public void onClick(View view) {
+
+
+        Intent intent;
+
         switch (view.getId()) {
             case R.id.btn_cancle_username:
                 txt_username.setText("");
@@ -125,13 +142,21 @@ public class LoginActivity extends BaseFragmentActivity implements View.OnClickL
 
                 this.getAppContext().setUser(user);
 
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                intent = new Intent(LoginActivity.this, MainActivity.class);
                 LoginActivity.this.startActivity(intent);
 
                 //Intent intent = new Intent(LoginActivity.this, SelectImageActivity.class);
                 //intent.putExtra(SelectImageActivity.EXTRA, SelectImageActivity.OPENALBUM);
                 //startActivityForResult(intent, SelectImageActivity.OPENALBUM);
 
+                break;
+            case R.id.btn_register:
+                intent = new Intent(LoginActivity.this, RegisterActivity.class);
+                LoginActivity.this.startActivity(intent);
+                break;
+            case R.id.btn_forgetpwd:
+                intent = new Intent(LoginActivity.this, ForgetPwdCheckUsernameActivity.class);
+                LoginActivity.this.startActivity(intent);
                 break;
         }
     }

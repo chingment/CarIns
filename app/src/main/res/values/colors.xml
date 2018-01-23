@@ -6,6 +6,7 @@
 
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
+    <color name="red">#FF0000</color>
     <color name="default_bg">#F5F5F5</color>
     <color name="loading_bg">#2000</color>
     <color name="main_frame_bg">#FFFFFF</color>
@@ -18,11 +19,6 @@
     <color name="main_header_bg">#FFF</color>
     <color name="main_header_title">#000000</color>
     <color name="main_header_line">#14000000</color>
-
-
-
-    <color name="input_login_hint">#BFBFBF</color>
-    <color name="input_login_text">#333333</color>
 
     <color name="login_logo">#FA931E</color>
     <color name="login_logo_deep">#E7942A</color>
@@ -62,8 +58,7 @@
 
     <color name="form_tb_title">#333333</color>
     <color name="form_tb_line">#E6E6E6</color>
-    <color name="form_tb_content">#333333</color>
-    <color name="form_tb_content_hint">#999</color>
+
     <color name="form_tb_radio_checked_true">#666</color>
     <color name="form_tb_radio_checked_false">#ccc</color>
 
@@ -104,6 +99,8 @@
 
     <color name="line_bg">#E6E6E6</color>
 
+    <color name="text">#333333</color>
+    <color name="text_hint">#BFBFBF</color>
     <color name="text_999">#999</color>
     <color name="text_f33">#f33</color>
     <color name="text_5ad485">#5ad485</color>
