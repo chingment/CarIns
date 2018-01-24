@@ -11,15 +11,13 @@ import java.io.Serializable;
 public class UserBean  implements Serializable {
     private int id;
     private int merchantId;
+    private int posMachineId;
+
     public int getId() {
-
-        LogUtil.i("获取当前用户id:"+id);
-
         return id;
     }
 
     public void setId(int id) {
-        LogUtil.i("设置当前用户id:"+id);
         this.id = id;
     }
 
@@ -30,5 +28,14 @@ public class UserBean  implements Serializable {
 
     public void setMerchantId(int id) {
         this.merchantId = id;
+    }
+
+    public int getPosMachineId() {
+
+        return posMachineId;
+    }
+
+    public void setPosMachineId(int posMachineId) {
+        this.posMachineId = posMachineId;
     }
 }

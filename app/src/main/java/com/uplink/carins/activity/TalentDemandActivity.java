@@ -270,7 +270,7 @@ public class TalentDemandActivity extends SwipeBackActivity implements View.OnCl
         Map<String, Object> params = new HashMap<>();
         params.put("userId", this.getAppContext().getUser().getId());
         params.put("merchantId", this.getAppContext().getUser().getMerchantId()+"");
-        params.put("posMachineId","1");
+        params.put("posMachineId", this.getAppContext().getUser().getPosMachineId()+"");
         params.put("workJob", workJob);
         params.put("quantity", quantity);
         params.put("useStartTime", useStartTime);

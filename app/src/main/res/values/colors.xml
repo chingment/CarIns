@@ -56,6 +56,10 @@
     <color name="widget_btn_1_n">#0099CC</color>
     <color name="widget_btn_1_f">#0099CC</color>
 
+    <color name="widget_btn_green_n">#5AD485</color>
+    <color name="widget_btn_green_f">#4BC175</color>
+
+
     <color name="form_tb_title">#333333</color>
     <color name="form_tb_line">#E6E6E6</color>
 

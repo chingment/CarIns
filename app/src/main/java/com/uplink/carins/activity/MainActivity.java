@@ -43,7 +43,7 @@ public class MainActivity extends BaseFragmentActivity {
         fragmentManager = getSupportFragmentManager();
 
         initView();//加载视图控件
-        initViewEvent();//加载控件事件
+        initVent();//加载控件事件
         showFragment();//展示默认Fragment
     }
 
@@ -53,7 +53,7 @@ public class MainActivity extends BaseFragmentActivity {
 
     }
 
-    public void initViewEvent() {
+    public void initVent() {
 
         footerRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override

@@ -165,6 +165,9 @@ public class OrderListFragment extends BaseLazyFragment {
     private void onLoadData() {
         LogUtil.i(TAG, "onLoadData()");
         Map<String, String> params = new HashMap<>();
+
+        LogUtil.i(" context.getAppContext().getUser().getId():"+ context.getAppContext().getUser().getId());
+
         params.put("userId", context.getAppContext().getUser().getId()+"");
         params.put("merchantId", context.getAppContext().getUser().getMerchantId()+"");
         params.put("pageIndex", String.valueOf(pageIndex));

@@ -179,6 +179,7 @@ public class OrderDetailsCarClaimsActivity extends ChoicePhotoAndCropAndSwipeBac
         Map<String, String> params = new HashMap<>();
         params.put("userId", this.getAppContext().getUser().getId()+"");
         params.put("merchantId", this.getAppContext().getUser().getMerchantId()+"");
+        params.put("posMachineId", this.getAppContext().getUser().getPosMachineId()+"");
         params.put("orderId", order.getId() + "");
         params.put("productType", order.getProductType() + "");
         HttpClient.getWithMy(Config.URL.getDetails, params, new HttpResponseHandler() {

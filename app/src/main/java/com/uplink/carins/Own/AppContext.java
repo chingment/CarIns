@@ -1,6 +1,8 @@
 package com.uplink.carins.Own;
 
 import android.app.Application;
+import android.content.Context;
+import android.telephony.TelephonyManager;
 
 import com.uplink.carins.model.api.UserBean;
 
@@ -43,5 +45,18 @@ public class AppContext extends Application {
 
     public void setUser(UserBean user) {
         AppCacheManager.setUser(user);
+    }
+
+    public String getDeviceId() {
+        String DEVICE_ID="000000000000000";
+        try {
+            TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+             DEVICE_ID = tm.getDeviceId();
+        }
+        catch(Exception ex) {
+
+        }
+
+        return  DEVICE_ID;
     }
 }

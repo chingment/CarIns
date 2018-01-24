@@ -236,8 +236,8 @@ public class CarClaimActivity extends SwipeBackActivity implements View.OnClickL
         params.put("carLicenseNumber", carLicenseNumber);
         params.put("handPerson", handPerson);
         params.put("handPersonPhone", handPersonPhone);
-        params.put("posMachineId","1");
-        params.put("merchantId", this.getAppContext().getUser().getMerchantId()+"");
+        params.put("posMachineId",this.getAppContext().getUser().getPosMachineId());
+        params.put("merchantId", this.getAppContext().getUser().getMerchantId());
         params.put("repairsType", repairsType);
 
         HttpClient.postWithMy(Config.URL.submitClaim, params,null, new  HttpResponseHandler() {

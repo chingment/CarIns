@@ -35,7 +35,7 @@
                 android:background="@null"
                 android:hint="手机号码"
                 android:inputType="phone"
-                android:maxLength="18"
+                android:maxLength="11"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:singleLine="true"
@@ -45,11 +45,13 @@
 
             <Button
                 android:id="@+id/btn_getvalidcode"
-                android:layout_width="72dp"
+                android:layout_width="wrap_content"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
                 android:layout_height="26dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:background="@drawable/widget_common_btn"
+                android:background="@drawable/widget_btn_green"
                 android:text="获取验证码"
                 android:textColor="@color/white"
                 android:textSize="12sp" />
@@ -94,13 +96,25 @@
                 android:background="@null"
                 android:hint="密码"
                 android:inputType="textPassword"
-                android:maxLength="6"
+                android:maxLength="20"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:singleLine="true"
                 android:textColor="@color/text"
                 android:textColorHint="@color/text_hint"
                 android:textSize="@dimen/text_size_12" />
+
+            <ImageView
+                android:id="@+id/btn_show_password"
+                android:layout_width="32dp"
+                android:layout_height="42dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:paddingBottom="16dp"
+                android:paddingTop="16dp"
+                android:src="@drawable/login_showpsw_no"
+                android:tag="hide"
+                />
         </RelativeLayout>
 
     </RelativeLayout>

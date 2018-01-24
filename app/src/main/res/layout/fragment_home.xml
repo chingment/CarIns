@@ -6,7 +6,7 @@
     >
 
 
-    <ScrollView
+    <com.uplink.carins.ui.my.MyScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"
@@ -53,7 +53,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_centerInParent="true"
-                    android:text="精心服务"
+                    android:text="好易联服务"
                     android:textColor="@color/home_gridview_ninegrid_toptitle"
                     android:textSize="@dimen/text_size_12"
                     />
@@ -62,7 +62,7 @@
                     android:layout_width="48dp"
                     android:layout_height="1dp"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="16dp"
+                    android:layout_marginRight="10dp"
                     android:layout_toLeftOf="@+id/text2"
                     android:background="@color/home_gridview_ninegrid_topline" />
 
@@ -70,12 +70,12 @@
                     android:layout_width="48dp"
                     android:layout_height="1dp"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="16dp"
+                    android:layout_marginLeft="10dp"
                     android:layout_toRightOf="@+id/text2"
                     android:background="@color/home_gridview_ninegrid_topline" />
             </RelativeLayout>
 
-            <GridView xmlns:android="http://schemas.android.com/apk/res/android"
+            <GridView
                 android:id="@+id/gridview_ninegrid"
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
@@ -89,5 +89,5 @@
 
         </LinearLayout>
 
-    </ScrollView>
+    </com.uplink.carins.ui.my.MyScrollView>
 </LinearLayout>

@@ -21,14 +21,27 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
+import com.uplink.carins.Own.Config;
 import com.uplink.carins.R;
+import com.uplink.carins.http.HttpClient;
+import com.uplink.carins.http.HttpResponseHandler;
+import com.uplink.carins.model.api.ApiResultBean;
+import com.uplink.carins.model.api.LoginResultBean;
+import com.uplink.carins.model.api.Result;
 import com.uplink.carins.model.api.UserBean;
 import com.uplink.carins.ui.BaseFragmentActivity;
 import com.uplink.carins.utils.LogUtil;
 import com.uplink.carins.utils.StringUtil;
 
-public class LoginActivity extends BaseFragmentActivity implements View.OnClickListener {
+import java.util.HashMap;
+import java.util.Map;
 
+import okhttp3.Request;
+
+public class LoginActivity extends BaseFragmentActivity implements View.OnClickListener {
+    String TAG = "LoginActivity";
 
     ImageView logo_login;//logo
     Button btn_login;//登录按钮
@@ -42,6 +55,7 @@ public class LoginActivity extends BaseFragmentActivity implements View.OnClickL
     TextView btn_forgetpwd;
 
     LinearLayout mRoot;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,10 +69,12 @@ public class LoginActivity extends BaseFragmentActivity implements View.OnClickL
         //mRoot = (LinearLayout) findViewById(R.id.main);
         //controlKeyboardLayout(mRoot, btn_login);
 
-        if(this.getAppContext().getUser()!=null) {
+        if (this.getAppContext().getUser() != null) {
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             LoginActivity.this.startActivity(intent);
         }
+
+        LogUtil.i("deviceId:"+getAppContext().getDeviceId());
     }
 
     public void initView() {
@@ -68,14 +84,14 @@ public class LoginActivity extends BaseFragmentActivity implements View.OnClickL
         btn_cancle_username = (ImageView) this.findViewById(R.id.btn_cancle_username);
         btn_show_password = (ImageView) this.findViewById(R.id.btn_show_password);
         logo_login = (ImageView) this.findViewById(R.id.logo_login);
-        btn_register= (TextView) this.findViewById(R.id.btn_register);
-        btn_forgetpwd= (TextView) this.findViewById(R.id.btn_forgetpwd);
+        btn_register = (TextView) this.findViewById(R.id.btn_register);
+        btn_forgetpwd = (TextView) this.findViewById(R.id.btn_forgetpwd);
     }
 
     public void initViewEvent() {
-        btn_login.setOnClickListener(LoginActivity.this);
-        btn_register.setOnClickListener(LoginActivity.this);
-        btn_forgetpwd.setOnClickListener(LoginActivity.this);
+        btn_login.setOnClickListener(this);
+        btn_register.setOnClickListener(this);
+        btn_forgetpwd.setOnClickListener(this);
 
         txt_username.addTextChangedListener(new TextWatcher() {
             @Override
@@ -98,8 +114,8 @@ public class LoginActivity extends BaseFragmentActivity implements View.OnClickL
             }
         });
 
-        btn_cancle_username.setOnClickListener(LoginActivity.this);
-        btn_show_password.setOnClickListener(LoginActivity.this);
+        btn_cancle_username.setOnClickListener(this);
+        btn_show_password.setOnClickListener(this);
     }
 
     @Override
@@ -129,26 +145,16 @@ public class LoginActivity extends BaseFragmentActivity implements View.OnClickL
             case R.id.btn_login:
 
                 UserBean user = new UserBean();
-
-
-                if (txt_username.getText().toString().equals("a")) {
-                    user.setId(1081);
-                    user.setMerchantId(115);
-                } else {
-                    user.setId(1027);
-                    user.setMerchantId(20);
-                }
-
-
+                user.setId(1030);
+                user.setMerchantId(3);
                 this.getAppContext().setUser(user);
-
                 intent = new Intent(LoginActivity.this, MainActivity.class);
                 LoginActivity.this.startActivity(intent);
 
+                //submitLogin();
                 //Intent intent = new Intent(LoginActivity.this, SelectImageActivity.class);
                 //intent.putExtra(SelectImageActivity.EXTRA, SelectImageActivity.OPENALBUM);
                 //startActivityForResult(intent, SelectImageActivity.OPENALBUM);
-
                 break;
             case R.id.btn_register:
                 intent = new Intent(LoginActivity.this, RegisterActivity.class);
@@ -201,7 +207,64 @@ public class LoginActivity extends BaseFragmentActivity implements View.OnClickL
     }
 
 
+    private void submitLogin() {
+        String username = txt_username.getText() + "";
+        if (StringUtil.isEmpty(username)) {
+            showToast("用户名为空");
+            return;
+        }
+        String password = txt_password.getText() + "";
+        if (StringUtil.isEmpty(password)) {
+            showToast("密码为空");
+            return;
+        }
 
+        showProgressDialog(false);
+
+        Map<String, Object> param = new HashMap<>();
+        param.put("userName", username);
+        param.put("password", password);
+        param.put("deviceId", getAppContext().getDeviceId());
+        HttpClient.postWithMy(Config.URL.login, param, null, new HttpResponseHandler() {
+
+            @Override
+            public void onSuccess(String response) {
+                super.onSuccess(response);
+                removeProgressDialog();
+                LogUtil.i(TAG, "onSuccess===>>" + response);
+
+                ApiResultBean<LoginResultBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<LoginResultBean>>() {
+                });
+
+                showToast(rt.getMessage());
+
+                if (rt.getResult() == Result.SUCCESS) {
+
+                    UserBean user = new UserBean();
+
+
+                    user.setId(rt.getData().getUserId());
+                    user.setMerchantId(rt.getData().getMerchantId());
+
+                    getAppContext().setUser(user);
+
+                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    LoginActivity.this.startActivity(intent);
+                }
+
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                super.onFailure(request, e);
+                LogUtil.e(TAG, e);
+                showToast("登陆失败");
+                removeProgressDialog();
+            }
+
+
+        });
+    }
 
 
 }

@@ -166,8 +166,9 @@ public class CarInsureDocumentActivity extends ChoicePhotoAndCropAndSwipeBackAct
         showProgressDialog("请稍后...", false);
 
         Map<String, Object> params = new HashMap<>();
-        params.put("userId",this.getAppContext().getUser().getId());//1027
-        params.put("merchantId", this.getAppContext().getUser().getMerchantId()+"");
+        params.put("userId",this.getAppContext().getUser().getId());
+        params.put("merchantId", this.getAppContext().getUser().getMerchantId());
+        params.put("posMachineId", this.getAppContext().getUser().getPosMachineId());
         params.put("type", "2011");
         params.put("insurePlanId", carInsPlanId);
 
