@@ -1,5 +1,8 @@
 package com.uplink.carins.utils;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * Created by chingment on 2017/12/18.
  */
@@ -21,5 +24,17 @@ public class StringUtil {
             }
         }
         return true;
+    }
+
+    public static Boolean isMobileNo(String str) {
+        Boolean isMobileNo = false;
+        try {
+            Pattern p = Pattern.compile("^((1[2-9][0-9]))\\d{8}$");
+            Matcher m = p.matcher(str);
+            isMobileNo = m.matches();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return isMobileNo;
     }
 }

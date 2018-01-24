@@ -20,4 +20,13 @@
     <string name="no_network_connection_toast">网络连接不可用</string>
 
     <string name="image_content_description">描述</string>
+
+    <string name="custom_date_picker_cancle">取消</string>
+    <string name="custom_date_picker_title">请选择时间</string>
+    <string name="custom_date_picker_commit">确定</string>
+    <string name="custom_date_picker_year">年</string>
+    <string name="custom_date_picker_month">月</string>
+    <string name="custom_date_picker_day">日</string>
+    <string name="custom_date_picker_hour">时</string>
+    <string name="custom_date_picker_minute">分</string>
 </resources>

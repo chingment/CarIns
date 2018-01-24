@@ -77,4 +77,12 @@
         <item name="android:textSize">12sp</item>
     </style>
 
+    <style name="time_dialog" parent="android:style/Theme.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowBackground">@color/custom_date_picker_background</item>
+    </style>
+
 </resources>

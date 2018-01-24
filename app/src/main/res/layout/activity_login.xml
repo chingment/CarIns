@@ -126,7 +126,7 @@
                 android:layout_below="@+id/login_area_password"
                 android:layout_marginTop="24px"
                 android:text="忘记密码"
-                android:textColor="@color/text"
+                android:textColor="@color/text_hint"
                 android:textSize="@dimen/text_size_12" />
         </RelativeLayout>
 
@@ -157,7 +157,7 @@
             android:layout_below="@+id/btn_login"
             android:layout_marginTop="20dp"
             android:text="注册用户"
-            android:textColor="@color/text"
+            android:textColor="@color/text_hint"
             android:textSize="@dimen/text_size_12" />
 
 

@@ -18,6 +18,9 @@ public class OrderDetailsTalentDemandBean {
     private int followStatus;
     private String workJob;
     private int quantity;
+    private String useStartTime;
+    private String useEndTime;
+
 
     public int getId() {
         return id;
@@ -113,5 +116,21 @@ public class OrderDetailsTalentDemandBean {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    public String getUseStartTime() {
+        return useStartTime;
+    }
+
+    public void setUseStartTime(String useStartTime) {
+        this.useStartTime = useStartTime;
+    }
+
+    public String getUseEndTime() {
+        return useEndTime;
+    }
+
+    public void setUseEndTime(String useEndTime) {
+        this.useEndTime = useEndTime;
     }
 }

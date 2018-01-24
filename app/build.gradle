@@ -4,7 +4,7 @@ android {
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
     defaultConfig {
-        applicationId "com.uplink.carins"
+        applicationId "com.hyl.carins"
         minSdkVersion 15
         targetSdkVersion 25
         versionCode 1
@@ -18,9 +18,18 @@ android {
         }
 
         release {
-            buildConfigField "String", "ENVIRONMENT", "\"http://xyl.com/ecom/\""
+            buildConfigField "String", "ENVIRONMENT", "\"http://112.74.179.185\""
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    signingConfigs {
+        release {
+            storeFile file("../carins.jks")
+            storePassword 'ching003'
+            keyAlias 'CarIns'
+            keyPassword 'ching003'
         }
     }
 }
