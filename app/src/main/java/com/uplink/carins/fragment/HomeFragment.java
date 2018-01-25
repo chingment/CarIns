@@ -278,6 +278,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         Map<String, String> params = new HashMap<>();
         params.put("userId", context.getAppContext().getUser().getId() + "");
         params.put("merchantId", context.getAppContext().getUser().getMerchantId() + "");
+        params.put("posMachineId", context.getAppContext().getUser().getPosMachineId() + "");
         HttpClient.getWithMy(Config.URL.home, params, new CallBack());
     }
 

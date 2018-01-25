@@ -47,6 +47,7 @@ public class AppContext extends Application {
         AppCacheManager.setUser(user);
     }
 
+
     public String getDeviceId() {
         String DEVICE_ID="000000000000000";
         try {

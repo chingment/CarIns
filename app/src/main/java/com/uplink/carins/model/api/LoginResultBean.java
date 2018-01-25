@@ -1,17 +1,19 @@
 package com.uplink.carins.model.api;
 
+import java.io.Serializable;
+
 /**
  * Created by chingment on 2018/1/24.
  */
 
-public class LoginResultBean {
+public class LoginResultBean implements Serializable {
     private int userId;
     private String userName;
     private int merchantId;
     private String merchantCode;
     private boolean isTestAccount;
     private int posMachineId;
-    private int posMachineStatus;
+    private int status;
     private OrderInfoBean  orderInfo;
 
     public int getUserId() {
@@ -62,12 +64,12 @@ public class LoginResultBean {
         this.posMachineId = posMachineId;
     }
 
-    public int getPosMachineStatus() {
-        return posMachineStatus;
+    public int getStatus() {
+        return status;
     }
 
-    public void setPosMachineStatus(int posMachineStatus) {
-        this.posMachineStatus = posMachineStatus;
+    public void setStatus(int status) {
+        this.status = status;
     }
 
     public OrderInfoBean getOrderInfo() {

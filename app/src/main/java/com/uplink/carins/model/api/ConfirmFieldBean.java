@@ -1,10 +1,12 @@
 package com.uplink.carins.model.api;
 
+import java.io.Serializable;
+
 /**
  * Created by chingment on 2018/1/22.
  */
 
-public class ConfirmFieldBean {
+public class ConfirmFieldBean implements Serializable {
     private String field;
     private String value;
 

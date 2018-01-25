@@ -23,18 +23,21 @@ import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
+import com.uplink.carins.Own.AppCacheManager;
 import com.uplink.carins.Own.Config;
 import com.uplink.carins.R;
 import com.uplink.carins.http.HttpClient;
 import com.uplink.carins.http.HttpResponseHandler;
 import com.uplink.carins.model.api.ApiResultBean;
 import com.uplink.carins.model.api.LoginResultBean;
+import com.uplink.carins.model.api.PayConfirmBean;
 import com.uplink.carins.model.api.Result;
 import com.uplink.carins.model.api.UserBean;
 import com.uplink.carins.ui.BaseFragmentActivity;
 import com.uplink.carins.utils.LogUtil;
 import com.uplink.carins.utils.StringUtil;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -64,7 +67,7 @@ public class LoginActivity extends BaseFragmentActivity implements View.OnClickL
 
         setContentView(R.layout.activity_login);
         initView();//加载视图控件
-        initViewEvent();//加载控件事件
+        initEvent();//加载控件事件
 
         //mRoot = (LinearLayout) findViewById(R.id.main);
         //controlKeyboardLayout(mRoot, btn_login);
@@ -74,7 +77,15 @@ public class LoginActivity extends BaseFragmentActivity implements View.OnClickL
             LoginActivity.this.startActivity(intent);
         }
 
-        LogUtil.i("deviceId:"+getAppContext().getDeviceId());
+        String  lastUsername= AppCacheManager.getLastUserName();
+
+
+        if(lastUsername!=null) {
+            txt_username.setText(lastUsername);
+        }
+
+
+        LogUtil.i("deviceId:" + getAppContext().getDeviceId());
     }
 
     public void initView() {
@@ -88,7 +99,7 @@ public class LoginActivity extends BaseFragmentActivity implements View.OnClickL
         btn_forgetpwd = (TextView) this.findViewById(R.id.btn_forgetpwd);
     }
 
-    public void initViewEvent() {
+    public void initEvent() {
         btn_login.setOnClickListener(this);
         btn_register.setOnClickListener(this);
         btn_forgetpwd.setOnClickListener(this);
@@ -144,14 +155,15 @@ public class LoginActivity extends BaseFragmentActivity implements View.OnClickL
                 break;
             case R.id.btn_login:
 
-                UserBean user = new UserBean();
-                user.setId(1030);
-                user.setMerchantId(3);
-                this.getAppContext().setUser(user);
-                intent = new Intent(LoginActivity.this, MainActivity.class);
-                LoginActivity.this.startActivity(intent);
+                //UserBean user = new UserBean();
+                //user.setId(1030);
+                //user.setMerchantId(3);
+                //this.getAppContext().setUser(user);
+                //intent = new Intent(LoginActivity.this, MainActivity.class);
+                //LoginActivity.this.startActivity(intent);
 
-                //submitLogin();
+                submitLogin();
+
                 //Intent intent = new Intent(LoginActivity.this, SelectImageActivity.class);
                 //intent.putExtra(SelectImageActivity.EXTRA, SelectImageActivity.OPENALBUM);
                 //startActivityForResult(intent, SelectImageActivity.OPENALBUM);
@@ -240,16 +252,43 @@ public class LoginActivity extends BaseFragmentActivity implements View.OnClickL
 
                 if (rt.getResult() == Result.SUCCESS) {
 
+                    LoginResultBean d = rt.getData();
+
+                    AppCacheManager.setLastUserName(d.getUserName());
+
+
                     UserBean user = new UserBean();
+                    Intent intent = null;
+                    switch (d.getStatus()) {
+                        case 1:
+                            user.setId(rt.getData().getUserId());
+                            user.setMerchantId(rt.getData().getMerchantId());
+
+                            getAppContext().setUser(user);
 
 
-                    user.setId(rt.getData().getUserId());
-                    user.setMerchantId(rt.getData().getMerchantId());
+                            intent = new Intent(LoginActivity.this, MainActivity.class);
 
-                    getAppContext().setUser(user);
+                            break;
+                        case 2:
+                        case 3:
 
-                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                    LoginActivity.this.startActivity(intent);
+                            Bundle b = new Bundle();
+                            b.putSerializable("dataBean",d.getOrderInfo());
+
+                            LogUtil.i("d.getOrderInfo()."+d.getOrderInfo().getProductName());
+
+                            intent = new Intent(LoginActivity.this, PayConfirmActivity.class);
+                            intent.putExtras(b);
+
+                            break;
+                    }
+
+                    if (intent != null) {
+                        startActivity(intent);
+                    }
+
+
                 }
 
             }

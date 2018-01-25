@@ -19,6 +19,7 @@ public class AppCacheManager {
     private static String Cache_Key_LastUpdateTime = "Cache_LastUpdateTime";
     private static String Cache_Key_TalentDemandWorkJob = "Cache_TalentDemandWorkJob";
     private static String Cache_Key_User = "Cache_User";
+    private static String Cache_Key_LastUserName = "Cache_LastUserName";
 
     private static ACache getCache() {
 
@@ -226,6 +227,18 @@ public class AppCacheManager {
         UserBean user = (UserBean) AppCacheManager.getCache().getAsObject(Cache_Key_User);
 
         return user;
+
+    }
+
+    public static void setLastUserName(String userName) {
+        AppCacheManager.getCache().put(Cache_Key_LastUserName, userName);
+    }
+
+    public static String getLastUserName() {
+
+        String userName =  AppCacheManager.getCache().getAsString(Cache_Key_LastUserName);
+
+        return userName;
 
     }
 

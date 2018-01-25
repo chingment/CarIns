@@ -10,35 +10,36 @@ import android.widget.TextView;
 
 import com.uplink.carins.R;
 import com.uplink.carins.model.api.ConfirmFieldBean;
+import com.uplink.carins.model.api.OrderInfoBean;
 import com.uplink.carins.ui.swipebacklayout.SwipeBackActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class PayConfirmActivity extends SwipeBackActivity implements View.OnClickListener{
+public class PayConfirmActivity extends SwipeBackActivity implements View.OnClickListener {
 
     private String TAG = "PayConfirmActivity";
 
     private ImageView btnHeaderGoBack;
     private TextView txtHeaderTitle;
 
-    private  LayoutInflater inflater;
+    private LayoutInflater inflater;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_payconfirm);
 
 
+        initView();
+        initEvent();
+
         LinearLayout list_confirmfields = (LinearLayout) this.findViewById(R.id.list_confirmfields);
         inflater = LayoutInflater.from(PayConfirmActivity.this);
 
-        List<ConfirmFieldBean> confirmFields=new ArrayList<>();
+        OrderInfoBean orderInfo = (OrderInfoBean) getIntent().getSerializableExtra("dataBean");
 
-        confirmFields.add(new ConfirmFieldBean("订单号","43424324"));
-        confirmFields.add(new ConfirmFieldBean("保险公司","11"));
-        confirmFields.add(new ConfirmFieldBean("车主","清清浅浅"));
-        confirmFields.add(new ConfirmFieldBean("车牌号码","ss333"));
-        confirmFields.add(new ConfirmFieldBean("总金额","3344"));
+        List<ConfirmFieldBean> confirmFields = orderInfo.getConfirmField();
 
 
         if (confirmFields != null && confirmFields.size() > 0)
@@ -51,6 +52,21 @@ public class PayConfirmActivity extends SwipeBackActivity implements View.OnClic
                 item_value.setText(confirmField.getValue() + "");
                 list_confirmfields.addView(view);
             }
+
+
+    }
+
+    public void initView() {
+
+        btnHeaderGoBack = (ImageView) findViewById(R.id.btn_main_header_goback);
+        btnHeaderGoBack.setVisibility(View.VISIBLE);
+        txtHeaderTitle = (TextView) findViewById(R.id.txt_main_header_title);
+        txtHeaderTitle.setText("支付信息");
+
+    }
+
+    public void initEvent() {
+        btnHeaderGoBack.setOnClickListener(this);
 
 
     }

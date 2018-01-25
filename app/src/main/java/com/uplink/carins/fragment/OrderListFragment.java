@@ -170,6 +170,7 @@ public class OrderListFragment extends BaseLazyFragment {
 
         params.put("userId", context.getAppContext().getUser().getId()+"");
         params.put("merchantId", context.getAppContext().getUser().getMerchantId()+"");
+        params.put("posMachineId", context.getAppContext().getUser().getPosMachineId()+"");
         params.put("pageIndex", String.valueOf(pageIndex));
         params.put("status", String.valueOf(status));
         HttpClient.getWithMy(Config.URL.getOrderList, params, new onLoadDataCallBack());
