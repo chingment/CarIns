@@ -29,4 +29,5 @@
     <string name="custom_date_picker_day">日</string>
     <string name="custom_date_picker_hour">时</string>
     <string name="custom_date_picker_minute">分</string>
+    <string name="title_activity_pay_qrcode">PayQrcodeActivity</string>
 </resources>

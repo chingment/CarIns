@@ -19,8 +19,96 @@
 
     </LinearLayout>
 
+
+    <LinearLayout
+        android:id="@+id/layout_paymethod"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="10dp"
+        android:paddingRight="10dp"
+        android:paddingLeft="10dp"
+        android:background="@color/white"
+        >
+
+        <RelativeLayout
+            android:id="@+id/layout_wechat"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/selector_white_bg">
+
+            <CheckBox
+                android:id="@+id/cb_wechat"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/widget_yuan_checkbox_green"
+                android:button="@null" />
+
+            <ImageView
+                android:id="@+id/img_wechat"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/icon_wechat" />
+
+
+            <TextView
+                android:id="@+id/tv_name_wechat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@id/img_wechat"
+                android:text="微信支付"
+                android:textColor="@color/main_header_title"
+                android:textSize="@dimen/text_size_15" />
+        </RelativeLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@drawable/boder_bottom" />
+        <RelativeLayout
+            android:id="@+id/layout_zhifubao"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/selector_white_bg">
+
+            <CheckBox
+                android:id="@+id/cb_zhifubao"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/widget_yuan_checkbox_green"
+                android:button="@null" />
+
+            <ImageView
+                android:id="@+id/img_zhifubao"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/icon_zhifubao" />
+
+            <TextView
+                android:id="@+id/tv_name_zhifubao"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@id/img_zhifubao"
+                android:text="支付宝"
+                android:textColor="@color/main_header_title"
+                android:textSize="@dimen/text_size_15" />
+        </RelativeLayout>
+
+    </LinearLayout>
+
     <Button
-        android:id="@+id/btn_submit"
+        android:id="@+id/btn_submit_gopay"
         android:layout_width="match_parent"
         android:layout_height="42dp"
         android:layout_below="@+id/form_talentdemand"
@@ -31,7 +119,6 @@
         android:text="去支付"
         android:textColor="@color/white"
         android:textSize="@dimen/text_size_14" />
-
 
 
 </LinearLayout>

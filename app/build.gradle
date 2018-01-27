@@ -11,18 +11,7 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
-    buildTypes {
 
-        debug {
-            buildConfigField "String", "ENVIRONMENT", "\"http://112.74.179.185\""
-        }
-
-        release {
-            buildConfigField "String", "ENVIRONMENT", "\"http://112.74.179.185\""
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-    }
 
     signingConfigs {
         release {
@@ -31,15 +20,33 @@ android {
             keyAlias 'CarIns'
             keyPassword 'ching003'
         }
+        config {
+            keyAlias 'CarIns'
+            keyPassword 'ching003'
+            storeFile file('../carins.jks')
+            storePassword 'ching003'
+        }
     }
+
+    buildTypes {
+        debug {
+            buildConfigField "String", "ENVIRONMENT", "\"http://112.74.179.185\""
+        }
+        release {
+            buildConfigField "String", "ENVIRONMENT", "\"http://112.74.179.185\""
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
+        }
+    }
+
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-
     compile 'com.android.support:appcompat-v7:25.1.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.squareup.picasso:picasso:2.5.2'
@@ -48,5 +55,7 @@ dependencies {
     compile 'com.google.code.gson:gson:2.7'
     compile 'com.alibaba:fastjson:1.1.67.android'
     compile 'com.umeng.analytics:analytics:latest.integration'
+    compile 'com.google.zxing:core:3.2.1'
+    compile 'com.journeyapps:zxing-android-embedded:3.3.0'
     testCompile 'junit:junit:4.12'
 }
