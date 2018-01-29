@@ -125,6 +125,10 @@ public class PayConfirmActivity extends SwipeBackActivity implements View.OnClic
                             CheckBox cb = (CheckBox) view1;
                             if(v.equals(layout_paymethod_item))
                             {
+                                String tag=cb.getTag().toString();
+
+                                layout_paymethod.setTag(tag);
+
                                 cb.setChecked(true);
                             }
                             else {
@@ -160,7 +164,7 @@ public class PayConfirmActivity extends SwipeBackActivity implements View.OnClic
         Map<String, Object> params = new HashMap<>();
         params.put("userId", this.getAppContext().getUser().getId());
         params.put("orderSn", orderInfo.getOrderSn());
-        params.put("payWay", "2");
+        params.put("payWay", layout_paymethod.getTag().toString());
         params.put("termId", "3436563");
         params.put("spbillIp", "127.0.0.1");
 
