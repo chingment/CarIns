@@ -12,14 +12,26 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
+import com.uplink.carins.Own.Config;
 import com.uplink.carins.R;
+import com.uplink.carins.http.HttpClient;
+import com.uplink.carins.http.HttpResponseHandler;
+import com.uplink.carins.model.api.ApiResultBean;
 import com.uplink.carins.model.api.ConfirmFieldBean;
 import com.uplink.carins.model.api.OrderInfoBean;
+import com.uplink.carins.model.api.PayQrCodeDownloadBean;
+import com.uplink.carins.model.api.Result;
 import com.uplink.carins.ui.swipebacklayout.SwipeBackActivity;
 import com.uplink.carins.utils.LogUtil;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import okhttp3.Request;
 
 public class PayConfirmActivity extends SwipeBackActivity implements View.OnClickListener {
 
@@ -34,6 +46,7 @@ public class PayConfirmActivity extends SwipeBackActivity implements View.OnClic
 
     Button btn_submit_gopay;
 
+    OrderInfoBean orderInfo;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,7 +59,7 @@ public class PayConfirmActivity extends SwipeBackActivity implements View.OnClic
         LinearLayout list_confirmfields = (LinearLayout) this.findViewById(R.id.list_confirmfields);
         inflater = LayoutInflater.from(PayConfirmActivity.this);
 
-        OrderInfoBean orderInfo = (OrderInfoBean) getIntent().getSerializableExtra("dataBean");
+        orderInfo = (OrderInfoBean) getIntent().getSerializableExtra("dataBean");
 
         List<ConfirmFieldBean> confirmFields = orderInfo.getConfirmField();
 
@@ -134,11 +147,57 @@ public class PayConfirmActivity extends SwipeBackActivity implements View.OnClic
                 finish();
                 break;
             case R.id.btn_submit_gopay:
-
-                Intent intent = new Intent(PayConfirmActivity.this,PayQrcodeActivity.class);
-                startActivity(intent);
-
+                getPayQrCode();
                 break;
         }
     }
+
+
+    public  void getPayQrCode()
+    {
+
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("userId", this.getAppContext().getUser().getId());
+        params.put("orderSn", orderInfo.getOrderSn());
+        params.put("payWay", "2");
+        params.put("termId", "3436563");
+        params.put("spbillIp", "127.0.0.1");
+
+        HttpClient.postWithMy(Config.URL.orderQrCodeDownload, params,null, new  HttpResponseHandler() {
+            @Override
+            public void onSuccess(String response) {
+                super.onSuccess(response);
+
+                LogUtil.i(TAG,"onSuccess====>>>" +response);
+
+                ApiResultBean<PayQrCodeDownloadBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<PayQrCodeDownloadBean>>() {
+                });
+
+                showToast(rt.getMessage());
+
+                if (rt.getResult() == Result.SUCCESS) {
+                    Bundle b = new Bundle();
+                    b.putSerializable("dataBean",rt.getData());
+                    Intent intent = new Intent(PayConfirmActivity.this,PayQrcodeActivity.class);
+                    intent.putExtras(b);
+                    startActivity(intent);
+                }
+
+                removeProgressDialog();
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                super.onFailure(request, e);
+                LogUtil.e(TAG,"onFailure====>>>" + e.getMessage());
+                removeProgressDialog();
+                showToast("支付异常");
+            }
+        });
+
+
+    }
+
+
 }

@@ -258,13 +258,16 @@ public class LoginActivity extends BaseFragmentActivity implements View.OnClickL
 
 
                     UserBean user = new UserBean();
+
+                    user.setId(rt.getData().getUserId());
+                    user.setMerchantId(rt.getData().getMerchantId());
+
+                    getAppContext().setUser(user);
+
                     Intent intent = null;
                     switch (d.getStatus()) {
                         case 1:
-                            user.setId(rt.getData().getUserId());
-                            user.setMerchantId(rt.getData().getMerchantId());
 
-                            getAppContext().setUser(user);
 
 
                             intent = new Intent(LoginActivity.this, MainActivity.class);
@@ -272,6 +275,7 @@ public class LoginActivity extends BaseFragmentActivity implements View.OnClickL
                             break;
                         case 2:
                         case 3:
+
 
                             Bundle b = new Bundle();
                             b.putSerializable("dataBean",d.getOrderInfo());
