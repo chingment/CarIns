@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -51,6 +52,10 @@ public class PayQrcodeActivity extends SwipeBackActivity implements View.OnClick
     private Button btn_test;
     private Button btn_test2;
 
+    private Handler handler;
+
+    private RelativeLayout layout_bg;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,12 +66,20 @@ public class PayQrcodeActivity extends SwipeBackActivity implements View.OnClick
 
         payQrCodeDownload = (PayQrCodeDownloadBean) getIntent().getSerializableExtra("dataBean");
 
+        switch (payQrCodeDownload.getPayWay()) {
+            case 2:
+                layout_bg.setBackgroundColor(getResources().getColor(R.color.wechat_bg));
+                break;
+            case 3:
+                layout_bg.setBackgroundColor(getResources().getColor(R.color.zhifubao_bg));
+                break;
+        }
 
         Bitmap bitmap = createBitmap(payQrCodeDownload.getMwebUrl());
         pic_test.setImageBitmap(bitmap);
 
 
-        final Handler handler = new Handler();
+        handler = new Handler();
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
@@ -80,18 +93,20 @@ public class PayQrcodeActivity extends SwipeBackActivity implements View.OnClick
 
     }
 
-    public  void  payQuery() {
+    public void payQuery() {
 
         Map<String, String> params = new HashMap<>();
-        params.put("userId", this.getAppContext().getUser().getId()+"");
+        params.put("userId", this.getAppContext().getUser().getId() + "");
+        params.put("merchantId", this.getAppContext().getUser().getMerchantId() + "");
+        params.put("posMachineId", this.getAppContext().getUser().getPosMachineId() + "");
         params.put("orderSn", payQrCodeDownload.getOrderSn());
 
-        HttpClient.getWithMy(Config.URL.orderPayResultQuery, params, new  HttpResponseHandler() {
+        HttpClient.getWithMy(Config.URL.orderPayResultQuery, params, new HttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
                 super.onSuccess(response);
 
-                LogUtil.i(TAG,"onSuccess====>>>" +response);
+                LogUtil.i(TAG, "onSuccess====>>>" + response);
 
                 ApiResultBean<PayResultQueryBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<PayResultQueryBean>>() {
                 });
@@ -99,16 +114,17 @@ public class PayQrcodeActivity extends SwipeBackActivity implements View.OnClick
 
                 if (rt.getResult() == Result.SUCCESS) {
 
-                    PayResultQueryBean d=rt.getData();
+                    PayResultQueryBean d = rt.getData();
                     //4 为 已完成支付
-                    if(d.getStatus()==4) {
+                    if (d.getStatus() == 4) {
 
                         showToast(rt.getMessage());
 
                         //当支付服务费 跳转到主页
-                        if(d.getProductType()==401) {
+                        if (d.getProductType() == 301) {
                             Intent intent = new Intent(PayQrcodeActivity.this, MainActivity.class);
                             startActivity(intent);
+                            finish();
                         }
                     }
                 }
@@ -117,7 +133,7 @@ public class PayQrcodeActivity extends SwipeBackActivity implements View.OnClick
             @Override
             public void onFailure(Request request, Exception e) {
                 super.onFailure(request, e);
-                LogUtil.e(TAG,"onFailure====>>>" + e.getMessage());
+                LogUtil.e(TAG, "onFailure====>>>" + e.getMessage());
             }
         });
 
@@ -131,9 +147,10 @@ public class PayQrcodeActivity extends SwipeBackActivity implements View.OnClick
         txtHeaderTitle = (TextView) findViewById(R.id.txt_main_header_title);
         txtHeaderTitle.setText("支付信息");
 
+        layout_bg = (RelativeLayout) findViewById(R.id.layout_bg);
 
         //tv_test = (TextView) findViewById(R.id.tv_test);
-         pic_test = (ImageView) findViewById(R.id.pic_test);
+        pic_test = (ImageView) findViewById(R.id.pic_test);
         //btn_test = (Button) findViewById(R.id.btn_test);
         //btn_test2 = (Button) findViewById(R.id.btn_test2);
     }
@@ -164,6 +181,12 @@ public class PayQrcodeActivity extends SwipeBackActivity implements View.OnClick
         }
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        handler.removeCallbacksAndMessages(null);
+
+    }
 
     public static Bitmap createBitmap(String str) {
         Bitmap bitmap = null;

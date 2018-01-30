@@ -257,18 +257,17 @@ public class LoginActivity extends BaseFragmentActivity implements View.OnClickL
                     AppCacheManager.setLastUserName(d.getUserName());
 
 
+                    UserBean user = new UserBean();
 
+                    user.setId(rt.getData().getUserId());
+                    user.setMerchantId(rt.getData().getMerchantId());
+                    getAppContext().setUser(user);
 
                     Intent intent = null;
                     switch (d.getStatus()) {
                         case 1:
 
-                            UserBean user = new UserBean();
 
-                            user.setId(rt.getData().getUserId());
-                            user.setMerchantId(rt.getData().getMerchantId());
-
-                            getAppContext().setUser(user);
 
                             intent = new Intent(LoginActivity.this, MainActivity.class);
 

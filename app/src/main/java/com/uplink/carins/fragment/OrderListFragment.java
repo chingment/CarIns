@@ -18,6 +18,7 @@ import com.uplink.carins.Own.Config;
 import com.uplink.carins.R;
 import com.uplink.carins.activity.OrderDetailsCarClaimsActivity;
 import com.uplink.carins.activity.OrderDetailsCarInsrueActivity;
+import com.uplink.carins.activity.OrderDetailsServiceFeeActivity;
 import com.uplink.carins.activity.OrderDetailsTalentDemandActivity;
 import com.uplink.carins.activity.OrderListActivity;
 import com.uplink.carins.activity.adapter.OrderListAdapter;
@@ -103,6 +104,9 @@ public class OrderListFragment extends BaseLazyFragment {
                         break;
                     case 2013:
                         intent = new Intent(context, OrderDetailsCarClaimsActivity.class);
+                        break;
+                    case 301:
+                        intent = new Intent(context, OrderDetailsServiceFeeActivity.class);
                         break;
                     case 401:
                         intent = new Intent(context, OrderDetailsTalentDemandActivity.class);

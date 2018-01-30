@@ -18,12 +18,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import com.uplink.carins.BuildConfig;
 import com.uplink.carins.R;
 import com.uplink.carins.Own.AppContext;
 import com.uplink.carins.Own.Config;
 import com.uplink.carins.utils.LogUtil;
 import com.uplink.carins.utils.StringUtil;
 import com.uplink.carins.utils.AbFileUtil;
+
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Interceptor;
@@ -176,10 +178,22 @@ public class HttpClient {
             return;
         }
 
+        String data = "";
         if (param != null && param.size() > 0) {
-            url = url + "?" + mapToQueryString(param);
+            data = mapToQueryString(param);
+            url = url + "?" + data;
+
         }
-        Request request = new Request.Builder().url(url).build();
+
+        Request.Builder requestBuilder = new Request.Builder().url(url);
+        requestBuilder.addHeader("key", "" + BuildConfig.APPKEY);
+        String currenttime = (System.currentTimeMillis() / 1000) + "";
+        requestBuilder.addHeader("timestamp", currenttime);
+        String sign = Config.getSign(data, currenttime);
+        requestBuilder.addHeader("sign", "" + sign);
+
+
+        Request request = requestBuilder.build();
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onResponse(Call call, Response response) {
@@ -197,7 +211,7 @@ public class HttpClient {
         });
     }
 
-    public static void postWithMy(String url, Map<String, Object> params,Map<String, String> filePaths, final HttpResponseHandler handler) {
+    public static void postWithMy(String url, Map<String, Object> params, Map<String, String> filePaths, final HttpResponseHandler handler) {
         if (!isNetworkAvailable()) {
             Toast.makeText(AppContext.getInstance(), R.string.no_network_connection_toast, Toast.LENGTH_SHORT).show();
             return;
@@ -235,10 +249,18 @@ public class HttpClient {
             return;
         }
 
+        Request.Builder requestBuilder = new Request.Builder().url(url);
+        requestBuilder.addHeader("key", "" + BuildConfig.APPKEY);
+        String currenttime = (System.currentTimeMillis() / 1000) + "";
+        requestBuilder.addHeader("timestamp", currenttime);
+        String sign = Config.getSign(json.toString(), currenttime);
+        requestBuilder.addHeader("sign", "" + sign);
+
+
         try {
             JSONObject jsonImgData = new JSONObject();
-            if(filePaths!=null) {
-                if(filePaths.size()>0) {
+            if (filePaths != null) {
+                if (filePaths.size() > 0) {
                     for (Map.Entry<String, String> entry : filePaths.entrySet()) {
                         JSONObject jsonImgItem = new JSONObject();
                         String filePath = entry.getValue();
@@ -252,16 +274,16 @@ public class HttpClient {
                     json.put("imgData", jsonImgData);
                 }
             }
-        }catch (JSONException e) {
+        } catch (JSONException e) {
             e.printStackTrace();
             return;
         }
 
         String data = json.toString();
 
-        LogUtil.i("POST DATA:"+data);
+        LogUtil.i("POST DATA:" + data);
 
-        Request.Builder requestBuilder = new Request.Builder().url(url);
+
         RequestBody body = RequestBody.create(MediaType_JSON, data);
 
         requestBuilder.post(body);

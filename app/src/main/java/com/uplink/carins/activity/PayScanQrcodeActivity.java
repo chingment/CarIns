@@ -18,19 +18,19 @@ public class PayScanQrcodeActivity extends SwipeBackActivity implements View.OnC
     private CaptureManager captureManager;     //捕获管理器
 
     @Override
-    protected void onPause() {
+    public void onPause() {
         super.onPause();
         captureManager.onPause();
     }
 
     @Override
-    protected void onResume() {
+    public void onResume() {
         super.onResume();
         captureManager.onResume();
     }
 
     @Override
-    protected void onDestroy() {
+    public void onDestroy() {
         super.onDestroy();
         captureManager.onDestroy();
     }

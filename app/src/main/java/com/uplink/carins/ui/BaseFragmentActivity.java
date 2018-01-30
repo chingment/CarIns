@@ -1,6 +1,7 @@
 package com.uplink.carins.ui;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -9,9 +10,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.umeng.analytics.MobclickAgent;
+import com.uplink.carins.Own.AppCacheManager;
 import com.uplink.carins.Own.AppContext;
 import com.uplink.carins.Own.AppManager;
 import com.uplink.carins.R;
+import com.uplink.carins.activity.MainActivity;
+import com.uplink.carins.utils.LogUtil;
 import com.uplink.carins.utils.StringUtil;
 
 /**
@@ -21,20 +25,21 @@ import com.uplink.carins.utils.StringUtil;
 public class BaseFragmentActivity extends FragmentActivity {
     private String tag = "BaseFragmentActivity";
     public AppContext appContext;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         // 添加Activity到堆栈
         AppManager.getAppManager().addActivity(this);
-        appContext = (AppContext)getApplication();
+        appContext = (AppContext) getApplication();
 
         mProgressDialog = new Dialog(this, R.style.dialog_loading_style);
 
     }
 
     public AppContext getAppContext() {
-        return  appContext;
+        return appContext;
     }
 
     public void showToast(String txt) {
@@ -44,6 +49,7 @@ public class BaseFragmentActivity extends FragmentActivity {
 
     public Dialog mProgressDialog;
     public TextView mProgressTextView;
+
     public Dialog getmProgressDialog() {
         return mProgressDialog;
     }
@@ -101,4 +107,29 @@ public class BaseFragmentActivity extends FragmentActivity {
 //        super.onPause();
 //        MobclickAgent.onPause(this);
 //    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        // 结束Activity从堆栈中移除
+        AppManager.getAppManager().finishActivity(this);
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+//        int size = AppManager.getAppManager().ActivityStackSize();
+//
+//        if (isTaskRoot()) {
+//
+//            Intent intent = new Intent(this, MainActivity.class);
+//            startActivity(intent);
+//        }
+//        else
+//        {
+//
+//        }
+//        LogUtil.i("ActivityStackSize:" + size);
+
+    }
 }

@@ -14,44 +14,47 @@ import com.uplink.carins.R;
 import com.uplink.carins.http.HttpClient;
 import com.uplink.carins.http.HttpResponseHandler;
 import com.uplink.carins.model.api.ApiResultBean;
-import com.uplink.carins.model.api.OrderDetailsTalentDemandBean;
+import com.uplink.carins.model.api.OrderDetailsServiceFeeBean;
 import com.uplink.carins.model.api.OrderListBean;
 import com.uplink.carins.model.api.Result;
 import com.uplink.carins.ui.swipebacklayout.SwipeBackActivity;
 import com.uplink.carins.utils.LogUtil;
+import com.uplink.carins.utils.StringUtil;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import okhttp3.Request;
 
-public class OrderDetailsTalentDemandActivity extends SwipeBackActivity implements View.OnClickListener{
+public class OrderDetailsServiceFeeActivity extends SwipeBackActivity implements View.OnClickListener {
 
-    private String TAG = "OrderDetailsTalentDemandActivity";
+    private String TAG = "OrderDetailsServiceFeeActivity";
     private ImageView btnHeaderGoBack;
     private TextView txtHeaderTitle;
     private OrderListBean order;
 
     private TextView txt_order_sn;
     private TextView txt_order_statusname;
-    private TextView txt_order_workjob;
-    private TextView txt_order_quantity;
-    private TextView txt_order_usestarttime;
-    private TextView txt_order_useendtime;
-
     private TextView txt_order_remarks;
     private TextView txt_order_submittime;
     private TextView txt_order_completetime;
     private TextView txt_order_cancletime;
+    private TextView txt_order_price;
+
+    private TextView txt_order_expirytime;
+    private TextView txt_order_deposit;
+    private TextView txt_order_mobiletrafficfee;
+
 
     private LinearLayout layout_submittime;
     private LinearLayout layout_completetime;
     private LinearLayout layout_cancletime;
+    private LinearLayout layout_deposit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_orderdetails_talentdemand);
+        setContentView(R.layout.activity_orderdetails_servicefee);
 
         order = (OrderListBean) getIntent().getSerializableExtra("dataBean");
 
@@ -69,21 +72,21 @@ public class OrderDetailsTalentDemandActivity extends SwipeBackActivity implemen
 
         txt_order_sn = (TextView) findViewById(R.id.txt_order_sn);
         txt_order_statusname = (TextView) findViewById(R.id.txt_order_statusname);
-
-        txt_order_usestarttime = (TextView) findViewById(R.id.txt_order_usestarttime);
-        txt_order_useendtime = (TextView) findViewById(R.id.txt_order_useendtime);
+        txt_order_price = (TextView) findViewById(R.id.txt_order_price);
 
         txt_order_remarks = (TextView) findViewById(R.id.txt_order_remarks);
         txt_order_submittime = (TextView) findViewById(R.id.txt_order_submittime);
         txt_order_completetime = (TextView) findViewById(R.id.txt_order_completetime);
         txt_order_cancletime = (TextView) findViewById(R.id.txt_order_cancletime);
 
-        txt_order_workjob = (TextView) findViewById(R.id.txt_order_workjob);
-        txt_order_quantity = (TextView) findViewById(R.id.txt_order_quantity);
-
         layout_submittime = (LinearLayout) findViewById(R.id.layout_submittime);
         layout_completetime = (LinearLayout) findViewById(R.id.layout_completetime);
         layout_cancletime = (LinearLayout) findViewById(R.id.layout_cancletime);
+        layout_deposit = (LinearLayout) findViewById(R.id.layout_deposit);
+
+        txt_order_expirytime = (TextView) findViewById(R.id.txt_order_expirytime);
+        txt_order_deposit = (TextView) findViewById(R.id.txt_order_deposit);
+        txt_order_mobiletrafficfee = (TextView) findViewById(R.id.txt_order_mobiletrafficfee);
 
     }
 
@@ -101,7 +104,7 @@ public class OrderDetailsTalentDemandActivity extends SwipeBackActivity implemen
         }
     }
 
-    public void setView(OrderDetailsTalentDemandBean bean) {
+    public void setView(OrderDetailsServiceFeeBean bean) {
 
         txt_order_sn.setText(bean.getSn());
         txt_order_statusname.setText(bean.getStatusName());
@@ -110,10 +113,16 @@ public class OrderDetailsTalentDemandActivity extends SwipeBackActivity implemen
         txt_order_completetime.setText(bean.getCompleteTime()+"");
         txt_order_cancletime.setText(bean.getCancleTime()+"");
 
-        txt_order_workjob.setText(bean.getWorkJob());
-        txt_order_quantity.setText(bean.getQuantity());
-        txt_order_usestarttime.setText(bean.getUseStartTime());
-        txt_order_useendtime.setText(bean.getUseStartTime());
+        txt_order_price.setText(bean.getPrice());
+        txt_order_expirytime.setText(bean.getExpiryTime());
+        txt_order_deposit.setText(bean.getDeposit());
+        txt_order_mobiletrafficfee.setText(bean.getMobileTrafficFee());
+
+
+        if(StringUtil.isEmptyNotNull(bean.getDeposit()))
+        {
+            txt_order_deposit.setVisibility(View.GONE);
+        }
 
         switch (bean.getStatus()) {
             case 1:
@@ -146,7 +155,7 @@ public class OrderDetailsTalentDemandActivity extends SwipeBackActivity implemen
                 removeProgressDialog();
                 LogUtil.i(TAG,"onSuccess====>>>" + response);
 
-                ApiResultBean<OrderDetailsTalentDemandBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<OrderDetailsTalentDemandBean>>() {
+                ApiResultBean<OrderDetailsServiceFeeBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<OrderDetailsServiceFeeBean>>() {
                 });
 
                 if (rt.getResult() == Result.SUCCESS) {

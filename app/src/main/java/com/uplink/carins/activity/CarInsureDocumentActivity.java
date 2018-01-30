@@ -303,7 +303,7 @@ public class CarInsureDocumentActivity extends ChoicePhotoAndCropAndSwipeBackAct
                     Intent l_Intent = new Intent(CarInsureDocumentActivity.this, OrderListActivity.class);
                     l_Intent.putExtra("status", 1);
                     startActivity(l_Intent);
-                    AppManager.getAppManager().finishAllActivity();
+                    finish();
 
 
                 }

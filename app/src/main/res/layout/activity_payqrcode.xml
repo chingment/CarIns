@@ -7,34 +7,43 @@
 
     <include layout="@layout/layout_main_header" />
 
-
-    <TextView
-        android:id="@+id/tv_test"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-    <ImageView
-        android:id="@+id/pic_test"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        />
-
-    <Button
-        android:id="@+id/btn_test"
+    <RelativeLayout
+        android:id="@+id/layout_bg"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="生成二维码"
-        android:visibility="gone"
-        />
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:layout_gravity="center"
+        android:gravity="center"
+        >
 
-    <Button
-        android:id="@+id/btn_test2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="扫描二维码"
-        android:visibility="gone"
-        />
+        <ImageView
+            android:id="@+id/pic_test"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/icon_wechat"
+            />
 
 
+        <TextView
+            android:id="@+id/tv_test"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/btn_test"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="生成二维码"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/btn_test2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="扫描二维码"
+            android:visibility="gone" />
+
+    </RelativeLayout>
 </LinearLayout>
 

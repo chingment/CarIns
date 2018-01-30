@@ -117,4 +117,7 @@
 
     <color name="background_color">#fff8f8f8</color>
     <color name="background_color_f">#ffd8d8d8</color>
+
+    <color name="zhifubao_bg">#0093dd</color>
+    <color name="wechat_bg">#2ead38</color>
 </resources>

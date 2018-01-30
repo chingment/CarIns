@@ -1,5 +1,6 @@
 package com.uplink.carins.utils;
 
+import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -36,5 +37,15 @@ public class StringUtil {
             e.printStackTrace();
         }
         return isMobileNo;
+    }
+
+    public static String sortString(String str) {
+        String result = "";
+        if (!isEmpty(str)) {
+            char[] arrayCh = str.toCharArray();
+            Arrays.sort(arrayCh);
+            result = String.valueOf(arrayCh);
+        }
+        return result;
     }
 }

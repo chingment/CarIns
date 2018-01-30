@@ -163,6 +163,8 @@ public class PayConfirmActivity extends SwipeBackActivity implements View.OnClic
 
         Map<String, Object> params = new HashMap<>();
         params.put("userId", this.getAppContext().getUser().getId());
+        params.put("merchantId", this.getAppContext().getUser().getMerchantId() + "");
+        params.put("posMachineId", this.getAppContext().getUser().getPosMachineId() + "");
         params.put("orderSn", orderInfo.getOrderSn());
         params.put("payWay", layout_paymethod.getTag().toString());
         params.put("termId", "3436563");
