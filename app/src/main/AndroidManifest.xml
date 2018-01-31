@@ -68,16 +68,12 @@
         <activity android:name=".activity.ForgetPwdModifyActivity" />
         <activity
             android:name=".activity.PayQrcodeActivity"
-            android:label="@string/title_activity_pay_qrcode"
-            android:theme="@style/AppTheme">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:launchMode="singleTask" />
         <activity android:name=".activity.PayScanQrcodeActivity" />
-        <activity android:name=".activity.OrderDetailsServiceFeeActivity"></activity>
+        <activity android:name=".activity.OrderDetailsServiceFeeActivity" />
+        <activity android:name=".activity.ClaimsServiceAppActivity" />
+        <activity android:name=".activity.ApplyLossAssessActivity" />
+        <activity android:name=".activity.OrderDetailsApplyLossAssessActivity"></activity>
     </application>
 
 </manifest>

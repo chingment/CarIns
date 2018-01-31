@@ -16,6 +16,7 @@ import com.google.gson.reflect.TypeToken;
 import com.uplink.carins.Own.AppManager;
 import com.uplink.carins.Own.Config;
 import com.uplink.carins.R;
+import com.uplink.carins.activity.OrderDetailsApplyLossAssessActivity;
 import com.uplink.carins.activity.OrderDetailsCarClaimsActivity;
 import com.uplink.carins.activity.OrderDetailsCarInsrueActivity;
 import com.uplink.carins.activity.OrderDetailsServiceFeeActivity;
@@ -110,6 +111,9 @@ public class OrderListFragment extends BaseLazyFragment {
                         break;
                     case 401:
                         intent = new Intent(context, OrderDetailsTalentDemandActivity.class);
+                        break;
+                    case 501:
+                        intent = new Intent(context, OrderDetailsApplyLossAssessActivity.class);
                         break;
                 }
 

@@ -16,6 +16,7 @@ public class SwipeBackActivity extends BaseFragmentActivity implements SwipeBack
         super.onCreate(savedInstanceState);
         mHelper = new SwipeBackActivityHelper(this);
         mHelper.onActivityCreate();
+
     }
 
     @Override
@@ -47,6 +48,5 @@ public class SwipeBackActivity extends BaseFragmentActivity implements SwipeBack
         Utils.convertActivityToTranslucent(this);
         getSwipeBackLayout().scrollToFinishActivity();
     }
-
 
 }

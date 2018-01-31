@@ -22,6 +22,7 @@ import com.uplink.carins.Own.Config;
 import com.uplink.carins.R;
 import com.uplink.carins.activity.CarClaimActivity;
 import com.uplink.carins.activity.CarInsureKindActivity;
+import com.uplink.carins.activity.ClaimsServiceAppActivity;
 import com.uplink.carins.activity.LoginActivity;
 import com.uplink.carins.activity.MainActivity;
 import com.uplink.carins.activity.OrderListActivity;
@@ -122,7 +123,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 
         NineGridItemBean gridviewitem1 = new NineGridItemBean();
         gridviewitems.add(new NineGridItemBean("一键投保", NineGridItemType.Window, "com.uplink.carins.activity.CarInsureKindActivity", R.drawable.ic_app_yjtb));
-        gridviewitems.add(new NineGridItemBean("理赔服务", NineGridItemType.Window, "com.uplink.carins.activity.CarClaimActivity", R.drawable.ic_app_yjlp));
+        gridviewitems.add(new NineGridItemBean("理赔服务", NineGridItemType.Window, "com.uplink.carins.activity.ClaimsServiceAppActivity", R.drawable.ic_app_yjlp));
         gridviewitems.add(new NineGridItemBean("人才输送", NineGridItemType.Window, "com.uplink.carins.activity.TalentDemandActivity", R.drawable.ic_app_rcss));
         gridviewitems.add(new NineGridItemBean("违章缴罚", NineGridItemType.Url, "http://www.baidu.com", R.drawable.ic_app_wzcx));
         gridviewitems.add(new NineGridItemBean("我的订单", NineGridItemType.Window, "com.uplink.carins.activity.OrderListActivity", R.drawable.ic_app_wddd));
@@ -231,12 +232,12 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                                 startActivity(intent);
 
                                 break;
-                            case "com.uplink.carins.activity.CarClaimActivity":
+                            case "com.uplink.carins.activity.ClaimsServiceAppActivity":
 
                                 //intent.setClassName(context,action);  //方法3 此方式可用于打开其它的应用
                                 //context.startActivity(intent);
 
-                                intent = new Intent(context, CarClaimActivity.class);
+                                intent = new Intent(context, ClaimsServiceAppActivity.class);
                                 startActivity(intent);
 
 

@@ -48,6 +48,7 @@ public class PayConfirmActivity extends SwipeBackActivity implements View.OnClic
     Button btn_submit_gopay;
 
     OrderInfoBean orderInfo;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,7 +89,7 @@ public class PayConfirmActivity extends SwipeBackActivity implements View.OnClic
 
         layout_paymethod = (LinearLayout) findViewById(R.id.layout_paymethod);
 
-        btn_submit_gopay= (Button) findViewById(R.id.btn_submit_gopay);
+        btn_submit_gopay = (Button) findViewById(R.id.btn_submit_gopay);
     }
 
     public void initEvent() {
@@ -120,19 +121,17 @@ public class PayConfirmActivity extends SwipeBackActivity implements View.OnClic
                     RelativeLayout layout_paymethod_item = ((RelativeLayout) view);
                     int layout_paymethod_child_count = layout_paymethod.getChildCount();
                     // view.get
-                    for (int j = 0; j <layout_paymethod_child_count;j++) {
+                    for (int j = 0; j < layout_paymethod_child_count; j++) {
                         View view1 = layout_paymethod_item.getChildAt(j);
                         if (view1 instanceof CheckBox) {
                             CheckBox cb = (CheckBox) view1;
-                            if(v.equals(layout_paymethod_item))
-                            {
-                                String tag=cb.getTag().toString();
+                            if (v.equals(layout_paymethod_item)) {
+                                String tag = cb.getTag().toString();
 
                                 layout_paymethod.setTag(tag);
 
                                 cb.setChecked(true);
-                            }
-                            else {
+                            } else {
                                 cb.setChecked(false);
                             }
                         }
@@ -158,8 +157,7 @@ public class PayConfirmActivity extends SwipeBackActivity implements View.OnClic
     }
 
 
-    public  void getPayQrCode()
-    {
+    public void getPayQrCode() {
 
 
         Map<String, Object> params = new HashMap<>();
@@ -171,24 +169,25 @@ public class PayConfirmActivity extends SwipeBackActivity implements View.OnClic
         params.put("termId", "12345678");
         params.put("spbillIp", IpAdressUtil.getIPAddress(this));
 
-        HttpClient.postWithMy(Config.URL.orderQrCodeDownload, params,null, new  HttpResponseHandler() {
+        HttpClient.postWithMy(Config.URL.orderQrCodeDownload, params, null, new HttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
                 super.onSuccess(response);
 
-                LogUtil.i(TAG,"onSuccess====>>>" +response);
+                LogUtil.i(TAG, "onSuccess====>>>" + response);
 
                 ApiResultBean<PayQrCodeDownloadBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<PayQrCodeDownloadBean>>() {
                 });
 
-                showToast(rt.getMessage());
 
                 if (rt.getResult() == Result.SUCCESS) {
                     Bundle b = new Bundle();
-                    b.putSerializable("dataBean",rt.getData());
-                    Intent intent = new Intent(PayConfirmActivity.this,PayQrcodeActivity.class);
+                    b.putSerializable("dataBean", rt.getData());
+                    Intent intent = new Intent(PayConfirmActivity.this, PayQrcodeActivity.class);
                     intent.putExtras(b);
                     startActivity(intent);
+                } else {
+                    showToast(rt.getMessage());
                 }
 
                 removeProgressDialog();
@@ -197,7 +196,7 @@ public class PayConfirmActivity extends SwipeBackActivity implements View.OnClic
             @Override
             public void onFailure(Request request, Exception e) {
                 super.onFailure(request, e);
-                LogUtil.e(TAG,"onFailure====>>>" + e.getMessage());
+                LogUtil.e(TAG, "onFailure====>>>" + e.getMessage());
                 removeProgressDialog();
                 showToast("支付异常");
             }
