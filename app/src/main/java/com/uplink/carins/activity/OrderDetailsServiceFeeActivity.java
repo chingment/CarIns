@@ -37,6 +37,7 @@ public class OrderDetailsServiceFeeActivity extends SwipeBackActivity implements
     private TextView txt_order_statusname;
     private TextView txt_order_remarks;
     private TextView txt_order_submittime;
+    private TextView txt_order_paytime;
     private TextView txt_order_completetime;
     private TextView txt_order_cancletime;
     private TextView txt_order_price;
@@ -47,6 +48,7 @@ public class OrderDetailsServiceFeeActivity extends SwipeBackActivity implements
 
 
     private LinearLayout layout_submittime;
+    private LinearLayout layout_paytime;
     private LinearLayout layout_completetime;
     private LinearLayout layout_cancletime;
     private LinearLayout layout_deposit;
@@ -76,10 +78,12 @@ public class OrderDetailsServiceFeeActivity extends SwipeBackActivity implements
 
         txt_order_remarks = (TextView) findViewById(R.id.txt_order_remarks);
         txt_order_submittime = (TextView) findViewById(R.id.txt_order_submittime);
+        txt_order_paytime= (TextView) findViewById(R.id.txt_order_paytime);
         txt_order_completetime = (TextView) findViewById(R.id.txt_order_completetime);
         txt_order_cancletime = (TextView) findViewById(R.id.txt_order_cancletime);
 
         layout_submittime = (LinearLayout) findViewById(R.id.layout_submittime);
+        layout_paytime = (LinearLayout) findViewById(R.id.layout_paytime);
         layout_completetime = (LinearLayout) findViewById(R.id.layout_completetime);
         layout_cancletime = (LinearLayout) findViewById(R.id.layout_cancletime);
         layout_deposit = (LinearLayout) findViewById(R.id.layout_deposit);
@@ -110,8 +114,9 @@ public class OrderDetailsServiceFeeActivity extends SwipeBackActivity implements
         txt_order_statusname.setText(bean.getStatusName());
         txt_order_remarks.setText(bean.getRemarks());
         txt_order_submittime.setText(bean.getSubmitTime());
-        txt_order_completetime.setText(bean.getCompleteTime()+"");
-        txt_order_cancletime.setText(bean.getCancleTime()+"");
+        txt_order_paytime.setText(bean.getPayTime());
+        txt_order_completetime.setText(bean.getCompleteTime());
+        txt_order_cancletime.setText(bean.getCancleTime());
 
         txt_order_price.setText(bean.getPrice());
         txt_order_expirytime.setText(bean.getExpiryTime());
@@ -132,6 +137,7 @@ public class OrderDetailsServiceFeeActivity extends SwipeBackActivity implements
             case 3:
                 break;
             case 4:
+                layout_paytime.setVisibility(View.VISIBLE);
                 layout_completetime.setVisibility(View.VISIBLE);
                 break;
             case 5:

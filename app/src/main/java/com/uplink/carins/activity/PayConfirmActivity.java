@@ -24,6 +24,7 @@ import com.uplink.carins.model.api.OrderInfoBean;
 import com.uplink.carins.model.api.PayQrCodeDownloadBean;
 import com.uplink.carins.model.api.Result;
 import com.uplink.carins.ui.swipebacklayout.SwipeBackActivity;
+import com.uplink.carins.utils.IpAdressUtil;
 import com.uplink.carins.utils.LogUtil;
 
 import java.util.ArrayList;
@@ -167,8 +168,8 @@ public class PayConfirmActivity extends SwipeBackActivity implements View.OnClic
         params.put("posMachineId", this.getAppContext().getUser().getPosMachineId() + "");
         params.put("orderSn", orderInfo.getOrderSn());
         params.put("payWay", layout_paymethod.getTag().toString());
-        params.put("termId", "3436563");
-        params.put("spbillIp", "127.0.0.1");
+        params.put("termId", "12345678");
+        params.put("spbillIp", IpAdressUtil.getIPAddress(this));
 
         HttpClient.postWithMy(Config.URL.orderQrCodeDownload, params,null, new  HttpResponseHandler() {
             @Override

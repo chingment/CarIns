@@ -34,6 +34,7 @@ import com.uplink.carins.model.api.PayConfirmBean;
 import com.uplink.carins.model.api.Result;
 import com.uplink.carins.model.api.UserBean;
 import com.uplink.carins.ui.BaseFragmentActivity;
+import com.uplink.carins.utils.IpAdressUtil;
 import com.uplink.carins.utils.LogUtil;
 import com.uplink.carins.utils.StringUtil;
 
@@ -68,19 +69,21 @@ public class LoginActivity extends BaseFragmentActivity implements View.OnClickL
         setContentView(R.layout.activity_login);
         initView();//加载视图控件
         initEvent();//加载控件事件
-
         //mRoot = (LinearLayout) findViewById(R.id.main);
         //controlKeyboardLayout(mRoot, btn_login);
 
         if (this.getAppContext().getUser() != null) {
-            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-            LoginActivity.this.startActivity(intent);
+
+            if (this.getAppContext().getUser().getStatus() == 1) {
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                LoginActivity.this.startActivity(intent);
+            }
         }
 
-        String  lastUsername= AppCacheManager.getLastUserName();
+        String lastUsername = AppCacheManager.getLastUserName();
 
 
-        if(lastUsername!=null) {
+        if (lastUsername != null) {
             txt_username.setText(lastUsername);
         }
 
@@ -155,12 +158,6 @@ public class LoginActivity extends BaseFragmentActivity implements View.OnClickL
                 break;
             case R.id.btn_login:
 
-                //UserBean user = new UserBean();
-                //user.setId(1030);
-                //user.setMerchantId(3);
-                //this.getAppContext().setUser(user);
-                //intent = new Intent(LoginActivity.this, MainActivity.class);
-                //LoginActivity.this.startActivity(intent);
 
                 submitLogin();
 
@@ -261,12 +258,13 @@ public class LoginActivity extends BaseFragmentActivity implements View.OnClickL
 
                     user.setId(rt.getData().getUserId());
                     user.setMerchantId(rt.getData().getMerchantId());
+                    user.setStatus(rt.getData().getStatus());
+
                     getAppContext().setUser(user);
 
                     Intent intent = null;
                     switch (d.getStatus()) {
                         case 1:
-
 
 
                             intent = new Intent(LoginActivity.this, MainActivity.class);
@@ -277,9 +275,9 @@ public class LoginActivity extends BaseFragmentActivity implements View.OnClickL
 
 
                             Bundle b = new Bundle();
-                            b.putSerializable("dataBean",d.getOrderInfo());
+                            b.putSerializable("dataBean", d.getOrderInfo());
 
-                            LogUtil.i("d.getOrderInfo()."+d.getOrderInfo().getProductName());
+                            LogUtil.i("d.getOrderInfo()." + d.getOrderInfo().getProductName());
 
                             intent = new Intent(LoginActivity.this, PayConfirmActivity.class);
                             intent.putExtras(b);

@@ -185,7 +185,30 @@
                         android:textColor="@color/text_333"
                         android:textSize="@dimen/text_size_12" />
                 </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/layout_paytime"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@drawable/boder_bottom"
+                    android:gravity="center_vertical"
+                    android:visibility="gone"
+                    >
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="支付时间"
+                        android:textColor="@color/text_333"
+                        android:textSize="@dimen/text_size_12" />
+
+                    <TextView
+                        android:id="@+id/txt_order_paytime"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:textColor="@color/text_333"
+                        android:textSize="@dimen/text_size_12" />
+                </LinearLayout>
                 <LinearLayout
                     android:id="@+id/layout_completetime"
                     android:layout_width="match_parent"

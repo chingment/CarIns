@@ -12,6 +12,7 @@ public class UserBean  implements Serializable {
     private int id;
     private int merchantId;
     private int posMachineId;
+    private int status;
 
     public int getId() {
         return id;
@@ -37,5 +38,14 @@ public class UserBean  implements Serializable {
 
     public void setPosMachineId(int posMachineId) {
         this.posMachineId = posMachineId;
+    }
+
+    public int getStatus() {
+
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 }
