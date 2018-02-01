@@ -1,12 +1,14 @@
 package com.uplink.carins.activity;
 
 
+import android.content.OperationApplicationException;
 import android.graphics.Color;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.*;
 
@@ -17,6 +19,14 @@ import com.uplink.carins.fragment.MyFragment;
 import com.uplink.carins.ui.*;
 import com.uplink.carins.utils.LogUtil;
 
+import com.zsoft.signala.hubs.HubConnection;
+import com.zsoft.signala.hubs.HubOnDataCallback;
+import com.zsoft.signala.hubs.IHubProxy;
+import com.zsoft.signala.transport.StateBase;
+import com.zsoft.signala.transport.longpolling.LongPollingTransport;
+
+import org.json.JSONArray;
+
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -25,7 +35,7 @@ import java.util.Arrays;
 
 
 public class MainActivity extends BaseFragmentActivity {
-
+    private final static String TAG = "MainActivity";
     private static int currIndex = 0;
 
     private FragmentManager fragmentManager;
@@ -34,6 +44,9 @@ public class MainActivity extends BaseFragmentActivity {
     private ArrayList<String> fragmentTags = new ArrayList<>(Arrays.asList("HomeFragment", "MyFragment"));
 
     private RadioGroup footerRadioGroup;
+
+
+    private final static String HUB_URL="http://112.74.179.185:8084/signalr/hubs";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +58,52 @@ public class MainActivity extends BaseFragmentActivity {
         initView();//加载视图控件
         initVent();//加载控件事件
         showFragment();//展示默认Fragment
+
+        beginConnect();
+    }
+
+    /**
+     * hub链接
+     */
+    private HubConnection conn=new HubConnection(HUB_URL, this, new LongPollingTransport()) {
+        @Override
+        public void OnError(Exception exception) {
+            Log.i(TAG, "OnError=" + exception.getMessage());
+        }
+        @Override
+        public void OnMessage(String message) {
+            Log.i(TAG, "message=" + message);
+        }
+        @Override
+        public void OnStateChanged(StateBase oldState, StateBase newState) {
+            Log.i(TAG, "OnStateChanged=" + oldState.getState() + " -> " + newState.getState());
+        }
+    };
+
+    private IHubProxy hub = null;
+    /**
+     * 开启推送服务 panderman 2013-10-25
+     */
+    private void beginConnect(){
+        try {
+            hub=conn.CreateHubProxy("ChatHub");
+        } catch (OperationApplicationException e) {
+            e.printStackTrace();
+        }
+        hub.On("broadcastMessage", new HubOnDataCallback()
+        {
+            @Override
+            public void OnReceived(JSONArray args) {
+                Log.i(TAG, "args========================" + args.toString());
+
+//                for(int i=0; i<args.length(); i++)
+//                {
+//                    LogUtil.d(TAG, "args========================" + args.opt(i).toString());
+//
+//                }
+            }
+        });
+        conn.Start();
     }
 
     public void initView() {
