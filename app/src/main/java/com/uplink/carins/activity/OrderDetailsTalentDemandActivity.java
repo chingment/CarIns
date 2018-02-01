@@ -69,21 +69,20 @@ public class OrderDetailsTalentDemandActivity extends SwipeBackActivity implemen
 
         txt_order_sn = (TextView) findViewById(R.id.txt_order_sn);
         txt_order_statusname = (TextView) findViewById(R.id.txt_order_statusname);
-
-        txt_order_usestarttime = (TextView) findViewById(R.id.txt_order_usestarttime);
-        txt_order_useendtime = (TextView) findViewById(R.id.txt_order_useendtime);
-
         txt_order_remarks = (TextView) findViewById(R.id.txt_order_remarks);
         txt_order_submittime = (TextView) findViewById(R.id.txt_order_submittime);
         txt_order_completetime = (TextView) findViewById(R.id.txt_order_completetime);
         txt_order_cancletime = (TextView) findViewById(R.id.txt_order_cancletime);
 
-        txt_order_workjob = (TextView) findViewById(R.id.txt_order_workjob);
-        txt_order_quantity = (TextView) findViewById(R.id.txt_order_quantity);
 
         layout_submittime = (LinearLayout) findViewById(R.id.layout_submittime);
         layout_completetime = (LinearLayout) findViewById(R.id.layout_completetime);
         layout_cancletime = (LinearLayout) findViewById(R.id.layout_cancletime);
+
+        txt_order_usestarttime = (TextView) findViewById(R.id.txt_order_usestarttime);
+        txt_order_useendtime = (TextView) findViewById(R.id.txt_order_useendtime);
+        txt_order_workjob = (TextView) findViewById(R.id.txt_order_workjob);
+        txt_order_quantity = (TextView) findViewById(R.id.txt_order_quantity);
 
     }
 
@@ -107,13 +106,13 @@ public class OrderDetailsTalentDemandActivity extends SwipeBackActivity implemen
         txt_order_statusname.setText(bean.getStatusName());
         txt_order_remarks.setText(bean.getRemarks());
         txt_order_submittime.setText(bean.getSubmitTime());
-        txt_order_completetime.setText(bean.getCompleteTime()+"");
-        txt_order_cancletime.setText(bean.getCancleTime()+"");
+        txt_order_completetime.setText(bean.getCompleteTime());
+        txt_order_cancletime.setText(bean.getCancleTime());
 
         txt_order_workjob.setText(bean.getWorkJob());
-        txt_order_quantity.setText(bean.getQuantity());
+        txt_order_quantity.setText(bean.getQuantity()+"");
         txt_order_usestarttime.setText(bean.getUseStartTime());
-        txt_order_useendtime.setText(bean.getUseStartTime());
+        txt_order_useendtime.setText(bean.getUseEndTime());
 
         switch (bean.getStatus()) {
             case 1:
@@ -123,10 +122,10 @@ public class OrderDetailsTalentDemandActivity extends SwipeBackActivity implemen
             case 3:
                 break;
             case 4:
-                layout_completetime.setVisibility(View.VISIBLE);
+                //layout_completetime.setVisibility(View.VISIBLE);
                 break;
             case 5:
-                layout_cancletime.setVisibility(View.VISIBLE);
+                //layout_cancletime.setVisibility(View.VISIBLE);
                 break;
         }
     }

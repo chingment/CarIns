@@ -118,18 +118,6 @@ public class BaseFragmentActivity extends FragmentActivity {
     @Override
     public void finish() {
         super.finish();
-//        int size = AppManager.getAppManager().ActivityStackSize();
-//
-//        if (isTaskRoot()) {
-//
-//            Intent intent = new Intent(this, MainActivity.class);
-//            startActivity(intent);
-//        }
-//        else
-//        {
-//
-//        }
-//        LogUtil.i("ActivityStackSize:" + size);
 
     }
 }

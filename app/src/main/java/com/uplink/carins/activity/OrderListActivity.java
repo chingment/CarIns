@@ -25,13 +25,14 @@ import com.uplink.carins.ui.swipebacklayout.SwipeBackActivity;
 import com.uplink.carins.utils.AnimationUtil;
 import com.uplink.carins.utils.CommonUtil;
 import com.uplink.carins.utils.LogUtil;
+import com.uplink.carins.utils.StringUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 
-public class OrderListActivity extends SwipeBackActivity implements View.OnClickListener{
+public class OrderListActivity extends SwipeBackActivity implements View.OnClickListener {
 
     private String TAG = "OrderListActivity";
 
@@ -43,8 +44,8 @@ public class OrderListActivity extends SwipeBackActivity implements View.OnClick
     private MyViewPager form_orderlist_viewpager;
     private MyViewPagerAdapter form_orderlist_viewpager_Adapter;
 
-    public int currentStatus=0;//当前tab 状态
-    public int statusItemCount=0;//状态的类目数量
+    public int currentStatus = 0;//当前tab 状态
+    public int statusItemCount = 0;//状态的类目数量
     public boolean isFirstLoad = true;//是否第一次加载
     public HashMap<Integer, Boolean> refreshFlag = null;//刷新标识
 
@@ -53,7 +54,7 @@ public class OrderListActivity extends SwipeBackActivity implements View.OnClick
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_orderlist);
 
-        currentStatus=getIntent().getIntExtra("status",0);
+        currentStatus = getIntent().getIntExtra("status", 0);
 
         LogUtil.d("当前状态:" + currentStatus);
 
@@ -66,7 +67,7 @@ public class OrderListActivity extends SwipeBackActivity implements View.OnClick
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
-        if (hasFocus){
+        if (hasFocus) {
 
             String checkedIndex = form_orderlist_rb_status.getTag().toString();
             if (checkedIndex.equals("0")) {
@@ -83,7 +84,7 @@ public class OrderListActivity extends SwipeBackActivity implements View.OnClick
         txtHeaderTitle.setText("我的订单");
 
         form_orderlist_rb_status = (RadioGroup) findViewById(R.id.form_orderlist_rb_status);
-        form_orderlist_viewpager= (MyViewPager) findViewById(R.id.form_orderlist_viewpager);
+        form_orderlist_viewpager = (MyViewPager) findViewById(R.id.form_orderlist_viewpager);
     }
 
     private void initEvent() {
@@ -94,7 +95,7 @@ public class OrderListActivity extends SwipeBackActivity implements View.OnClick
 
     private void initViewPager() {
 
-        statusItemCount=form_orderlist_rb_status.getChildCount();
+        statusItemCount = form_orderlist_rb_status.getChildCount();
 
         //LogUtil.i("tab item count:"+statusItemCount);
 
@@ -102,8 +103,7 @@ public class OrderListActivity extends SwipeBackActivity implements View.OnClick
 
         refreshFlag = new HashMap<>();
 
-        for (int i=0;i<statusItemCount;i++)
-        {
+        for (int i = 0; i < statusItemCount; i++) {
             refreshFlag.put(i, true);
             form_orderlist_fragments.add(OrderListFragment.newInstance(i));
         }
@@ -125,12 +125,12 @@ public class OrderListActivity extends SwipeBackActivity implements View.OnClick
 
             int tabCurrentSelectPisition = Integer.parseInt(currentCheckedRadio.getTag().toString());
 
-            form_orderlist_viewpager.setCurrentItem(tabCurrentSelectPisition,false);
+            form_orderlist_viewpager.setCurrentItem(tabCurrentSelectPisition, false);
 
             //LogUtil.i("tab当前选择:" + tabCurrentSelectPisition);
             //LogUtil.i("tab当前选择的宽度:" + currentCheckedRadio.getWidth());
 
-            AnimationUtil.SetTab1ImageSlide(group,OrderListActivity.this);
+            AnimationUtil.SetTab1ImageSlide(group, OrderListActivity.this);
 
             group.setTag(tabCurrentSelectPisition);
 
@@ -144,7 +144,13 @@ public class OrderListActivity extends SwipeBackActivity implements View.OnClick
 
         switch (v.getId()) {
             case R.id.btn_main_header_goback:
+
+
+                Intent intent = new Intent(OrderListActivity.this,MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
                 finish();
+
                 break;
             case R.id.form_carclaim_select_company:
 
@@ -155,7 +161,7 @@ public class OrderListActivity extends SwipeBackActivity implements View.OnClick
 
     public void setRefreshALL() {
         if (refreshFlag != null) {
-            for (int i=0;i<statusItemCount;i++){
+            for (int i = 0; i < statusItemCount; i++) {
                 refreshFlag.put(i, true);
             }
         }
