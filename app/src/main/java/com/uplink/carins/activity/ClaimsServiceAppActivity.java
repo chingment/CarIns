@@ -17,6 +17,7 @@ import com.uplink.carins.model.common.NineGridItemBean;
 import com.uplink.carins.model.common.NineGridItemType;
 import com.uplink.carins.ui.dialog.CustomConfirmDialog;
 import com.uplink.carins.ui.swipebacklayout.SwipeBackActivity;
+import com.uplink.carins.utils.NoDoubleClickUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -83,36 +84,37 @@ public class ClaimsServiceAppActivity extends SwipeBackActivity implements View.
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+                if (!NoDoubleClickUtils.isDoubleClick()) {
+                    NineGridItemBean gridviewitem = gridviewitems.get(position);
 
-                NineGridItemBean gridviewitem = gridviewitems.get(position);
-
-                NineGridItemType type = gridviewitem.getType();
-                String action = gridviewitem.getAction();
-                String title = gridviewitem.getTitle();
-                Intent intent;
+                    NineGridItemType type = gridviewitem.getType();
+                    String action = gridviewitem.getAction();
+                    String title = gridviewitem.getTitle();
+                    Intent intent;
 
 
-                switch (type) {
-                    case Window:
-                        intent = new Intent();
-                        switch (action) {
-                            case "com.uplink.carins.activity.CarClaimActivity":
-                                intent = new Intent(ClaimsServiceAppActivity.this, CarClaimActivity.class);
-                                startActivity(intent);
-                                break;
-                            case "com.uplink.carins.activity.ApplyLossAssessActivity":
-                                intent = new Intent(ClaimsServiceAppActivity.this, ApplyLossAssessActivity.class);
-                                startActivity(intent);
-                                break;
-                        }
-                        break;
-                    case Url:
-                        intent = new Intent(ClaimsServiceAppActivity.this, WebViewActivity.class);
-                        intent.putExtra("title", title);
-                        intent.putExtra("url", action);
-                        startActivity(intent);
-                        break;
+                    switch (type) {
+                        case Window:
+                            intent = new Intent();
+                            switch (action) {
+                                case "com.uplink.carins.activity.CarClaimActivity":
+                                    intent = new Intent(ClaimsServiceAppActivity.this, CarClaimActivity.class);
+                                    startActivity(intent);
+                                    break;
+                                case "com.uplink.carins.activity.ApplyLossAssessActivity":
+                                    intent = new Intent(ClaimsServiceAppActivity.this, ApplyLossAssessActivity.class);
+                                    startActivity(intent);
+                                    break;
+                            }
+                            break;
+                        case Url:
+                            intent = new Intent(ClaimsServiceAppActivity.this, WebViewActivity.class);
+                            intent.putExtra("title", title);
+                            intent.putExtra("url", action);
+                            startActivity(intent);
+                            break;
 
+                    }
                 }
             }
         });

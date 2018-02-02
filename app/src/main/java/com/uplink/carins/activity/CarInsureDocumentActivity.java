@@ -32,6 +32,7 @@ import com.uplink.carins.ui.my.MyHorizontalListView;
 import com.uplink.carins.utils.BitmapUtil;
 import com.uplink.carins.utils.CommonUtil;
 import com.uplink.carins.utils.LogUtil;
+import com.uplink.carins.utils.NoDoubleClickUtils;
 import com.uplink.carins.utils.StringUtil;
 
 import org.json.JSONArray;
@@ -135,7 +136,9 @@ public class CarInsureDocumentActivity extends ChoicePhotoAndCropAndSwipeBackAct
                 finish();
                 break;
             case R.id.btn_submit_carinsure:
-                submitInsure();
+                if (!NoDoubleClickUtils.isDoubleClick()) {
+                    submitInsure();
+                }
                 break;
             case R.id.layout_carinsure_xingshizheng:
                 choice_index = choice_index_xingshizheng;

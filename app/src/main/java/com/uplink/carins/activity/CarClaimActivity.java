@@ -28,6 +28,7 @@ import com.uplink.carins.model.api.ApiResultBean;
 import com.uplink.carins.model.api.Result;
 import com.uplink.carins.ui.dialog.CustomConfirmDialog;
 import com.uplink.carins.utils.LogUtil;
+import com.uplink.carins.utils.NoDoubleClickUtils;
 import com.uplink.carins.utils.StringUtil;
 import com.uplink.carins.Own.AppCacheManager;
 import com.uplink.carins.R;
@@ -47,7 +48,7 @@ public class CarClaimActivity extends SwipeBackActivity implements View.OnClickL
     private ImageView btnHeaderGoBack;
     private TextView txtHeaderTitle;
 
-    private int repairsType=1;
+    private int repairsType = 1;
 
     private LinearLayout form_carclaim_select_company;
     private TextView form_carclaim_txt_company;
@@ -69,11 +70,6 @@ public class CarClaimActivity extends SwipeBackActivity implements View.OnClickL
         initView();
         initEvent();
 
-        carInsCompanyCanClaims = AppCacheManager.getCarInsCompanyCanClaims();
-        if(carInsCompanyCanClaims!=null) {
-            CarInsCompanysPopuAdapter popupCompanysListView_Adapter = new CarInsCompanysPopuAdapter(carInsCompanyCanClaims);
-            popupCompanysListView.setAdapter(popupCompanysListView_Adapter);
-        }
 
     }
 
@@ -91,12 +87,21 @@ public class CarClaimActivity extends SwipeBackActivity implements View.OnClickL
         form_carclaim_txt_handpersonphone = (EditText) findViewById(R.id.form_carclaim_txt_handpersonphone);
         form_carclaim_claimtype1 = (CheckBox) findViewById(R.id.form_carclaim_claimtype1);
         form_carclaim_claimtype2 = (CheckBox) findViewById(R.id.form_carclaim_claimtype2);
-        btn_submit_carclaims=(Button) findViewById(R.id.btn_submit_carclaims);
+        btn_submit_carclaims = (Button) findViewById(R.id.btn_submit_carclaims);
 
-        LayoutInflater layoutInflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
-        popupCompanysView = layoutInflater.inflate(R.layout.popu_list, null);
-        popupCompanysListView = (ListView) popupCompanysView.findViewById(R.id.popu_list);
-        popupCompanysWindow = new PopupWindow(popupCompanysView, 680, 500);
+
+        View popupViewForCompanys = inflater.inflate(R.layout.popu_list, null);
+        popupListViewForCompanys = (ListView) popupViewForCompanys.findViewById(R.id.popu_list);
+
+
+        carInsCompanyCanClaims = AppCacheManager.getCarInsCompanyCanClaims();
+        if (carInsCompanyCanClaims != null) {
+            CarInsCompanysPopuAdapter popupCompanysListView_Adapter = new CarInsCompanysPopuAdapter(carInsCompanyCanClaims);
+            popupListViewForCompanys.setAdapter(popupCompanysListView_Adapter);
+        }
+
+        popupWindowForCompanys = new PopupWindow(popupViewForCompanys, getWindowsDisplay().getWidth(), 500);
+
     }
 
     private void initEvent() {
@@ -105,6 +110,18 @@ public class CarClaimActivity extends SwipeBackActivity implements View.OnClickL
         btn_submit_carclaims.setOnClickListener(this);
         form_carclaim_claimtype1.setOnCheckedChangeListener(form_carclaim_claimtype_CheckListener);
         form_carclaim_claimtype2.setOnCheckedChangeListener(form_carclaim_claimtype_CheckListener);
+
+        popupListViewForCompanys.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view,
+                                    int position, long id) {
+                CarInsCompanyBean bean = carInsCompanyCanClaims.get(position);
+                form_carclaim_txt_company.setText(bean.getName() + "");
+                form_carclaim_txt_company.setTag(bean.getId() + "");
+                if (popupWindowForCompanys != null)
+                    popupWindowForCompanys.dismiss();
+            }
+        });
     }
 
 
@@ -115,38 +132,27 @@ public class CarClaimActivity extends SwipeBackActivity implements View.OnClickL
                 switch (buttonView.getId()) {
                     case R.id.form_carclaim_claimtype1:
                         form_carclaim_claimtype2.setChecked(false);
-                        repairsType=1;
+                        repairsType = 1;
                         break;
                     case R.id.form_carclaim_claimtype2:
                         form_carclaim_claimtype1.setChecked(false);
-                        repairsType=2;
+                        repairsType = 2;
                         break;
                 }
         }
     };
 
-    private PopupWindow popupCompanysWindow;
-    private View popupCompanysView;
-    private ListView popupCompanysListView;
+    private PopupWindow popupWindowForCompanys;
+    private ListView popupListViewForCompanys;
 
     private void showPopuCompanys(View v) {
 
-        popupCompanysWindow.setFocusable(true);
-        popupCompanysWindow.setOutsideTouchable(true);
+        popupWindowForCompanys.setFocusable(true);
+        popupWindowForCompanys.setOutsideTouchable(true);
         // 这个是为了点击“返回Back”也能使其消失，并且并不会影响你的背景
-        popupCompanysWindow.setBackgroundDrawable(new BitmapDrawable());
-        popupCompanysWindow.showAsDropDown(v);
-        popupCompanysListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view,
-                                    int position, long id) {
-                CarInsCompanyBean bean = carInsCompanyCanClaims.get(position);
-                form_carclaim_txt_company.setText(bean.getName() + "");
-                form_carclaim_txt_company.setTag(bean.getId() + "");
-                if (popupCompanysWindow != null)
-                    popupCompanysWindow.dismiss();
-            }
-        });
+        popupWindowForCompanys.setBackgroundDrawable(new BitmapDrawable());
+        popupWindowForCompanys.showAsDropDown(v);
+
     }
 
 
@@ -176,7 +182,7 @@ public class CarClaimActivity extends SwipeBackActivity implements View.OnClickL
 
         @Override
         public View getView(int position, View convertView, ViewGroup viewGroup) {
-            if(convertView==null) {
+            if (convertView == null) {
                 convertView = inflater.inflate(R.layout.item_company, null);
             }
             TextView item_tv = ViewHolder.get(convertView, R.id.item_company);
@@ -195,7 +201,9 @@ public class CarClaimActivity extends SwipeBackActivity implements View.OnClickL
                 finish();
                 break;
             case R.id.btn_submit_carclaims:
-                submitClaims();
+                if (!NoDoubleClickUtils.isDoubleClick()) {
+                    submitClaims();
+                }
                 break;
             case R.id.form_carclaim_select_company:
                 showPopuCompanys(v);
@@ -236,15 +244,15 @@ public class CarClaimActivity extends SwipeBackActivity implements View.OnClickL
         params.put("carLicenseNumber", carLicenseNumber);
         params.put("handPerson", handPerson);
         params.put("handPersonPhone", handPersonPhone);
-        params.put("posMachineId",this.getAppContext().getUser().getPosMachineId());
+        params.put("posMachineId", this.getAppContext().getUser().getPosMachineId());
         params.put("merchantId", this.getAppContext().getUser().getMerchantId());
         params.put("repairsType", repairsType);
 
-        HttpClient.postWithMy(Config.URL.submitClaim, params,null, new  HttpResponseHandler() {
+        HttpClient.postWithMy(Config.URL.submitClaim, params, null, new HttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
                 super.onSuccess(response);
-                LogUtil.i(TAG,"onSuccess====>>>"+ response);
+                LogUtil.i(TAG, "onSuccess====>>>" + response);
 
                 ApiResultBean<Object> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<Object>>() {
                 });
@@ -260,7 +268,7 @@ public class CarClaimActivity extends SwipeBackActivity implements View.OnClickL
             @Override
             public void onFailure(Request request, Exception e) {
                 super.onFailure(request, e);
-                LogUtil.e(TAG,"onFailure====>>>"+ e.getMessage());
+                LogUtil.e(TAG, "onFailure====>>>" + e.getMessage());
                 removeProgressDialog();
                 showToast("提交失败");
             }
@@ -269,10 +277,11 @@ public class CarClaimActivity extends SwipeBackActivity implements View.OnClickL
 
 
     private CustomConfirmDialog dialog_Success;
+
     private void showSuccessDialog() {
         if (dialog_Success == null) {
 
-            dialog_Success = new CustomConfirmDialog(CarClaimActivity.this, "理赔订单提交成功",false);
+            dialog_Success = new CustomConfirmDialog(CarClaimActivity.this, "理赔订单提交成功", false);
 
             dialog_Success.getBtnSure().setOnClickListener(new View.OnClickListener() {
                 @Override

@@ -42,6 +42,7 @@ import com.uplink.carins.ui.loopviewpager.AutoLoopViewPager;
 import com.uplink.carins.ui.viewpagerindicator.CirclePageIndicator;
 import com.uplink.carins.utils.CommonUtil;
 import com.uplink.carins.utils.LogUtil;
+import com.uplink.carins.utils.NoDoubleClickUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -91,7 +92,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             @Override
             public void run() {
 
-               // TODO: 2018/1/19 暂时没有实现定时任务功能更新缓存
+                // TODO: 2018/1/19 暂时没有实现定时任务功能更新缓存
                 //AppCacheManager.setLastUpdateTime(CommonUtil.getCurrentTime());
                 LogUtil.i("测试定时任务:" + CommonUtil.getCurrentTime());
                 //loadData();
@@ -158,101 +159,102 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+                if (!NoDoubleClickUtils.isDoubleClick()) {
+                    NineGridItemBean gridviewitem = gridviewitems.get(position);
 
-                NineGridItemBean gridviewitem = gridviewitems.get(position);
+                    //view.setVisibility(View.INVISIBLE);
+                    //Toast.makeText(context,gridviewitem.getTitle(),Toast.LENGTH_LONG).show();
 
-                //view.setVisibility(View.INVISIBLE);
-                //Toast.makeText(context,gridviewitem.getTitle(),Toast.LENGTH_LONG).show();
-
-                NineGridItemType type = gridviewitem.getType();
-                String action = gridviewitem.getAction();
-                String title = gridviewitem.getTitle();
-                Intent intent;
-
-
-                switch (type) {
-                    case Window:
-                        intent = new Intent();
-                        switch (action) {
-                            case "com.uplink.carins.activity.LoginActivity":
-
-                                if (dialog_logout == null) {
-
-                                    dialog_logout = new CustomConfirmDialog(context, "确定要退出？", true);
-
-                                    dialog_logout.getBtnSure().setOnClickListener(new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View v) {
-
-                                            dialog_logout.dismiss();
-
-                                            AppContext.getInstance().setUser(null);
-
-                                            Intent l_Intent = new Intent(context, LoginActivity.class);
-                                            startActivity(l_Intent);
-                                            AppManager.getAppManager().finishAllActivity();
+                    NineGridItemType type = gridviewitem.getType();
+                    String action = gridviewitem.getAction();
+                    String title = gridviewitem.getTitle();
+                    Intent intent;
 
 
-                                        }
-                                    });
+                    switch (type) {
+                        case Window:
+                            intent = new Intent();
+                            switch (action) {
+                                case "com.uplink.carins.activity.LoginActivity":
 
-                                    dialog_logout.getBtnCancle().setOnClickListener(new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View v) {
+                                    if (dialog_logout == null) {
 
+                                        dialog_logout = new CustomConfirmDialog(context, "确定要退出？", true);
 
-                                            dialog_logout.dismiss();
-                                        }
-                                    });
+                                        dialog_logout.getBtnSure().setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
 
+                                                dialog_logout.dismiss();
 
-                                }
+                                                AppContext.getInstance().setUser(null);
 
-                                dialog_logout.show();
-
-                                break;
-                            case "com.uplink.carins.activity.CarInsureKindActivity":
-
-                                intent = new Intent(context, CarInsureKindActivity.class);
-                                startActivity(intent);
-
-                                break;
-                            case "com.uplink.carins.activity.OrderListActivity":
-
-                                intent = new Intent(context, OrderListActivity.class);
-
-                                intent.putExtra("status", 0);//默认选择状态为 全部
-
-                                startActivity(intent);
-
-                                break;
-                            case "com.uplink.carins.activity.TalentDemandActivity":
-
-                                intent = new Intent(context, TalentDemandActivity.class);
-                                startActivity(intent);
-
-                                break;
-                            case "com.uplink.carins.activity.ClaimsServiceAppActivity":
-
-                                //intent.setClassName(context,action);  //方法3 此方式可用于打开其它的应用
-                                //context.startActivity(intent);
-
-                                intent = new Intent(context, ClaimsServiceAppActivity.class);
-                                startActivity(intent);
+                                                Intent l_Intent = new Intent(context, LoginActivity.class);
+                                                startActivity(l_Intent);
+                                                AppManager.getAppManager().finishAllActivity();
 
 
-                                break;
-                        }
-                        break;
-                    case Url:
+                                            }
+                                        });
 
-                        intent = new Intent(context, WebViewActivity.class);
-                        intent.putExtra("title", title);
-                        intent.putExtra("url", action);
+                                        dialog_logout.getBtnCancle().setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
 
-                        startActivity(intent);
-                        break;
 
+                                                dialog_logout.dismiss();
+                                            }
+                                        });
+
+
+                                    }
+
+                                    dialog_logout.show();
+
+                                    break;
+                                case "com.uplink.carins.activity.CarInsureKindActivity":
+
+                                    intent = new Intent(context, CarInsureKindActivity.class);
+                                    startActivity(intent);
+
+                                    break;
+                                case "com.uplink.carins.activity.OrderListActivity":
+
+                                    intent = new Intent(context, OrderListActivity.class);
+
+                                    intent.putExtra("status", 0);//默认选择状态为 全部
+
+                                    startActivity(intent);
+
+                                    break;
+                                case "com.uplink.carins.activity.TalentDemandActivity":
+
+                                    intent = new Intent(context, TalentDemandActivity.class);
+                                    startActivity(intent);
+
+                                    break;
+                                case "com.uplink.carins.activity.ClaimsServiceAppActivity":
+
+                                    //intent.setClassName(context,action);  //方法3 此方式可用于打开其它的应用
+                                    //context.startActivity(intent);
+
+                                    intent = new Intent(context, ClaimsServiceAppActivity.class);
+                                    startActivity(intent);
+
+
+                                    break;
+                            }
+                            break;
+                        case Url:
+
+                            intent = new Intent(context, WebViewActivity.class);
+                            intent.putExtra("title", title);
+                            intent.putExtra("url", action);
+
+                            startActivity(intent);
+                            break;
+
+                    }
                 }
             }
         });
@@ -328,7 +330,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             super.onSuccess(response);
 
 
-            LogUtil.i(TAG,"onSuccess====>>>"+response);
+            LogUtil.i(TAG, "onSuccess====>>>" + response);
 
             ApiResultBean<HomePageBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<HomePageBean>>() {
             });
@@ -359,7 +361,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         @Override
         public void onFailure(Request request, Exception e) {
             super.onFailure(request, e);
-            LogUtil.e(TAG,"onFailure====>>>"+e.getMessage());
+            LogUtil.e(TAG, "onFailure====>>>" + e.getMessage());
             showToast("数据加载失败");
         }
     }

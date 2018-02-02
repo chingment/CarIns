@@ -35,6 +35,7 @@ import com.uplink.carins.ui.dataPicker.CustomDatePicker;
 import com.uplink.carins.ui.dialog.CustomConfirmDialog;
 import com.uplink.carins.ui.swipebacklayout.SwipeBackActivity;
 import com.uplink.carins.utils.LogUtil;
+import com.uplink.carins.utils.NoDoubleClickUtils;
 import com.uplink.carins.utils.StringUtil;
 
 import java.text.SimpleDateFormat;
@@ -212,7 +213,9 @@ public class TalentDemandActivity extends SwipeBackActivity implements View.OnCl
                 finish();
                 break;
             case R.id.btn_submit_talentdemand:
-                submitTalentDemand();
+                if (!NoDoubleClickUtils.isDoubleClick()) {
+                    submitTalentDemand();
+                }
                 break;
             case R.id.layout_talentdemand_sel_workjob:
                 showPopuTalentDemandWorkJobs(v);

@@ -15,7 +15,7 @@
         android:background="@color/default_bg" />
 
     <LinearLayout
-        android:id="@+id/form_carclaimservice"
+        android:id="@+id/form_applylossassess"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -25,7 +25,7 @@
         >
 
         <LinearLayout
-            android:id="@+id/form_carclaim_select_company"
+            android:id="@+id/form_applylossassess_select_company"
             android:layout_width="match_parent"
             android:layout_height="42dp"
             android:background="@drawable/boder_bottom"
@@ -42,7 +42,7 @@
                 android:textSize="@dimen/text_size_12" />
 
             <TextView
-                android:id="@+id/form_carclaim_txt_company"
+                android:id="@+id/form_applylossassess_txt_company"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -72,22 +72,31 @@
                 android:layout_width="80dp"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical|left"
-                android:text="协议"
+                android:text=""
                 android:textColor="@color/text_333"
                 android:textSize="@dimen/text_size_12" />
 
-            <EditText
-                android:id="@+id/form_carclaim_txt_carplateno"
+
+            <CheckBox
+                android:id="@+id/form_applylossassess_isagreeservice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@drawable/widget_form_radio_green"
+                android:paddingLeft="8dp"
+                android:text="我已阅读并接受"
+                android:textColor="@color/radio_selector_text_color"
+                android:textSize="@dimen/text_size_12" />
+
+            <TextView
+                android:id="@+id/btn_serviceagreement"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@null"
                 android:gravity="center_vertical|left"
-                android:hint="车牌号码"
+                android:text="服务协议"
+                android:textColor="@color/colorPrimary"
                 android:maxLength="10"
                 android:maxLines="1"
-                android:textColor="@color/text"
-                android:textColorHint="@color/text_hint"
                 android:textSize="@dimen/text_size_12" />
 
         </LinearLayout>
@@ -97,7 +106,7 @@
         android:id="@+id/btn_submit_applylossassess"
         android:layout_width="match_parent"
         android:layout_height="42dp"
-        android:layout_below="@+id/form_carclaimservice"
+        android:layout_below="@+id/form_applylossassess"
         android:layout_marginLeft="12dp"
         android:layout_marginRight="12dp"
         android:layout_marginTop="12dp"

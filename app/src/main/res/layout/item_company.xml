@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="50sp"
         android:gravity="center_vertical|left"
-        android:paddingLeft="90dp"
+        android:paddingLeft="80dp"
         android:text="保险公司"
         android:textColor="@color/main_header_title"
         android:textSize="15sp" />

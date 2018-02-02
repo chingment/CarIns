@@ -13,6 +13,7 @@ public class CarInsCompanyBean implements Serializable {
     private String imgUrl;
     private boolean canInsure;
     private boolean canClaims;
+    private boolean canApplyLossAssess;
 
     public int getId() {
         return id;
@@ -53,6 +54,16 @@ public class CarInsCompanyBean implements Serializable {
     public void setCanClaims(boolean canClaims) {
         this.canClaims = canClaims;
     }
+
+    public boolean getCanApplyLossAssess() {
+        return canApplyLossAssess;
+    }
+
+    public void setCanApplyLossAssess(boolean canApplyLossAssess) {
+        this.canApplyLossAssess = canApplyLossAssess;
+    }
+
+
 
     public  CarInsCompanyBean()
     {

@@ -2,7 +2,9 @@
 package com.uplink.carins.ui.swipebacklayout;
 
 import android.os.Bundle;
+import android.view.Display;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.uplink.carins.ui.BaseFragmentActivity;
@@ -49,4 +51,9 @@ public class SwipeBackActivity extends BaseFragmentActivity implements SwipeBack
         getSwipeBackLayout().scrollToFinishActivity();
     }
 
+    public Display getWindowsDisplay() {
+        WindowManager wm1 = this.getWindowManager();
+        return wm1.getDefaultDisplay();
+
+    }
 }

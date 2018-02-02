@@ -26,6 +26,7 @@ import com.uplink.carins.model.api.Result;
 import com.uplink.carins.ui.swipebacklayout.SwipeBackActivity;
 import com.uplink.carins.utils.IpAdressUtil;
 import com.uplink.carins.utils.LogUtil;
+import com.uplink.carins.utils.NoDoubleClickUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -151,7 +152,9 @@ public class PayConfirmActivity extends SwipeBackActivity implements View.OnClic
                 finish();
                 break;
             case R.id.btn_submit_gopay:
-                getPayQrCode();
+                if (!NoDoubleClickUtils.isDoubleClick()) {
+                    getPayQrCode();
+                }
                 break;
         }
     }

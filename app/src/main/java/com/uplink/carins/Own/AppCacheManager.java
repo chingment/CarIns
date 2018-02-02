@@ -91,6 +91,24 @@ public class AppCacheManager {
 
     }
 
+
+    public static List<CarInsCompanyBean> getCarInsCompanyCanApplyLossAssess() {
+
+        ArrayList<CarInsCompanyBean> carInsCompanys = AppCacheManager.getCarInsCompany();
+
+        List<CarInsCompanyBean> carInsCompanyCanInsures = new ArrayList<>();
+
+        for (CarInsCompanyBean bean : carInsCompanys) {
+
+            if (bean.getCanApplyLossAssess()) {
+                carInsCompanyCanInsures.add(bean);
+            }
+        }
+
+        return carInsCompanyCanInsures;
+
+    }
+
     public static void setCarInsKind(List<CarInsKindBean> carInsKindBean) {
         ArrayList<CarInsKindBean> been = (ArrayList<CarInsKindBean>) carInsKindBean;
 
