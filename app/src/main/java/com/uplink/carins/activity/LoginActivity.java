@@ -24,6 +24,7 @@ import android.widget.TextView;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.uplink.carins.Own.AppCacheManager;
+import com.uplink.carins.Own.AppContext;
 import com.uplink.carins.Own.Config;
 import com.uplink.carins.R;
 import com.uplink.carins.http.HttpClient;
@@ -34,6 +35,7 @@ import com.uplink.carins.model.api.PayConfirmBean;
 import com.uplink.carins.model.api.Result;
 import com.uplink.carins.model.api.UserBean;
 import com.uplink.carins.ui.BaseFragmentActivity;
+import com.uplink.carins.utils.CommonUtil;
 import com.uplink.carins.utils.IpAdressUtil;
 import com.uplink.carins.utils.LogUtil;
 import com.uplink.carins.utils.StringUtil;
@@ -236,6 +238,8 @@ public class LoginActivity extends BaseFragmentActivity implements View.OnClickL
         param.put("userName", username);
         param.put("password", password);
         param.put("deviceId", getAppContext().getDeviceId());
+
+
         HttpClient.postWithMy(Config.URL.login, param, null, new HttpResponseHandler() {
 
             @Override
@@ -260,6 +264,7 @@ public class LoginActivity extends BaseFragmentActivity implements View.OnClickL
 
                     user.setId(rt.getData().getUserId());
                     user.setMerchantId(rt.getData().getMerchantId());
+                    user.setPosMachineId(rt.getData().getPosMachineId());
                     user.setStatus(rt.getData().getStatus());
 
                     getAppContext().setUser(user);
