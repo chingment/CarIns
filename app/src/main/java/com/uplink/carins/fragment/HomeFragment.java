@@ -188,6 +188,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                                             @Override
                                             public void onClick(View v) {
 
+                                                handler.removeCallbacks(runnable); //关闭定时执行操作
+
                                                 dialog_logout.dismiss();
 
                                                 AppContext.getInstance().setUser(null);

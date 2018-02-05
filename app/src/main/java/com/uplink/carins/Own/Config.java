@@ -8,7 +8,7 @@ import com.uplink.carins.utils.StringUtil;
 
 
 public class Config {
-    public static final boolean showDebug = true;
+    public static final boolean showDebug = BuildConfig.SHOWDEBUG;
 
     public static String getSign(String data, String currenttime) {
         // 待加密
