@@ -23,6 +23,8 @@ public class HomePageBean implements Serializable {
 
     private  List<TalentDemandWorkJobBean> talentDemandWorkJob;
 
+    private OrderInfoBean  orderInfo;
+
     public void setBanner(List<BannerBean> banner) {
         this.banner = banner;
     }
@@ -72,6 +74,14 @@ public class HomePageBean implements Serializable {
 
     public List<TalentDemandWorkJobBean> getTalentDemandWorkJob() {
         return talentDemandWorkJob;
+    }
+
+    public OrderInfoBean getOrderInfo() {
+        return orderInfo;
+    }
+
+    public void setOrderInfo(OrderInfoBean orderInfo) {
+        this.orderInfo = orderInfo;
     }
 
 }

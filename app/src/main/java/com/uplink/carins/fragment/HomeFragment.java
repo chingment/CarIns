@@ -21,11 +21,13 @@ import com.uplink.carins.Own.AppManager;
 import com.uplink.carins.Own.Config;
 import com.uplink.carins.R;
 import com.uplink.carins.activity.CarClaimActivity;
+import com.uplink.carins.activity.CarInsureDocumentActivity;
 import com.uplink.carins.activity.CarInsureKindActivity;
 import com.uplink.carins.activity.ClaimsServiceAppActivity;
 import com.uplink.carins.activity.LoginActivity;
 import com.uplink.carins.activity.MainActivity;
 import com.uplink.carins.activity.OrderListActivity;
+import com.uplink.carins.activity.PayConfirmActivity;
 import com.uplink.carins.activity.TalentDemandActivity;
 import com.uplink.carins.activity.WebViewActivity;
 import com.uplink.carins.http.HttpClient;
@@ -95,13 +97,13 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 // TODO: 2018/1/19 暂时没有实现定时任务功能更新缓存
                 //AppCacheManager.setLastUpdateTime(CommonUtil.getCurrentTime());
                 LogUtil.i("测试定时任务:" + CommonUtil.getCurrentTime());
-                //loadData();
+                loadData();
                 handler.postDelayed(this, 2000);
             }
         };
 
 
-        //handler.postDelayed(runnable, 2000);//每两秒执行一次runnable.
+        handler.postDelayed(runnable, 2000);//每两秒执行一次runnable.
 
 
     }
@@ -354,6 +356,21 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                     AppCacheManager.setCarInsKind(bean.getCarInsKind());
                     AppCacheManager.setCarInsPlan(bean.getCarInsPlan());
                     AppCacheManager.setTalentDemandWorkJob(bean.getTalentDemandWorkJob());
+
+
+                    if(bean.getOrderInfo()!=null) {
+
+                        Bundle b = new Bundle();
+                        b.putSerializable("dataBean", bean.getOrderInfo());
+
+                        LogUtil.i("d.getOrderInfo()." + bean.getOrderInfo().getProductName());
+
+                        Intent intent = new Intent(context, PayConfirmActivity.class);
+                        intent.putExtras(b);
+
+                        startActivity(intent);
+                        //finish();
+                    }
                 }
             }
         }
