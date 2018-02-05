@@ -126,7 +126,7 @@ public class OrderDetailsServiceFeeActivity extends SwipeBackActivity implements
 
         if(StringUtil.isEmptyNotNull(bean.getDeposit()))
         {
-            txt_order_deposit.setVisibility(View.GONE);
+            layout_deposit.setVisibility(View.GONE);
         }
 
         switch (bean.getStatus()) {

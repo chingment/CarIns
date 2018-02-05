@@ -149,7 +149,13 @@ public class PayConfirmActivity extends SwipeBackActivity implements View.OnClic
 
         switch (v.getId()) {
             case R.id.btn_main_header_goback:
+                if (orderInfo.getProductType() == 301) {
+                    Intent intent = new Intent(PayConfirmActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                }
+
                 finish();
+
                 break;
             case R.id.btn_submit_gopay:
                 if (!NoDoubleClickUtils.isDoubleClick()) {

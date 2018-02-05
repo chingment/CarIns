@@ -73,6 +73,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 
     private CustomConfirmDialog dialog_logout;
 
+    private  Handler handler;
+    private  Runnable runnable;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -88,9 +90,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 
         loadData();
 
-
-        final Handler handler = new Handler();
-        Runnable runnable = new Runnable() {
+        handler = new Handler();
+        runnable = new Runnable() {
             @Override
             public void run() {
 
@@ -363,10 +364,13 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                         Bundle b = new Bundle();
                         b.putSerializable("dataBean", bean.getOrderInfo());
 
-                        LogUtil.i("d.getOrderInfo()." + bean.getOrderInfo().getProductName());
+                        LogUtil.i("d=>>>>>>>>getOrderInfo()." + bean.getOrderInfo().getProductName());
 
                         Intent intent = new Intent(context, PayConfirmActivity.class);
                         intent.putExtras(b);
+
+
+                        handler.removeCallbacks(runnable); //关闭定时执行操作
 
                         startActivity(intent);
                         //finish();
