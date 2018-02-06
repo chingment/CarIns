@@ -292,8 +292,7 @@ public class CarClaimActivity extends SwipeBackActivity implements View.OnClickL
                     Intent l_Intent = new Intent(CarClaimActivity.this, OrderListActivity.class);
                     l_Intent.putExtra("status", 1);
                     startActivity(l_Intent);
-                    AppManager.getAppManager().finishAllActivity();
-
+                    finish();
 
                 }
             });

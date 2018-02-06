@@ -323,7 +323,7 @@ public class TalentDemandActivity extends SwipeBackActivity implements View.OnCl
                     Intent l_Intent = new Intent(TalentDemandActivity.this, OrderListActivity.class);
                     l_Intent.putExtra("status", 1);
                     startActivity(l_Intent);
-                    AppManager.getAppManager().finishAllActivity();
+                    //AppManager.getAppManager().finishAllActivity();
 
 
                 }

@@ -258,8 +258,7 @@ public class ApplyLossAssessActivity extends SwipeBackActivity implements View.O
                     Intent l_Intent = new Intent(ApplyLossAssessActivity.this, OrderListActivity.class);
                     l_Intent.putExtra("status", 1);
                     startActivity(l_Intent);
-                    AppManager.getAppManager().finishAllActivity();
-
+                    finish();
 
                 }
             });

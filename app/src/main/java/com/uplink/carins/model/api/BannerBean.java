@@ -2,7 +2,7 @@ package com.uplink.carins.model.api;
 
 import java.io.Serializable;
 
-public class BannerBean  {
+public class BannerBean implements Serializable  {
 
 
     private int id;

@@ -149,7 +149,7 @@ public class OrderListActivity extends SwipeBackActivity implements View.OnClick
                 Intent intent = new Intent(OrderListActivity.this,MainActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
-                finish();
+                //finish();
 
                 break;
             case R.id.form_carclaim_select_company:

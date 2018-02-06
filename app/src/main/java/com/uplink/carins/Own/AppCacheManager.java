@@ -20,6 +20,7 @@ public class AppCacheManager {
     private static String Cache_Key_TalentDemandWorkJob = "Cache_TalentDemandWorkJob";
     private static String Cache_Key_User = "Cache_User";
     private static String Cache_Key_LastUserName = "Cache_LastUserName";
+    private static String Cache_Key_Banner = "Cache_Banner";
 
     private static ACache getCache() {
 
@@ -28,18 +29,21 @@ public class AppCacheManager {
 
     public static void setLastUpdateTime(String lastUpdateTime) {
 
-        if (lastUpdateTime != null) {
+        if(lastUpdateTime==null) {
+            AppCacheManager.getCache().remove(Cache_Key_LastUpdateTime);
+        }
+        else {
             AppCacheManager.getCache().put(Cache_Key_LastUpdateTime, lastUpdateTime);
         }
+
     }
 
     public static String getLastUpdateTime() {
 
-        String lastUpdateTime = null;
-        Object o = AppCacheManager.getCache().getAsObject(Cache_Key_LastUpdateTime);
-        if (o != null)
-            lastUpdateTime = o.toString();
+        String lastUpdateTime = AppCacheManager.getCache().getAsString(Cache_Key_LastUpdateTime);
 
+        if(lastUpdateTime==null)
+            return  "";
         return lastUpdateTime;
 
     }
@@ -254,9 +258,23 @@ public class AppCacheManager {
 
     public static String getLastUserName() {
 
-        String userName =  AppCacheManager.getCache().getAsString(Cache_Key_LastUserName);
+        String userName = AppCacheManager.getCache().getAsString(Cache_Key_LastUserName);
 
         return userName;
+
+    }
+
+
+    public static void setBanner(List<BannerBean> bannerBean) {
+        ArrayList<BannerBean> been = (ArrayList<BannerBean>) bannerBean;
+        AppCacheManager.getCache().put(Cache_Key_Banner, been);
+    }
+
+    public static List<BannerBean> getBanner() {
+
+        ArrayList<BannerBean> been = (ArrayList<BannerBean>) AppCacheManager.getCache().getAsObject(Cache_Key_Banner);
+
+        return been;
 
     }
 

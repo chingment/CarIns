@@ -73,8 +73,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 
     private CustomConfirmDialog dialog_logout;
 
-    private  Handler handler;
-    private  Runnable runnable;
+    private Handler handler;
+    private Runnable runnable;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -87,6 +87,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         context = (MainActivity) getActivity();
 
         initView();
+
+        //setBanner(AppCacheManager.getBanner());
 
         loadData();
 
@@ -193,7 +195,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                                                 dialog_logout.dismiss();
 
                                                 AppContext.getInstance().setUser(null);
-
+                                                AppCacheManager.setLastUpdateTime(null);
                                                 Intent l_Intent = new Intent(context, LoginActivity.class);
                                                 startActivity(l_Intent);
                                                 AppManager.getAppManager().finishAllActivity();
@@ -275,10 +277,13 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 
     private void setBanner(List<BannerBean> banner) {
 
-        home_banner_adapter = new GalleryPagerAdapter(banner);
-        home_banner_pager.setAdapter(home_banner_adapter);
-        home_banner_indicator.setViewPager(home_banner_pager);
-        home_banner_indicator.setPadding(5, 5, 10, 5);
+
+        if(banner!=null) {
+            home_banner_adapter = new GalleryPagerAdapter(banner);
+            home_banner_pager.setAdapter(home_banner_adapter);
+            home_banner_indicator.setViewPager(home_banner_pager);
+            home_banner_indicator.setPadding(5, 5, 10, 5);
+        }
     }
 
     private void loadData() {
@@ -287,6 +292,11 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         params.put("userId", context.getAppContext().getUser().getId() + "");
         params.put("merchantId", context.getAppContext().getUser().getMerchantId() + "");
         params.put("posMachineId", context.getAppContext().getUser().getPosMachineId() + "");
+        params.put("datetime", AppCacheManager.getLastUpdateTime() + "");
+
+
+        LogUtil.i("datetime:"+AppCacheManager.getLastUpdateTime());
+
         HttpClient.getWithMy(Config.URL.home, params, new CallBack());
     }
 
@@ -342,42 +352,40 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 
             if (rt.getResult() == Result.SUCCESS) {
 
+
                 HomePageBean bean = rt.getData();
 
-                Boolean isFlag = false;
-                if (bean.getLastUpdateTime() == null) {
-                    isFlag = true;
-                } else if (bean.getLastUpdateTime() != AppCacheManager.getLastUpdateTime()) {
-                    isFlag = true;
+                LogUtil.i("更新缓存数据"+bean.getLastUpdateTime());
+
+                AppCacheManager.setLastUpdateTime(bean.getLastUpdateTime());
+
+
+                setBanner(bean.getBanner());//设置banner
+
+                AppCacheManager.setBanner(bean.getBanner());
+                AppCacheManager.setCarInsCompany(bean.getCarInsCompany());
+                AppCacheManager.setCarInsPlan(bean.getCarInsPlan());
+                AppCacheManager.setCarInsKind(bean.getCarInsKind());
+                AppCacheManager.setTalentDemandWorkJob(bean.getTalentDemandWorkJob());
+
+
+                if (bean.getOrderInfo() != null) {
+
+                    Bundle b = new Bundle();
+                    b.putSerializable("dataBean", bean.getOrderInfo());
+
+                    LogUtil.i("d=>>>>>>>>getOrderInfo()." + bean.getOrderInfo().getProductName());
+
+                    Intent intent = new Intent(context, PayConfirmActivity.class);
+                    intent.putExtras(b);
+
+
+                    handler.removeCallbacks(runnable); //关闭定时执行操作
+
+                    startActivity(intent);
+                    //finish();
                 }
 
-                if (isFlag) {
-                    LogUtil.i("更新缓存数据");
-                    AppCacheManager.setLastUpdateTime(bean.getLastUpdateTime());
-                    setBanner(bean.getBanner());//设置banner
-                    AppCacheManager.setCarInsCompany(bean.getCarInsCompany());
-                    AppCacheManager.setCarInsKind(bean.getCarInsKind());
-                    AppCacheManager.setCarInsPlan(bean.getCarInsPlan());
-                    AppCacheManager.setTalentDemandWorkJob(bean.getTalentDemandWorkJob());
-
-
-                    if(bean.getOrderInfo()!=null) {
-
-                        Bundle b = new Bundle();
-                        b.putSerializable("dataBean", bean.getOrderInfo());
-
-                        LogUtil.i("d=>>>>>>>>getOrderInfo()." + bean.getOrderInfo().getProductName());
-
-                        Intent intent = new Intent(context, PayConfirmActivity.class);
-                        intent.putExtras(b);
-
-
-                        handler.removeCallbacks(runnable); //关闭定时执行操作
-
-                        startActivity(intent);
-                        //finish();
-                    }
-                }
             }
         }
 
