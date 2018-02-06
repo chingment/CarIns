@@ -374,7 +374,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                     Bundle b = new Bundle();
                     b.putSerializable("dataBean", bean.getOrderInfo());
 
-                    LogUtil.i("d=>>>>>>>>getOrderInfo()." + bean.getOrderInfo().getProductName());
+                    LogUtil.i("d=>>>>>>>>getOrderInfo().getProductName" + bean.getOrderInfo().getProductName());
+                    LogUtil.i("d=>>>>>>>>getOrderInfo().getProductType" + bean.getOrderInfo().getProductType());
 
                     Intent intent = new Intent(context, PayConfirmActivity.class);
                     intent.putExtras(b);

@@ -14,6 +14,9 @@ import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
+import com.uplink.carins.Own.AppCacheManager;
+import com.uplink.carins.Own.AppContext;
+import com.uplink.carins.Own.AppManager;
 import com.uplink.carins.Own.Config;
 import com.uplink.carins.R;
 import com.uplink.carins.http.HttpClient;
@@ -150,12 +153,22 @@ public class PayConfirmActivity extends SwipeBackActivity implements View.OnClic
         switch (v.getId()) {
             case R.id.btn_main_header_goback:
 
+                LogUtil.i("d=>>>>>>>>getOrderInfo().getProductType2" + orderInfo.getProductType());
+
                 if (orderInfo.getProductType() == 301) {
+
+                    AppContext.getInstance().setUser(null);
+                    AppCacheManager.setLastUpdateTime(null);
+
                     Intent intent = new Intent(PayConfirmActivity.this, LoginActivity.class);
                     startActivity(intent);
-                }
 
-                finish();
+                    AppManager.getAppManager().finishAllActivity();
+                }
+                else
+                {
+                    finish();
+                }
 
                 break;
             case R.id.btn_submit_gopay:
