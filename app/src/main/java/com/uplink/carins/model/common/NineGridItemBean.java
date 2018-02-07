@@ -8,10 +8,21 @@ package com.uplink.carins.model.common;
 
 public class NineGridItemBean {
 
+    private int appId;
     private String title;
     private Object icon;
     private NineGridItemType type;
     private String action;
+
+
+    public int getAppId() {
+        return appId;
+    }
+
+    public void setAppId(int appId) {
+        this.appId = appId;
+    }
+
     public String getTitle() {
         return title;
     }
@@ -50,8 +61,9 @@ public class NineGridItemBean {
 
     }
 
-    public  NineGridItemBean(String title,NineGridItemType type,String action, Object icon)
+    public  NineGridItemBean(int appId, String title,NineGridItemType type,String action, Object icon)
     {
+        this.appId=appId;
         this.title=title;
         this.type=type;
         this.icon=icon;

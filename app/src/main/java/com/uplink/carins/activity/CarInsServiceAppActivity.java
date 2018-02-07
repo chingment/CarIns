@@ -1,7 +1,6 @@
 package com.uplink.carins.activity;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,34 +12,33 @@ import android.widget.ImageView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
-import com.uplink.carins.Own.AppContext;
-import com.uplink.carins.Own.AppManager;
+import com.uplink.carins.Own.AppCacheManager;
 import com.uplink.carins.R;
+import com.uplink.carins.model.api.ExtendedAppBean;
 import com.uplink.carins.model.common.NineGridItemBean;
 import com.uplink.carins.model.common.NineGridItemType;
 import com.uplink.carins.ui.ViewHolder;
-import com.uplink.carins.ui.dialog.CustomConfirmDialog;
 import com.uplink.carins.ui.my.MyGridView;
 import com.uplink.carins.ui.swipebacklayout.SwipeBackActivity;
 import com.uplink.carins.utils.CommonUtil;
+import com.uplink.carins.utils.LogUtil;
 import com.uplink.carins.utils.NoDoubleClickUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class ClaimsServiceAppActivity extends SwipeBackActivity implements View.OnClickListener {
+public class CarInsServiceAppActivity extends SwipeBackActivity implements View.OnClickListener {
 
-    String TAG = "ClaimsServiceAppActivity";
+    String TAG = "CarInsServiceAppActivity";
     private ImageView btnHeaderGoBack;
     private TextView txtHeaderTitle;
     private LayoutInflater inflater;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_claimsserviceapp);
-        inflater = LayoutInflater.from(ClaimsServiceAppActivity.this);
+        setContentView(R.layout.activity_carinsserviceapp);
+        inflater = LayoutInflater.from(CarInsServiceAppActivity.this);
         initView();
         initEvent();
     }
@@ -50,7 +48,8 @@ public class ClaimsServiceAppActivity extends SwipeBackActivity implements View.
         btnHeaderGoBack = (ImageView) findViewById(R.id.btn_main_header_goback);
         btnHeaderGoBack.setVisibility(View.VISIBLE);
         txtHeaderTitle = (TextView) findViewById(R.id.txt_main_header_title);
-        txtHeaderTitle.setText("理赔服务");
+        txtHeaderTitle.setText("投保服务");
+
 
 
         MyGridView gridview = (MyGridView) findViewById(R.id.gridview_ninegrid);
@@ -58,14 +57,18 @@ public class ClaimsServiceAppActivity extends SwipeBackActivity implements View.
 
         final List<NineGridItemBean> gridviewitems = new ArrayList<NineGridItemBean>();
 
+        gridviewitems.add(new NineGridItemBean(0,"好易联投保", NineGridItemType.Window, "com.uplink.carins.activity.CarInsureKindActivity", R.drawable.ic_app_yjtb));
 
-        gridviewitems.add(new NineGridItemBean(0,"一键理赔", NineGridItemType.Window, "com.uplink.carins.activity.CarClaimActivity", R.drawable.ic_app_yjlp));
-        gridviewitems.add(new NineGridItemBean(0,"定损点申请", NineGridItemType.Window, "com.uplink.carins.activity.ApplyLossAssessActivity", R.drawable.ic_app_yjtb));
+        List<ExtendedAppBean> extendedApp = AppCacheManager.getExtendedAppByCarInsService();
+
+        for (ExtendedAppBean bean : extendedApp) {
+            gridviewitems.add(new NineGridItemBean(bean.getId(),bean.getName(), NineGridItemType.Url, bean.getLinkUrl(), bean.getImgUrl()));
+        }
 
         NineGridItemdapter nineGridItemdapter=new NineGridItemdapter(gridviewitems);
 
-        //添加并且显示
         gridview.setAdapter(nineGridItemdapter);
+
         //添加消息处理
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -84,18 +87,14 @@ public class ClaimsServiceAppActivity extends SwipeBackActivity implements View.
                         case Window:
                             intent = new Intent();
                             switch (action) {
-                                case "com.uplink.carins.activity.CarClaimActivity":
-                                    intent = new Intent(ClaimsServiceAppActivity.this, CarClaimActivity.class);
-                                    startActivity(intent);
-                                    break;
-                                case "com.uplink.carins.activity.ApplyLossAssessActivity":
-                                    intent = new Intent(ClaimsServiceAppActivity.this, ApplyLossAssessActivity.class);
+                                case "com.uplink.carins.activity.CarInsureKindActivity":
+                                    intent = new Intent(CarInsServiceAppActivity.this, CarInsureKindActivity.class);
                                     startActivity(intent);
                                     break;
                             }
                             break;
                         case Url:
-                            intent = new Intent(ClaimsServiceAppActivity.this, WebViewActivity.class);
+                            intent = new Intent(CarInsServiceAppActivity.this, WebViewActivity.class);
                             intent.putExtra("title", title);
                             intent.putExtra("url", CommonUtil.getExtendedAppUrl(gridviewitem));
                             startActivity(intent);
@@ -120,6 +119,7 @@ public class ClaimsServiceAppActivity extends SwipeBackActivity implements View.
                 break;
         }
     }
+
 
     private class NineGridItemdapter extends BaseAdapter {
 
@@ -164,7 +164,7 @@ public class ClaimsServiceAppActivity extends SwipeBackActivity implements View.
             }
             else
             {
-                CommonUtil.loadImageFromUrl(ClaimsServiceAppActivity.this,item_img,bean.getIcon().toString());
+                CommonUtil.loadImageFromUrl(CarInsServiceAppActivity.this,item_img,bean.getIcon().toString());
             }
 
             return convertView;

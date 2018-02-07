@@ -3,6 +3,7 @@ package com.uplink.carins.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.telephony.TelephonyManager;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,8 +15,14 @@ import android.widget.RadioGroup;
 
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
+import com.uplink.carins.Own.AppCacheManager;
+import com.uplink.carins.Own.Config;
 import com.uplink.carins.R;
+import com.uplink.carins.model.api.UserBean;
+import com.uplink.carins.model.common.NineGridItemBean;
 
+import java.io.IOException;
+import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -85,12 +92,10 @@ public class CommonUtil {
 
     }
 
-
     public static int px2dip(int pxValue) {
         final float scale = Resources.getSystem().getDisplayMetrics().density;
         return (int) (pxValue / scale + 0.5f);
     }
-
 
     public static float dip2px(float dipValue) {
         final float scale = Resources.getSystem().getDisplayMetrics().density;
@@ -133,6 +138,27 @@ public class CommonUtil {
             isBigger = false;
         }
         return isBigger;
+    }
+
+    public static String getExtendedAppUrl(NineGridItemBean item)
+    {
+        //return item.getAction();
+        UserBean user= AppCacheManager.getUser();
+
+        String appId=item.getAppId()+"";
+        String userId="";
+        String merchantId="";
+        String posMachineId="";
+
+        if(user!=null)
+        {
+            userId= user.getId()+"";
+            merchantId=user.getMerchantId()+"";
+            posMachineId=user.getPosMachineId()+"";
+        }
+
+        String url=Config.URL.extendedAppGoTo+"?userId="+userId+"&merchantId="+merchantId+"&posMachineId="+posMachineId+"&appId="+appId;
+        return url;
     }
 
 }

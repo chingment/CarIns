@@ -21,6 +21,7 @@ public class AppCacheManager {
     private static String Cache_Key_User = "Cache_User";
     private static String Cache_Key_LastUserName = "Cache_LastUserName";
     private static String Cache_Key_Banner = "Cache_Banner";
+    private static String Cache_Key_ExtendedApp = "Cache_ExtendedApp";
 
     private static ACache getCache() {
 
@@ -29,10 +30,9 @@ public class AppCacheManager {
 
     public static void setLastUpdateTime(String lastUpdateTime) {
 
-        if(lastUpdateTime==null) {
+        if (lastUpdateTime == null) {
             AppCacheManager.getCache().remove(Cache_Key_LastUpdateTime);
-        }
-        else {
+        } else {
             AppCacheManager.getCache().put(Cache_Key_LastUpdateTime, lastUpdateTime);
         }
 
@@ -42,8 +42,8 @@ public class AppCacheManager {
 
         String lastUpdateTime = AppCacheManager.getCache().getAsString(Cache_Key_LastUpdateTime);
 
-        if(lastUpdateTime==null)
-            return  "";
+        if (lastUpdateTime == null)
+            return "";
         return lastUpdateTime;
 
     }
@@ -278,4 +278,69 @@ public class AppCacheManager {
 
     }
 
+
+    public static void setExtendedApp(List<ExtendedAppBean> extendedApp) {
+        ArrayList<ExtendedAppBean> been = (ArrayList<ExtendedAppBean>) extendedApp;
+        AppCacheManager.getCache().put(Cache_Key_ExtendedApp, been);
+    }
+
+    public static List<ExtendedAppBean> getExtendedApp() {
+
+        ArrayList<ExtendedAppBean> been = (ArrayList<ExtendedAppBean>) AppCacheManager.getCache().getAsObject(Cache_Key_ExtendedApp);
+
+        return been;
+
+    }
+
+
+    public static List<ExtendedAppBean> getExtendedAppByCarInsService() {
+
+        List<ExtendedAppBean> extendedApps = AppCacheManager.getExtendedApp();
+
+        List<ExtendedAppBean> extendedAppsByCarInsService = new ArrayList<>();
+
+        for (ExtendedAppBean bean : extendedApps) {
+
+            if (bean.getType() == 3) {
+                extendedAppsByCarInsService.add(bean);
+            }
+        }
+
+        return extendedAppsByCarInsService;
+
+    }
+
+    public static List<ExtendedAppBean> getExtendedAppByThirdPartyApp() {
+
+        List<ExtendedAppBean> extendedApps = AppCacheManager.getExtendedApp();
+
+        List<ExtendedAppBean> extendedAppsByCarInsService = new ArrayList<>();
+
+        for (ExtendedAppBean bean : extendedApps) {
+
+            if (bean.getType() == 2) {
+                extendedAppsByCarInsService.add(bean);
+            }
+        }
+
+        return extendedAppsByCarInsService;
+
+    }
+
+    public static List<ExtendedAppBean> getExtendedAppByHaoYiLianApp() {
+
+        List<ExtendedAppBean> extendedApps = AppCacheManager.getExtendedApp();
+
+        List<ExtendedAppBean> extendedAppsByCarInsService = new ArrayList<>();
+
+        for (ExtendedAppBean bean : extendedApps) {
+
+            if (bean.getType() == 1) {
+                extendedAppsByCarInsService.add(bean);
+            }
+        }
+
+        return extendedAppsByCarInsService;
+
+    }
 }

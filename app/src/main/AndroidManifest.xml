@@ -33,12 +33,13 @@
         <activity android:name=".activity.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
-                 android:name=".activity.MainActivity"
-                  android:launchMode="singleTask"/>
+            android:name=".activity.MainActivity"
+            android:launchMode="singleTask" />
         <activity android:name=".activity.CarClaimActivity" />
         <activity android:name=".activity.WebViewActivity" />
         <activity android:name=".activity.CarInsureKindActivity" />
@@ -74,7 +75,8 @@
         <activity android:name=".activity.OrderDetailsServiceFeeActivity" />
         <activity android:name=".activity.ClaimsServiceAppActivity" />
         <activity android:name=".activity.ApplyLossAssessActivity" />
-        <activity android:name=".activity.OrderDetailsApplyLossAssessActivity"></activity>
+        <activity android:name=".activity.OrderDetailsApplyLossAssessActivity" />
+        <activity android:name=".activity.CarInsServiceAppActivity"></activity>
     </application>
 
 </manifest>

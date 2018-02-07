@@ -25,6 +25,9 @@ public class HomePageBean implements Serializable {
 
     private OrderInfoBean  orderInfo;
 
+    private  List<ExtendedAppBean>  extendedApp;
+
+
     public void setBanner(List<BannerBean> banner) {
         this.banner = banner;
     }
@@ -83,5 +86,16 @@ public class HomePageBean implements Serializable {
     public void setOrderInfo(OrderInfoBean orderInfo) {
         this.orderInfo = orderInfo;
     }
+
+
+    public void setExtendedApp(List<ExtendedAppBean> extendedApp) {
+        this.extendedApp = extendedApp;
+    }
+
+    public List<ExtendedAppBean> getExtendedApp() {
+        return extendedApp;
+    }
+
+
 
 }

@@ -39,5 +39,6 @@ public class Config {
         public static final String accountCreate = BuildConfig.ENVIRONMENT  + "/api/Account/Create";
         public static final String orderQrCodeDownload = BuildConfig.ENVIRONMENT  + "/api/Order/QrCodeDownload";
         public static final String orderPayResultQuery = BuildConfig.ENVIRONMENT  + "/api/Order/PayResultQuery";
+        public static final String extendedAppGoTo = BuildConfig.ENVIRONMENT  + "/api/ExtendedApp/GoTo";
     }
 }
