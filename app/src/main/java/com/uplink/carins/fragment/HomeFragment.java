@@ -96,39 +96,35 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 
         initView();
 
-        //setBanner(AppCacheManager.getBanner());
-
         loadData();
 
         handler = new Handler();
         runnable = new Runnable() {
             @Override
             public void run() {
-
-                // TODO: 2018/1/19 暂时没有实现定时任务功能更新缓存
-                //AppCacheManager.setLastUpdateTime(CommonUtil.getCurrentTime());
-                LogUtil.i("测试定时任务:" + CommonUtil.getCurrentTime());
+                LogUtil.i("定时任务:" + CommonUtil.getCurrentTime());
                 loadData();
                 handler.postDelayed(this, 2000);
             }
         };
 
-
         handler.postDelayed(runnable, 2000);//每两秒执行一次runnable.
 
 
+        setBanner(AppCacheManager.getBanner());
+        setThirdPartyApp(AppCacheManager.getExtendedAppByThirdPartyApp());
+        setHaoYiLianApp(AppCacheManager.getExtendedAppByHaoYiLianApp());
     }
 
     public void initView() {
 
-        //homebanner
+
         home_banner = (RelativeLayout) root.findViewById(R.id.home_banner);
         home_banner_pager = (AutoLoopViewPager) root.findViewById(R.id.home_banner_pager);
         home_banner_pager.setFocusable(true);
         home_banner_pager.setFocusableInTouchMode(true);
         home_banner_pager.requestFocus();
         home_banner_indicator = (CirclePageIndicator) root.findViewById(R.id.home_banner_indicator);
-
 
         gridview_ninegrid_haoyilianapp = (MyGridView) context.findViewById(R.id.gridview_ninegrid_haoyilian);
         gridview_ninegrid_thirdpartyapp = (MyGridView) context.findViewById(R.id.gridview_ninegrid_thirdpartyapp);
@@ -214,7 +210,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         params.put("userId", context.getAppContext().getUser().getId() + "");
         params.put("merchantId", context.getAppContext().getUser().getMerchantId() + "");
         params.put("posMachineId", context.getAppContext().getUser().getPosMachineId() + "");
-        params.put("datetime", "");
+        params.put("datetime", AppCacheManager.getLastUpdateTime());
 
 
         LogUtil.i("datetime:" + AppCacheManager.getLastUpdateTime());
@@ -306,6 +302,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                     handler.removeCallbacks(runnable); //关闭定时执行操作
 
                     startActivity(intent);
+
+                    AppManager.getAppManager().finishAllActivity();
                     //finish();
                 }
 

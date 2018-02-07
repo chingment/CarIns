@@ -59,7 +59,7 @@ public class MainActivity extends BaseFragmentActivity {
         initVent();//加载控件事件
         showFragment();//展示默认Fragment
 
-        beginConnect();
+        //beginConnect();
     }
 
     /**
