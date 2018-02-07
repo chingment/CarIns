@@ -1,5 +1,11 @@
 apply plugin: 'com.android.application'
 
+def buildTime() {
+    def date = new Date()
+    def formattedDate = date.format('yyyyMMddHH')
+    return formattedDate
+}
+
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
@@ -40,10 +46,22 @@ android {
             buildConfigField "String", "APPKEY", "\"test\""
             buildConfigField "String", "APPSECRET", "\"6ZB97cdVz211O08EKZ6yriAYrHXFBowC\""
             buildConfigField "boolean", "SHOWDEBUG", "false"
+            minifyEnabled true
             shrinkResources true
-            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.config
+
+            applicationVariants.all { variant ->
+                variant.outputs.each { output ->
+                    if (output.outputFile != null && output.outputFile.name.endsWith('.apk')
+                            && 'release'.equals(variant.buildType.name)) {
+                        def apkFile = new File(
+                                output.outputFile.getParent(),
+                                "HYL_v${variant.versionName}_c${variant.versionCode}_t${buildTime()}.apk")
+                        output.outputFile = apkFile
+                    }
+                }
+            }
         }
     }
 
