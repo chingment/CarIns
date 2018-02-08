@@ -58,7 +58,10 @@ public class HttpClient {
         builder.writeTimeout(WRITE_TIME_OUT, TimeUnit.SECONDS);
         builder.readTimeout(READ_TIME_OUT, TimeUnit.SECONDS);
         builder.networkInterceptors().add(new LoggingInterceptor());
+
         client = builder.build();
+
+
         client.dispatcher().setMaxRequestsPerHost(MAX_REQUESTS_PER_HOST);
     }
 
@@ -175,8 +178,11 @@ public class HttpClient {
 
         if (!isNetworkAvailable()) {
             Toast.makeText(AppContext.getInstance(), R.string.no_network_connection_toast, Toast.LENGTH_SHORT).show();
+            handler.sendCompleteMessage();
             return;
         }
+
+        handler.sendBeforeSendMessage();
 
         String data = "";
         if (param != null && param.size() > 0) {
@@ -202,11 +208,14 @@ public class HttpClient {
                 } catch (Exception e) {
                     handler.sendFailureMessage(call.request(), e);
                 }
+
+                handler.sendCompleteMessage();
             }
 
             @Override
             public void onFailure(Call call, IOException e) {
                 handler.sendFailureMessage(call.request(), e);
+                handler.sendCompleteMessage();
             }
         });
     }
@@ -214,8 +223,11 @@ public class HttpClient {
     public static void postWithMy(String url, Map<String, Object> params, Map<String, String> filePaths, final HttpResponseHandler handler) {
         if (!isNetworkAvailable()) {
             Toast.makeText(AppContext.getInstance(), R.string.no_network_connection_toast, Toast.LENGTH_SHORT).show();
+            handler.sendCompleteMessage();
             return;
         }
+
+        handler.sendBeforeSendMessage();
 
 //        MultipartBody.Builder multipartBodyBuilder = new MultipartBody.Builder().setType(MultipartBody.FORM);
 //
@@ -246,6 +258,7 @@ public class HttpClient {
             }
         } catch (JSONException e) {
             e.printStackTrace();
+            handler.sendCompleteMessage();
             return;
         }
 
@@ -276,6 +289,7 @@ public class HttpClient {
             }
         } catch (JSONException e) {
             e.printStackTrace();
+            handler.sendCompleteMessage();
             return;
         }
 
@@ -287,19 +301,25 @@ public class HttpClient {
         RequestBody body = RequestBody.create(MediaType_JSON, data);
 
         requestBuilder.post(body);
+
+
         client.newCall(requestBuilder.build()).enqueue(new Callback() {
             @Override
             public void onResponse(Call call, Response response) {
                 try {
                     handler.sendSuccessMessage(response.body().string());
+
                 } catch (Exception e) {
                     handler.sendFailureMessage(call.request(), e);
                 }
+
+                handler.sendCompleteMessage();
             }
 
             @Override
             public void onFailure(Call call, IOException e) {
                 handler.sendFailureMessage(call.request(), e);
+                handler.sendCompleteMessage();
             }
         });
     }

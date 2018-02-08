@@ -22,11 +22,15 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 
+import com.uplink.carins.utils.StringUtil;
+
 import okhttp3.Request;
 
 public class HttpResponseHandler {
     protected static final int SUCCESS_MESSAGE = 0;
     protected static final int FAILURE_MESSAGE = 1;
+    protected static final int COMPLETE_MESSAGE = 2;
+    protected static final int BEFORESEMD_MESSAGE = 3;
 
     private Handler handler;
 
@@ -66,6 +70,16 @@ public class HttpResponseHandler {
     public void onFailure(Request request, Exception e) {
     }
 
+    public void onComplete() {
+
+    }
+
+    public  void  onBeforeSend() {
+
+    }
+
+
+
     //
     // 后台线程调用方法，通过Handler sendMessage把结果转到UI主线程
     //
@@ -81,6 +95,14 @@ public class HttpResponseHandler {
         sendMessage(obtainMessage(FAILURE_MESSAGE, new Object[]{e, request}));
     }
 
+    protected void sendCompleteMessage() {
+        sendMessage(obtainMessage(COMPLETE_MESSAGE,null));
+    }
+
+    protected void sendBeforeSendMessage() {
+        sendMessage(obtainMessage(BEFORESEMD_MESSAGE,null));
+    }
+
     //
     // Pre-processing of messages (in original calling thread, typically the UI thread)
     //
@@ -93,6 +115,14 @@ public class HttpResponseHandler {
         onFailure(request, e);
     }
 
+    protected void handleCompleteMessage() {
+        onComplete();
+    }
+
+    protected void handleBeforeSendMessage() {
+        onBeforeSend();
+    }
+
 
     // Methods which emulate android's Handler and Message methods
     protected void handleMessage(Message msg) {
@@ -103,6 +133,12 @@ public class HttpResponseHandler {
             case FAILURE_MESSAGE:
                 Object[] response = (Object[]) msg.obj;
                 handleFailureMessage((Request) response[1], (Exception) response[0]);
+                break;
+            case COMPLETE_MESSAGE:
+                handleCompleteMessage();
+                break;
+            case BEFORESEMD_MESSAGE:
+                handleBeforeSendMessage();
                 break;
         }
     }

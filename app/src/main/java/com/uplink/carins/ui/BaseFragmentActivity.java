@@ -14,10 +14,17 @@ import com.umeng.analytics.MobclickAgent;
 import com.uplink.carins.Own.AppCacheManager;
 import com.uplink.carins.Own.AppContext;
 import com.uplink.carins.Own.AppManager;
+import com.uplink.carins.Own.Config;
 import com.uplink.carins.R;
 import com.uplink.carins.activity.MainActivity;
+import com.uplink.carins.http.HttpClient;
+import com.uplink.carins.http.HttpResponseHandler;
 import com.uplink.carins.utils.LogUtil;
 import com.uplink.carins.utils.StringUtil;
+
+import java.util.Map;
+
+import okhttp3.Request;
 
 /**
  * Created by chingment on 2017/8/23.
@@ -185,7 +192,6 @@ public class BaseFragmentActivity extends FragmentActivity {
     protected void onResume() {
         super.onResume();
 
-
         LogUtil.e("onResume is invoke!!!");
     }
 
@@ -226,5 +232,58 @@ public class BaseFragmentActivity extends FragmentActivity {
     public void finish() {
         super.finish();
 
+    }
+
+
+    public  void postWithMy(String url, Map<String, Object> params, Map<String, String> filePaths, final HttpResponseHandler handler) {
+
+        HttpClient.postWithMy(url, params, filePaths, new HttpResponseHandler() {
+
+            @Override
+            public  void onBeforeSend() {
+                showProgressDialog(false);
+            }
+
+            @Override
+            public void onSuccess(String response) {
+                handler.onSuccess(response);
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                handler.onFailure(request,e);
+            }
+
+            @Override
+            public void onComplete() {
+                removeProgressDialog();
+            }
+        });
+    }
+
+    public  void  getWithMy(String url, Map<String, String> param, final HttpResponseHandler handler)
+    {
+        HttpClient.getWithMy(url, param, new HttpResponseHandler() {
+
+            @Override
+            public  void onBeforeSend() {
+                showProgressDialog(false);
+            }
+
+            @Override
+            public void onSuccess(String response) {
+                handler.onSuccess(response);
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                handler.onFailure(request,e);
+            }
+
+            @Override
+            public void onComplete() {
+                removeProgressDialog();
+            }
+        });
     }
 }

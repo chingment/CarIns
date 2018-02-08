@@ -326,7 +326,6 @@ public class OrderDetailsCarInsrueActivity extends ChoicePhotoAndCropAndSwipeBac
             return;
         }
 
-        showProgressDialog(false);
 
         Map<String, Object> params = new HashMap<>();
         params.put("userId", this.getAppContext().getUser().getId() + "");//21
@@ -342,11 +341,11 @@ public class OrderDetailsCarInsrueActivity extends ChoicePhotoAndCropAndSwipeBac
             }
         }
 
-        HttpClient.postWithMy(Config.URL.submitFollowInsure, params, files, new HttpResponseHandler() {
+        postWithMy(Config.URL.submitFollowInsure, params, files, new HttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
                 super.onSuccess(response);
-                removeProgressDialog();
+
 
                 LogUtil.i(TAG,"onSuccess====>>>" + response);
 
@@ -368,7 +367,6 @@ public class OrderDetailsCarInsrueActivity extends ChoicePhotoAndCropAndSwipeBac
                 super.onFailure(request, e);
                 LogUtil.e(TAG,"onFailure====>>>" + e.getMessage());
                 showToast("提交失败");
-                removeProgressDialog();
             }
         });
     }

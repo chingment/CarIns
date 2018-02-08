@@ -131,18 +131,18 @@ public class OrderDetailsTalentDemandActivity extends SwipeBackActivity implemen
     }
 
     private void loadData() {
-        showProgressDialog(false);
+
         Map<String, String> params = new HashMap<>();
         params.put("userId", this.getAppContext().getUser().getId()+"");
         params.put("merchantId", this.getAppContext().getUser().getMerchantId()+"");
         params.put("posMachineId", this.getAppContext().getUser().getPosMachineId()+"");
         params.put("orderId", order.getId() + "");
         params.put("productType", order.getProductType() + "");
-        HttpClient.getWithMy(Config.URL.getDetails, params, new HttpResponseHandler() {
+        getWithMy(Config.URL.getDetails, params, new HttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
                 super.onSuccess(response);
-                removeProgressDialog();
+
                 LogUtil.i(TAG,"onSuccess====>>>" + response);
 
                 ApiResultBean<OrderDetailsTalentDemandBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<OrderDetailsTalentDemandBean>>() {
@@ -157,7 +157,6 @@ public class OrderDetailsTalentDemandActivity extends SwipeBackActivity implemen
             public void onFailure(Request request, Exception e) {
                 super.onFailure(request, e);
                 LogUtil.e(TAG,"onFailure====>>>" + e.getMessage());
-                removeProgressDialog();
             }
 
         });

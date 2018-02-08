@@ -292,7 +292,6 @@ public class OrderDetailsCarClaimsActivity extends ChoicePhotoAndCropAndSwipeBac
             return;
         }
 
-        showProgressDialog("正在上传中...", false);
         Map<String, Object> params = new HashMap<>();
         params.put("userId", this.getAppContext().getUser().getId()+"");
         params.put("orderId", "" + order.getId());
@@ -302,11 +301,11 @@ public class OrderDetailsCarClaimsActivity extends ChoicePhotoAndCropAndSwipeBac
 
         files.put("estimateListImg",list_order_zj_path.get(0));
 
-        HttpClient.postWithMy(Config.URL.submitEstimateList, params, files, new HttpResponseHandler() {
+        postWithMy(Config.URL.submitEstimateList, params, files, new HttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
                 super.onSuccess(response);
-                removeProgressDialog();
+
                 LogUtil.i("onSuccess===>>" + response);
 
                 ApiResultBean<Object> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<Object>>() {
@@ -325,7 +324,6 @@ public class OrderDetailsCarClaimsActivity extends ChoicePhotoAndCropAndSwipeBac
                 super.onFailure(request, e);
                 LogUtil.e("onFailure===>>" + e.getMessage());
                 showToast("提交失败");
-                removeProgressDialog();
             }
         });
 

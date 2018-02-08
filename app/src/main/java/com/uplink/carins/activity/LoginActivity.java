@@ -232,7 +232,6 @@ public class LoginActivity extends BaseFragmentActivity implements View.OnClickL
             return;
         }
 
-        showProgressDialog(false);
 
         Map<String, Object> param = new HashMap<>();
         param.put("userName", username);
@@ -240,12 +239,12 @@ public class LoginActivity extends BaseFragmentActivity implements View.OnClickL
         param.put("deviceId", getAppContext().getDeviceId());
 
 
-        HttpClient.postWithMy(Config.URL.login, param, null, new HttpResponseHandler() {
+        postWithMy(Config.URL.login, param, null, new HttpResponseHandler() {
 
             @Override
             public void onSuccess(String response) {
                 super.onSuccess(response);
-                removeProgressDialog();
+
                 LogUtil.i(TAG, "onSuccess===>>" + response);
 
                 ApiResultBean<LoginResultBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<LoginResultBean>>() {
@@ -306,7 +305,7 @@ public class LoginActivity extends BaseFragmentActivity implements View.OnClickL
                 super.onFailure(request, e);
                 LogUtil.e(TAG, e);
                 showToast("登陆失败");
-                removeProgressDialog();
+
             }
 
         });

@@ -248,7 +248,7 @@ public class CarClaimActivity extends SwipeBackActivity implements View.OnClickL
         params.put("merchantId", this.getAppContext().getUser().getMerchantId());
         params.put("repairsType", repairsType);
 
-        HttpClient.postWithMy(Config.URL.submitClaim, params, null, new HttpResponseHandler() {
+        postWithMy(Config.URL.submitClaim, params, null, new HttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
                 super.onSuccess(response);
@@ -262,14 +262,12 @@ public class CarClaimActivity extends SwipeBackActivity implements View.OnClickL
                     showSuccessDialog();
                 }
 
-                removeProgressDialog();
             }
 
             @Override
             public void onFailure(Request request, Exception e) {
                 super.onFailure(request, e);
                 LogUtil.e(TAG, "onFailure====>>>" + e.getMessage());
-                removeProgressDialog();
                 showToast("提交失败");
             }
         });

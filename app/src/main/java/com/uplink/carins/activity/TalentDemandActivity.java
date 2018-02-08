@@ -279,7 +279,7 @@ public class TalentDemandActivity extends SwipeBackActivity implements View.OnCl
         params.put("useStartTime", useStartTime);
         params.put("useEndTime", useEndTime);
 
-        HttpClient.postWithMy(Config.URL.submitTalentDemand, params,null, new  HttpResponseHandler() {
+        postWithMy(Config.URL.submitTalentDemand, params,null, new  HttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
                 super.onSuccess(response);
@@ -295,14 +295,12 @@ public class TalentDemandActivity extends SwipeBackActivity implements View.OnCl
                     showSuccessDialog();
                 }
 
-                removeProgressDialog();
             }
 
             @Override
             public void onFailure(Request request, Exception e) {
                 super.onFailure(request, e);
                 LogUtil.e(TAG,"onFailure====>>>" + e.getMessage());
-                removeProgressDialog();
                 showToast("提交失败");
             }
         });

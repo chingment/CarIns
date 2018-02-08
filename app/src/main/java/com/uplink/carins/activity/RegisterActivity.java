@@ -149,15 +149,15 @@ public class RegisterActivity extends SwipeBackActivity implements View.OnClickL
             showToast("请输入正确的手机号");
             return;
         }
-        showProgressDialog(false);
+
         Map<String, Object> params = new HashMap<>();
         params.put("phone", phone);
 
-        HttpClient.postWithMy(Config.URL.getCreateAccountCode, params, null, new HttpResponseHandler() {
+        postWithMy(Config.URL.getCreateAccountCode, params, null, new HttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
                 super.onSuccess(response);
-                removeProgressDialog();
+
                 LogUtil.i("onSuccess===>>" + response);
 
                 ApiResultBean<GetCreateAccountCodeResultBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<GetCreateAccountCodeResultBean>>() {
@@ -181,7 +181,6 @@ public class RegisterActivity extends SwipeBackActivity implements View.OnClickL
             public void onFailure(Request request, Exception e) {
                 super.onFailure(request, e);
                 LogUtil.e(TAG, "onFailure====>>>" + e.getMessage());
-                removeProgressDialog();
                 showToast("验证码获取失败");
             }
         });
@@ -220,7 +219,6 @@ public class RegisterActivity extends SwipeBackActivity implements View.OnClickL
         }
 
 
-        showProgressDialog(false);
         Map<String, Object> params = new HashMap<>();
         params.put("userName", username);
         params.put("token", createAccountCodeResult.getToken());
@@ -232,7 +230,6 @@ public class RegisterActivity extends SwipeBackActivity implements View.OnClickL
             @Override
             public void onSuccess(String response) {
                 super.onSuccess(response);
-                removeProgressDialog();
 
                 LogUtil.i(TAG, "onSuccess====>>>" + response);
 
@@ -252,7 +249,6 @@ public class RegisterActivity extends SwipeBackActivity implements View.OnClickL
             public void onFailure(Request request, Exception e) {
                 super.onFailure(request, e);
                 LogUtil.e(TAG, "onFailure====>>>" + e.getMessage());
-                removeProgressDialog();
                 showToast("注册失败");
             }
         });

@@ -192,7 +192,7 @@ public class PayConfirmActivity extends SwipeBackActivity implements View.OnClic
         params.put("termId", "12345678");
         params.put("spbillIp", IpAdressUtil.getIPAddress(this));
 
-        HttpClient.postWithMy(Config.URL.orderQrCodeDownload, params, null, new HttpResponseHandler() {
+        postWithMy(Config.URL.orderQrCodeDownload, params, null, new HttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
                 super.onSuccess(response);
@@ -212,15 +212,12 @@ public class PayConfirmActivity extends SwipeBackActivity implements View.OnClic
                 } else {
                     showToast(rt.getMessage());
                 }
-
-                removeProgressDialog();
             }
 
             @Override
             public void onFailure(Request request, Exception e) {
                 super.onFailure(request, e);
                 LogUtil.e(TAG, "onFailure====>>>" + e.getMessage());
-                removeProgressDialog();
                 showToast("支付异常");
             }
         });

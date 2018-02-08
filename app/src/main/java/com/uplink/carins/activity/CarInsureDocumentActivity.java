@@ -166,8 +166,6 @@ public class CarInsureDocumentActivity extends ChoicePhotoAndCropAndSwipeBackAct
             return;
         }
 
-        showProgressDialog("请稍后...", false);
-
         Map<String, Object> params = new HashMap<>();
         params.put("userId",this.getAppContext().getUser().getId());
         params.put("merchantId", this.getAppContext().getUser().getMerchantId());
@@ -213,12 +211,12 @@ public class CarInsureDocumentActivity extends ChoicePhotoAndCropAndSwipeBackAct
             files.put("CZ_SFZ_Img", path_carinsure_shenfenzheng);
         }
 
-        HttpClient.postWithMy(Config.URL.submitInsure, params, files,  new HttpResponseHandler() {
+        postWithMy(Config.URL.submitInsure, params, files,  new HttpResponseHandler() {
 
             @Override
             public void onSuccess(String response) {
                 super.onSuccess(response);
-                removeProgressDialog();
+
                 LogUtil.i(TAG,"onSuccess====>>>" + response);
 
                 ApiResultBean<Object> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<Object>>() {
@@ -235,7 +233,6 @@ public class CarInsureDocumentActivity extends ChoicePhotoAndCropAndSwipeBackAct
             @Override
             public void onFailure(Request request, Exception e) {
                 super.onFailure(request, e);
-                removeProgressDialog();
                 LogUtil.e(TAG,"onFailure====>>>" + e.getMessage());
                 showToast("提交失败");
             }
