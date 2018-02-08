@@ -160,11 +160,20 @@ public class MainActivity extends BaseFragmentActivity {
         fragmentManager.executePendingTransactions();
     }
 
+
+    private  HomeFragment homeFragment;
+
+    public  HomeFragment getHomeFragment()
+    {
+        return  homeFragment;
+    }
+
     //构造Fragment
     private Fragment instantFragment(int currIndex) {
         switch (currIndex) {
             case 0:
-                return new HomeFragment();
+                homeFragment=new HomeFragment();
+                return homeFragment;
             case 1:
                 return new MyFragment();
             default:

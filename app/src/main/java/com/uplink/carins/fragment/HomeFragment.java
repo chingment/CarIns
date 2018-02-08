@@ -82,6 +82,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     private MyGridView gridview_ninegrid_haoyilianapp;
     private RelativeLayout gridview_ninegrid_thirdpartyapp_title;
 
+    public static boolean isNeedUpdateActivity=false;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return root = inflater.inflate(R.layout.fragment_home, container, false);
@@ -96,26 +98,12 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 
         initView();
 
-        loadData();
-
-        final Handler handler = new Handler();
-
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                LogUtil.i("定时任务:" + CommonUtil.getCurrentTime());
-                loadData();
-                context.getMyTaskHandler().postDelayed(this,2000);
-            }
-        };
-
-        context.setMyTask(handler,runnable);
-        context.startMyTask();
-
-
         setBanner(AppCacheManager.getBanner());
         setThirdPartyApp(AppCacheManager.getExtendedAppByThirdPartyApp());
         setHaoYiLianApp(AppCacheManager.getExtendedAppByHaoYiLianApp());
+
+
+        context.loadTaskData();
     }
 
     public void initView() {
@@ -130,7 +118,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 
         gridview_ninegrid_haoyilianapp = (MyGridView) context.findViewById(R.id.gridview_ninegrid_haoyilian);
         gridview_ninegrid_thirdpartyapp = (MyGridView) context.findViewById(R.id.gridview_ninegrid_thirdpartyapp);
-        gridview_ninegrid_thirdpartyapp_title= (RelativeLayout) context.findViewById(R.id.gridview_ninegrid_thirdpartyapp_title);
+        gridview_ninegrid_thirdpartyapp_title = (RelativeLayout) context.findViewById(R.id.gridview_ninegrid_thirdpartyapp_title);
 
     }
 
@@ -141,7 +129,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     }
 
 
-    private void setBanner(List<BannerBean> banner) {
+    public void setBanner(List<BannerBean> banner) {
 
 
         if (banner != null) {
@@ -152,18 +140,16 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         }
     }
 
-    private void setThirdPartyApp(List<ExtendedAppBean> thirdPartyApp) {
+    public void setThirdPartyApp(List<ExtendedAppBean> thirdPartyApp) {
 
-        if(thirdPartyApp==null)
-        {
+        if (thirdPartyApp == null) {
             gridview_ninegrid_thirdpartyapp_title.setVisibility(View.GONE);
             gridview_ninegrid_thirdpartyapp.setVisibility(View.GONE);
             return;
         }
 
-        int size=thirdPartyApp.size();
-        if(size==0)
-        {
+        int size = thirdPartyApp.size();
+        if (size == 0) {
             gridview_ninegrid_thirdpartyapp_title.setVisibility(View.GONE);
             gridview_ninegrid_thirdpartyapp.setVisibility(View.GONE);
             return;
@@ -175,7 +161,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         List<NineGridItemBean> gridviewitems_thirdpartyapp = new ArrayList<NineGridItemBean>();
 
         for (ExtendedAppBean bean : thirdPartyApp) {
-            gridviewitems_thirdpartyapp.add(new NineGridItemBean(bean.getId(),bean.getName(), NineGridItemType.Url, bean.getLinkUrl(), bean.getImgUrl()));
+            gridviewitems_thirdpartyapp.add(new NineGridItemBean(bean.getId(), bean.getName(), NineGridItemType.Url, bean.getLinkUrl(), bean.getImgUrl()));
         }
 
         NineGridItemdapter nineGridItemdapter = new NineGridItemdapter(gridviewitems_thirdpartyapp);
@@ -184,15 +170,15 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     }
 
 
-    private void setHaoYiLianApp(List<ExtendedAppBean> thirdPartyApp) {
-        List<NineGridItemBean>  gridviewitems_haoyilian = new ArrayList<NineGridItemBean>();
+    public void setHaoYiLianApp(List<ExtendedAppBean> thirdPartyApp) {
+        List<NineGridItemBean> gridviewitems_haoyilian = new ArrayList<NineGridItemBean>();
 
-        gridviewitems_haoyilian.add(new NineGridItemBean(0,"投保服务", NineGridItemType.Window, "com.uplink.carins.activity.CarInsServiceAppActivity", R.drawable.ic_app_yjtb));
-        gridviewitems_haoyilian.add(new NineGridItemBean(0,"理赔服务", NineGridItemType.Window, "com.uplink.carins.activity.ClaimsServiceAppActivity", R.drawable.ic_app_yjlp));
-        gridviewitems_haoyilian.add(new NineGridItemBean(0,"人才输送", NineGridItemType.Window, "com.uplink.carins.activity.TalentDemandActivity", R.drawable.ic_app_rcss));
+        gridviewitems_haoyilian.add(new NineGridItemBean(0, "投保服务", NineGridItemType.Window, "com.uplink.carins.activity.CarInsServiceAppActivity", R.drawable.ic_app_yjtb));
+        gridviewitems_haoyilian.add(new NineGridItemBean(0, "理赔服务", NineGridItemType.Window, "com.uplink.carins.activity.ClaimsServiceAppActivity", R.drawable.ic_app_yjlp));
+        gridviewitems_haoyilian.add(new NineGridItemBean(0, "人才输送", NineGridItemType.Window, "com.uplink.carins.activity.TalentDemandActivity", R.drawable.ic_app_rcss));
 
-        if(thirdPartyApp!=null) {
-            if(thirdPartyApp.size()>0) {
+        if (thirdPartyApp != null) {
+            if (thirdPartyApp.size() > 0) {
                 for (ExtendedAppBean bean : thirdPartyApp) {
                     gridviewitems_haoyilian.add(new NineGridItemBean(bean.getId(), bean.getName(), NineGridItemType.Url, bean.getLinkUrl(), bean.getImgUrl()));
                 }
@@ -201,30 +187,14 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 
         //gridviewitems_haoyilian.add(new NineGridItemBean("违章缴罚", NineGridItemType.Url, "http://www.baidu.com", R.drawable.ic_app_wzcx));
 
-        gridviewitems_haoyilian.add(new NineGridItemBean(0,"我的订单", NineGridItemType.Window, "com.uplink.carins.activity.OrderListActivity", R.drawable.ic_app_wddd));
-        gridviewitems_haoyilian.add(new NineGridItemBean(0,"退出", NineGridItemType.Window, "com.uplink.carins.activity.LoginActivity", R.drawable.ic_app_tc));
+        gridviewitems_haoyilian.add(new NineGridItemBean(0, "我的订单", NineGridItemType.Window, "com.uplink.carins.activity.OrderListActivity", R.drawable.ic_app_wddd));
+        gridviewitems_haoyilian.add(new NineGridItemBean(0, "退出", NineGridItemType.Window, "com.uplink.carins.activity.LoginActivity", R.drawable.ic_app_tc));
 
         NineGridItemdapter nineGridItemdapter = new NineGridItemdapter(gridviewitems_haoyilian);
 
         gridview_ninegrid_haoyilianapp.setAdapter(nineGridItemdapter);
 
     }
-
-    private void loadData() {
-
-        Map<String, String> params = new HashMap<>();
-        params.put("userId", context.getAppContext().getUser().getId() + "");
-        params.put("merchantId", context.getAppContext().getUser().getMerchantId() + "");
-        params.put("posMachineId", context.getAppContext().getUser().getPosMachineId() + "");
-        params.put("datetime", AppCacheManager.getLastUpdateTime());
-
-
-        LogUtil.i("datetime:" + AppCacheManager.getLastUpdateTime());
-
-        HttpClient.getWithMy(Config.URL.home, params, new CallBack());
-    }
-
-
 
 
     private class GalleryPagerAdapter extends PagerAdapter {
@@ -265,68 +235,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             collection.removeView((View) view);
         }
     }
-
-    private class CallBack extends HttpResponseHandler {
-        @Override
-        public void onSuccess(String response) {
-            super.onSuccess(response);
-
-
-            LogUtil.i(TAG, "onSuccess====>>>" + response);
-
-            ApiResultBean<HomePageBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<HomePageBean>>() {
-            });
-
-            if (rt.getResult() == Result.SUCCESS) {
-
-
-                HomePageBean bean = rt.getData();
-
-                LogUtil.i("更新缓存数据" + bean.getLastUpdateTime());
-
-                AppCacheManager.setLastUpdateTime(bean.getLastUpdateTime());
-                AppCacheManager.setBanner(bean.getBanner());
-                AppCacheManager.setCarInsCompany(bean.getCarInsCompany());
-                AppCacheManager.setCarInsPlan(bean.getCarInsPlan());
-                AppCacheManager.setCarInsKind(bean.getCarInsKind());
-                AppCacheManager.setTalentDemandWorkJob(bean.getTalentDemandWorkJob());
-                AppCacheManager.setExtendedApp(bean.getExtendedApp());
-
-                setBanner(bean.getBanner());
-                setThirdPartyApp(AppCacheManager.getExtendedAppByThirdPartyApp());
-                setHaoYiLianApp(AppCacheManager.getExtendedAppByHaoYiLianApp());
-
-                if (bean.getOrderInfo() != null) {
-
-                    Bundle b = new Bundle();
-                    b.putSerializable("dataBean", bean.getOrderInfo());
-
-                    LogUtil.i("d=>>>>>>>>getOrderInfo().getProductName" + bean.getOrderInfo().getProductName());
-                    LogUtil.i("d=>>>>>>>>getOrderInfo().getProductType" + bean.getOrderInfo().getProductType());
-
-                    Intent intent = new Intent(context, PayConfirmActivity.class);
-                    intent.putExtras(b);
-
-
-                    context.stopMyTask();
-
-                    startActivity(intent);
-
-                    AppManager.getAppManager().finishAllActivity();
-                    //finish();
-                }
-
-            }
-        }
-
-        @Override
-        public void onFailure(Request request, Exception e) {
-            super.onFailure(request, e);
-            LogUtil.e(TAG, "onFailure====>>>" + e.getMessage());
-            showToast("数据加载失败");
-        }
-    }
-
 
     private class NineGridItemdapter extends BaseAdapter {
 

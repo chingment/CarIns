@@ -1,6 +1,9 @@
 package com.uplink.carins.ui;
 
+import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -10,6 +13,8 @@ import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
 import com.umeng.analytics.MobclickAgent;
 import com.uplink.carins.Own.AppCacheManager;
 import com.uplink.carins.Own.AppContext;
@@ -17,11 +22,19 @@ import com.uplink.carins.Own.AppManager;
 import com.uplink.carins.Own.Config;
 import com.uplink.carins.R;
 import com.uplink.carins.activity.MainActivity;
+import com.uplink.carins.activity.PayConfirmActivity;
+import com.uplink.carins.fragment.HomeFragment;
 import com.uplink.carins.http.HttpClient;
 import com.uplink.carins.http.HttpResponseHandler;
+import com.uplink.carins.model.api.ApiResultBean;
+import com.uplink.carins.model.api.HomePageBean;
+import com.uplink.carins.model.api.Result;
+import com.uplink.carins.utils.CommonUtil;
 import com.uplink.carins.utils.LogUtil;
 import com.uplink.carins.utils.StringUtil;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import okhttp3.Request;
@@ -31,47 +44,26 @@ import okhttp3.Request;
  */
 
 public class BaseFragmentActivity extends FragmentActivity {
-    private String tag = "BaseFragmentActivity";
+    private String TAG = "BaseFragmentActivity";
     public AppContext appContext;
 
-    private Handler myTaskHandler;
-    private  Runnable myTaskRunnable;
+    private static Handler myTaskHandler;
+    private static Runnable myTaskRunnable;
 
+    private static boolean isActive = false;
 
-    public Handler getMyTaskHandler(){
-
-        return  myTaskHandler;
-    }
-
-    public void setMyTask(Handler handler,Runnable runnable){
-
-        this.myTaskHandler=handler;
-        this.myTaskRunnable=runnable;
-    }
-
-    public Runnable getMyTaskRunnable(){
-
-        return  myTaskRunnable;
-    }
-
-    public  void stopMyTask()
-    {
-        if(myTaskHandler!=null)
-        {
-            if(myTaskRunnable!=null)
-            {
+    public void stopMyTask() {
+        if (myTaskHandler != null) {
+            if (myTaskRunnable != null) {
                 myTaskHandler.removeCallbacks(myTaskRunnable); //关闭定时执行操作
             }
         }
 
     }
 
-    public  void startMyTask()
-    {
-        if(myTaskHandler!=null)
-        {
-            if(myTaskRunnable!=null)
-            {
+    public void startMyTask() {
+        if (myTaskHandler != null) {
+            if (myTaskRunnable != null) {
                 myTaskHandler.postDelayed(myTaskRunnable, 2000);
             }
         }
@@ -79,17 +71,64 @@ public class BaseFragmentActivity extends FragmentActivity {
     }
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // 添加Activity到堆栈
         AppManager.getAppManager().addActivity(this);
+
         appContext = (AppContext) getApplication();
 
         mProgressDialog = new Dialog(this, R.style.dialog_loading_style);
 
+        if (myTaskHandler == null) {
+            myTaskHandler = new Handler();
+
+            myTaskRunnable = new Runnable() {
+                @Override
+                public void run() {
+                    LogUtil.i("定时任务:" + CommonUtil.getCurrentTime());
+                    loadTaskData();
+
+                    Activity act = AppManager.getAppManager().currentActivity();
+                    if (act instanceof MainActivity) {
+                        MainActivity act_main = (MainActivity) act;
+                        if (act_main.getHomeFragment() != null) {
+                            if (HomeFragment.isNeedUpdateActivity) {
+                                LogUtil.i("更新HomeFragment界面");
+                                HomeFragment homeFragment = act_main.getHomeFragment();
+                                homeFragment.setBanner(AppCacheManager.getBanner());
+                                homeFragment.setThirdPartyApp(AppCacheManager.getExtendedAppByThirdPartyApp());
+                                homeFragment.setHaoYiLianApp(AppCacheManager.getExtendedAppByHaoYiLianApp());
+                                HomeFragment.isNeedUpdateActivity = false;
+                            }
+                        }
+                    }
+
+                    myTaskHandler.postDelayed(this, 2000);
+                }
+            };
+
+            startMyTask();
+        }
+
+    }
+
+
+    public void loadTaskData() {
+
+        if (getAppContext().getUser() != null) {
+            Map<String, String> params = new HashMap<>();
+            params.put("userId", getAppContext().getUser().getId() + "");
+            params.put("merchantId", getAppContext().getUser().getMerchantId() + "");
+            params.put("posMachineId", getAppContext().getUser().getPosMachineId() + "");
+            params.put("datetime", AppCacheManager.getLastUpdateTime());
+
+
+            LogUtil.i("datetime:" + AppCacheManager.getLastUpdateTime());
+
+            HttpClient.getWithMy(Config.URL.home, params, new CallBack());
+        }
     }
 
     public AppContext getAppContext() {
@@ -163,7 +202,6 @@ public class BaseFragmentActivity extends FragmentActivity {
 //    }
 
 
-
     /**
      * Activity从后台重新回到前台时被调用
      */
@@ -171,12 +209,11 @@ public class BaseFragmentActivity extends FragmentActivity {
     protected void onRestart() {
         super.onRestart();
 
-        startMyTask();
         LogUtil.e("onRestart is invoke!!!");
     }
 
     /**
-     *Activity创建或者从后台重新回到前台时被调用
+     * Activity创建或者从后台重新回到前台时被调用
      */
     @Override
     protected void onStart() {
@@ -186,39 +223,50 @@ public class BaseFragmentActivity extends FragmentActivity {
 
 
     /**
-     *Activity创建或者从被覆盖、后台重新回到前台时被调用
+     * Activity创建或者从被覆盖、后台重新回到前台时被调用
      */
     @Override
     protected void onResume() {
+
         super.onResume();
+
+        if (!isActive) {
+            startMyTask();
+            isActive = true;
+        }
 
         LogUtil.e("onResume is invoke!!!");
     }
 
     /**
-     *  Activity被覆盖到下面或者锁屏时被调用
+     * Activity被覆盖到下面或者锁屏时被调用
      */
     @Override
     protected void onPause() {
         super.onPause();
 
-        stopMyTask();
-
         LogUtil.e("onPause is invoke!!!");
     }
 
+
     /**
-     *退出当前Activity或者跳转到新Activity时被调用
+     * 退出当前Activity或者跳转到新Activity时被调用
      */
     @Override
     protected void onStop() {
         super.onStop();
 
-        LogUtil.e("onStop is invoke!!!");
+        if (!isAppOnForeground()) {
+            LogUtil.e("后台 onStop is invoke!!!");
+            stopMyTask();
+            isActive = false;
+        } else {
+            LogUtil.e("前台 onStop is invoke!!!");
+        }
     }
 
     /**
-     *退出当前Activity时被调用,调用之后Activity就结束了
+     * 退出当前Activity时被调用,调用之后Activity就结束了
      */
     @Override
     protected void onDestroy() {
@@ -235,12 +283,35 @@ public class BaseFragmentActivity extends FragmentActivity {
     }
 
 
-    public  void postWithMy(String url, Map<String, Object> params, Map<String, String> filePaths, final HttpResponseHandler handler) {
+    public boolean isAppOnForeground() {
+        // Returns a list of application processes that are running on the
+        // device
+
+        ActivityManager activityManager = (ActivityManager) getApplicationContext().getSystemService(Context.ACTIVITY_SERVICE);
+        String packageName = getApplicationContext().getPackageName();
+
+        List<ActivityManager.RunningAppProcessInfo> appProcesses = activityManager
+                .getRunningAppProcesses();
+        if (appProcesses == null)
+            return false;
+
+        for (ActivityManager.RunningAppProcessInfo appProcess : appProcesses) {
+            // The name of the process that this object is associated with.
+            if (appProcess.processName.equals(packageName)
+                    && appProcess.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public void postWithMy(String url, Map<String, Object> params, Map<String, String> filePaths, final HttpResponseHandler handler) {
 
         HttpClient.postWithMy(url, params, filePaths, new HttpResponseHandler() {
 
             @Override
-            public  void onBeforeSend() {
+            public void onBeforeSend() {
                 showProgressDialog(false);
             }
 
@@ -251,7 +322,7 @@ public class BaseFragmentActivity extends FragmentActivity {
 
             @Override
             public void onFailure(Request request, Exception e) {
-                handler.onFailure(request,e);
+                handler.onFailure(request, e);
             }
 
             @Override
@@ -261,12 +332,11 @@ public class BaseFragmentActivity extends FragmentActivity {
         });
     }
 
-    public  void  getWithMy(String url, Map<String, String> param, final HttpResponseHandler handler)
-    {
+    public void getWithMy(String url, Map<String, String> param, final HttpResponseHandler handler) {
         HttpClient.getWithMy(url, param, new HttpResponseHandler() {
 
             @Override
-            public  void onBeforeSend() {
+            public void onBeforeSend() {
                 showProgressDialog(false);
             }
 
@@ -277,7 +347,7 @@ public class BaseFragmentActivity extends FragmentActivity {
 
             @Override
             public void onFailure(Request request, Exception e) {
-                handler.onFailure(request,e);
+                handler.onFailure(request, e);
             }
 
             @Override
@@ -286,4 +356,67 @@ public class BaseFragmentActivity extends FragmentActivity {
             }
         });
     }
+
+
+    private class CallBack extends HttpResponseHandler {
+        @Override
+        public void onSuccess(String response) {
+            super.onSuccess(response);
+
+
+            LogUtil.i(TAG, "onSuccess====>>>" + response);
+
+            ApiResultBean<HomePageBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<HomePageBean>>() {
+            });
+
+            if (rt.getResult() == Result.SUCCESS) {
+
+
+                HomePageBean bean = rt.getData();
+
+                LogUtil.i("更新缓存数据" + bean.getLastUpdateTime());
+
+                AppCacheManager.setLastUpdateTime(bean.getLastUpdateTime());
+                AppCacheManager.setBanner(bean.getBanner());
+                AppCacheManager.setCarInsCompany(bean.getCarInsCompany());
+                AppCacheManager.setCarInsPlan(bean.getCarInsPlan());
+                AppCacheManager.setCarInsKind(bean.getCarInsKind());
+                AppCacheManager.setTalentDemandWorkJob(bean.getTalentDemandWorkJob());
+                AppCacheManager.setExtendedApp(bean.getExtendedApp());
+
+
+                HomeFragment.isNeedUpdateActivity = true;
+
+
+                if (bean.getOrderInfo() != null) {
+
+                    Bundle b = new Bundle();
+                    b.putSerializable("dataBean", bean.getOrderInfo());
+
+                    LogUtil.i("d=>>>>>>>>getOrderInfo().getProductName" + bean.getOrderInfo().getProductName());
+                    LogUtil.i("d=>>>>>>>>getOrderInfo().getProductType" + bean.getOrderInfo().getProductType());
+
+                    Activity act = AppManager.getAppManager().currentActivity();
+                    Intent intent = new Intent(act, PayConfirmActivity.class);
+                    intent.putExtras(b);
+
+                    stopMyTask();
+
+                    startActivity(intent);
+
+                    AppManager.getAppManager().finishAllActivity();
+                }
+
+            }
+        }
+
+        @Override
+        public void onFailure(Request request, Exception e) {
+            super.onFailure(request, e);
+            LogUtil.e(TAG, "onFailure====>>>" + e.getMessage());
+            showToast("数据加载失败");
+        }
+    }
+
+
 }
