@@ -75,8 +75,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     private CirclePageIndicator home_banner_indicator;//banner 底部小图标
     private ApiResultBean<HomePageBean> home_page_result;//api数据
     private CustomConfirmDialog dialog_logout;
-    private Handler handler;
-    private Runnable runnable;
+    //private Handler handler;
+    //private Runnable runnable;
     private LayoutInflater inflater;
     private MyGridView gridview_ninegrid_thirdpartyapp;
     private MyGridView gridview_ninegrid_haoyilianapp;
@@ -98,17 +98,19 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 
         loadData();
 
-        handler = new Handler();
-        runnable = new Runnable() {
+        final Handler handler = new Handler();
+
+        Runnable runnable = new Runnable() {
             @Override
             public void run() {
                 LogUtil.i("定时任务:" + CommonUtil.getCurrentTime());
                 loadData();
-                handler.postDelayed(this, 2000);
+                context.getMyTaskHandler().postDelayed(this,2000);
             }
         };
 
-        handler.postDelayed(runnable, 2000);//每两秒执行一次runnable.
+        context.setMyTask(handler,runnable);
+        context.startMyTask();
 
 
         setBanner(AppCacheManager.getBanner());
@@ -189,8 +191,12 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         gridviewitems_haoyilian.add(new NineGridItemBean(0,"理赔服务", NineGridItemType.Window, "com.uplink.carins.activity.ClaimsServiceAppActivity", R.drawable.ic_app_yjlp));
         gridviewitems_haoyilian.add(new NineGridItemBean(0,"人才输送", NineGridItemType.Window, "com.uplink.carins.activity.TalentDemandActivity", R.drawable.ic_app_rcss));
 
-        for (ExtendedAppBean bean : thirdPartyApp) {
-            gridviewitems_haoyilian.add(new NineGridItemBean(bean.getId(),bean.getName(), NineGridItemType.Url, bean.getLinkUrl(), bean.getImgUrl()));
+        if(thirdPartyApp!=null) {
+            if(thirdPartyApp.size()>0) {
+                for (ExtendedAppBean bean : thirdPartyApp) {
+                    gridviewitems_haoyilian.add(new NineGridItemBean(bean.getId(), bean.getName(), NineGridItemType.Url, bean.getLinkUrl(), bean.getImgUrl()));
+                }
+            }
         }
 
         //gridviewitems_haoyilian.add(new NineGridItemBean("违章缴罚", NineGridItemType.Url, "http://www.baidu.com", R.drawable.ic_app_wzcx));
@@ -217,6 +223,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 
         HttpClient.getWithMy(Config.URL.home, params, new CallBack());
     }
+
+
+
 
     private class GalleryPagerAdapter extends PagerAdapter {
 
@@ -299,7 +308,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                     intent.putExtras(b);
 
 
-                    handler.removeCallbacks(runnable); //关闭定时执行操作
+                    context.stopMyTask();
 
                     startActivity(intent);
 
@@ -317,6 +326,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             showToast("数据加载失败");
         }
     }
+
 
     private class NineGridItemdapter extends BaseAdapter {
 
@@ -397,7 +407,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                                             @Override
                                             public void onClick(View v) {
 
-                                                handler.removeCallbacks(runnable); //关闭定时执行操作
+                                                context.stopMyTask();
 
                                                 dialog_logout.dismiss();
 

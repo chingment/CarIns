@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
 import android.view.WindowManager;
 import android.widget.TextView;
@@ -25,6 +26,52 @@ import com.uplink.carins.utils.StringUtil;
 public class BaseFragmentActivity extends FragmentActivity {
     private String tag = "BaseFragmentActivity";
     public AppContext appContext;
+
+    private Handler myTaskHandler;
+    private  Runnable myTaskRunnable;
+
+
+    public Handler getMyTaskHandler(){
+
+        return  myTaskHandler;
+    }
+
+    public void setMyTask(Handler handler,Runnable runnable){
+
+        this.myTaskHandler=handler;
+        this.myTaskRunnable=runnable;
+    }
+
+    public Runnable getMyTaskRunnable(){
+
+        return  myTaskRunnable;
+    }
+
+    public  void stopMyTask()
+    {
+        if(myTaskHandler!=null)
+        {
+            if(myTaskRunnable!=null)
+            {
+                myTaskHandler.removeCallbacks(myTaskRunnable); //关闭定时执行操作
+            }
+        }
+
+    }
+
+    public  void startMyTask()
+    {
+        if(myTaskHandler!=null)
+        {
+            if(myTaskRunnable!=null)
+            {
+                myTaskHandler.postDelayed(myTaskRunnable, 2000);
+            }
+        }
+
+    }
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,9 +155,69 @@ public class BaseFragmentActivity extends FragmentActivity {
 //        MobclickAgent.onPause(this);
 //    }
 
+
+
+    /**
+     * Activity从后台重新回到前台时被调用
+     */
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+
+        startMyTask();
+        LogUtil.e("onRestart is invoke!!!");
+    }
+
+    /**
+     *Activity创建或者从后台重新回到前台时被调用
+     */
+    @Override
+    protected void onStart() {
+        super.onStart();
+        LogUtil.e("onStart is invoke!!!");
+    }
+
+
+    /**
+     *Activity创建或者从被覆盖、后台重新回到前台时被调用
+     */
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+
+        LogUtil.e("onResume is invoke!!!");
+    }
+
+    /**
+     *  Activity被覆盖到下面或者锁屏时被调用
+     */
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        stopMyTask();
+
+        LogUtil.e("onPause is invoke!!!");
+    }
+
+    /**
+     *退出当前Activity或者跳转到新Activity时被调用
+     */
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        LogUtil.e("onStop is invoke!!!");
+    }
+
+    /**
+     *退出当前Activity时被调用,调用之后Activity就结束了
+     */
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        LogUtil.e("onDestroy is invoke!!!");
         // 结束Activity从堆栈中移除
         AppManager.getAppManager().finishActivity(this);
     }

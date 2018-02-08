@@ -3,6 +3,7 @@ package com.uplink.carins.activity;
 
 import android.content.OperationApplicationException;
 import android.graphics.Color;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
