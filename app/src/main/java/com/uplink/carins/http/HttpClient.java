@@ -226,7 +226,7 @@ public class HttpClient {
             handler.sendCompleteMessage();
             return;
         }
-
+        //Toast.makeText(AppContext.getInstance(), "dsadaddd", Toast.LENGTH_SHORT).show();
         handler.sendBeforeSendMessage();
 
 //        MultipartBody.Builder multipartBodyBuilder = new MultipartBody.Builder().setType(MultipartBody.FORM);
