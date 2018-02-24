@@ -227,6 +227,23 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             CommonUtil.loadImageFromUrl(context, item, bannerBean.getImgUrl() + "");
             container.addView(item);
 
+
+            item.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            int index = Integer.parseInt(v.getTag() + "");
+                                            BannerBean bannerBean = banner.get(index);
+                                            Intent intent = new Intent(context, WebViewActivity.class);
+                                            intent.putExtra("title", bannerBean.getTitle() + "");
+                                            intent.putExtra("url", bannerBean.getLinkUrl() + "");
+                                            intent.putExtra("has_url", true);
+                                            startActivity(intent);
+                                        }
+                                    }
+
+            );
+
+
             return item;
         }
 
