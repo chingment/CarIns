@@ -21,8 +21,10 @@ import com.uplink.carins.Own.AppContext;
 import com.uplink.carins.Own.AppManager;
 import com.uplink.carins.Own.Config;
 import com.uplink.carins.R;
+import com.uplink.carins.activity.LoginActivity;
 import com.uplink.carins.activity.MainActivity;
 import com.uplink.carins.activity.PayConfirmActivity;
+import com.uplink.carins.activity.PayQrcodeActivity;
 import com.uplink.carins.fragment.HomeFragment;
 import com.uplink.carins.http.HttpClient;
 import com.uplink.carins.http.HttpResponseHandler;
@@ -91,7 +93,7 @@ public class BaseFragmentActivity extends FragmentActivity {
                     loadTaskData();
 
                     Activity act = AppManager.getAppManager().currentActivity();
-                    if(act!=null) {
+                    if (act != null) {
 
                         if (act instanceof MainActivity) {
                             MainActivity act_main = (MainActivity) act;
@@ -396,13 +398,20 @@ public class BaseFragmentActivity extends FragmentActivity {
                     Bundle b = new Bundle();
                     b.putSerializable("dataBean", bean.getOrderInfo());
 
-                    LogUtil.i("d=>>>>>>>>getOrderInfo().getProductName" + bean.getOrderInfo().getProductName());
-                    LogUtil.i("d=>>>>>>>>getOrderInfo().getProductType" + bean.getOrderInfo().getProductType());
+                    //LogUtil.i("d=>>>>>>>>getOrderInfo().getProductName" + bean.getOrderInfo().getProductName());
+                    //LogUtil.i("d=>>>>>>>>getOrderInfo().getProductType" + bean.getOrderInfo().getProductType());
 
                     Activity act = AppManager.getAppManager().currentActivity();
-                    if(act!=null) {
+                    if (act != null) {
 
-                        if(!(act instanceof  PayConfirmActivity) ) {
+                        Boolean isfalg1 = act instanceof PayConfirmActivity;
+                        Boolean isfalg2 = act instanceof LoginActivity;
+                        Boolean isfalg3 = act instanceof PayQrcodeActivity;
+
+                        //LogUtil.i("d=>>>>>>>>>>>>>>>>isfalg:" + isfalg);
+
+                        if (isfalg1.equals(false)&& isfalg2.equals(false)&&isfalg3.equals(false)) {
+
                             Intent intent = new Intent(act, PayConfirmActivity.class);
                             intent.putExtras(b);
 

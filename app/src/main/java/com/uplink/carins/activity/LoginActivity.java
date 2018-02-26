@@ -236,7 +236,7 @@ public class LoginActivity extends BaseFragmentActivity implements View.OnClickL
         Map<String, Object> param = new HashMap<>();
         param.put("userName", username);
         param.put("password", password);
-        param.put("deviceId", "861097039013879");
+        param.put("deviceId", appContext.getDeviceId());//861097039013879
 
 
         postWithMy(Config.URL.login, param, null, new HttpResponseHandler() {
