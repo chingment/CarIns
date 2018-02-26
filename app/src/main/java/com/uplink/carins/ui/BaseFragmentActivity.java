@@ -91,16 +91,19 @@ public class BaseFragmentActivity extends FragmentActivity {
                     loadTaskData();
 
                     Activity act = AppManager.getAppManager().currentActivity();
-                    if (act instanceof MainActivity) {
-                        MainActivity act_main = (MainActivity) act;
-                        if (act_main.getHomeFragment() != null) {
-                            if (HomeFragment.isNeedUpdateActivity) {
-                                LogUtil.i("更新HomeFragment界面");
-                                HomeFragment homeFragment = act_main.getHomeFragment();
-                                homeFragment.setBanner(AppCacheManager.getBanner());
-                                homeFragment.setThirdPartyApp(AppCacheManager.getExtendedAppByThirdPartyApp());
-                                homeFragment.setHaoYiLianApp(AppCacheManager.getExtendedAppByHaoYiLianApp());
-                                HomeFragment.isNeedUpdateActivity = false;
+                    if(act!=null) {
+
+                        if (act instanceof MainActivity) {
+                            MainActivity act_main = (MainActivity) act;
+                            if (act_main.getHomeFragment() != null) {
+                                if (HomeFragment.isNeedUpdateActivity) {
+                                    LogUtil.i("更新HomeFragment界面");
+                                    HomeFragment homeFragment = act_main.getHomeFragment();
+                                    homeFragment.setBanner(AppCacheManager.getBanner());
+                                    homeFragment.setThirdPartyApp(AppCacheManager.getExtendedAppByThirdPartyApp());
+                                    homeFragment.setHaoYiLianApp(AppCacheManager.getExtendedAppByHaoYiLianApp());
+                                    HomeFragment.isNeedUpdateActivity = false;
+                                }
                             }
                         }
                     }
@@ -397,14 +400,19 @@ public class BaseFragmentActivity extends FragmentActivity {
                     LogUtil.i("d=>>>>>>>>getOrderInfo().getProductType" + bean.getOrderInfo().getProductType());
 
                     Activity act = AppManager.getAppManager().currentActivity();
-                    Intent intent = new Intent(act, PayConfirmActivity.class);
-                    intent.putExtras(b);
+                    if(act!=null) {
 
-                    stopMyTask();
+                        if(!(act instanceof  PayConfirmActivity) ) {
+                            Intent intent = new Intent(act, PayConfirmActivity.class);
+                            intent.putExtras(b);
 
-                    startActivity(intent);
+                            stopMyTask();
 
-                    AppManager.getAppManager().finishAllActivity();
+                            startActivity(intent);
+
+                            AppManager.getAppManager().finishAllActivity();
+                        }
+                    }
                 }
 
             }

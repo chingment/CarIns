@@ -92,7 +92,7 @@ public class LoginActivity extends BaseFragmentActivity implements View.OnClickL
         }
 
 
-        LogUtil.i("deviceId:" + getAppContext().getDeviceId());
+        //LogUtil.i("deviceId:" + getAppContext().getDeviceId());
     }
 
     public void initView() {
@@ -236,7 +236,7 @@ public class LoginActivity extends BaseFragmentActivity implements View.OnClickL
         Map<String, Object> param = new HashMap<>();
         param.put("userName", username);
         param.put("password", password);
-        param.put("deviceId", getAppContext().getDeviceId());
+        param.put("deviceId", "861097039013879");
 
 
         postWithMy(Config.URL.login, param, null, new HttpResponseHandler() {
@@ -279,6 +279,11 @@ public class LoginActivity extends BaseFragmentActivity implements View.OnClickL
                         case 2:
                         case 3:
 
+
+                            if(d.getOrderInfo()==null) {
+                                showToast("登陆异常，错误代码:EX100001");
+                                return;
+                            }
 
                             Bundle b = new Bundle();
                             b.putSerializable("dataBean", d.getOrderInfo());
