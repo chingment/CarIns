@@ -21,10 +21,14 @@ import com.uplink.carins.Own.AppContext;
 import com.uplink.carins.Own.AppManager;
 import com.uplink.carins.Own.Config;
 import com.uplink.carins.R;
+import com.uplink.carins.activity.ForgetPwdCheckUsernameActivity;
+import com.uplink.carins.activity.ForgetPwdModifyActivity;
 import com.uplink.carins.activity.LoginActivity;
 import com.uplink.carins.activity.MainActivity;
 import com.uplink.carins.activity.PayConfirmActivity;
 import com.uplink.carins.activity.PayQrcodeActivity;
+import com.uplink.carins.activity.RegisterActivity;
+import com.uplink.carins.device.N900Device;
 import com.uplink.carins.fragment.HomeFragment;
 import com.uplink.carins.http.HttpClient;
 import com.uplink.carins.http.HttpResponseHandler;
@@ -54,6 +58,14 @@ public class BaseFragmentActivity extends FragmentActivity {
 
     private static boolean isActive = false;
 
+    private static N900Device n900Device;
+
+    public static N900Device getn900Device() {
+        return n900Device;
+    }
+
+
+
     public void stopMyTask() {
         if (myTaskHandler != null) {
             if (myTaskRunnable != null) {
@@ -62,6 +74,7 @@ public class BaseFragmentActivity extends FragmentActivity {
         }
 
     }
+
 
     public void startMyTask() {
         if (myTaskHandler != null) {
@@ -113,8 +126,24 @@ public class BaseFragmentActivity extends FragmentActivity {
                     myTaskHandler.postDelayed(this, 2000);
                 }
             };
+        }
 
-            startMyTask();
+        startMyTask();
+
+        if (n900Device == null) {
+
+            n900Device = N900Device.getInstance(this);
+
+            try {
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        n900Device.connectDevice();
+                    }
+                }).start();
+            } catch (Exception e) {
+                showToast("设备连接异常：" + e);
+            }
         }
 
     }
@@ -404,13 +433,20 @@ public class BaseFragmentActivity extends FragmentActivity {
                     Activity act = AppManager.getAppManager().currentActivity();
                     if (act != null) {
 
-                        Boolean isfalg1 = act instanceof PayConfirmActivity;
-                        Boolean isfalg2 = act instanceof LoginActivity;
-                        Boolean isfalg3 = act instanceof PayQrcodeActivity;
+                        //LogUtil.i(TAG, "is====>>>BaseFragmentActivity:" + act.canAutoGoToPayConfirmActivity);
 
+
+                        Boolean isfalg1 = act instanceof LoginActivity;
+                        Boolean isfalg2 = act instanceof PayQrcodeActivity;
+                        Boolean isfalg3 = act instanceof PayConfirmActivity;
+                        Boolean isfalg4 = act instanceof RegisterActivity;
+                        Boolean isfalg5 = act instanceof ForgetPwdCheckUsernameActivity;
+                        Boolean isfalg6 = act instanceof ForgetPwdModifyActivity;
                         //LogUtil.i("d=>>>>>>>>>>>>>>>>isfalg:" + isfalg);
 
-                        if (isfalg1.equals(false)&& isfalg2.equals(false)&&isfalg3.equals(false)) {
+                        if (isfalg1.equals(false) && isfalg2.equals(false) && isfalg3.equals(false)
+                                && isfalg4.equals(false) && isfalg5.equals(false) && isfalg6.equals(false)
+                                ) {
 
                             Intent intent = new Intent(act, PayConfirmActivity.class);
                             intent.putExtras(b);

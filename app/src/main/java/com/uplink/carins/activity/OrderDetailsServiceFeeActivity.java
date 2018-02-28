@@ -1,14 +1,20 @@
 package com.uplink.carins.activity;
 
+import android.graphics.Bitmap;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
+import com.newland.mtype.module.common.printer.PrintContext;
+import com.newland.mtype.module.common.printer.Printer;
+import com.newland.mtype.module.common.printer.PrinterResult;
+import com.newland.mtype.module.common.printer.PrinterStatus;
 import com.uplink.carins.Own.Config;
 import com.uplink.carins.R;
 import com.uplink.carins.http.HttpClient;
@@ -23,6 +29,7 @@ import com.uplink.carins.utils.StringUtil;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.Request;
 
@@ -53,6 +60,8 @@ public class OrderDetailsServiceFeeActivity extends SwipeBackActivity implements
     private LinearLayout layout_cancletime;
     private LinearLayout layout_deposit;
 
+    private Button btn_printer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,7 +87,7 @@ public class OrderDetailsServiceFeeActivity extends SwipeBackActivity implements
 
         txt_order_remarks = (TextView) findViewById(R.id.txt_order_remarks);
         txt_order_submittime = (TextView) findViewById(R.id.txt_order_submittime);
-        txt_order_paytime= (TextView) findViewById(R.id.txt_order_paytime);
+        txt_order_paytime = (TextView) findViewById(R.id.txt_order_paytime);
         txt_order_completetime = (TextView) findViewById(R.id.txt_order_completetime);
         txt_order_cancletime = (TextView) findViewById(R.id.txt_order_cancletime);
 
@@ -92,11 +101,13 @@ public class OrderDetailsServiceFeeActivity extends SwipeBackActivity implements
         txt_order_deposit = (TextView) findViewById(R.id.txt_order_deposit);
         txt_order_mobiletrafficfee = (TextView) findViewById(R.id.txt_order_mobiletrafficfee);
 
+        btn_printer = (Button) findViewById(R.id.btn_printer);
+
     }
 
     private void initEvent() {
         btnHeaderGoBack.setOnClickListener(this);
-
+        btn_printer.setOnClickListener(this);
     }
 
     @Override
@@ -104,6 +115,63 @@ public class OrderDetailsServiceFeeActivity extends SwipeBackActivity implements
         switch (v.getId()) {
             case R.id.btn_main_header_goback:
                 finish();
+                break;
+            case R.id.btn_printer:
+
+                try {
+                    Printer printer = getn900Device().getPrinter();
+
+                    if (printer.getStatus() != PrinterStatus.NORMAL) {
+                        showToast("打印失败，打印机状态不正常,请检查设备");
+                        return;
+                    }
+
+//                    String bill = "\n\n   " + "签购单" + "      \n";// 交易明细信息
+//                    bill += "商户名称：钓鱼岛\n";
+//                    bill += "操作员号：001\n";
+//                    bill += "消费类型：消费\n";
+//                    bill += "商户编号:123455432112345\n";
+//                    bill += "商户名称:机器服务费\n";
+//                    bill += "-------------------------------\n";
+//                    bill += "+++++++++++++++++++++++++++++++\n";
+//                    bill += "\n\n\n\n";
+//                    printer.init();
+//                    PrinterResult result = printer.print(bill, 30, TimeUnit.SECONDS);
+
+                    Map<String, Bitmap> map = new HashMap<String, Bitmap>();
+
+                    StringBuffer scriptBuffer = new StringBuffer();
+                    scriptBuffer.append("*text l ++++++++++++++ X ++++++++++++++ \n");
+                    scriptBuffer.append("!hz l\n !asc l\n !gray 5\n");// 设置标题字体为大号
+                    scriptBuffer.append("!yspace 5\n");// 设置行间距,取值【0,60】，默认6
+                    scriptBuffer.append("*text c 签购单\n");
+                    scriptBuffer.append("!hz n\n !asc n !gray 5\n");// 设置内容字体为中号
+                    scriptBuffer.append("!yspace 10\n");// 设置内容行间距
+                    scriptBuffer.append("*line" + "\n");// 打印虚线
+                    scriptBuffer.append("*text l 商户存根/MERCHANT COPY\n");
+                    scriptBuffer.append("*line" + "\n");// 打印虚线
+                    scriptBuffer.append("*text l 商户名称:比亚迪1\n");
+                    scriptBuffer.append("*text l 商户编号:123455432112345\n");
+                    scriptBuffer.append("*text l 终端编号:20130717\n");
+                    scriptBuffer.append("*line" + "\n");// 打印虚线
+                    scriptBuffer.append("*text l 交易类型:消费/SALE\n");
+                    scriptBuffer.append("*text l 支付方式:微信支付\n");
+                    scriptBuffer.append("*text l 日期时间:2015/12/25 11:41:06\n");
+                    scriptBuffer.append("*text l 金 额:RMB 1.16\n");
+                    scriptBuffer.append("*text l 操作员号:001\n");
+                    scriptBuffer.append("*text l 程序版本:1.0.18\n");
+                    scriptBuffer.append("*underline l 服务热线:888888888\n");
+                    scriptBuffer.append("*text l ++++++++++++++ X ++++++++++++++ \n");
+                    scriptBuffer.append("!NLPRNOVER"); // 走纸//10
+
+                    PrinterResult printerResult = printer.printByScript(PrintContext.defaultContext(), scriptBuffer.toString().getBytes("GBK"), map, 60, TimeUnit.SECONDS);
+
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    showToast("打印字符串异常：" + e);
+                }
+
                 break;
         }
     }
@@ -124,8 +192,7 @@ public class OrderDetailsServiceFeeActivity extends SwipeBackActivity implements
         txt_order_mobiletrafficfee.setText(bean.getMobileTrafficFee());
 
 
-        if(StringUtil.isEmptyNotNull(bean.getDeposit()))
-        {
+        if (StringUtil.isEmptyNotNull(bean.getDeposit())) {
             layout_deposit.setVisibility(View.GONE);
         }
 
@@ -139,6 +206,7 @@ public class OrderDetailsServiceFeeActivity extends SwipeBackActivity implements
             case 4:
                 layout_paytime.setVisibility(View.VISIBLE);
                 layout_completetime.setVisibility(View.VISIBLE);
+                btn_printer.setVisibility(View.VISIBLE);
                 break;
             case 5:
                 layout_cancletime.setVisibility(View.VISIBLE);
@@ -149,9 +217,9 @@ public class OrderDetailsServiceFeeActivity extends SwipeBackActivity implements
     private void loadData() {
 
         Map<String, String> params = new HashMap<>();
-        params.put("userId", this.getAppContext().getUser().getId()+"");
-        params.put("merchantId", this.getAppContext().getUser().getMerchantId()+"");
-        params.put("posMachineId", this.getAppContext().getUser().getPosMachineId()+"");
+        params.put("userId", this.getAppContext().getUser().getId() + "");
+        params.put("merchantId", this.getAppContext().getUser().getMerchantId() + "");
+        params.put("posMachineId", this.getAppContext().getUser().getPosMachineId() + "");
         params.put("orderId", order.getId() + "");
         params.put("productType", order.getProductType() + "");
         getWithMy(Config.URL.getDetails, params, new HttpResponseHandler() {
@@ -159,7 +227,7 @@ public class OrderDetailsServiceFeeActivity extends SwipeBackActivity implements
             public void onSuccess(String response) {
                 super.onSuccess(response);
 
-                LogUtil.i(TAG,"onSuccess====>>>" + response);
+                LogUtil.i(TAG, "onSuccess====>>>" + response);
 
                 ApiResultBean<OrderDetailsServiceFeeBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<OrderDetailsServiceFeeBean>>() {
                 });
@@ -172,7 +240,7 @@ public class OrderDetailsServiceFeeActivity extends SwipeBackActivity implements
             @Override
             public void onFailure(Request request, Exception e) {
                 super.onFailure(request, e);
-                LogUtil.e(TAG,"onFailure====>>>" + e.getMessage());
+                LogUtil.e(TAG, "onFailure====>>>" + e.getMessage());
             }
 
         });

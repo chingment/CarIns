@@ -11,10 +11,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.View;
 import android.widget.*;
 
 import com.squareup.picasso.Picasso;
 import com.uplink.carins.R;
+import com.uplink.carins.device.N900Device;
 import com.uplink.carins.fragment.HomeFragment;
 import com.uplink.carins.fragment.MyFragment;
 import com.uplink.carins.ui.*;
@@ -33,6 +35,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.zip.GZIPOutputStream;
 
 
 public class MainActivity extends BaseFragmentActivity {
@@ -46,9 +49,6 @@ public class MainActivity extends BaseFragmentActivity {
 
     private RadioGroup footerRadioGroup;
 
-
-    private final static String HUB_URL="http://112.74.179.185:8084/signalr/hubs";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,60 +60,23 @@ public class MainActivity extends BaseFragmentActivity {
         initVent();//加载控件事件
         showFragment();//展示默认Fragment
 
-        //beginConnect();
-    }
-
-    /**
-     * hub链接
-     */
-    private HubConnection conn=new HubConnection(HUB_URL, this, new LongPollingTransport()) {
-        @Override
-        public void OnError(Exception exception) {
-            Log.i(TAG, "OnError=" + exception.getMessage());
-        }
-        @Override
-        public void OnMessage(String message) {
-            Log.i(TAG, "message=" + message);
-        }
-        @Override
-        public void OnStateChanged(StateBase oldState, StateBase newState) {
-            Log.i(TAG, "OnStateChanged=" + oldState.getState() + " -> " + newState.getState());
-        }
-    };
-
-    private IHubProxy hub = null;
-    /**
-     * 开启推送服务 panderman 2013-10-25
-     */
-    private void beginConnect(){
-        try {
-            hub=conn.CreateHubProxy("ChatHub");
-        } catch (OperationApplicationException e) {
-            e.printStackTrace();
-        }
-        hub.On("broadcastMessage", new HubOnDataCallback()
-        {
-            @Override
-            public void OnReceived(JSONArray args) {
-                Log.i(TAG, "args========================" + args.toString());
-
-//                for(int i=0; i<args.length(); i++)
-//                {
-//                    LogUtil.d(TAG, "args========================" + args.opt(i).toString());
-//
-//                }
-            }
-        });
-        conn.Start();
     }
 
     public void initView() {
 
-        footerRadioGroup=(RadioGroup) findViewById(R.id.main_footer_radiogroup);
+        footerRadioGroup = (RadioGroup) findViewById(R.id.main_footer_radiogroup);
 
     }
 
     public void initVent() {
+
+//        btn_1.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                Go();
+//            }
+//        });
 
         footerRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -161,18 +124,17 @@ public class MainActivity extends BaseFragmentActivity {
     }
 
 
-    private  HomeFragment homeFragment;
+    private HomeFragment homeFragment;
 
-    public  HomeFragment getHomeFragment()
-    {
-        return  homeFragment;
+    public HomeFragment getHomeFragment() {
+        return homeFragment;
     }
 
     //构造Fragment
     private Fragment instantFragment(int currIndex) {
         switch (currIndex) {
             case 0:
-                homeFragment=new HomeFragment();
+                homeFragment = new HomeFragment();
                 return homeFragment;
             case 1:
                 return new MyFragment();

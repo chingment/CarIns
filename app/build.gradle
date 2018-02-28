@@ -9,6 +9,13 @@ def buildTime() {
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
+
+    sourceSets {
+        main() {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
+
     defaultConfig {
         applicationId "com.hyl.carins"
         minSdkVersion 15
@@ -45,7 +52,7 @@ android {
             buildConfigField "String", "ENVIRONMENT", "\"http://112.74.179.185\""
             buildConfigField "String", "APPKEY", "\"test\""
             buildConfigField "String", "APPSECRET", "\"6ZB97cdVz211O08EKZ6yriAYrHXFBowC\""
-            buildConfigField "boolean", "SHOWDEBUG", "false"
+            buildConfigField "boolean", "SHOWDEBUG", "true"
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
@@ -86,4 +93,5 @@ dependencies {
     compile 'com.google.zxing:core:3.2.1'
     compile 'com.journeyapps:zxing-android-embedded:3.3.0'
     testCompile 'junit:junit:4.12'
+    compile files('libs/meSdk-3.6.0-SNAPSHOT.jar')
 }

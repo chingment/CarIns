@@ -55,6 +55,7 @@ public class PayConfirmActivity extends SwipeBackActivity implements View.OnClic
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_payconfirm);
 
@@ -67,21 +68,24 @@ public class PayConfirmActivity extends SwipeBackActivity implements View.OnClic
 
         orderInfo = (OrderInfoBean) getIntent().getSerializableExtra("dataBean");
 
-        List<ConfirmFieldBean> confirmFields = orderInfo.getConfirmField();
+        if(orderInfo!=null) {
+
+            List<ConfirmFieldBean> confirmFields = orderInfo.getConfirmField();
 
 
-        if (confirmFields != null && confirmFields.size() > 0)
-            for (int i = 0; i < confirmFields.size(); i++) {
-                ConfirmFieldBean confirmField = confirmFields.get(i);
-                View view = inflater.inflate(R.layout.item_confirmfield, null);
-                TextView item_name = (TextView) view.findViewById(R.id.item_field);
-                TextView item_value = (TextView) view.findViewById(R.id.item_value);
-                item_name.setText(confirmField.getField() + "");
-                item_value.setText(confirmField.getValue() + "");
-                list_confirmfields.addView(view);
-            }
+            if (confirmFields != null && confirmFields.size() > 0)
+                for (int i = 0; i < confirmFields.size(); i++) {
+                    ConfirmFieldBean confirmField = confirmFields.get(i);
+                    View view = inflater.inflate(R.layout.item_confirmfield, null);
+                    TextView item_name = (TextView) view.findViewById(R.id.item_field);
+                    TextView item_value = (TextView) view.findViewById(R.id.item_value);
+                    item_name.setText(confirmField.getField() + "");
+                    item_value.setText(confirmField.getValue() + "");
+                    list_confirmfields.addView(view);
+                }
 
 
+        }
     }
 
     public void initView() {

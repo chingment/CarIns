@@ -21,8 +21,11 @@ import com.google.zxing.common.BitMatrix;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
+import com.newland.mtype.module.common.printer.Printer;
+import com.newland.mtype.module.common.printer.PrinterResult;
 import com.uplink.carins.Own.Config;
 import com.uplink.carins.R;
+import com.uplink.carins.device.N900Device;
 import com.uplink.carins.http.HttpClient;
 import com.uplink.carins.http.HttpResponseHandler;
 import com.uplink.carins.model.api.ApiResultBean;
@@ -35,6 +38,7 @@ import com.uplink.carins.utils.LogUtil;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.Request;
 
@@ -58,6 +62,7 @@ public class PayQrcodeActivity extends SwipeBackActivity implements View.OnClick
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_payqrcode);
 
@@ -122,7 +127,6 @@ public class PayQrcodeActivity extends SwipeBackActivity implements View.OnClick
 
                         //当支付服务费 跳转到主页
                         if (d.getProductType() == 301) {
-
                             startMyTask();
                             Intent intent = new Intent(PayQrcodeActivity.this, MainActivity.class);
                             startActivity(intent);

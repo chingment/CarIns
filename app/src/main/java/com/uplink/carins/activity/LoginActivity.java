@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Rect;
 import android.os.Build;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.appcompat.BuildConfig;
@@ -23,10 +24,25 @@ import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
+import com.newland.me.ConnUtils;
+import com.newland.me.DeviceManager;
+import com.newland.me.K21Driver;
+import com.newland.mtype.ConnectionCloseEvent;
+import com.newland.mtype.Device;
+import com.newland.mtype.DeviceDriver;
+import com.newland.mtype.ModuleType;
+import com.newland.mtype.event.DeviceEventListener;
+import com.newland.mtype.module.common.printer.Printer;
+import com.newland.mtype.module.common.printer.PrinterResult;
+import com.newland.mtype.module.common.printer.PrinterStatus;
+import com.newland.mtypex.nseries.NSConnV100ConnParams;
+import com.newland.mtypex.nseries3.NS3ConnParams;
 import com.uplink.carins.Own.AppCacheManager;
 import com.uplink.carins.Own.AppContext;
 import com.uplink.carins.Own.Config;
 import com.uplink.carins.R;
+import com.uplink.carins.device.DeviceCloseListener;
+import com.uplink.carins.device.N900Device;
 import com.uplink.carins.http.HttpClient;
 import com.uplink.carins.http.HttpResponseHandler;
 import com.uplink.carins.model.api.ApiResultBean;
@@ -43,9 +59,9 @@ import com.uplink.carins.utils.StringUtil;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.Request;
-
 
 
 public class LoginActivity extends BaseFragmentActivity implements View.OnClickListener {
@@ -62,19 +78,14 @@ public class LoginActivity extends BaseFragmentActivity implements View.OnClickL
     TextView btn_register;
     TextView btn_forgetpwd;
 
-    LinearLayout mRoot;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
-//        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE |
-//                WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
         setContentView(R.layout.activity_login);
         initView();//加载视图控件
         initEvent();//加载控件事件
-        //mRoot = (LinearLayout) findViewById(R.id.main);
-        //controlKeyboardLayout(mRoot, btn_login);
 
         if (this.getAppContext().getUser() != null) {
 
@@ -91,8 +102,6 @@ public class LoginActivity extends BaseFragmentActivity implements View.OnClickL
             txt_username.setText(lastUsername);
         }
 
-
-        //LogUtil.i("deviceId:" + getAppContext().getDeviceId());
     }
 
     public void initView() {
@@ -104,6 +113,7 @@ public class LoginActivity extends BaseFragmentActivity implements View.OnClickL
         logo_login = (ImageView) this.findViewById(R.id.logo_login);
         btn_register = (TextView) this.findViewById(R.id.btn_register);
         btn_forgetpwd = (TextView) this.findViewById(R.id.btn_forgetpwd);
+
     }
 
     public void initEvent() {
@@ -134,7 +144,9 @@ public class LoginActivity extends BaseFragmentActivity implements View.OnClickL
 
         btn_cancle_username.setOnClickListener(this);
         btn_show_password.setOnClickListener(this);
+
     }
+
 
     @Override
     public void onClick(View view) {
@@ -165,9 +177,6 @@ public class LoginActivity extends BaseFragmentActivity implements View.OnClickL
 
                 submitLogin();
 
-                //Intent intent = new Intent(LoginActivity.this, SelectImageActivity.class);
-                //intent.putExtra(SelectImageActivity.EXTRA, SelectImageActivity.OPENALBUM);
-                //startActivityForResult(intent, SelectImageActivity.OPENALBUM);
                 break;
             case R.id.btn_register:
                 intent = new Intent(LoginActivity.this, RegisterActivity.class);
@@ -221,6 +230,8 @@ public class LoginActivity extends BaseFragmentActivity implements View.OnClickL
 
 
     private void submitLogin() {
+
+
         String username = txt_username.getText() + "";
         if (StringUtil.isEmpty(username)) {
             showToast("用户名为空");
@@ -280,7 +291,7 @@ public class LoginActivity extends BaseFragmentActivity implements View.OnClickL
                         case 3:
 
 
-                            if(d.getOrderInfo()==null) {
+                            if (d.getOrderInfo() == null) {
                                 showToast("登陆异常，错误代码:EX100001");
                                 return;
                             }
@@ -315,6 +326,5 @@ public class LoginActivity extends BaseFragmentActivity implements View.OnClickL
 
         });
     }
-
 
 }

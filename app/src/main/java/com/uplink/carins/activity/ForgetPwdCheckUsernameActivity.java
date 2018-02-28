@@ -17,6 +17,7 @@ public class ForgetPwdCheckUsernameActivity extends SwipeBackActivity implements
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forgetpwd_checkusername);
         initView();

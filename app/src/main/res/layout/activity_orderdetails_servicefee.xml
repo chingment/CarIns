@@ -284,4 +284,21 @@
             </LinearLayout>
         </LinearLayout>
     </com.uplink.carins.ui.my.MyScrollView>
+
+    <Button
+        android:id="@+id/btn_printer"
+        android:layout_width="match_parent"
+        android:layout_height="42dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="12dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/widget_common_btn"
+        android:text="打印小票"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size_14"
+        android:visibility="gone"
+        />
 </LinearLayout>

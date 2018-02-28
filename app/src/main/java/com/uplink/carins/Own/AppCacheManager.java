@@ -299,10 +299,12 @@ public class AppCacheManager {
 
         List<ExtendedAppBean> extendedAppsByCarInsService = new ArrayList<>();
 
-        for (ExtendedAppBean bean : extendedApps) {
+        if(extendedApps!=null) {
+            for (ExtendedAppBean bean : extendedApps) {
 
-            if (bean.getType() == 3) {
-                extendedAppsByCarInsService.add(bean);
+                if (bean.getType() == 3) {
+                    extendedAppsByCarInsService.add(bean);
+                }
             }
         }
 
@@ -316,10 +318,12 @@ public class AppCacheManager {
 
         List<ExtendedAppBean> extendedAppsByCarInsService = new ArrayList<>();
 
-        for (ExtendedAppBean bean : extendedApps) {
+        if(extendedApps!=null) {
+            for (ExtendedAppBean bean : extendedApps) {
 
-            if (bean.getType() == 2) {
-                extendedAppsByCarInsService.add(bean);
+                if (bean.getType() == 2) {
+                    extendedAppsByCarInsService.add(bean);
+                }
             }
         }
 
@@ -331,12 +335,15 @@ public class AppCacheManager {
 
         List<ExtendedAppBean> extendedApps = AppCacheManager.getExtendedApp();
 
+
         List<ExtendedAppBean> extendedAppsByCarInsService = new ArrayList<>();
 
-        for (ExtendedAppBean bean : extendedApps) {
+        if(extendedApps!=null) {
+            for (ExtendedAppBean bean : extendedApps) {
 
-            if (bean.getType() == 1) {
-                extendedAppsByCarInsService.add(bean);
+                if (bean.getType() == 1) {
+                    extendedAppsByCarInsService.add(bean);
+                }
             }
         }
 

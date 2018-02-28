@@ -17,6 +17,7 @@ public class ForgetPwdModifyActivity extends SwipeBackActivity implements View.O
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forgetpwd_modify);
         initView();

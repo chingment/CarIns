@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.Context;
 
+import com.uplink.carins.ui.BaseFragmentActivity;
+
 import java.util.LinkedList;
 
 /**
@@ -41,7 +43,7 @@ public class AppManager {
      * 获取当前Activity（堆栈中最后一个压入的）
      */
     public Activity currentActivity() {
-        Activity activity = activityStack.getLast();
+        Activity activity =activityStack.getLast();
         return activity;
     }
 
