@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -61,7 +62,8 @@ public class TalentDemandActivity extends SwipeBackActivity implements View.OnCl
     private TextView form_talentdemand_txt_usestarttime;
     private TextView form_talentdemand_txt_useendtime;
     private Button btn_submit_talentdemand;
-
+    private CheckBox form_talentdemand_isagreeservice;
+    private TextView btn_serviceagreement;
 
     private PopupWindow popupTalentdemandWorkJobsWindow;
     private View popupTalentdemandWorkJobsView;
@@ -188,6 +190,8 @@ public class TalentDemandActivity extends SwipeBackActivity implements View.OnCl
         form_talentdemand_txt_useendtime = (TextView) findViewById(R.id.form_talentdemand_txt_useendtime);
 
         btn_submit_talentdemand = (Button) findViewById(R.id.btn_submit_talentdemand);
+        form_talentdemand_isagreeservice= (CheckBox) findViewById(R.id.form_talentdemand_isagreeservice);
+        btn_serviceagreement= (TextView)findViewById(R.id.btn_serviceagreement);
 
         LayoutInflater layoutInflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
         popupTalentdemandWorkJobsView = layoutInflater.inflate(R.layout.popu_list, null);
@@ -202,6 +206,8 @@ public class TalentDemandActivity extends SwipeBackActivity implements View.OnCl
         layout_talentdemand_sel_workjob.setOnClickListener(this);
         form_talentdemand_txt_usestarttime.setOnClickListener(this);
         form_talentdemand_txt_useendtime.setOnClickListener(this);
+        form_talentdemand_isagreeservice.setOnClickListener(this);
+        btn_serviceagreement.setOnClickListener(this);
     }
 
 
@@ -238,6 +244,12 @@ public class TalentDemandActivity extends SwipeBackActivity implements View.OnCl
                 useEndTimePicker.setIsLoop(false); // 不允许循环滚动
                 useEndTimePicker.show(form_talentdemand_txt_useendtime.getText().toString());
                 break;
+            case R.id.btn_serviceagreement:
+                Intent intent = new Intent(TalentDemandActivity.this, WebViewActivity.class);
+                intent.putExtra("title", "服务协议");
+                intent.putExtra("url", Config.URL.yonggongxieyi);
+                startActivity(intent);
+                break;
         }
     }
 
@@ -269,6 +281,10 @@ public class TalentDemandActivity extends SwipeBackActivity implements View.OnCl
             return;
         }
 
+        if (!form_talentdemand_isagreeservice.isChecked()) {
+            showToast("必须同意服务协议，请认真阅读");
+            return;
+        }
 
         Map<String, Object> params = new HashMap<>();
         params.put("userId", this.getAppContext().getUser().getId());

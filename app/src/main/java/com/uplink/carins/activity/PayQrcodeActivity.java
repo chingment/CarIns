@@ -127,8 +127,14 @@ public class PayQrcodeActivity extends SwipeBackActivity implements View.OnClick
 
                         //当支付服务费 跳转到主页
                         if (d.getProductType() == 301) {
+
                             startMyTask();
+
+                            Bundle b = new Bundle();
+                            b.putSerializable("printDataBean", rt.getData());
+
                             Intent intent = new Intent(PayQrcodeActivity.this, MainActivity.class);
+                            intent.putExtras(b);
                             startActivity(intent);
                             finish();
                         }

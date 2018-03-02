@@ -1,5 +1,6 @@
 package com.uplink.carins.device;
 
+import android.graphics.Bitmap;
 import android.os.Handler;
 
 import com.newland.me.ConnUtils;
@@ -14,7 +15,10 @@ import com.newland.mtype.module.common.emv.EmvModule;
 import com.newland.mtype.module.common.iccard.ICCardModule;
 import com.newland.mtype.module.common.light.IndicatorLight;
 import com.newland.mtype.module.common.pin.K21Pininput;
+import com.newland.mtype.module.common.printer.PrintContext;
 import com.newland.mtype.module.common.printer.Printer;
+import com.newland.mtype.module.common.printer.PrinterResult;
+import com.newland.mtype.module.common.printer.PrinterStatus;
 import com.newland.mtype.module.common.rfcard.K21RFCardModule;
 import com.newland.mtype.module.common.scanner.BarcodeScanner;
 import com.newland.mtype.module.common.scanner.BarcodeScannerManager;
@@ -27,6 +31,10 @@ import com.newland.mtypex.nseries.NSConnV100ConnParams;
 import com.newland.mtypex.nseries3.NS3ConnParams;
 import com.uplink.carins.ui.BaseFragmentActivity;
 import com.uplink.carins.utils.LogUtil;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 //import com.newland.mtype.ExModuleType;
 //import com.newland.mtype.module.common.serialport.SerialModule;6
@@ -217,5 +225,6 @@ public class N900Device extends AbstractDevice {
         SmModule smModule = (SmModule) deviceManager.getDevice().getStandardModule(ModuleType.COMMON_SM);
         return smModule;
     }
+
 
 }

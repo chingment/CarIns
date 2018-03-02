@@ -22,6 +22,7 @@ import com.uplink.carins.http.HttpResponseHandler;
 import com.uplink.carins.model.api.ApiResultBean;
 import com.uplink.carins.model.api.OrderDetailsServiceFeeBean;
 import com.uplink.carins.model.api.OrderListBean;
+import com.uplink.carins.model.api.PrintDataBean;
 import com.uplink.carins.model.api.Result;
 import com.uplink.carins.ui.swipebacklayout.SwipeBackActivity;
 import com.uplink.carins.utils.LogUtil;
@@ -118,60 +119,11 @@ public class OrderDetailsServiceFeeActivity extends SwipeBackActivity implements
                 break;
             case R.id.btn_printer:
 
-                try {
-                    Printer printer = getn900Device().getPrinter();
-
-                    if (printer.getStatus() != PrinterStatus.NORMAL) {
-                        showToast("打印失败，打印机状态不正常,请检查设备");
-                        return;
-                    }
-
-//                    String bill = "\n\n   " + "签购单" + "      \n";// 交易明细信息
-//                    bill += "商户名称：钓鱼岛\n";
-//                    bill += "操作员号：001\n";
-//                    bill += "消费类型：消费\n";
-//                    bill += "商户编号:123455432112345\n";
-//                    bill += "商户名称:机器服务费\n";
-//                    bill += "-------------------------------\n";
-//                    bill += "+++++++++++++++++++++++++++++++\n";
-//                    bill += "\n\n\n\n";
-//                    printer.init();
-//                    PrinterResult result = printer.print(bill, 30, TimeUnit.SECONDS);
-
-                    Map<String, Bitmap> map = new HashMap<String, Bitmap>();
-
-                    StringBuffer scriptBuffer = new StringBuffer();
-                    scriptBuffer.append("*text l ++++++++++++++ X ++++++++++++++ \n");
-                    scriptBuffer.append("!hz l\n !asc l\n !gray 5\n");// 设置标题字体为大号
-                    scriptBuffer.append("!yspace 5\n");// 设置行间距,取值【0,60】，默认6
-                    scriptBuffer.append("*text c 签购单\n");
-                    scriptBuffer.append("!hz n\n !asc n !gray 5\n");// 设置内容字体为中号
-                    scriptBuffer.append("!yspace 10\n");// 设置内容行间距
-                    scriptBuffer.append("*line" + "\n");// 打印虚线
-                    scriptBuffer.append("*text l 商户存根/MERCHANT COPY\n");
-                    scriptBuffer.append("*line" + "\n");// 打印虚线
-                    scriptBuffer.append("*text l 商户名称:比亚迪1\n");
-                    scriptBuffer.append("*text l 商户编号:123455432112345\n");
-                    scriptBuffer.append("*text l 终端编号:20130717\n");
-                    scriptBuffer.append("*line" + "\n");// 打印虚线
-                    scriptBuffer.append("*text l 交易类型:消费/SALE\n");
-                    scriptBuffer.append("*text l 支付方式:微信支付\n");
-                    scriptBuffer.append("*text l 日期时间:2015/12/25 11:41:06\n");
-                    scriptBuffer.append("*text l 金 额:RMB 1.16\n");
-                    scriptBuffer.append("*text l 操作员号:001\n");
-                    scriptBuffer.append("*text l 程序版本:1.0.18\n");
-                    scriptBuffer.append("*underline l 服务热线:888888888\n");
-                    scriptBuffer.append("*text l ++++++++++++++ X ++++++++++++++ \n");
-                    scriptBuffer.append("!NLPRNOVER"); // 走纸//10
-
-                    PrinterResult printerResult = printer.printByScript(PrintContext.defaultContext(), scriptBuffer.toString().getBytes("GBK"), map, 60, TimeUnit.SECONDS);
 
 
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    showToast("打印字符串异常：" + e);
-                }
 
+                PrintDataBean bean=new PrintDataBean();
+                printTicket(bean);
                 break;
         }
     }

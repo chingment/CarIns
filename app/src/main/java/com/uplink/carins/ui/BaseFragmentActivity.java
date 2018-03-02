@@ -5,6 +5,9 @@ import android.app.ActivityManager;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -15,6 +18,9 @@ import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
+import com.newland.mtype.module.common.printer.PrintContext;
+import com.newland.mtype.module.common.printer.Printer;
+import com.newland.mtype.module.common.printer.PrinterStatus;
 import com.umeng.analytics.MobclickAgent;
 import com.uplink.carins.Own.AppCacheManager;
 import com.uplink.carins.Own.AppContext;
@@ -34,6 +40,7 @@ import com.uplink.carins.http.HttpClient;
 import com.uplink.carins.http.HttpResponseHandler;
 import com.uplink.carins.model.api.ApiResultBean;
 import com.uplink.carins.model.api.HomePageBean;
+import com.uplink.carins.model.api.PrintDataBean;
 import com.uplink.carins.model.api.Result;
 import com.uplink.carins.utils.CommonUtil;
 import com.uplink.carins.utils.LogUtil;
@@ -42,6 +49,7 @@ import com.uplink.carins.utils.StringUtil;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.Request;
 
@@ -63,7 +71,6 @@ public class BaseFragmentActivity extends FragmentActivity {
     public static N900Device getn900Device() {
         return n900Device;
     }
-
 
 
     public void stopMyTask() {
@@ -127,8 +134,6 @@ public class BaseFragmentActivity extends FragmentActivity {
                 }
             };
         }
-
-        startMyTask();
 
         if (n900Device == null) {
 
@@ -471,5 +476,64 @@ public class BaseFragmentActivity extends FragmentActivity {
         }
     }
 
+
+    public void printTicket(PrintDataBean data) {
+        try {
+
+            Printer printer = getn900Device().getPrinter();
+
+            if (printer.getStatus() != PrinterStatus.NORMAL) {
+                showToast("打印失败，打印机状态不正常,请检查设备");
+                return;
+            }
+
+            Map<String, Bitmap> map = new HashMap<String, Bitmap>();
+
+            StringBuffer scriptBuffer = new StringBuffer();
+            scriptBuffer.append("*text l ++++++++++++++ X ++++++++++++++ \n");
+            scriptBuffer.append("!hz l\n !asc l\n !gray 5\n");// 设置标题字体为大号
+            scriptBuffer.append("!yspace 5\n");// 设置行间距,取值【0,60】，默认6
+            scriptBuffer.append("*text c 签购单\n");
+            scriptBuffer.append("!hz n\n !asc n !gray 5\n");// 设置内容字体为中号
+            scriptBuffer.append("!yspace 10\n");// 设置内容行间距
+            scriptBuffer.append("*line" + "\n");// 打印虚线
+            scriptBuffer.append("*text l 商户存根/MERCHANT COPY\n");
+            scriptBuffer.append("*line" + "\n");// 打印虚线
+            scriptBuffer.append("*text l 商户名称:" + data.getMerchantName() + "\n");
+            scriptBuffer.append("*text l 商户编号:" + data.getMerchantCode() + "\n");
+            scriptBuffer.append("*text l 终端编号:20130717\n");
+            scriptBuffer.append("*line" + "\n");// 打印虚线
+            scriptBuffer.append("*text l 交易类型:消费/SALE\n");
+            scriptBuffer.append("*text l 商品名称:" + data.getProductName() + "\n");
+            scriptBuffer.append("*text l 交易单号:" + data.getTradeNo() + "\n");
+            scriptBuffer.append("*text l 支付方式:" + data.getTradePayMethod() + "\n");
+            scriptBuffer.append("*text l 日期时间:" + data.getTradeDateTime() + "\n");
+            scriptBuffer.append("*text l 金 额:RMB " + data.getTradeAmount() + "\n");
+            scriptBuffer.append("*text l 程序版本:" + getVersionName() + "\n");
+            scriptBuffer.append("*underline l 服务热线:888888888\n");
+            scriptBuffer.append("*text l ++++++++++++++ X ++++++++++++++ \n");
+            scriptBuffer.append("!NLPRNOVER"); // 走纸//10
+
+            printer.printByScript(PrintContext.defaultContext(), scriptBuffer.toString().getBytes("GBK"), map, 60, TimeUnit.SECONDS);
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            showToast("打印失败,设备异常");
+        }
+    }
+
+    private String getVersionName() {
+        String versionName="1.0";
+        try {
+            PackageManager manager = getPackageManager();
+            PackageInfo info = manager.getPackageInfo(this.getPackageName(), 0);
+            versionName = info.versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        return  versionName;
+    }
 
 }

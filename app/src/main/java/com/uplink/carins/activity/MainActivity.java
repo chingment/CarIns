@@ -19,6 +19,7 @@ import com.uplink.carins.R;
 import com.uplink.carins.device.N900Device;
 import com.uplink.carins.fragment.HomeFragment;
 import com.uplink.carins.fragment.MyFragment;
+import com.uplink.carins.model.api.PrintDataBean;
 import com.uplink.carins.ui.*;
 import com.uplink.carins.utils.LogUtil;
 
@@ -59,7 +60,15 @@ public class MainActivity extends BaseFragmentActivity {
         initView();//加载视图控件
         initVent();//加载控件事件
         showFragment();//展示默认Fragment
-
+        startMyTask();
+        PrintDataBean printData = (PrintDataBean)getIntent().getSerializableExtra("printDataBean");
+        if(printData!=null) {
+            printTicket(printData);
+        }
+        else
+        {
+            LogUtil.i("打印小票的信息为空");
+        }
     }
 
     public void initView() {

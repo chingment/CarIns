@@ -168,27 +168,35 @@
                 android:textSize="@dimen/text_size_12" />
 
 
-            <CheckBox
-                android:id="@+id/form_carclaim_claimtype1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:button="@drawable/widget_form_radio_green"
-                android:checked="true"
-                android:paddingLeft="8dp"
+            <TextView
+                android:layout_width="80dp"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical|left"
                 android:text="维修和定损"
-                android:textColor="@color/radio_selector_text_color"
+                android:textColor="@color/text"
                 android:textSize="@dimen/text_size_12" />
 
-            <CheckBox
-                android:id="@+id/form_carclaim_claimtype2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="36dp"
-                android:button="@drawable/widget_form_radio_green"
-                android:paddingLeft="8dp"
-                android:text="只定损"
-                android:textColor="@color/radio_selector_text_color"
-                android:textSize="@dimen/text_size_12" />
+            <!--<CheckBox-->
+                <!--android:id="@+id/form_carclaim_claimtype1"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:button="@drawable/widget_form_radio_green"-->
+                <!--android:checked="true"-->
+                <!--android:paddingLeft="8dp"-->
+                <!--android:text="维修和定损"-->
+                <!--android:textColor="@color/radio_selector_text_color"-->
+                <!--android:textSize="@dimen/text_size_12" />-->
+
+            <!--<CheckBox-->
+                <!--android:id="@+id/form_carclaim_claimtype2"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginLeft="36dp"-->
+                <!--android:button="@drawable/widget_form_radio_green"-->
+                <!--android:paddingLeft="8dp"-->
+                <!--android:text="只定损"-->
+                <!--android:textColor="@color/radio_selector_text_color"-->
+                <!--android:textSize="@dimen/text_size_12" />-->
 
         </LinearLayout>
     </LinearLayout>

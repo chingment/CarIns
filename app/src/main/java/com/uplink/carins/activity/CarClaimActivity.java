@@ -55,8 +55,8 @@ public class CarClaimActivity extends SwipeBackActivity implements View.OnClickL
     private EditText form_carclaim_txt_carplateno;
     private EditText form_carclaim_txt_handperson;
     private EditText form_carclaim_txt_handpersonphone;
-    private CheckBox form_carclaim_claimtype1;
-    private CheckBox form_carclaim_claimtype2;
+    //private CheckBox form_carclaim_claimtype1;
+    //private CheckBox form_carclaim_claimtype2;
     private Button btn_submit_carclaims;
 
     private LayoutInflater inflater;
@@ -85,8 +85,8 @@ public class CarClaimActivity extends SwipeBackActivity implements View.OnClickL
         form_carclaim_txt_carplateno = (EditText) findViewById(R.id.form_carclaim_txt_carplateno);
         form_carclaim_txt_handperson = (EditText) findViewById(R.id.form_carclaim_txt_handperson);
         form_carclaim_txt_handpersonphone = (EditText) findViewById(R.id.form_carclaim_txt_handpersonphone);
-        form_carclaim_claimtype1 = (CheckBox) findViewById(R.id.form_carclaim_claimtype1);
-        form_carclaim_claimtype2 = (CheckBox) findViewById(R.id.form_carclaim_claimtype2);
+        //form_carclaim_claimtype1 = (CheckBox) findViewById(R.id.form_carclaim_claimtype1);
+        //form_carclaim_claimtype2 = (CheckBox) findViewById(R.id.form_carclaim_claimtype2);
         btn_submit_carclaims = (Button) findViewById(R.id.btn_submit_carclaims);
 
 
@@ -108,8 +108,8 @@ public class CarClaimActivity extends SwipeBackActivity implements View.OnClickL
         btnHeaderGoBack.setOnClickListener(this);
         form_carclaim_select_company.setOnClickListener(this);
         btn_submit_carclaims.setOnClickListener(this);
-        form_carclaim_claimtype1.setOnCheckedChangeListener(form_carclaim_claimtype_CheckListener);
-        form_carclaim_claimtype2.setOnCheckedChangeListener(form_carclaim_claimtype_CheckListener);
+        //form_carclaim_claimtype1.setOnCheckedChangeListener(form_carclaim_claimtype_CheckListener);
+        //form_carclaim_claimtype2.setOnCheckedChangeListener(form_carclaim_claimtype_CheckListener);
 
         popupListViewForCompanys.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -125,22 +125,22 @@ public class CarClaimActivity extends SwipeBackActivity implements View.OnClickL
     }
 
 
-    CheckBox.OnCheckedChangeListener form_carclaim_claimtype_CheckListener = new CheckBox.OnCheckedChangeListener() {
-        @Override
-        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-            if (isChecked)
-                switch (buttonView.getId()) {
-                    case R.id.form_carclaim_claimtype1:
-                        form_carclaim_claimtype2.setChecked(false);
-                        repairsType = 1;
-                        break;
-                    case R.id.form_carclaim_claimtype2:
-                        form_carclaim_claimtype1.setChecked(false);
-                        repairsType = 2;
-                        break;
-                }
-        }
-    };
+//    CheckBox.OnCheckedChangeListener form_carclaim_claimtype_CheckListener = new CheckBox.OnCheckedChangeListener() {
+//        @Override
+//        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//            if (isChecked)
+//                switch (buttonView.getId()) {
+//                    case R.id.form_carclaim_claimtype1:
+//                        form_carclaim_claimtype2.setChecked(false);
+//                        repairsType = 1;
+//                        break;
+//                    case R.id.form_carclaim_claimtype2:
+//                        form_carclaim_claimtype1.setChecked(false);
+//                        repairsType = 2;
+//                        break;
+//                }
+//        }
+//    };
 
     private PopupWindow popupWindowForCompanys;
     private ListView popupListViewForCompanys;
@@ -246,7 +246,7 @@ public class CarClaimActivity extends SwipeBackActivity implements View.OnClickL
         params.put("handPersonPhone", handPersonPhone);
         params.put("posMachineId", this.getAppContext().getUser().getPosMachineId());
         params.put("merchantId", this.getAppContext().getUser().getMerchantId());
-        params.put("repairsType", repairsType);
+        params.put("repairsType", "1");
 
         postWithMy(Config.URL.submitClaim, params, null, new HttpResponseHandler() {
             @Override

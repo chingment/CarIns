@@ -16,6 +16,15 @@ android {
         }
     }
 
+    splits {
+        abi {
+            enable true
+            reset()
+            include "x86", "armeabi-v7a"
+            universalApk true
+        }
+    }
+
     defaultConfig {
         applicationId "com.hyl.carins"
         minSdkVersion 15

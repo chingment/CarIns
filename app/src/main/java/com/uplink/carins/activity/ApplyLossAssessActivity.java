@@ -184,7 +184,7 @@ public class ApplyLossAssessActivity extends SwipeBackActivity implements View.O
             case R.id.btn_serviceagreement:
                 Intent intent = new Intent(ApplyLossAssessActivity.this, WebViewActivity.class);
                 intent.putExtra("title", "服务协议");
-                intent.putExtra("url", "http://www.baidu.com");
+                intent.putExtra("url", Config.URL.dingshundianshenqingxieyi);
                 startActivity(intent);
                 break;
 
