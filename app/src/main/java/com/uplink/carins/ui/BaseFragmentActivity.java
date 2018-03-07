@@ -76,20 +76,49 @@ public class BaseFragmentActivity extends FragmentActivity {
     public void stopMyTask() {
         if (myTaskHandler != null) {
             if (myTaskRunnable != null) {
+                LogUtil.i("停止定时任务:" + CommonUtil.getCurrentTime());
                 myTaskHandler.removeCallbacks(myTaskRunnable); //关闭定时执行操作
+                myTaskHandler=null;
+                myTaskRunnable=null;
             }
         }
-
     }
 
-
     public void startMyTask() {
-        if (myTaskHandler != null) {
-            if (myTaskRunnable != null) {
-                myTaskHandler.postDelayed(myTaskRunnable, 2000);
+        if (myTaskHandler == null) {
+            if (myTaskRunnable == null) {
+
+                myTaskHandler = new Handler();
+                myTaskRunnable = new Runnable() {
+                    @Override
+                    public void run() {
+                        LogUtil.i("定时任务:" + CommonUtil.getCurrentTime());
+                        loadTaskData();
+
+                        Activity act = AppManager.getAppManager().currentActivity();
+                        if (act != null) {
+
+                            if (act instanceof MainActivity) {
+                                MainActivity act_main = (MainActivity) act;
+                                if (act_main.getHomeFragment() != null) {
+                                    if (HomeFragment.isNeedUpdateActivity) {
+                                        LogUtil.i("更新HomeFragment界面");
+                                        HomeFragment homeFragment = act_main.getHomeFragment();
+                                        homeFragment.setBanner(AppCacheManager.getBanner());
+                                        homeFragment.setThirdPartyApp(AppCacheManager.getExtendedAppByThirdPartyApp());
+                                        homeFragment.setHaoYiLianApp(AppCacheManager.getExtendedAppByHaoYiLianApp());
+                                        HomeFragment.isNeedUpdateActivity = false;
+                                    }
+                                }
+                            }
+                        }
+                        myTaskHandler.postDelayed(this, 5000);
+                    }
+                };
+
+                myTaskHandler.postDelayed(myTaskRunnable, 5000);
             }
         }
-
     }
 
 
@@ -103,53 +132,22 @@ public class BaseFragmentActivity extends FragmentActivity {
 
         mProgressDialog = new Dialog(this, R.style.dialog_loading_style);
 
-        if (myTaskHandler == null) {
-            myTaskHandler = new Handler();
 
-            myTaskRunnable = new Runnable() {
-                @Override
-                public void run() {
-                    LogUtil.i("定时任务:" + CommonUtil.getCurrentTime());
-                    loadTaskData();
-
-                    Activity act = AppManager.getAppManager().currentActivity();
-                    if (act != null) {
-
-                        if (act instanceof MainActivity) {
-                            MainActivity act_main = (MainActivity) act;
-                            if (act_main.getHomeFragment() != null) {
-                                if (HomeFragment.isNeedUpdateActivity) {
-                                    LogUtil.i("更新HomeFragment界面");
-                                    HomeFragment homeFragment = act_main.getHomeFragment();
-                                    homeFragment.setBanner(AppCacheManager.getBanner());
-                                    homeFragment.setThirdPartyApp(AppCacheManager.getExtendedAppByThirdPartyApp());
-                                    homeFragment.setHaoYiLianApp(AppCacheManager.getExtendedAppByHaoYiLianApp());
-                                    HomeFragment.isNeedUpdateActivity = false;
-                                }
-                            }
-                        }
-                    }
-
-                    myTaskHandler.postDelayed(this, 2000);
-                }
-            };
-        }
-
-        if (n900Device == null) {
-
-            n900Device = N900Device.getInstance(this);
-
-            try {
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        n900Device.connectDevice();
-                    }
-                }).start();
-            } catch (Exception e) {
-                showToast("设备连接异常：" + e);
-            }
-        }
+//        if (n900Device == null) {
+//
+//            n900Device = N900Device.getInstance(this);
+//
+//            try {
+//                new Thread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        n900Device.connectDevice();
+//                    }
+//                }).start();
+//            } catch (Exception e) {
+//                showToast("设备连接异常：" + e);
+//            }
+//        }
 
     }
 
@@ -162,7 +160,6 @@ public class BaseFragmentActivity extends FragmentActivity {
             params.put("merchantId", getAppContext().getUser().getMerchantId() + "");
             params.put("posMachineId", getAppContext().getUser().getPosMachineId() + "");
             params.put("datetime", AppCacheManager.getLastUpdateTime());
-
 
             LogUtil.i("datetime:" + AppCacheManager.getLastUpdateTime());
 
@@ -432,14 +429,8 @@ public class BaseFragmentActivity extends FragmentActivity {
                     Bundle b = new Bundle();
                     b.putSerializable("dataBean", bean.getOrderInfo());
 
-                    //LogUtil.i("d=>>>>>>>>getOrderInfo().getProductName" + bean.getOrderInfo().getProductName());
-                    //LogUtil.i("d=>>>>>>>>getOrderInfo().getProductType" + bean.getOrderInfo().getProductType());
-
                     Activity act = AppManager.getAppManager().currentActivity();
                     if (act != null) {
-
-                        //LogUtil.i(TAG, "is====>>>BaseFragmentActivity:" + act.canAutoGoToPayConfirmActivity);
-
 
                         Boolean isfalg1 = act instanceof LoginActivity;
                         Boolean isfalg2 = act instanceof PayQrcodeActivity;
@@ -447,7 +438,6 @@ public class BaseFragmentActivity extends FragmentActivity {
                         Boolean isfalg4 = act instanceof RegisterActivity;
                         Boolean isfalg5 = act instanceof ForgetPwdCheckUsernameActivity;
                         Boolean isfalg6 = act instanceof ForgetPwdModifyActivity;
-                        //LogUtil.i("d=>>>>>>>>>>>>>>>>isfalg:" + isfalg);
 
                         if (isfalg1.equals(false) && isfalg2.equals(false) && isfalg3.equals(false)
                                 && isfalg4.equals(false) && isfalg5.equals(false) && isfalg6.equals(false)
@@ -455,12 +445,12 @@ public class BaseFragmentActivity extends FragmentActivity {
 
                             Intent intent = new Intent(act, PayConfirmActivity.class);
                             intent.putExtras(b);
-
+//
                             stopMyTask();
+//
 
                             startActivity(intent);
-
-                            AppManager.getAppManager().finishAllActivity();
+                            //AppManager.getAppManager().finishAllActivity();
                         }
                     }
                 }
@@ -479,6 +469,11 @@ public class BaseFragmentActivity extends FragmentActivity {
 
     public void printTicket(PrintDataBean data) {
         try {
+
+            if (data == null) {
+                showToast("打印的数据为空");
+                return;
+            }
 
             Printer printer = getn900Device().getPrinter();
 
@@ -519,12 +514,12 @@ public class BaseFragmentActivity extends FragmentActivity {
 
         } catch (Exception e) {
             e.printStackTrace();
-            showToast("打印失败,设备异常");
+            showToast("打印失败,设备异常" + e);
         }
     }
 
     private String getVersionName() {
-        String versionName="1.0";
+        String versionName = "1.0";
         try {
             PackageManager manager = getPackageManager();
             PackageInfo info = manager.getPackageInfo(this.getPackageName(), 0);
@@ -533,7 +528,7 @@ public class BaseFragmentActivity extends FragmentActivity {
             e.printStackTrace();
         }
 
-        return  versionName;
+        return versionName;
     }
 
 }

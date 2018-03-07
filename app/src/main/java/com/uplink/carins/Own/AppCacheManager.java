@@ -31,10 +31,10 @@ public class AppCacheManager {
     public static void setLastUpdateTime(String lastUpdateTime) {
 
         if (lastUpdateTime == null) {
-            AppCacheManager.getCache().remove(Cache_Key_LastUpdateTime);
-        } else {
-            AppCacheManager.getCache().put(Cache_Key_LastUpdateTime, lastUpdateTime);
+            lastUpdateTime = "";
         }
+
+        AppCacheManager.getCache().put(Cache_Key_LastUpdateTime, lastUpdateTime);
 
     }
 
@@ -299,7 +299,7 @@ public class AppCacheManager {
 
         List<ExtendedAppBean> extendedAppsByCarInsService = new ArrayList<>();
 
-        if(extendedApps!=null) {
+        if (extendedApps != null) {
             for (ExtendedAppBean bean : extendedApps) {
 
                 if (bean.getType() == 3) {
@@ -318,7 +318,7 @@ public class AppCacheManager {
 
         List<ExtendedAppBean> extendedAppsByCarInsService = new ArrayList<>();
 
-        if(extendedApps!=null) {
+        if (extendedApps != null) {
             for (ExtendedAppBean bean : extendedApps) {
 
                 if (bean.getType() == 2) {
@@ -338,7 +338,7 @@ public class AppCacheManager {
 
         List<ExtendedAppBean> extendedAppsByCarInsService = new ArrayList<>();
 
-        if(extendedApps!=null) {
+        if (extendedApps != null) {
             for (ExtendedAppBean bean : extendedApps) {
 
                 if (bean.getType() == 1) {

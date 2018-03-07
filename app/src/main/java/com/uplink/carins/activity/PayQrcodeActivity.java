@@ -130,11 +130,18 @@ public class PayQrcodeActivity extends SwipeBackActivity implements View.OnClick
 
                             startMyTask();
 
-                            Bundle b = new Bundle();
-                            b.putSerializable("printDataBean", rt.getData());
+
 
                             Intent intent = new Intent(PayQrcodeActivity.this, MainActivity.class);
-                            intent.putExtras(b);
+
+                            if(rt.getData()!=null) {
+                                if(rt.getData().getPrintData()!=null) {
+                                    Bundle b = new Bundle();
+                                    b.putSerializable("printDataBean", rt.getData().getPrintData());
+                                    intent.putExtras(b);
+                                }
+                            }
+
                             startActivity(intent);
                             finish();
                         }

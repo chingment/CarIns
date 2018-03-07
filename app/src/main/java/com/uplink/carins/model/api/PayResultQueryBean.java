@@ -11,6 +11,8 @@ public class PayResultQueryBean implements Serializable {
     private int productType;
     private int status;
     private String remarks;
+    private PrintDataBean printData;
+
 
     public String getOrderSn() {
         return orderSn;
@@ -43,5 +45,13 @@ public class PayResultQueryBean implements Serializable {
 
     public void setRemarks(String remarks) {
         this.remarks = remarks;
+    }
+
+    public PrintDataBean getPrintData() {
+        return printData;
+    }
+
+    public void setPrintData(PrintDataBean expiryTime) {
+        this.printData = printData;
     }
 }

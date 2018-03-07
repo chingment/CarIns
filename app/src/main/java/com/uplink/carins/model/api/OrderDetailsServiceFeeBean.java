@@ -20,6 +20,7 @@ public class OrderDetailsServiceFeeBean {
     private String deposit;
     private String mobileTrafficFee;
     private String expiryTime;
+    private PrintDataBean printData;
 
     public int getId() {
         return id;
@@ -132,5 +133,14 @@ public class OrderDetailsServiceFeeBean {
     public void setExpiryTime(String expiryTime) {
         this.expiryTime = expiryTime;
     }
+
+    public PrintDataBean getPrintData() {
+        return printData;
+    }
+
+    public void setPrintData(PrintDataBean printData) {
+        this.printData = printData;
+    }
+
 
 }

@@ -20,10 +20,11 @@ android {
         abi {
             enable true
             reset()
-            include "x86", "armeabi-v7a"
+            include 'x86','armeabi-v7a'
             universalApk true
         }
     }
+
 
     defaultConfig {
         applicationId "com.hyl.carins"

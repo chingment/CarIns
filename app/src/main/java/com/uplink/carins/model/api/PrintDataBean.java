@@ -18,7 +18,6 @@ public class PrintDataBean implements Serializable {
     private  String tradeAmount;
     private  String serviceHotline;
 
-
     public String getMerchantName() {
         return merchantName;
     }

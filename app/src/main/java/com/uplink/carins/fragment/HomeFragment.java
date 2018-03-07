@@ -337,7 +337,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                                                 dialog_logout.dismiss();
 
                                                 AppContext.getInstance().setUser(null);
-                                                AppCacheManager.setLastUpdateTime(null);
+                                                AppCacheManager.setLastUpdateTime("");
                                                 Intent l_Intent = new Intent(context, LoginActivity.class);
                                                 startActivity(l_Intent);
                                                 AppManager.getAppManager().finishAllActivity();

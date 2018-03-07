@@ -1,5 +1,6 @@
 package com.uplink.carins.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -162,11 +163,11 @@ public class PayConfirmActivity extends SwipeBackActivity implements View.OnClic
                 if (orderInfo.getProductType() == 301) {
 
                     AppContext.getInstance().setUser(null);
-                    AppCacheManager.setLastUpdateTime(null);
+                    AppCacheManager.setLastUpdateTime("");
 
+                    stopMyTask();
                     Intent intent = new Intent(PayConfirmActivity.this, LoginActivity.class);
                     startActivity(intent);
-
                     AppManager.getAppManager().finishAllActivity();
                 }
                 else
@@ -177,7 +178,18 @@ public class PayConfirmActivity extends SwipeBackActivity implements View.OnClic
                 break;
             case R.id.btn_submit_gopay:
                 if (!NoDoubleClickUtils.isDoubleClick()) {
-                    getPayQrCode();
+
+
+                    Intent scan2 = new Intent();
+                    scan2.setClassName("com.newland.fczhu", "com.newland.fczhu.ui.activity.MainActivity");
+                    //第三方应用传入交易参数给厂商程序
+                    scan2.putExtra("transType", 67);//微信67，支付宝73
+                    scan2.putExtra("amount", (long)Long.parseLong("1"));	//金额
+                    //scan2.putExtra("order", order);
+                    this.startActivityForResult(scan2, 1);
+
+
+                    //getPayQrCode();
                 }
                 break;
         }
@@ -229,5 +241,34 @@ public class PayConfirmActivity extends SwipeBackActivity implements View.OnClic
 
     }
 
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Bundle bundle = data.getExtras();
+        if (requestCode == 1&&bundle != null) {
+            switch (resultCode) {
+                // 支付成功
+                case Activity.RESULT_OK:
+                    String msgTp = bundle.getString("msg_tp");
+                    showToast("支付成功");
+                    //if (TextUtils.equals(msgTp, "0210")) {
+                        //setHistory(order + GetRandomText.getRandomCode(20-order.length()));
+                    //}
+                    break;
+                // 支付取消
+                case Activity.RESULT_CANCELED:
+                    String reason = bundle.getString("reason");
+                    if (reason != null) {
+                        showToast("交易已取消");
+                        //Toast.makeText(getApplicationContext(),"交易已取消",Toast.LENGTH_SHORT).show();
+                    }
+                    break;
+
+                default:
+                    // TODO:
+                    break;
+            }
+        }
+    }
 
 }

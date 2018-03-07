@@ -43,7 +43,7 @@ public class AppManager {
      * 获取当前Activity（堆栈中最后一个压入的）
      */
     public Activity currentActivity() {
-        Activity activity =activityStack.getLast();
+        Activity activity = activityStack.getLast();
         return activity;
     }
 
@@ -83,12 +83,16 @@ public class AppManager {
      * 结束所有Activity
      */
     public void finishAllActivity() {
-        for (int i = 0, size = activityStack.size(); i < size; i++) {
-            if (null != activityStack.get(i)) {
-                activityStack.get(i).finish();
+        if (activityStack != null) {
+            if (activityStack.size() > 0) {
+                for (int i = 0, size = activityStack.size(); i < size; i++) {
+                    if (null != activityStack.get(i)) {
+                        activityStack.get(i).finish();
+                    }
+                }
+                activityStack.clear();
             }
         }
-        activityStack.clear();
     }
 
     /**

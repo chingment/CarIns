@@ -60,7 +60,13 @@ public class MainActivity extends BaseFragmentActivity {
         initView();//加载视图控件
         initVent();//加载控件事件
         showFragment();//展示默认Fragment
+
+
+        loadTaskData();
+
         startMyTask();
+
+
         PrintDataBean printData = (PrintDataBean)getIntent().getSerializableExtra("printDataBean");
         if(printData!=null) {
             printTicket(printData);

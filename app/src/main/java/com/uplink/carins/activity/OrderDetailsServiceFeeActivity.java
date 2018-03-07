@@ -63,6 +63,8 @@ public class OrderDetailsServiceFeeActivity extends SwipeBackActivity implements
 
     private Button btn_printer;
 
+    private OrderDetailsServiceFeeBean orderDetailsServiceFee;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -119,11 +121,15 @@ public class OrderDetailsServiceFeeActivity extends SwipeBackActivity implements
                 break;
             case R.id.btn_printer:
 
+                //showToast("测试");
+                //LogUtil.i("测试");
 
+                if (orderDetailsServiceFee != null) {
+                    if (orderDetailsServiceFee.getPrintData() != null) {
+                        printTicket(orderDetailsServiceFee.getPrintData());
+                    }
+                }
 
-
-                PrintDataBean bean=new PrintDataBean();
-                printTicket(bean);
                 break;
         }
     }
@@ -185,7 +191,9 @@ public class OrderDetailsServiceFeeActivity extends SwipeBackActivity implements
                 });
 
                 if (rt.getResult() == Result.SUCCESS) {
-                    setView(rt.getData());
+
+                    orderDetailsServiceFee = rt.getData();
+                    setView(orderDetailsServiceFee);
                 }
             }
 
