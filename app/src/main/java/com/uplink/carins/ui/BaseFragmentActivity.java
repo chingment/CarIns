@@ -76,10 +76,10 @@ public class BaseFragmentActivity extends FragmentActivity {
     public void stopMyTask() {
         if (myTaskHandler != null) {
             if (myTaskRunnable != null) {
-                LogUtil.i("停止定时任务:" + CommonUtil.getCurrentTime());
+                LogUtil.i("停止->定时任务:" + CommonUtil.getCurrentTime());
                 myTaskHandler.removeCallbacks(myTaskRunnable); //关闭定时执行操作
-                myTaskHandler=null;
-                myTaskRunnable=null;
+                myTaskHandler = null;
+                myTaskRunnable = null;
             }
         }
     }
@@ -87,40 +87,42 @@ public class BaseFragmentActivity extends FragmentActivity {
     public void startMyTask() {
         if (myTaskHandler == null) {
             if (myTaskRunnable == null) {
+                if (getAppContext().getUser() != null) {
+                    LogUtil.i("开始->定时任务:" + CommonUtil.getCurrentTime());
+                    myTaskHandler = new Handler();
+                    myTaskRunnable = new Runnable() {
+                        @Override
+                        public void run() {
+                            LogUtil.i("执行->定时任务:" + CommonUtil.getCurrentTime());
 
-                myTaskHandler = new Handler();
-                myTaskRunnable = new Runnable() {
-                    @Override
-                    public void run() {
-                        LogUtil.i("定时任务:" + CommonUtil.getCurrentTime());
-                        loadTaskData();
+                            loadTaskData();
 
-                        Activity act = AppManager.getAppManager().currentActivity();
-                        if (act != null) {
+                            Activity act = AppManager.getAppManager().currentActivity();
+                            if (act != null) {
 
-                            if (act instanceof MainActivity) {
-                                MainActivity act_main = (MainActivity) act;
-                                if (act_main.getHomeFragment() != null) {
-                                    if (HomeFragment.isNeedUpdateActivity) {
-                                        LogUtil.i("更新HomeFragment界面");
-                                        HomeFragment homeFragment = act_main.getHomeFragment();
-                                        homeFragment.setBanner(AppCacheManager.getBanner());
-                                        homeFragment.setThirdPartyApp(AppCacheManager.getExtendedAppByThirdPartyApp());
-                                        homeFragment.setHaoYiLianApp(AppCacheManager.getExtendedAppByHaoYiLianApp());
-                                        HomeFragment.isNeedUpdateActivity = false;
+                                if (act instanceof MainActivity) {
+                                    MainActivity act_main = (MainActivity) act;
+                                    if (act_main.getHomeFragment() != null) {
+                                        if (HomeFragment.isNeedUpdateActivity) {
+                                            LogUtil.i("更新HomeFragment界面");
+                                            HomeFragment homeFragment = act_main.getHomeFragment();
+                                            homeFragment.setBanner(AppCacheManager.getBanner());
+                                            homeFragment.setThirdPartyApp(AppCacheManager.getExtendedAppByThirdPartyApp());
+                                            homeFragment.setHaoYiLianApp(AppCacheManager.getExtendedAppByHaoYiLianApp());
+                                            HomeFragment.isNeedUpdateActivity = false;
+                                        }
                                     }
                                 }
                             }
+                            myTaskHandler.postDelayed(this, 5000);
                         }
-                        myTaskHandler.postDelayed(this, 5000);
-                    }
-                };
+                    };
 
-                myTaskHandler.postDelayed(myTaskRunnable, 5000);
+                    myTaskHandler.postDelayed(myTaskRunnable, 5000);
+                }
             }
         }
     }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -131,6 +133,11 @@ public class BaseFragmentActivity extends FragmentActivity {
         appContext = (AppContext) getApplication();
 
         mProgressDialog = new Dialog(this, R.style.dialog_loading_style);
+
+
+
+
+
 
 
 //        if (n900Device == null) {
@@ -176,7 +183,8 @@ public class BaseFragmentActivity extends FragmentActivity {
             Toast.makeText(BaseFragmentActivity.this, txt, Toast.LENGTH_SHORT).show();
     }
 
-    public Dialog mProgressDialog;
+    private Dialog mProgressDialog;
+
     public TextView mProgressTextView;
 
     public Dialog getmProgressDialog() {
@@ -428,30 +436,21 @@ public class BaseFragmentActivity extends FragmentActivity {
 
                     Bundle b = new Bundle();
                     b.putSerializable("dataBean", bean.getOrderInfo());
-
                     Activity act = AppManager.getAppManager().currentActivity();
+
                     if (act != null) {
 
-                        Boolean isfalg1 = act instanceof LoginActivity;
-                        Boolean isfalg2 = act instanceof PayQrcodeActivity;
-                        Boolean isfalg3 = act instanceof PayConfirmActivity;
-                        Boolean isfalg4 = act instanceof RegisterActivity;
-                        Boolean isfalg5 = act instanceof ForgetPwdCheckUsernameActivity;
-                        Boolean isfalg6 = act instanceof ForgetPwdModifyActivity;
-
-                        if (isfalg1.equals(false) && isfalg2.equals(false) && isfalg3.equals(false)
-                                && isfalg4.equals(false) && isfalg5.equals(false) && isfalg6.equals(false)
-                                ) {
-
-                            Intent intent = new Intent(act, PayConfirmActivity.class);
-                            intent.putExtras(b);
-//
-                            stopMyTask();
-//
-
-                            startActivity(intent);
-                            //AppManager.getAppManager().finishAllActivity();
+                        if (getAppContext().getUser() != null) {
+                            Boolean isPayConfirmActivity = act instanceof PayConfirmActivity;
+                            Boolean isPayQrcodeActivity = act instanceof PayQrcodeActivity;
+                            if (isPayConfirmActivity.equals(false) && isPayQrcodeActivity.equals(false)) {
+                                Intent intent = new Intent(act, PayConfirmActivity.class);
+                                intent.putExtras(b);
+                                stopMyTask();
+                                startActivity(intent);
+                            }
                         }
+
                     }
                 }
 

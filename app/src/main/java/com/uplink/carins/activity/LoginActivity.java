@@ -89,11 +89,10 @@ public class LoginActivity extends BaseFragmentActivity implements View.OnClickL
         initEvent();//加载控件事件
 
         if (this.getAppContext().getUser() != null) {
-
             if (this.getAppContext().getUser().getStatus() == 1) {
                 AppCacheManager.setLastUpdateTime("");
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                LoginActivity.this.startActivity(intent);
+                startActivity(intent);
             }
         }
 
@@ -309,25 +308,20 @@ public class LoginActivity extends BaseFragmentActivity implements View.OnClickL
                     switch (d.getStatus()) {
                         case 1:
 
-
                             intent = new Intent(LoginActivity.this, MainActivity.class);
 
                             break;
                         case 2:
                         case 3:
 
-
                             if (d.getOrderInfo() == null) {
                                 showToast("登陆异常，错误代码:EX100001");
                                 return;
                             }
 
+                            intent = new Intent(LoginActivity.this, PayConfirmActivity.class);
                             Bundle b = new Bundle();
                             b.putSerializable("dataBean", d.getOrderInfo());
-
-                            LogUtil.i("d.getOrderInfo()." + d.getOrderInfo().getProductName());
-
-                            intent = new Intent(LoginActivity.this, PayConfirmActivity.class);
                             intent.putExtras(b);
 
                             break;
@@ -336,7 +330,6 @@ public class LoginActivity extends BaseFragmentActivity implements View.OnClickL
                     if (intent != null) {
                         startActivity(intent);
                     }
-
 
                 }
 
