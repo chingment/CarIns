@@ -36,6 +36,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import okhttp3.Request;
 
@@ -69,7 +70,7 @@ public class PayConfirmActivity extends SwipeBackActivity implements View.OnClic
 
         orderInfo = (OrderInfoBean) getIntent().getSerializableExtra("dataBean");
 
-        if(orderInfo!=null) {
+        if (orderInfo != null) {
 
             List<ConfirmFieldBean> confirmFields = orderInfo.getConfirmField();
 
@@ -169,9 +170,7 @@ public class PayConfirmActivity extends SwipeBackActivity implements View.OnClic
                     Intent intent = new Intent(PayConfirmActivity.this, LoginActivity.class);
                     startActivity(intent);
                     AppManager.getAppManager().finishAllActivity();
-                }
-                else
-                {
+                } else {
                     finish();
                 }
 
@@ -184,8 +183,8 @@ public class PayConfirmActivity extends SwipeBackActivity implements View.OnClic
                     scan2.setClassName("com.newland.fczhu", "com.newland.fczhu.ui.activity.MainActivity");
                     //第三方应用传入交易参数给厂商程序
                     scan2.putExtra("transType", 67);//微信67，支付宝73
-                    scan2.putExtra("amount", (long)Long.parseLong("1"));	//金额
-                    //scan2.putExtra("order", order);
+                    scan2.putExtra("amount", (long) Long.parseLong("1"));    //金额
+                    scan2.putExtra("order", orderInfo.getOrderSn());
                     this.startActivityForResult(scan2, 1);
 
 
@@ -244,31 +243,134 @@ public class PayConfirmActivity extends SwipeBackActivity implements View.OnClic
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Bundle bundle = data.getExtras();
-        if (requestCode == 1&&bundle != null) {
-            switch (resultCode) {
-                // 支付成功
-                case Activity.RESULT_OK:
-                    String msgTp = bundle.getString("msg_tp");
-                    showToast("支付成功");
-                    //if (TextUtils.equals(msgTp, "0210")) {
-                        //setHistory(order + GetRandomText.getRandomCode(20-order.length()));
-                    //}
-                    break;
-                // 支付取消
-                case Activity.RESULT_CANCELED:
-                    String reason = bundle.getString("reason");
-                    if (reason != null) {
-                        showToast("交易已取消");
-                        //Toast.makeText(getApplicationContext(),"交易已取消",Toast.LENGTH_SHORT).show();
-                    }
-                    break;
 
-                default:
-                    // TODO:
-                    break;
+
+        if(data==null)
+        {
+            LogUtil.e("data 数据为空");
+        }
+        else {
+            Bundle bundle = data.getExtras();
+            if (bundle == null) {
+                LogUtil.e("bundle 数据为空");
+            } else {
+                Set<String> keySet = bundle.keySet();  //获取所有的Key,
+                if (keySet == null) {
+                    LogUtil.e("bundle keySet 数据为空");
+                } else {
+                    LogUtil.e("读取 keySet数据");
+                    for (String key : keySet) {
+
+                        LogUtil.e("key=>" + key + " value=>" + bundle.get(key));
+
+                    }
+                }
             }
         }
+
+//        if (data != null) {
+//            if (data.getExtras() != null) {
+                 //LogUtil.e("return", data.getExtras().getString("msg_tp"));
+                 //String result = data.getExtras().getString("transResult", "-1");
+                 //LogUtil.e("result", result);
+//                String amount = data.getExtras().getString("amount", "-1");
+//                LogUtil.e("amount", amount);
+//                String cardNo = data.getExtras().getString("cardNo", "-1");
+//                LogUtil.e("cardNo", cardNo);
+//                String batchNo = data.getExtras().getString("batchNo", "-1");
+//                LogUtil.e("batchNo", batchNo);
+//                String traceNo = data.getExtras().getString("traceNo", "-1");
+//                LogUtil.e("traceNo", traceNo);
+//                String issBankNo = data.getExtras().getString("issBankNo", "-1");
+//                LogUtil.e("issBankNo", issBankNo);
+//                String acqCode = data.getExtras().getString("acqCode", "-1");
+//                LogUtil.e("acqCode", acqCode);
+//                String refNo = data.getExtras().getString("refNo", "-1");
+//                LogUtil.e("refNo", refNo);
+//                String authCode = data.getExtras().getString("authCode", "-1");
+//                LogUtil.e("authCode", authCode);
+//                String transDate = data.getExtras().getString("transDate", "-1");
+//                LogUtil.e("transDate", transDate);
+//                String transTime = data.getExtras().getString("transTime", "-1");
+//                LogUtil.e("transTime", transTime);
+//                String posSN = data.getExtras().getString("posSN", "-1");
+//                LogUtil.e("posSN", posSN);
+//                String version = data.getExtras().getString("version", "-1");
+//                LogUtil.e("version", version);
+//                String posModel = data.getExtras().getString("posModel", "-1");
+//                LogUtil.e("posModel", posModel);
+//                String order = data.getExtras().getString("order", "-1");
+//                LogUtil.e("order", order);
+
+
+//                Intent intent = new Intent(PayConfirmActivity.this, MainActivity.class);
+//
+//                startActivity(intent);
+//                finish();
+//            }
+//
+//        }
+
+
+//        LogUtil.e("return", data.getExtras().getString("msg_tp"));
+//        String result = data.getExtras().getString("transResult", "-1");
+//        LogUtil.e("result", result);
+//        String amount = data.getExtras().getString("amount", "-1");
+//        LogUtil.e("amount", amount);
+//        String cardNo = data.getExtras().getString("cardNo", "-1");
+//        LogUtil.e("cardNo", cardNo);
+//        String batchNo = data.getExtras().getString("batchNo", "-1");
+//        LogUtil.e("batchNo", batchNo);
+//        String traceNo = data.getExtras().getString("traceNo", "-1");
+//        LogUtil.e("traceNo", traceNo);
+//        String issBankNo = data.getExtras().getString("issBankNo", "-1");
+//        LogUtil.e("issBankNo", issBankNo);
+//        String acqCode = data.getExtras().getString("acqCode", "-1");
+//        LogUtil.e("acqCode", acqCode);
+//        String refNo = data.getExtras().getString("refNo", "-1");
+//        LogUtil.e("refNo", refNo);
+//        String authCode = data.getExtras().getString("authCode", "-1");
+//        LogUtil.e("authCode", authCode);
+//        String transDate = data.getExtras().getString("transDate", "-1");
+//        LogUtil.e("transDate", transDate);
+//        String transTime = data.getExtras().getString("transTime", "-1");
+//        LogUtil.e("transTime", transTime);
+//        String posSN = data.getExtras().getString("posSN", "-1");
+//        LogUtil.e("posSN", posSN);
+//        String version = data.getExtras().getString("version", "-1");
+//        LogUtil.e("version", version);
+//        String posModel = data.getExtras().getString("posModel", "-1");
+//        LogUtil.e("posModel", posModel);
+//        String order = data.getExtras().getString("order", "-1");
+//        LogUtil.e("order", order);
+
+
+//        Bundle bundle = data.getExtras();
+//        if (requestCode == 1&&bundle != null) {
+//            switch (resultCode) {
+//                // 支付成功
+//                case Activity.RESULT_OK:
+//                    String msgTp = bundle.getString("msg_tp");
+//                    showToast("支付成功");
+//                    //if (TextUtils.equals(msgTp, "0210")) {
+//                    //setHistory(order + GetRandomText.getRandomCode(20-order.length()));
+//                    //}
+//                    break;
+//                // 支付取消
+//                case Activity.RESULT_CANCELED:
+//                    String reason = bundle.getString("reason");
+//                    if (reason != null) {
+//                        showToast("交易已取消");
+//                        //Toast.makeText(getApplicationContext(),"交易已取消",Toast.LENGTH_SHORT).show();
+//                    }
+//                    break;
+//
+//                default:
+//                    // TODO:
+//                    break;
+//            }
+//        }
     }
+
 
 }
