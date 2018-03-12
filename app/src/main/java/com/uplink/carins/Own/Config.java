@@ -40,6 +40,7 @@ public class Config {
         public static final String orderQrCodeDownload = BuildConfig.ENVIRONMENT  + "/api/Order/QrCodeDownload";
         public static final String orderPayResultQuery = BuildConfig.ENVIRONMENT  + "/api/Order/PayResultQuery";
         public static final String extendedAppGoTo = BuildConfig.ENVIRONMENT  + "/ExtendedApp/GoTo";
+        public static final String orderPayResultNotify = BuildConfig.ENVIRONMENT  + "/api/Order/PayResultNotify";
         public static final String dingshundianshenqingxieyi = BuildConfig.ENVIRONMENT  + "/Resource/lipeixieyi";
         public static final String yonggongxieyi = BuildConfig.ENVIRONMENT  + "/Resource/yonggongxieyi";
     }

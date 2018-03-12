@@ -178,78 +178,36 @@ public class PayConfirmActivity extends SwipeBackActivity implements View.OnClic
             case R.id.btn_submit_gopay:
                 if (!NoDoubleClickUtils.isDoubleClick()) {
 
+                    String str_transType=layout_paymethod.getTag().toString();
+                    int transType=0;
+                    if(str_transType=="2") {
+                        transType=67;
+                    }
+                    else  if(str_transType=="3") {
+                        transType=73;
+                    }
 
-                    Intent scan2 = new Intent();
-                    scan2.setClassName("com.newland.fczhu", "com.newland.fczhu.ui.activity.MainActivity");
-                    //第三方应用传入交易参数给厂商程序
-                    scan2.putExtra("transType", 67);//微信67，支付宝73
-                    scan2.putExtra("amount", (long) Long.parseLong("1"));    //金额
-                    scan2.putExtra("order", orderInfo.getOrderSn());
-                    this.startActivityForResult(scan2, 1);
-
-
-                    //getPayQrCode();
+                    if(transType==67||transType==73) {
+                        Intent scan2 = new Intent();
+                        scan2.setClassName("com.newland.fczhu", "com.newland.fczhu.ui.activity.MainActivity");
+                        //第三方应用传入交易参数给厂商程序
+                        scan2.putExtra("transType", transType);//微信67，支付宝73
+                        scan2.putExtra("amount", Long.parseLong(orderInfo.getOrderAmount()));    //金额
+                        scan2.putExtra("order", orderInfo.getOrderSn());
+                        this.startActivityForResult(scan2, 1);
+                    }
                 }
                 break;
         }
     }
 
-
-    public void getPayQrCode() {
-
-
-        Map<String, Object> params = new HashMap<>();
-        params.put("userId", this.getAppContext().getUser().getId());
-        params.put("merchantId", this.getAppContext().getUser().getMerchantId() + "");
-        params.put("posMachineId", this.getAppContext().getUser().getPosMachineId() + "");
-        params.put("orderSn", orderInfo.getOrderSn());
-        params.put("payWay", layout_paymethod.getTag().toString());
-        params.put("termId", "12345678");
-        params.put("spbillIp", IpAdressUtil.getIPAddress(this));
-
-        postWithMy(Config.URL.orderQrCodeDownload, params, null, new HttpResponseHandler() {
-            @Override
-            public void onSuccess(String response) {
-                super.onSuccess(response);
-
-                LogUtil.i(TAG, "onSuccess====>>>" + response);
-
-                ApiResultBean<PayQrCodeDownloadBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<PayQrCodeDownloadBean>>() {
-                });
-
-
-                if (rt.getResult() == Result.SUCCESS) {
-                    Bundle b = new Bundle();
-                    b.putSerializable("dataBean", rt.getData());
-                    Intent intent = new Intent(PayConfirmActivity.this, PayQrcodeActivity.class);
-                    intent.putExtras(b);
-                    startActivity(intent);
-                } else {
-                    showToast(rt.getMessage());
-                }
-            }
-
-            @Override
-            public void onFailure(Request request, Exception e) {
-                super.onFailure(request, e);
-                LogUtil.e(TAG, "onFailure====>>>" + e.getMessage());
-                showToast("支付异常");
-            }
-        });
-
-
-    }
-
-
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
 
-        if(data==null)
-        {
+        if (data == null) {
             LogUtil.e("data 数据为空");
-        }
-        else {
+        } else {
             Bundle bundle = data.getExtras();
             if (bundle == null) {
                 LogUtil.e("bundle 数据为空");
@@ -259,118 +217,137 @@ public class PayConfirmActivity extends SwipeBackActivity implements View.OnClic
                     LogUtil.e("bundle keySet 数据为空");
                 } else {
                     LogUtil.e("读取 keySet数据");
+
+
                     for (String key : keySet) {
 
                         LogUtil.e("key=>" + key + " value=>" + bundle.get(key));
 
                     }
+
+                    Map<String, Object> param = new HashMap<>();
+
+                    if (bundle.get("order") != null) {
+                        param.put("orderSn", bundle.get("order"));
+                    }
+                    if (bundle.get("amount") != null) {
+                        param.put("amount", bundle.get("amount"));
+                    }
+                    if (bundle.get("cardNo") != null) {
+                        param.put("cardNo", bundle.get("cardNo"));
+                    }
+                    if (bundle.get("traceNo") != null) {
+                        param.put("traceNo", bundle.get("traceNo"));
+                    }
+                    if (bundle.get("shopId") != null) {
+                        param.put("shopId", bundle.get("shopId"));
+                    }
+                    if (bundle.get("shopName") != null) {
+                        param.put("shopName", bundle.get("shopName"));
+                    }
+                    if (bundle.get("batchNo") != null) {
+                        param.put("batchNo", bundle.get("batchNo"));
+                    }
+                    if (bundle.get("posId") != null) {
+                        param.put("posId", bundle.get("posId"));
+                    }
+                    if (bundle.get("refNo") != null) {
+                        param.put("refNo", bundle.get("refNo"));
+                    }
+                    if (bundle.get("transDate") != null) {
+                        param.put("transDate", bundle.get("transDate"));
+                    }
+                    if (bundle.get("transTime") != null) {
+                        param.put("transTime", bundle.get("transTime"));
+                    }
+                    if (bundle.get("transType") != null) {
+                        param.put("transType", bundle.get("transType"));
+                    }
+                    if (bundle.get("authCode") != null) {
+                        param.put("authCode", bundle.get("authCode"));
+                    }
+
+
+                    postWithMy(Config.URL.orderPayResultNotify, param, null, new HttpResponseHandler() {
+
+                        @Override
+                        public void onSuccess(String response) {
+                            super.onSuccess(response);
+
+                            LogUtil.i(TAG, "onSuccess===>>" + response);
+
+                            ApiResultBean<Object> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<Object>>() {
+                            });
+
+                            if (rt.getResult() == Result.SUCCESS) {
+                                Intent intent = new Intent(PayConfirmActivity.this, MainActivity.class);
+                                startActivity(intent);
+                                finish();
+
+                            } else {
+                                showToast(rt.getMessage());
+                            }
+
+                        }
+
+                        @Override
+                        public void onFailure(Request request, Exception e) {
+                            super.onFailure(request, e);
+                            LogUtil.e(TAG, e);
+                            showToast("发生异常");
+                        }
+                    });
+
                 }
             }
         }
-
-//        if (data != null) {
-//            if (data.getExtras() != null) {
-                 //LogUtil.e("return", data.getExtras().getString("msg_tp"));
-                 //String result = data.getExtras().getString("transResult", "-1");
-                 //LogUtil.e("result", result);
-//                String amount = data.getExtras().getString("amount", "-1");
-//                LogUtil.e("amount", amount);
-//                String cardNo = data.getExtras().getString("cardNo", "-1");
-//                LogUtil.e("cardNo", cardNo);
-//                String batchNo = data.getExtras().getString("batchNo", "-1");
-//                LogUtil.e("batchNo", batchNo);
-//                String traceNo = data.getExtras().getString("traceNo", "-1");
-//                LogUtil.e("traceNo", traceNo);
-//                String issBankNo = data.getExtras().getString("issBankNo", "-1");
-//                LogUtil.e("issBankNo", issBankNo);
-//                String acqCode = data.getExtras().getString("acqCode", "-1");
-//                LogUtil.e("acqCode", acqCode);
-//                String refNo = data.getExtras().getString("refNo", "-1");
-//                LogUtil.e("refNo", refNo);
-//                String authCode = data.getExtras().getString("authCode", "-1");
-//                LogUtil.e("authCode", authCode);
-//                String transDate = data.getExtras().getString("transDate", "-1");
-//                LogUtil.e("transDate", transDate);
-//                String transTime = data.getExtras().getString("transTime", "-1");
-//                LogUtil.e("transTime", transTime);
-//                String posSN = data.getExtras().getString("posSN", "-1");
-//                LogUtil.e("posSN", posSN);
-//                String version = data.getExtras().getString("version", "-1");
-//                LogUtil.e("version", version);
-//                String posModel = data.getExtras().getString("posModel", "-1");
-//                LogUtil.e("posModel", posModel);
-//                String order = data.getExtras().getString("order", "-1");
-//                LogUtil.e("order", order);
-
-
-//                Intent intent = new Intent(PayConfirmActivity.this, MainActivity.class);
-//
-//                startActivity(intent);
-//                finish();
-//            }
-//
-//        }
-
-
-//        LogUtil.e("return", data.getExtras().getString("msg_tp"));
-//        String result = data.getExtras().getString("transResult", "-1");
-//        LogUtil.e("result", result);
-//        String amount = data.getExtras().getString("amount", "-1");
-//        LogUtil.e("amount", amount);
-//        String cardNo = data.getExtras().getString("cardNo", "-1");
-//        LogUtil.e("cardNo", cardNo);
-//        String batchNo = data.getExtras().getString("batchNo", "-1");
-//        LogUtil.e("batchNo", batchNo);
-//        String traceNo = data.getExtras().getString("traceNo", "-1");
-//        LogUtil.e("traceNo", traceNo);
-//        String issBankNo = data.getExtras().getString("issBankNo", "-1");
-//        LogUtil.e("issBankNo", issBankNo);
-//        String acqCode = data.getExtras().getString("acqCode", "-1");
-//        LogUtil.e("acqCode", acqCode);
-//        String refNo = data.getExtras().getString("refNo", "-1");
-//        LogUtil.e("refNo", refNo);
-//        String authCode = data.getExtras().getString("authCode", "-1");
-//        LogUtil.e("authCode", authCode);
-//        String transDate = data.getExtras().getString("transDate", "-1");
-//        LogUtil.e("transDate", transDate);
-//        String transTime = data.getExtras().getString("transTime", "-1");
-//        LogUtil.e("transTime", transTime);
-//        String posSN = data.getExtras().getString("posSN", "-1");
-//        LogUtil.e("posSN", posSN);
-//        String version = data.getExtras().getString("version", "-1");
-//        LogUtil.e("version", version);
-//        String posModel = data.getExtras().getString("posModel", "-1");
-//        LogUtil.e("posModel", posModel);
-//        String order = data.getExtras().getString("order", "-1");
-//        LogUtil.e("order", order);
-
-
-//        Bundle bundle = data.getExtras();
-//        if (requestCode == 1&&bundle != null) {
-//            switch (resultCode) {
-//                // 支付成功
-//                case Activity.RESULT_OK:
-//                    String msgTp = bundle.getString("msg_tp");
-//                    showToast("支付成功");
-//                    //if (TextUtils.equals(msgTp, "0210")) {
-//                    //setHistory(order + GetRandomText.getRandomCode(20-order.length()));
-//                    //}
-//                    break;
-//                // 支付取消
-//                case Activity.RESULT_CANCELED:
-//                    String reason = bundle.getString("reason");
-//                    if (reason != null) {
-//                        showToast("交易已取消");
-//                        //Toast.makeText(getApplicationContext(),"交易已取消",Toast.LENGTH_SHORT).show();
-//                    }
-//                    break;
-//
-//                default:
-//                    // TODO:
-//                    break;
-//            }
-//        }
     }
 
+
+
+//    public void getPayQrCode() {
+//
+//
+//        Map<String, Object> params = new HashMap<>();
+//        params.put("userId", this.getAppContext().getUser().getId());
+//        params.put("merchantId", this.getAppContext().getUser().getMerchantId() + "");
+//        params.put("posMachineId", this.getAppContext().getUser().getPosMachineId() + "");
+//        params.put("orderSn", orderInfo.getOrderSn());
+//        params.put("payWay", layout_paymethod.getTag().toString());
+//        params.put("termId", "12345678");
+//        params.put("spbillIp", IpAdressUtil.getIPAddress(this));
+//
+//        postWithMy(Config.URL.orderQrCodeDownload, params, null, new HttpResponseHandler() {
+//            @Override
+//            public void onSuccess(String response) {
+//                super.onSuccess(response);
+//
+//                LogUtil.i(TAG, "onSuccess====>>>" + response);
+//
+//                ApiResultBean<PayQrCodeDownloadBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<PayQrCodeDownloadBean>>() {
+//                });
+//
+//
+//                if (rt.getResult() == Result.SUCCESS) {
+//                    Bundle b = new Bundle();
+//                    b.putSerializable("dataBean", rt.getData());
+//                    Intent intent = new Intent(PayConfirmActivity.this, PayQrcodeActivity.class);
+//                    intent.putExtras(b);
+//                    startActivity(intent);
+//                } else {
+//                    showToast(rt.getMessage());
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Request request, Exception e) {
+//                super.onFailure(request, e);
+//                LogUtil.e(TAG, "onFailure====>>>" + e.getMessage());
+//                showToast("支付异常");
+//            }
+//        });
+//
+//
+//    }
 
 }

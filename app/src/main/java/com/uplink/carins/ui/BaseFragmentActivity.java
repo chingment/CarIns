@@ -87,7 +87,8 @@ public class BaseFragmentActivity extends FragmentActivity {
     public void startMyTask() {
         if (myTaskHandler == null) {
             if (myTaskRunnable == null) {
-                if (getAppContext().getUser() != null) {
+                if (getAppContext().getUser() != null)
+                {
                     LogUtil.i("开始->定时任务:" + CommonUtil.getCurrentTime());
                     myTaskHandler = new Handler();
                     myTaskRunnable = new Runnable() {
@@ -275,7 +276,9 @@ public class BaseFragmentActivity extends FragmentActivity {
         super.onResume();
 
         if (!isActive) {
+
             startMyTask();
+
             isActive = true;
         }
 

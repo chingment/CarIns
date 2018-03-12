@@ -121,12 +121,10 @@ public class OrderDetailsServiceFeeActivity extends SwipeBackActivity implements
                 break;
             case R.id.btn_printer:
 
-                //showToast("测试");
-                //LogUtil.i("测试");
 
                 if (orderDetailsServiceFee != null) {
                     if (orderDetailsServiceFee.getPrintData() != null) {
-                        printTicket(orderDetailsServiceFee.getPrintData());
+                        //printTicket(orderDetailsServiceFee.getPrintData());
                     }
                 }
 
@@ -164,7 +162,7 @@ public class OrderDetailsServiceFeeActivity extends SwipeBackActivity implements
             case 4:
                 layout_paytime.setVisibility(View.VISIBLE);
                 layout_completetime.setVisibility(View.VISIBLE);
-                btn_printer.setVisibility(View.VISIBLE);
+                //btn_printer.setVisibility(View.VISIBLE);
                 break;
             case 5:
                 layout_cancletime.setVisibility(View.VISIBLE);
