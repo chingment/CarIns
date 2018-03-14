@@ -10,7 +10,7 @@ import java.util.List;
 public class OrderInfoBean implements Serializable {
     private int orderId;
     private String orderSn;
-    private String orderAmount;
+    private String amount;
     private int productType;
     private String productName;
     private List<ConfirmFieldBean> confirmField;
@@ -33,12 +33,12 @@ public class OrderInfoBean implements Serializable {
         this.orderSn = orderSn;
     }
 
-    public String getOrderAmount() {
-        return orderAmount;
+    public String getAmount() {
+        return amount;
     }
 
-    public void setOrderAmount(String orderAmount) {
-        this.orderAmount = orderAmount;
+    public void setAmount(String amount) {
+        this.amount = amount;
     }
 
     public String getProductName() {

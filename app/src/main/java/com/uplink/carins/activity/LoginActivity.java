@@ -152,6 +152,14 @@ public class LoginActivity extends BaseFragmentActivity implements View.OnClickL
     @Override
     public void onClick(View view) {
 
+//        splits {
+//            abi {
+//                enable true
+//                reset()
+//                include 'x86', 'armeabi-v7a'
+//                universalApk true
+//            }
+//        }
 
         Intent intent;
 

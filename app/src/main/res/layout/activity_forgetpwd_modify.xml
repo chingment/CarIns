@@ -29,7 +29,7 @@
             android:background="@drawable/boder_bottom">
 
             <TextView
-                android:id="@+id/form_register_txt_username"
+                android:id="@+id/form_forgetpwd_modify_txt_username"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical|left"
@@ -43,7 +43,7 @@
 
 
         <RelativeLayout
-            android:layout_below="@+id/layout_register_username"
+            android:layout_below="@+id/layout_forgetpwd_modify_username"
             android:layout_width="fill_parent"
             android:layout_height="42dp"
             android:background="@color/white"
@@ -51,7 +51,7 @@
             >
 
             <EditText
-                android:id="@+id/form_register_txt_password"
+                android:id="@+id/form_forgetpwd_modify_txt_password"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:background="@null"

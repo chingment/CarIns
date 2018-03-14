@@ -74,6 +74,7 @@ public class PayConfirmActivity extends SwipeBackActivity implements View.OnClic
 
             List<ConfirmFieldBean> confirmFields = orderInfo.getConfirmField();
 
+            LogUtil.e("支付金额："+orderInfo.getAmount());
 
             if (confirmFields != null && confirmFields.size() > 0)
                 for (int i = 0; i < confirmFields.size(); i++) {
@@ -180,19 +181,21 @@ public class PayConfirmActivity extends SwipeBackActivity implements View.OnClic
 
                     String str_transType=layout_paymethod.getTag().toString();
                     int transType=0;
-                    if(str_transType=="2") {
+                    if(str_transType.equals("2")) {
                         transType=67;
                     }
-                    else  if(str_transType=="3") {
+                    else  if(str_transType.equals("3")) {
                         transType=73;
                     }
+
+                    LogUtil.e("transType=>"+transType);
 
                     if(transType==67||transType==73) {
                         Intent scan2 = new Intent();
                         scan2.setClassName("com.newland.fczhu", "com.newland.fczhu.ui.activity.MainActivity");
                         //第三方应用传入交易参数给厂商程序
                         scan2.putExtra("transType", transType);//微信67，支付宝73
-                        scan2.putExtra("amount", Long.parseLong(orderInfo.getOrderAmount()));    //金额
+                        scan2.putExtra("amount", Long.parseLong(orderInfo.getAmount()));    //金额
                         scan2.putExtra("order", orderInfo.getOrderSn());
                         this.startActivityForResult(scan2, 1);
                     }

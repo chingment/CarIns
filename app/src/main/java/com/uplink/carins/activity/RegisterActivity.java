@@ -201,13 +201,16 @@ public class RegisterActivity extends SwipeBackActivity implements View.OnClickL
 
         String validcode = form_register_txt_validcode.getText() + "";
 
+        LogUtil.e("createAccountCodeResult.getValidCode()>>>"+createAccountCodeResult.getValidCode());
+
+
         if (StringUtil.isEmpty(validcode)) {
             showToast("请输入验证码");
             return;
         } else if (createAccountCodeResult == null) {
             showToast("请获取验证码");
             return;
-        } else if (createAccountCodeResult.getValidCode().equals(validcode)) {
+        } else if (!createAccountCodeResult.getValidCode().equals(validcode)) {
             showToast("输入的验证码不正确");
             return;
         }

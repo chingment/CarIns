@@ -16,6 +16,21 @@ android {
         }
     }
 
+    splits {
+
+        abi {
+
+            enable true
+
+            reset()
+
+            include 'x86', 'arm64-v8a'
+
+            universalApk true
+
+        }
+
+    }
 
 
 
@@ -46,13 +61,13 @@ android {
 
     buildTypes {
         debug {
-            buildConfigField "String", "ENVIRONMENT", "\"http://112.74.179.185\""
+            buildConfigField "String", "ENVIRONMENT", "\"http://120.79.233.231\""
             buildConfigField "String", "APPKEY", "\"test\""
             buildConfigField "String", "APPSECRET", "\"6ZB97cdVz211O08EKZ6yriAYrHXFBowC\""
             buildConfigField "boolean", "SHOWDEBUG", "true"
         }
         release {
-            buildConfigField "String", "ENVIRONMENT", "\"http://112.74.179.185\""
+            buildConfigField "String", "ENVIRONMENT", "\"http://120.79.233.231\""
             buildConfigField "String", "APPKEY", "\"test\""
             buildConfigField "String", "APPSECRET", "\"6ZB97cdVz211O08EKZ6yriAYrHXFBowC\""
             buildConfigField "boolean", "SHOWDEBUG", "true"
