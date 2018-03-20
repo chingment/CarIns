@@ -1,15 +1,26 @@
 package com.uplink.carins.model.api;
 
+import java.io.Serializable;
+
 /**
  * Created by chingment on 2018/3/14.
  */
 
-public class GetForgetPwdCheckUsernameCodeResultBean {
+public class GetForgetPwdCheckUsernameCodeResultBean implements Serializable {
 
+    private String userName;
     private String phone;
     private String validCode;
     private String token;
     private int seconds;
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
 
     public String getPhone() {
         return phone;

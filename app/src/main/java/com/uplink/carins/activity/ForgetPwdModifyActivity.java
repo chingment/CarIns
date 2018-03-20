@@ -16,6 +16,7 @@ import com.uplink.carins.R;
 import com.uplink.carins.http.HttpClient;
 import com.uplink.carins.http.HttpResponseHandler;
 import com.uplink.carins.model.api.ApiResultBean;
+import com.uplink.carins.model.api.GetForgetPwdCheckUsernameCodeResultBean;
 import com.uplink.carins.model.api.Result;
 import com.uplink.carins.ui.swipebacklayout.SwipeBackActivity;
 import com.uplink.carins.utils.LogUtil;
@@ -36,11 +37,15 @@ public class ForgetPwdModifyActivity extends SwipeBackActivity implements View.O
     private EditText form_forgetpwd_modify_txt_password;
     private Button btn_submit;
 
+    private  GetForgetPwdCheckUsernameCodeResultBean forgetPwdCheckUsernameResult;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forgetpwd_modify);
+
+        forgetPwdCheckUsernameResult = (GetForgetPwdCheckUsernameCodeResultBean) getIntent().getSerializableExtra("dataBean");
+
         initView();
         initEvent();
     }
@@ -54,6 +59,8 @@ public class ForgetPwdModifyActivity extends SwipeBackActivity implements View.O
         form_forgetpwd_modify_txt_username = (TextView) findViewById(R.id.form_forgetpwd_modify_txt_username);
         form_forgetpwd_modify_txt_password = (EditText) findViewById(R.id.form_forgetpwd_modify_txt_password);
         btn_submit = (Button) findViewById(R.id.btn_submit);
+
+        form_forgetpwd_modify_txt_username.setText(forgetPwdCheckUsernameResult.getUserName());
     }
 
     private void initEvent() {
@@ -87,9 +94,12 @@ public class ForgetPwdModifyActivity extends SwipeBackActivity implements View.O
 
         Map<String, Object> params = new HashMap<>();
 
+        params.put("userName", forgetPwdCheckUsernameResult.getUserName());
+        params.put("token", forgetPwdCheckUsernameResult.getToken());
+        params.put("validCode", forgetPwdCheckUsernameResult.getValidCode());
         params.put("password", password);
 
-        HttpClient.postWithMy(Config.URL.accountCreate, params, null, new HttpResponseHandler() {
+        HttpClient.postWithMy(Config.URL.accountResetPassword, params, null, new HttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
                 super.onSuccess(response);

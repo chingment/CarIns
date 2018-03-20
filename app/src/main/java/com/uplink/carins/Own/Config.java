@@ -36,7 +36,9 @@ public class Config {
         public static final String submitTalentDemand = BuildConfig.ENVIRONMENT  + "/api/Order/SubmitTalentDemand";
         public static final String submitApplyLossAssess= BuildConfig.ENVIRONMENT  + "/api/Order/SubmitApplyLossAssess";
         public static final String getCreateAccountCode = BuildConfig.ENVIRONMENT  + "/api/Sms/GetCreateAccountCode";
+        public static final String getGetForgetPwdCode = BuildConfig.ENVIRONMENT  + "/api/Sms/GetForgetPwdCode";
         public static final String accountCreate = BuildConfig.ENVIRONMENT  + "/api/Account/Create";
+        public static final String accountResetPassword = BuildConfig.ENVIRONMENT  + "/api/Account/ResetPassword";
         public static final String orderQrCodeDownload = BuildConfig.ENVIRONMENT  + "/api/Order/QrCodeDownload";
         public static final String orderPayResultQuery = BuildConfig.ENVIRONMENT  + "/api/Order/PayResultQuery";
         public static final String extendedAppGoTo = BuildConfig.ENVIRONMENT  + "/ExtendedApp/GoTo";

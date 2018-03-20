@@ -117,7 +117,7 @@ public class ForgetPwdCheckUsernameActivity extends SwipeBackActivity implements
         Map<String, Object> params = new HashMap<>();
         params.put("phone", phone);
 
-        postWithMy(Config.URL.getCreateAccountCode, params, null, new HttpResponseHandler() {
+        postWithMy(Config.URL.getGetForgetPwdCode, params, null, new HttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
                 super.onSuccess(response);
@@ -157,6 +157,9 @@ public class ForgetPwdCheckUsernameActivity extends SwipeBackActivity implements
             case R.id.btn_main_header_goback:
                 finish();
                 break;
+            case R.id.btn_getvalidcode:
+                getValidCode();
+                break;
             case R.id.btn_submit_forgetpwd_checkusername:
                 forgetpwdCheckUsername();
                 break;
@@ -176,9 +179,6 @@ public class ForgetPwdCheckUsernameActivity extends SwipeBackActivity implements
 
         String validcode = form_forgetpwd_checkusername_txt_validcode.getText() + "";
 
-        LogUtil.e("createAccountCodeResult.getValidCode()>>>"+forgetPwdCheckUsernameResult.getValidCode());
-
-
         if (StringUtil.isEmpty(validcode)) {
             showToast("请输入验证码");
             return;
@@ -191,38 +191,19 @@ public class ForgetPwdCheckUsernameActivity extends SwipeBackActivity implements
         }
 
 
-        Map<String, Object> params = new HashMap<>();
-        params.put("phone", username);
-        params.put("token", forgetPwdCheckUsernameResult.getToken());
-        params.put("validCode", forgetPwdCheckUsernameResult.getValidCode());
+        Intent intent = new Intent(ForgetPwdCheckUsernameActivity.this, ForgetPwdModifyActivity.class);
 
-        HttpClient.postWithMy(Config.URL.accountCreate, params, null, new HttpResponseHandler() {
-            @Override
-            public void onSuccess(String response) {
-                super.onSuccess(response);
+        Bundle b = new Bundle();
 
-                LogUtil.i(TAG, "onSuccess====>>>" + response);
+        forgetPwdCheckUsernameResult=new GetForgetPwdCheckUsernameCodeResultBean();
 
-                ApiResultBean<Object> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<Object>>() {
-                });
-
-                showToast(rt.getMessage());
-
-                if (rt.getResult() == Result.SUCCESS) {
-
-                    handler.sendEmptyMessage(1021);
-                    Intent intent = new Intent(ForgetPwdCheckUsernameActivity.this, ForgetPwdModifyActivity.class);
-                    startActivity(intent);
-                    finish();
-                }
-            }
-
-            @Override
-            public void onFailure(Request request, Exception e) {
-                super.onFailure(request, e);
-                LogUtil.e(TAG, "onFailure====>>>" + e.getMessage());
-                showToast("验证失败");
-            }
-        });
+//        forgetPwdCheckUsernameResult.setPhone("15989287032");
+//        forgetPwdCheckUsernameResult.setSeconds(120);
+//        forgetPwdCheckUsernameResult.setToken("e0d909f6-b4f6-474d-8bae-a83d5fd765c7");
+//        forgetPwdCheckUsernameResult.setValidCode("565165");
+        b.putSerializable("dataBean", forgetPwdCheckUsernameResult);
+        intent.putExtras(b);
+        startActivity(intent);
+        finish();
     }
 }
