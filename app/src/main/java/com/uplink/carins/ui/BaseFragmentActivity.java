@@ -384,7 +384,8 @@ public class BaseFragmentActivity extends FragmentActivity {
 
             @Override
             public void onBeforeSend() {
-                showProgressDialog(false);
+
+                //showProgressDialog(false);
             }
 
             @Override
@@ -399,7 +400,7 @@ public class BaseFragmentActivity extends FragmentActivity {
 
             @Override
             public void onComplete() {
-                removeProgressDialog();
+                //removeProgressDialog();
             }
         });
     }

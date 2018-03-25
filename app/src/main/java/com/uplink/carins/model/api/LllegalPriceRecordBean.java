@@ -1,10 +1,12 @@
 package com.uplink.carins.model.api;
 
+import java.io.Serializable;
+
 /**
  * Created by chingment on 2018/3/25.
  */
 
-public class LllegalPriceRecordBean {
+public class LllegalPriceRecordBean implements Serializable {
 
     public String getCarNo() {
         return carNo;

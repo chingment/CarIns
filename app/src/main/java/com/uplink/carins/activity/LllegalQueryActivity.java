@@ -1,11 +1,13 @@
 package com.uplink.carins.activity;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -19,7 +21,9 @@ import com.uplink.carins.Own.Config;
 import com.uplink.carins.R;
 import com.uplink.carins.http.HttpResponseHandler;
 import com.uplink.carins.model.api.ApiResultBean;
+import com.uplink.carins.model.api.LllegalPriceRecordBean;
 import com.uplink.carins.model.api.LllegalQueryLogBean;
+import com.uplink.carins.model.api.LllegalQueryResultBean;
 import com.uplink.carins.model.api.Result;
 import com.uplink.carins.ui.ViewHolder;
 import com.uplink.carins.ui.my.MyGridView;
@@ -51,7 +55,7 @@ public class LllegalQueryActivity extends SwipeBackActivity implements View.OnCl
     private CheckBox form_lllegalquery_cb_isCompany2;
     private EditText form_lllegalquery_txt_rackno;
     private EditText form_lllegalquery_txt_enginno;
-
+    private Button btn_submit_query;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,7 +63,7 @@ public class LllegalQueryActivity extends SwipeBackActivity implements View.OnCl
         initView();
         initEvent();
 
-        setQuerylog();
+        getQuerylog();
     }
 
     private void initView() {
@@ -69,18 +73,16 @@ public class LllegalQueryActivity extends SwipeBackActivity implements View.OnCl
         txtHeaderTitle = (TextView) findViewById(R.id.txt_main_header_title);
         txtHeaderTitle.setText("违章查询");
 
-        gridview_querylog = (MyGridView)findViewById(R.id.gridview_querylog);
-        form_lllegalquery_txt_carno = (EditText)findViewById(R.id.form_lllegalquery_txt_carno);
-        form_lllegalquery_sel_cartype = (LinearLayout)findViewById(R.id.form_lllegalquery_sel_cartype);
-        form_lllegalquery_cb_isCompany = (LinearLayout)findViewById(R.id.form_lllegalquery_cb_isCompany);
+        gridview_querylog = (MyGridView) findViewById(R.id.gridview_querylog);
+        form_lllegalquery_txt_carno = (EditText) findViewById(R.id.form_lllegalquery_txt_carno);
+        form_lllegalquery_sel_cartype = (LinearLayout) findViewById(R.id.form_lllegalquery_sel_cartype);
+        form_lllegalquery_cb_isCompany = (LinearLayout) findViewById(R.id.form_lllegalquery_cb_isCompany);
         form_lllegalquery_cb_isCompany1 = (CheckBox) findViewById(R.id.form_lllegalquery_cb_isCompany1);
         form_lllegalquery_cb_isCompany2 = (CheckBox) findViewById(R.id.form_lllegalquery_cb_isCompany2);
 
-        form_lllegalquery_txt_rackno = (EditText)findViewById(R.id.form_lllegalquery_txt_rackno);
-        form_lllegalquery_txt_enginno = (EditText)findViewById(R.id.form_lllegalquery_txt_enginno);
-
-
-
+        form_lllegalquery_txt_rackno = (EditText) findViewById(R.id.form_lllegalquery_txt_rackno);
+        form_lllegalquery_txt_enginno = (EditText) findViewById(R.id.form_lllegalquery_txt_enginno);
+        btn_submit_query= (Button) findViewById(R.id.btn_submit_query);
 
         inflater = LayoutInflater.from(this);
     }
@@ -90,6 +92,7 @@ public class LllegalQueryActivity extends SwipeBackActivity implements View.OnCl
 
         form_lllegalquery_cb_isCompany1.setOnCheckedChangeListener(form_carclaim_claimtype_CheckListener);
         form_lllegalquery_cb_isCompany2.setOnCheckedChangeListener(form_carclaim_claimtype_CheckListener);
+        btn_submit_query.setOnClickListener(this);
     }
 
 
@@ -111,16 +114,39 @@ public class LllegalQueryActivity extends SwipeBackActivity implements View.OnCl
     };
 
 
-    public void setQuerylog() {
-
-        List<LllegalQueryLogBean> lllegalQueryLog = new ArrayList<LllegalQueryLogBean>();
+    public void getQuerylog() {
 
 
-        lllegalQueryLog.add(new LllegalQueryLogBean("粤AT810P"));
+        Map<String, String> params = new HashMap<>();
 
-        LllegalQueryLogItemAdapter nineGridItemdapter = new LllegalQueryLogItemAdapter(lllegalQueryLog);
+        params.put("userId", getAppContext().getUser().getId() + "");
+        params.put("merchantId", getAppContext().getUser().getMerchantId() + "");
+        params.put("posMachineId", getAppContext().getUser().getPosMachineId() + "");
 
-        gridview_querylog.setAdapter(nineGridItemdapter);
+        getWithMy(Config.URL.lllegalQueryLog, params, new HttpResponseHandler() {
+            @Override
+            public void onSuccess(String response) {
+                super.onSuccess(response);
+                LogUtil.i(TAG, "onSuccess====>>>" + response);
+
+                ApiResultBean<List<LllegalQueryLogBean>> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<List<LllegalQueryLogBean>>>() {
+                });
+
+                if (rt.getResult() == Result.SUCCESS) {
+                    LllegalQueryLogItemAdapter nineGridItemdapter = new LllegalQueryLogItemAdapter(rt.getData());
+
+                    gridview_querylog.setAdapter(nineGridItemdapter);
+                }
+
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                super.onFailure(request, e);
+                LogUtil.e(TAG, "onFailure====>>>" + e.getMessage());
+            }
+        });
+
     }
 
     @Override
@@ -174,11 +200,11 @@ public class LllegalQueryActivity extends SwipeBackActivity implements View.OnCl
         params.put("userId", this.getAppContext().getUser().getId());
         params.put("merchantId", this.getAppContext().getUser().getMerchantId());
         params.put("posMachineId", this.getAppContext().getUser().getPosMachineId());
-        params.put("carno", carno);
-        params.put("cartype", cartype);
+        params.put("carNo", carno);
+        params.put("carType", cartype);
         params.put("isCompany", isCompany);
-        params.put("rackno", rackno);
-        params.put("enginno", enginno);
+        params.put("rackNo", rackno);
+        params.put("enginNo", enginno);
 
         postWithMy(Config.URL.lllegalQuery, params, null, new HttpResponseHandler() {
             @Override
@@ -186,12 +212,16 @@ public class LllegalQueryActivity extends SwipeBackActivity implements View.OnCl
                 super.onSuccess(response);
                 LogUtil.i(TAG, "onSuccess====>>>" + response);
 
-                ApiResultBean<Object> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<Object>>() {
+                ApiResultBean<LllegalQueryResultBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<LllegalQueryResultBean>>() {
                 });
 
                 showToast(rt.getMessage());
                 if (rt.getResult() == Result.SUCCESS) {
-                    //showSuccessDialog();
+                    Bundle b = new Bundle();
+                    b.putSerializable("dataBean", rt.getData());
+                    Intent intent = new Intent(LllegalQueryActivity.this, LllegalQueryResultActivity.class);
+                    intent.putExtras(b);
+                    startActivity(intent);
                 }
 
             }
@@ -240,7 +270,7 @@ public class LllegalQueryActivity extends SwipeBackActivity implements View.OnCl
 
             LinearLayout item_ninegrid = ViewHolder.get(convertView, R.id.item_lllegalquerylog);
             item_ninegrid.setTag(position);
-            //item_ninegrid.setOnClickListener(myClickListener);
+            item_ninegrid.setOnClickListener(myClickListener);
 
 
             TextView item_title = ViewHolder.get(convertView, R.id.item_lllegalquerylog_carno);
@@ -249,5 +279,22 @@ public class LllegalQueryActivity extends SwipeBackActivity implements View.OnCl
             return convertView;
         }
 
+        private LinearLayout.OnClickListener myClickListener = new LinearLayout.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int position = (int) v.getTag();
+
+                LllegalQueryLogBean item = items.get(position);
+
+
+                form_lllegalquery_txt_carno.setText(item.getCarNo());
+                form_lllegalquery_sel_cartype.setTag(item.getCarType()+"");
+                form_lllegalquery_cb_isCompany.setTag(item.getIsCompany()+"");
+                form_lllegalquery_txt_rackno.setText(item.getRackNo()+"");
+                form_lllegalquery_txt_enginno.setText(item.getEnginNo()+"");
+            }
+        };
+
     }
+
 }

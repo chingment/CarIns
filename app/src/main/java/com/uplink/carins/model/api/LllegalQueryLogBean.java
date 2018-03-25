@@ -2,17 +2,19 @@ package com.uplink.carins.model.api;
 
 import com.uplink.carins.ui.crop.util.PaintUtil;
 
+import java.io.Serializable;
+
 /**
  * Created by chingment on 2018/3/25.
  */
 
-public class LllegalQueryLogBean {
+public class LllegalQueryLogBean implements Serializable {
 
     private  String carNo;
     private  String carType;
     private  String rackNo;
     private  String enginNo;
-    private  Boolean isCompany;
+    private  String isCompany;
 
 
     public  LllegalQueryLogBean()
@@ -57,11 +59,11 @@ public class LllegalQueryLogBean {
         this.enginNo = enginNo;
     }
 
-    public Boolean getIsCompany() {
+    public String getIsCompany() {
         return isCompany;
     }
 
-    public void setIsCompany(Boolean isCompany) {
+    public void setIsCompany(String isCompany) {
         this.isCompany = isCompany;
     }
 
