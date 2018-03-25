@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    >
+
+
+    <include layout="@layout/layout_main_header" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:background="@color/default_bg" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="42dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:background="@color/white"
+        >
+
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:text="车牌号码"
+            android:gravity="center_vertical|left"
+            android:textColor="@color/text_333"
+            android:textSize="@dimen/text_size_12" />
+
+
+        <EditText
+            android:id="@+id/form_lllegalquery_txt_carno"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@null"
+            android:gravity="center_vertical|left"
+            android:hint="请输入车牌号码"
+            android:inputType="phone"
+            android:maxLength="18"
+            android:maxLines="1"
+            android:textColor="@color/text"
+            android:textColorHint="@color/text_hint"
+            android:textSize="@dimen/text_size_12" />
+
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:background="@color/default_bg" />
+
+    <LinearLayout
+        android:id="@+id/form_lllegalquery_sel_cartype"
+        android:layout_width="match_parent"
+        android:layout_height="42dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:background="@color/white"
+        android:tag="02"
+        >
+
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical|left"
+            android:text="车辆类型"
+            android:textColor="@color/text_333"
+            android:textSize="@dimen/text_size_12" />
+
+        <TextView
+            android:id="@+id/sel_lllegalquery_txt_cartype"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical|left"
+            android:text="小型汽车"
+            android:hint="选择车辆类型"
+            android:maxLines="1"
+            android:textColor="@color/text"
+            android:textColorHint="@color/text_hint"
+            android:textSize="@dimen/text_size_12" />
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:src="@drawable/ic_select_arrow_down_n" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:background="@color/default_bg" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/white"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        >
+
+
+        <LinearLayout
+            android:id="@+id/form_lllegalquery_cb_isCompany"
+            android:layout_width="match_parent"
+            android:layout_height="42dp"
+            android:background="@drawable/boder_bottom"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:tag="false"
+            >
+
+            <TextView
+                android:layout_width="80dp"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical|left"
+                android:text="营业性质"
+                android:textColor="@color/text_333"
+                android:textSize="@dimen/text_size_12" />
+
+
+            <CheckBox
+            android:id="@+id/form_lllegalquery_cb_isCompany1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@drawable/widget_form_radio_green"
+            android:checked="true"
+            android:paddingLeft="8dp"
+            android:text="私人车"
+            android:textColor="@color/radio_selector_text_color"
+            android:textSize="@dimen/text_size_12" />
+
+            <CheckBox
+            android:id="@+id/form_lllegalquery_cb_isCompany2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="36dp"
+            android:button="@drawable/widget_form_radio_green"
+            android:paddingLeft="8dp"
+            android:text="公司车"
+            android:textColor="@color/radio_selector_text_color"
+            android:textSize="@dimen/text_size_12" />
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="42dp"
+            android:background="@drawable/boder_bottom"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="80dp"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical|left"
+                android:text="车架号"
+                android:textColor="@color/text_333"
+                android:textSize="@dimen/text_size_12" />
+
+            <EditText
+                android:id="@+id/form_lllegalquery_txt_rackno"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@null"
+                android:gravity="center_vertical|left"
+                android:hint="请输入后六位"
+                android:inputType="phone"
+                android:maxLength="18"
+                android:maxLines="1"
+                android:textColor="@color/text"
+                android:textColorHint="@color/text_hint"
+                android:textSize="@dimen/text_size_12" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="42dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="80dp"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical|left"
+                android:text="发动机号"
+                android:textColor="@color/text_333"
+                android:textSize="@dimen/text_size_12" />
+
+
+            <EditText
+                android:id="@+id/form_lllegalquery_txt_enginno"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@null"
+                android:gravity="center_vertical|left"
+                android:hint="请输入后六位"
+                android:inputType="phone"
+                android:maxLength="18"
+                android:maxLines="1"
+                android:textColor="@color/text"
+                android:textColorHint="@color/text_hint"
+                android:textSize="@dimen/text_size_12" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:background="@color/default_bg" />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:lineSpacingExtra="8dp"
+        android:background="@color/white"
+        android:text="以上信息为交管局查询违章所需信息，仅用于帮您查询违章信息，您的信息将严格保密，请您放心使用"
+        />
+
+    <Button
+        android:id="@+id/btn_submit_query"
+        android:layout_width="match_parent"
+        android:layout_height="42dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/widget_common_btn"
+        android:text="快速查询"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size_14" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:background="@color/default_bg" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:lineSpacingExtra="8dp"
+        android:background="@color/white"
+        android:text="历史查询"
+        />
+
+
+    <com.uplink.carins.ui.my.MyGridView
+        android:id="@+id/gridview_querylog"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:columnWidth="90dp"
+        android:gravity="center"
+        android:horizontalSpacing="10dp"
+        android:numColumns="auto_fit"
+        android:stretchMode="columnWidth"
+        android:verticalSpacing="10dp" />
+
+</LinearLayout>

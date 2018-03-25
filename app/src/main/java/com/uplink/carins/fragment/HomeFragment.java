@@ -28,6 +28,7 @@ import com.uplink.carins.activity.CarInsServiceAppActivity;
 import com.uplink.carins.activity.CarInsureDocumentActivity;
 import com.uplink.carins.activity.CarInsureKindActivity;
 import com.uplink.carins.activity.ClaimsServiceAppActivity;
+import com.uplink.carins.activity.LllegalQueryActivity;
 import com.uplink.carins.activity.LoginActivity;
 import com.uplink.carins.activity.MainActivity;
 import com.uplink.carins.activity.OrderListActivity;
@@ -176,6 +177,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         gridviewitems_haoyilian.add(new NineGridItemBean(0, "投保服务", NineGridItemType.Window, "com.uplink.carins.activity.CarInsServiceAppActivity", R.drawable.ic_app_yjtb));
         gridviewitems_haoyilian.add(new NineGridItemBean(0, "理赔服务", NineGridItemType.Window, "com.uplink.carins.activity.ClaimsServiceAppActivity", R.drawable.ic_app_yjlp));
         gridviewitems_haoyilian.add(new NineGridItemBean(0, "人才输送", NineGridItemType.Window, "com.uplink.carins.activity.TalentDemandActivity", R.drawable.ic_app_rcss));
+        gridviewitems_haoyilian.add(new NineGridItemBean(0, "违章缴罚", NineGridItemType.Window, "com.uplink.carins.activity.LllegalQueryActivity", R.drawable.ic_app_wzcx));
+
 
         if (thirdPartyApp != null) {
             if (thirdPartyApp.size() > 0) {
@@ -317,6 +320,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                     String title = gridviewitem.getTitle();
                     Intent intent;
 
+                    //intent.setClassName(context,action);  //方法3 此方式可用于打开其它的应用
+                    //context.startActivity(intent);
 
                     switch (type) {
                         case Window:
@@ -384,12 +389,14 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                                     break;
                                 case "com.uplink.carins.activity.ClaimsServiceAppActivity":
 
-                                    //intent.setClassName(context,action);  //方法3 此方式可用于打开其它的应用
-                                    //context.startActivity(intent);
-
                                     intent = new Intent(context, ClaimsServiceAppActivity.class);
                                     startActivity(intent);
 
+                                    break;
+                                case "com.uplink.carins.activity.LllegalQueryActivity":
+
+                                    intent = new Intent(context, LllegalQueryActivity.class);
+                                    startActivity(intent);
 
                                     break;
                             }

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="wrap_content"
+    android:paddingBottom="4dip" android:layout_width="fill_parent"
+    android:gravity="center_horizontal">
+    <LinearLayout
+        android:id="@+id/item_lllegalquerylog"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/item_lllegalquerylog_carno"
+            android:layout_width="120dp"
+            android:layout_height="30dp"
+            android:layout_weight="1"
+            android:text="@string/item_ninegird_defaulttile"
+            android:textColor="#333333"
+            android:textSize="13dp"
+            android:gravity="center"/>
+    </LinearLayout>
+</RelativeLayout>

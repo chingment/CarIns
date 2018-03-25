@@ -45,5 +45,6 @@ public class Config {
         public static final String orderPayResultNotify = BuildConfig.ENVIRONMENT  + "/api/Order/PayResultNotify";
         public static final String dingshundianshenqingxieyi = BuildConfig.ENVIRONMENT  + "/Resource/lipeixieyi";
         public static final String yonggongxieyi = BuildConfig.ENVIRONMENT  + "/Resource/yonggongxieyi";
+        public static final String lllegalQuery  = BuildConfig.ENVIRONMENT + "/api/lllegal/query ";
     }
 }
