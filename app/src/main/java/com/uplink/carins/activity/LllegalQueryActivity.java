@@ -75,8 +75,8 @@ public class LllegalQueryActivity extends SwipeBackActivity implements View.OnCl
         initView();
         initEvent();
 
-
         getQuerylog();
+
     }
 
 
@@ -293,6 +293,8 @@ public class LllegalQueryActivity extends SwipeBackActivity implements View.OnCl
                 showToast(rt.getMessage());
                 if (rt.getResult() == Result.SUCCESS) {
 
+                    AppCacheManager.setLllegalQueryScore(rt.getData().getQueryScore());
+
                     txt_queryscore.setText(rt.getData().getQueryScore() + "");
 
                     Bundle b = new Bundle();
@@ -337,7 +339,8 @@ public class LllegalQueryActivity extends SwipeBackActivity implements View.OnCl
                     Bundle b = new Bundle();
                     b.putSerializable("dataBean", rt.getData());
                     intent.putExtras(b);
-                    startActivity(intent);
+
+                    startActivityForResult(intent,1);
                 }
 
             }
@@ -350,6 +353,12 @@ public class LllegalQueryActivity extends SwipeBackActivity implements View.OnCl
             }
         });
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        txt_queryscore.setText(AppCacheManager.getLllegalQueryScore());
+    }
+
 
     private class LllegalQueryLogItemAdapter extends BaseAdapter {
 

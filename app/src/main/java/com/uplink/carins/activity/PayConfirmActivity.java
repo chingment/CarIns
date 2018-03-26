@@ -26,6 +26,7 @@ import com.uplink.carins.model.api.ApiResultBean;
 import com.uplink.carins.model.api.ConfirmFieldBean;
 import com.uplink.carins.model.api.OrderInfoBean;
 import com.uplink.carins.model.api.PayQrCodeDownloadBean;
+import com.uplink.carins.model.api.PayResultNotifyByLllegalQueryRechargeBean;
 import com.uplink.carins.model.api.Result;
 import com.uplink.carins.ui.swipebacklayout.SwipeBackActivity;
 import com.uplink.carins.utils.IpAdressUtil;
@@ -60,7 +61,6 @@ public class PayConfirmActivity extends SwipeBackActivity implements View.OnClic
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_payconfirm);
-
 
         initView();
         initEvent();
@@ -200,7 +200,7 @@ public class PayConfirmActivity extends SwipeBackActivity implements View.OnClic
                         //第三方应用传入交易参数给厂商程序
                         scan2.putExtra("transType", transType);//微信67，支付宝73
                         scan2.putExtra("amount", Long.parseLong("1"));    //金额
-                        scan2.putExtra("order", "11803262220000001340");
+                        scan2.putExtra("order", orderInfo.getOrderSn());
                         this.startActivityForResult(scan2, 1);
                     }
                 }
@@ -288,17 +288,21 @@ public class PayConfirmActivity extends SwipeBackActivity implements View.OnClic
 
                             if (rt.getResult() == Result.SUCCESS) {
 
-                                switch (orderInfo.getProductType())
-                                {
+                                switch (orderInfo.getProductType()) {
                                     case 301:
                                         Intent intent = new Intent(PayConfirmActivity.this, MainActivity.class);
                                         startActivity(intent);
                                         finish();
                                         break;
                                     case 601:
+                                        ApiResultBean<PayResultNotifyByLllegalQueryRechargeBean> rt601 = JSON.parseObject(response, new TypeReference<ApiResultBean<PayResultNotifyByLllegalQueryRechargeBean>>() {
+                                        });
+                                         AppCacheManager.setLllegalQueryScore(rt601.getData().getScore());
+                                        setResult(1,null);
                                         finish();
                                         break;
                                 }
+
                             } else {
                                 showToast(rt.getMessage());
                             }
