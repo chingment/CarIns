@@ -9,14 +9,60 @@ import java.util.List;
 
 public class LllegalQueryResultBean implements Serializable {
 
-
-    private List<LllegalPriceRecordBean> lllegalPriceRecord;
-
-    public void setLllegalPriceRecord(List<LllegalPriceRecordBean> lllegalPriceRecord) {
-        this.lllegalPriceRecord = lllegalPriceRecord;
+    public String getCarNo() {
+        return carNo;
     }
 
-    public List<LllegalPriceRecordBean> getLllegalPriceRecord() {
-        return lllegalPriceRecord;
+    public void setCarNo(String carNo) {
+        this.carNo = carNo;
     }
+
+    public String getSumCount() {
+        return sumCount;
+    }
+
+    public void setSumCount(String sumCount) {
+        this.sumCount = sumCount;
+    }
+
+    public String getSumPoint() {
+        return sumPoint;
+    }
+
+    public void setSumPoint(String sumPoint) {
+        this.sumPoint = sumPoint;
+    }
+
+    public String getSumFine() {
+        return sumFine;
+    }
+
+    public void setSumFine(String sumFine) {
+        this.sumFine = sumFine;
+    }
+
+    public List<LllegalPriceRecordBean> getRecord() {
+        return record;
+    }
+
+    public void setRecord(List<LllegalPriceRecordBean> record) {
+        this.record = record;
+    }
+
+
+    public int getQueryScore() {
+        return queryScore;
+    }
+
+    public void setQueryScore(int queryScore) {
+        this.queryScore = queryScore;
+    }
+
+    private String carNo;
+    private String sumCount;
+    private String sumPoint;
+    private String sumFine;
+    private List<LllegalPriceRecordBean> record;
+    private  int queryScore;
+
 }

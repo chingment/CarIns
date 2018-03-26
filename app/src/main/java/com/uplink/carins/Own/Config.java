@@ -47,5 +47,6 @@ public class Config {
         public static final String yonggongxieyi = BuildConfig.ENVIRONMENT  + "/Resource/yonggongxieyi";
         public static final String lllegalQuery  = BuildConfig.ENVIRONMENT + "/api/lllegal/query";
         public static final String lllegalQueryLog  = BuildConfig.ENVIRONMENT + "/api/lllegal/querylog";
+        public static final String submitLllegalQueryScoreRecharge= BuildConfig.ENVIRONMENT + "/api/Order/SubmitLllegalQueryScoreRecharge";
     }
 }

@@ -57,7 +57,7 @@
         android:background="@color/default_bg" />
 
     <LinearLayout
-        android:id="@+id/form_lllegalquery_sel_cartype"
+        android:id="@+id/sel_lllegalquery_cartype"
         android:layout_width="match_parent"
         android:layout_height="42dp"
         android:gravity="center_vertical"
@@ -65,7 +65,6 @@
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:background="@color/white"
-        android:tag="02"
         >
 
         <TextView
@@ -77,12 +76,13 @@
             android:textSize="@dimen/text_size_12" />
 
         <TextView
-            android:id="@+id/sel_lllegalquery_txt_cartype"
+            android:id="@+id/form_lllegalquery_txt_cartype"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center_vertical|left"
             android:text="小型汽车"
+            android:tag="02"
             android:hint="选择车辆类型"
             android:maxLines="1"
             android:textColor="@color/text"
@@ -236,6 +236,61 @@
         android:background="@color/white"
         android:text="以上信息为交管局查询违章所需信息，仅用于帮您查询违章信息，您的信息将严格保密，请您放心使用"
         />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:background="@color/default_bg" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:background="@color/white"
+        >
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical|left"
+            android:paddingBottom="6dp"
+            android:paddingLeft="10dp"
+            android:paddingTop="6dp"
+            android:text="当前查询积分："
+            android:textColor="@color/text_333"
+            android:textSize="@dimen/text_size_12" />
+
+        <TextView
+            android:id="@+id/txt_queryscore"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="left"
+            android:text="0"
+            android:textColor="@color/red"
+            android:textSize="@dimen/text_size_12"
+            android:paddingBottom="6dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="6dp"
+            android:textStyle="bold"
+            />
+
+
+        <TextView
+            android:id="@+id/btn_recharge"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical|left"
+            android:text="充值"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/text_size_12"
+            android:paddingBottom="6dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="6dp" />
+    </LinearLayout>
 
     <Button
         android:id="@+id/btn_submit_query"

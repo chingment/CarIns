@@ -22,10 +22,29 @@ public class AppCacheManager {
     private static String Cache_Key_LastUserName = "Cache_LastUserName";
     private static String Cache_Key_Banner = "Cache_Banner";
     private static String Cache_Key_ExtendedApp = "Cache_ExtendedApp";
+    private static String Cache_Key_LllegalQueryScore = "Cache_LllegalQueryScore";
+
 
     private static ACache getCache() {
 
         return ACache.get(AppContext.getInstance());
+    }
+
+    public static void setLllegalQueryScore(int score) {
+
+        String s = String.valueOf(score);
+        AppCacheManager.getCache().put(Cache_Key_LllegalQueryScore, s);
+
+    }
+
+    public static String getLllegalQueryScore() {
+
+        String score = AppCacheManager.getCache().getAsString(Cache_Key_LllegalQueryScore);
+        if(score==null)
+            return  "0";
+
+        return score;
+
     }
 
     public static void setLastUpdateTime(String lastUpdateTime) {

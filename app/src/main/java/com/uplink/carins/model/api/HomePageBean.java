@@ -28,6 +28,9 @@ public class HomePageBean implements Serializable {
     private  List<ExtendedAppBean>  extendedApp;
 
 
+    private  int lllegalQueryScore;
+
+
     public void setBanner(List<BannerBean> banner) {
         this.banner = banner;
     }
@@ -96,6 +99,12 @@ public class HomePageBean implements Serializable {
         return extendedApp;
     }
 
+    public void setLllegalQueryScore(int lllegalQueryScore) {
+        this.lllegalQueryScore = lllegalQueryScore;
+    }
 
+    public int getLllegalQueryScore() {
+        return lllegalQueryScore;
+    }
 
 }

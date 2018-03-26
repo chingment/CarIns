@@ -152,6 +152,22 @@ public class LllegalPriceRecordBean implements Serializable {
         this.needDealt = needDealt;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public Boolean getCanDealt() {
+        return canDealt;
+    }
+
+    public void setCanDealt(Boolean canDealt) {
+        this.canDealt = canDealt;
+    }
+
     private  String carNo;
     private  String bookNo;
     private  String bookType;
@@ -170,7 +186,7 @@ public class LllegalPriceRecordBean implements Serializable {
     private  String lllegalCity;
     private  String address;
     private  Boolean needDealt;
-
-
+    private  String status;
+    private  Boolean canDealt;
 
 }

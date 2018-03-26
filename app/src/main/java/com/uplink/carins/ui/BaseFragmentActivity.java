@@ -431,6 +431,7 @@ public class BaseFragmentActivity extends FragmentActivity {
                 AppCacheManager.setCarInsKind(bean.getCarInsKind());
                 AppCacheManager.setTalentDemandWorkJob(bean.getTalentDemandWorkJob());
                 AppCacheManager.setExtendedApp(bean.getExtendedApp());
+                AppCacheManager.setLllegalQueryScore(bean.getLllegalQueryScore());
 
 
                 HomeFragment.isNeedUpdateActivity = true;
