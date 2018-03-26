@@ -103,6 +103,7 @@ public class LllegalQueryActivity extends SwipeBackActivity implements View.OnCl
 
         gridview_querylog = (MyGridView) findViewById(R.id.gridview_querylog);
         form_lllegalquery_txt_carno = (EditText) findViewById(R.id.form_lllegalquery_txt_carno);
+
         sel_lllegalquery_cartype = (LinearLayout) findViewById(R.id.sel_lllegalquery_cartype);
         form_lllegalquery_txt_cartype = (TextView) findViewById(R.id.form_lllegalquery_txt_cartype);
         form_lllegalquery_cb_isCompany = (LinearLayout) findViewById(R.id.form_lllegalquery_cb_isCompany);

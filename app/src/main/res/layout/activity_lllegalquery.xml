@@ -46,7 +46,9 @@
             android:maxLines="1"
             android:textColor="@color/text"
             android:textColorHint="@color/text_hint"
-            android:textSize="@dimen/text_size_12" />
+            android:textSize="@dimen/text_size_12"
+
+            />
 
 
     </LinearLayout>
