@@ -81,9 +81,9 @@
 
         <activity
             android:name=".activity.LllegalQueryActivity"
-            android:windowSoftInputMode="stateHidden|stateUnchanged"
-            />
-        <activity android:name=".activity.LllegalQueryResultActivity"></activity>
+            android:windowSoftInputMode="stateHidden|stateUnchanged" />
+        <activity android:name=".activity.LllegalQueryResultActivity" />
+        <activity android:name=".activity.MallMainActivity"></activity>
     </application>
 
 </manifest>

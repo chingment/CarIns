@@ -29,8 +29,10 @@ public class AppContext extends Application {
     public void onCreate() {
         super.onCreate();
 
+        AppCrashHandler.getInstance().init(this);//初始化全局异常管理
+
         // 注册App异常崩溃处理器
-        registerUncaughtExceptionHandler();
+        //registerUncaughtExceptionHandler();
     }
 
     private void registerUncaughtExceptionHandler() {

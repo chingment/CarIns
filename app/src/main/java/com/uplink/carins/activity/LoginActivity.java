@@ -227,7 +227,6 @@ public class LoginActivity extends BaseFragmentActivity implements View.OnClickL
 
     private void submitLogin() {
 
-
         String username = txt_username.getText() + "";
         if (StringUtil.isEmpty(username)) {
             showToast("用户名为空");

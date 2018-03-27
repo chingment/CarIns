@@ -31,6 +31,7 @@ import com.uplink.carins.activity.ClaimsServiceAppActivity;
 import com.uplink.carins.activity.LllegalQueryActivity;
 import com.uplink.carins.activity.LoginActivity;
 import com.uplink.carins.activity.MainActivity;
+import com.uplink.carins.activity.MallMainActivity;
 import com.uplink.carins.activity.OrderListActivity;
 import com.uplink.carins.activity.PayConfirmActivity;
 import com.uplink.carins.activity.TalentDemandActivity;
@@ -178,7 +179,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         gridviewitems_haoyilian.add(new NineGridItemBean(0, "理赔服务", NineGridItemType.Window, "com.uplink.carins.activity.ClaimsServiceAppActivity", R.drawable.ic_app_yjlp));
         gridviewitems_haoyilian.add(new NineGridItemBean(0, "人才输送", NineGridItemType.Window, "com.uplink.carins.activity.TalentDemandActivity", R.drawable.ic_app_rcss));
         gridviewitems_haoyilian.add(new NineGridItemBean(0, "违章缴罚", NineGridItemType.Window, "com.uplink.carins.activity.LllegalQueryActivity", R.drawable.ic_app_wzcx));
-
+        //gridviewitems_haoyilian.add(new NineGridItemBean(0, "商城", NineGridItemType.Window, "com.uplink.carins.activity.MallMainActivity", R.drawable.ic_app_wzcx));
 
         if (thirdPartyApp != null) {
             if (thirdPartyApp.size() > 0) {
@@ -396,6 +397,12 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                                 case "com.uplink.carins.activity.LllegalQueryActivity":
 
                                     intent = new Intent(context, LllegalQueryActivity.class);
+                                    startActivity(intent);
+
+                                    break;
+                                case "com.uplink.carins.activity.MallMainActivity":
+
+                                    intent = new Intent(context, MallMainActivity.class);
                                     startActivity(intent);
 
                                     break;

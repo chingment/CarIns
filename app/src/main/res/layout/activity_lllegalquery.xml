@@ -233,8 +233,9 @@
         android:paddingBottom="5dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:lineSpacingExtra="8dp"
+        android:lineSpacingExtra="4dp"
         android:background="@color/white"
+        android:textSize="@dimen/text_size_11"
         android:text="以上信息为交管局查询违章所需信息，仅用于帮您查询违章信息，您的信息将严格保密，请您放心使用"
         />
 

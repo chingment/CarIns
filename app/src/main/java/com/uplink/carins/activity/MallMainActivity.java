@@ -1,97 +1,63 @@
 package com.uplink.carins.activity;
 
-
-import android.content.OperationApplicationException;
-import android.graphics.Color;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
-import android.widget.*;
+import android.widget.ImageView;
+import android.widget.RadioGroup;
+import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
 import com.uplink.carins.R;
-import com.uplink.carins.device.N900Device;
-import com.uplink.carins.fragment.HomeFragment;
+import com.uplink.carins.fragment.MallPrdCategoryFragment;
 import com.uplink.carins.fragment.MyFragment;
-import com.uplink.carins.model.api.PrintDataBean;
-import com.uplink.carins.ui.*;
+import com.uplink.carins.ui.BaseFragmentActivity;
 import com.uplink.carins.utils.LogUtil;
 
-import com.zsoft.signala.hubs.HubConnection;
-import com.zsoft.signala.hubs.HubOnDataCallback;
-import com.zsoft.signala.hubs.IHubProxy;
-import com.zsoft.signala.transport.StateBase;
-import com.zsoft.signala.transport.longpolling.LongPollingTransport;
-
-import org.json.JSONArray;
-
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.zip.GZIPOutputStream;
 
-
-public class MainActivity extends BaseFragmentActivity {
-    private final static String TAG = "MainActivity";
+public class MallMainActivity extends BaseFragmentActivity {
+    private final static String TAG = "MallMainActivity";
     private static int currIndex = 0;
-
     private FragmentManager fragmentManager;
-
     //Footer Fragment 集合
-    private ArrayList<String> fragmentTags = new ArrayList<>(Arrays.asList("HomeFragment", "MyFragment"));
-
+    private ArrayList<String> fragmentTags = new ArrayList<>(Arrays.asList("MallPrdCategoryFragment", "MyFragment"));
     private RadioGroup footerRadioGroup;
+    private ImageView btnHeaderGoBack;
+    private TextView txtHeaderTitle;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_mallmain);
 
         fragmentManager = getSupportFragmentManager();
 
         initView();//加载视图控件
         initVent();//加载控件事件
         showFragment();//展示默认Fragment
-
-
-        loadTaskData();
-
-        startMyTask();
-
-
-//        PrintDataBean printData = (PrintDataBean)getIntent().getSerializableExtra("printDataBean");
-//        if(printData!=null) {
-//            printTicket(printData);
-//        }
-//        else
-//        {
-//            LogUtil.i("打印小票的信息为空");
-//        }
     }
 
     public void initView() {
-
         footerRadioGroup = (RadioGroup) findViewById(R.id.main_footer_radiogroup);
-
+        btnHeaderGoBack = (ImageView) findViewById(R.id.btn_main_header_goback);
+        btnHeaderGoBack.setVisibility(View.VISIBLE);
+        txtHeaderTitle = (TextView) findViewById(R.id.txt_main_header_title);
+        txtHeaderTitle.setText("商城");
     }
 
     public void initVent() {
-
-//        btn_1.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//                Go();
-//            }
-//        });
+        btnHeaderGoBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         footerRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -107,12 +73,10 @@ public class MainActivity extends BaseFragmentActivity {
                         currIndex = 0;
                         break;
                 }
-
                 showFragment();
             }
 
         });
-
     }
 
 
@@ -139,18 +103,18 @@ public class MainActivity extends BaseFragmentActivity {
     }
 
 
-    private HomeFragment homeFragment;
+    private MallPrdCategoryFragment mallPrdCategoryFragment;
 
-    public HomeFragment getHomeFragment() {
-        return homeFragment;
+    public MallPrdCategoryFragment getMallPrdCategoryFragment() {
+        return mallPrdCategoryFragment;
     }
 
     //构造Fragment
     private Fragment instantFragment(int currIndex) {
         switch (currIndex) {
             case 0:
-                homeFragment = new HomeFragment();
-                return homeFragment;
+                mallPrdCategoryFragment = new MallPrdCategoryFragment();
+                return mallPrdCategoryFragment;
             case 1:
                 return new MyFragment();
             default:
@@ -167,5 +131,4 @@ public class MainActivity extends BaseFragmentActivity {
         }
         return super.onKeyDown(keyCode, event);
     }
-
 }

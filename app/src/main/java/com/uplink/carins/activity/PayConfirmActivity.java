@@ -75,7 +75,6 @@ public class PayConfirmActivity extends SwipeBackActivity implements View.OnClic
             List<ConfirmFieldBean> confirmFields = orderInfo.getConfirmField();
 
 
-
             if (confirmFields != null && confirmFields.size() > 0)
                 for (int i = 0; i < confirmFields.size(); i++) {
                     ConfirmFieldBean confirmField = confirmFields.get(i);
@@ -179,21 +178,20 @@ public class PayConfirmActivity extends SwipeBackActivity implements View.OnClic
             case R.id.btn_submit_gopay:
                 if (!NoDoubleClickUtils.isDoubleClick()) {
 
-                    String str_transType=layout_paymethod.getTag().toString();
-                    int transType=0;
-                    if(str_transType.equals("2")) {
-                        transType=67;
+                    String str_transType = layout_paymethod.getTag().toString();
+                    int transType = 0;
+                    if (str_transType.equals("2")) {
+                        transType = 67;
+                    } else if (str_transType.equals("3")) {
+                        transType = 73;
                     }
-                    else  if(str_transType.equals("3")) {
-                        transType=73;
-                    }
 
-                    LogUtil.e("transType=>"+transType);
+                    LogUtil.e("transType=>" + transType);
 
-                    if(transType==67||transType==73) {
+                    if (transType == 67 || transType == 73) {
 
-                        LogUtil.e("订单号："+orderInfo.getOrderSn());
-                        LogUtil.e("支付金额："+orderInfo.getAmount());
+                        LogUtil.e("订单号：" + orderInfo.getOrderSn());
+                        LogUtil.e("支付金额：" + orderInfo.getAmount());
 
                         Intent scan2 = new Intent();
                         scan2.setClassName("com.newland.fczhu", "com.newland.fczhu.ui.activity.MainActivity");
@@ -297,8 +295,12 @@ public class PayConfirmActivity extends SwipeBackActivity implements View.OnClic
                                     case 601:
                                         ApiResultBean<PayResultNotifyByLllegalQueryRechargeBean> rt601 = JSON.parseObject(response, new TypeReference<ApiResultBean<PayResultNotifyByLllegalQueryRechargeBean>>() {
                                         });
-                                         AppCacheManager.setLllegalQueryScore(rt601.getData().getScore());
-                                        setResult(1,null);
+                                        AppCacheManager.setLllegalQueryScore(rt601.getData().getScore());
+                                        setResult(1, null);
+                                        finish();
+                                        break;
+                                    case 602:
+                                        setResult(1, null);
                                         finish();
                                         break;
                                 }
@@ -321,7 +323,6 @@ public class PayConfirmActivity extends SwipeBackActivity implements View.OnClic
             }
         }
     }
-
 
 
 //    public void getPayQrCode() {

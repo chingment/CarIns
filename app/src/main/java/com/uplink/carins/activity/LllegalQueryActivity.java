@@ -126,13 +126,14 @@ public class LllegalQueryActivity extends SwipeBackActivity implements View.OnCl
 
 
         carTypes = new ArrayList<>();
-        carTypes.add(new CarTypeBean("1", "1"));
-        carTypes.add(new CarTypeBean("2", "2"));
-        carTypes.add(new CarTypeBean("3", "3"));
-        carTypes.add(new CarTypeBean("4", "4"));
-        carTypes.add(new CarTypeBean("5", "5"));
-        carTypes.add(new CarTypeBean("6", "6"));
-        carTypes.add(new CarTypeBean("7", "7"));
+        carTypes.add(new CarTypeBean("02", "小型汽车"));
+        carTypes.add(new CarTypeBean("16", "教练汽车"));
+        carTypes.add(new CarTypeBean("51", "大型新能源汽车"));
+        carTypes.add(new CarTypeBean("52", "小型新能源汽车"));
+        carTypes.add(new CarTypeBean("01A1", "A1大型客车"));
+        carTypes.add(new CarTypeBean("01A2", "A2牵引货车"));
+        carTypes.add(new CarTypeBean("01B1", "B1中型客车"));
+        carTypes.add(new CarTypeBean("01B2", "B2大型货车"));
 
         CarTypesPopuAdapter popupCarTypesListView_Adapter = new CarTypesPopuAdapter(carTypes);
         popupListViewForCarTypes.setAdapter(popupCarTypesListView_Adapter);

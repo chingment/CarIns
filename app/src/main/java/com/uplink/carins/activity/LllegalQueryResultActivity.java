@@ -1,5 +1,6 @@
 package com.uplink.carins.activity;
 
+import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,15 +18,35 @@ import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+
+import com.uplink.carins.Own.AppCacheManager;
+import com.uplink.carins.Own.Config;
 import com.uplink.carins.R;
+import com.uplink.carins.http.HttpResponseHandler;
+import com.uplink.carins.model.api.ApiResultBean;
 import com.uplink.carins.model.api.LllegalPriceRecordBean;
 import com.uplink.carins.model.api.LllegalQueryResultBean;
+import com.uplink.carins.model.api.OrderInfoBean;
+import com.uplink.carins.model.api.Result;
 import com.uplink.carins.ui.ViewHolder;
+import com.uplink.carins.ui.dialog.CustomConfirmDialog;
 import com.uplink.carins.ui.swipebacklayout.SwipeBackActivity;
+import com.uplink.carins.utils.LogUtil;
 import com.uplink.carins.utils.StringUtil;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import okhttp3.Request;
 
 public class LllegalQueryResultActivity extends SwipeBackActivity implements View.OnClickListener {
 
@@ -79,7 +100,7 @@ public class LllegalQueryResultActivity extends SwipeBackActivity implements Vie
         txtHeaderTitle.setText("查询结果");
 
         inflater = LayoutInflater.from(this);
-        btn_submit= (Button) findViewById(R.id.btn_submit);
+        btn_submit = (Button) findViewById(R.id.btn_submit);
         txt_lllegal_carno = (TextView) findViewById(R.id.txt_lllegal_carno);
         txt_lllegal_sumcount = (TextView) findViewById(R.id.txt_lllegal_sumcount);
         txt_lllegal_sumpoint = (TextView) findViewById(R.id.txt_lllegal_sumpoint);
@@ -107,22 +128,122 @@ public class LllegalQueryResultActivity extends SwipeBackActivity implements Vie
         }
     }
 
-    private  void  submit() {
+    private void submit() {
 
-        int dealtCount=0;
-        for(LllegalPriceRecordBean item : lllegalPriceRecord)
-        {
-            if(item.getNeedDealt())
-            {
-                dealtCount+=1;
+        int dealtCount = 0;
+        for (LllegalPriceRecordBean item : lllegalPriceRecord) {
+            if (item.getNeedDealt()) {
+                dealtCount += 1;
             }
         }
 
-        if (dealtCount==0) {
+        if (dealtCount == 0) {
             showToast("请选择要处理的违章");
             return;
         }
 
+        Map<String, Object> params = new HashMap<>();
+        params.put("userId", this.getAppContext().getUser().getId());
+        params.put("merchantId", this.getAppContext().getUser().getMerchantId());
+        params.put("posMachineId", this.getAppContext().getUser().getPosMachineId());
+        params.put("carNo", queryResult.getCarNo());
+
+        JSONArray json_Records = new JSONArray();
+
+        try {
+            for (LllegalPriceRecordBean item : lllegalPriceRecord) {
+                if (item.getNeedDealt()) {
+                    JSONObject jsonFa1 = new JSONObject();
+                    jsonFa1.put("bookNo", item.getBookNo() + "");
+                    jsonFa1.put("bookType", item.getBookType());
+                    jsonFa1.put("bookTypeName", item.getBookTypeName());
+                    jsonFa1.put("lllegalCode", item.getLllegalCode());
+                    jsonFa1.put("cityCode", item.getCityCode());
+                    jsonFa1.put("lllegalTime", item.getLllegalTime());
+                    jsonFa1.put("point", item.getPoint());
+                    jsonFa1.put("offerType", item.getOfferType());
+                    jsonFa1.put("ofserTypeName", item.getOfserTypeName());
+                    jsonFa1.put("fine", item.getFine());
+                    jsonFa1.put("serviceFee", item.getServiceFee());
+                    jsonFa1.put("late_fees", item.getLate_fees());
+                    jsonFa1.put("content", item.getContent());
+                    jsonFa1.put("lllegalDesc", item.getLllegalDesc());
+                    jsonFa1.put("lllegalCity", item.getLllegalCity());
+                    jsonFa1.put("address", item.getAddress());
+                    json_Records.put(jsonFa1);
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return;
+        }
+
+        params.put("lllegalRecord", json_Records);
+
+
+        postWithMy(Config.URL.submitLllegalDealt, params, null, new HttpResponseHandler() {
+
+            @Override
+            public void onSuccess(String response) {
+                super.onSuccess(response);
+
+                LogUtil.i(TAG, "onSuccess====>>>" + response);
+
+                ApiResultBean<OrderInfoBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<OrderInfoBean>>() {
+                });
+
+                if (rt.getResult() == Result.SUCCESS) {
+
+                    Intent intent = new Intent(LllegalQueryResultActivity.this, PayConfirmActivity.class);
+                    Bundle b = new Bundle();
+                    b.putSerializable("dataBean", rt.getData());
+                    intent.putExtras(b);
+                    startActivityForResult(intent,1);
+
+                } else {
+                    showToast(rt.getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                super.onFailure(request, e);
+                LogUtil.e(TAG, "onFailure====>>>" + e.getMessage());
+                showToast("提交失败");
+            }
+        });
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(resultCode==1) {
+            showSuccessDialog();
+        }
+    }
+
+    private CustomConfirmDialog dialog_Success;
+    private void showSuccessDialog() {
+        if (dialog_Success == null) {
+            dialog_Success = new CustomConfirmDialog(LllegalQueryResultActivity.this, "订单提交成功",false);
+            dialog_Success.getBtnSure().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog_Success.dismiss();
+                    Intent l_Intent = new Intent(LllegalQueryResultActivity.this, OrderListActivity.class);
+                    l_Intent.putExtra("status", 3);
+                    startActivity(l_Intent);
+                    finish();
+                }
+            });
+            dialog_Success.getBtnCancle().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog_Success.dismiss();
+                }
+            });
+        }
+        dialog_Success.show();
     }
 
     private class LllegalPriceRecordItemAdapter extends BaseAdapter {
@@ -171,6 +292,17 @@ public class LllegalQueryResultActivity extends SwipeBackActivity implements Vie
             cb_candealt.setTag(position);
             cb_candealt.setOnClickListener(canDealtClick);
 
+            if(bean.getNeedDealt()) {
+                cb_candealt.setChecked(true);
+            }
+            else {
+                cb_candealt.setChecked(false);
+            }
+
+            if (bean.getCanDealt()) {
+                cb_candealt.setVisibility(View.VISIBLE);
+            }
+
             txt_city.setText(bean.getLllegalCity());
             txt_address.setText(bean.getAddress());
             txt_desc.setText(bean.getLllegalDesc());
@@ -181,10 +313,6 @@ public class LllegalQueryResultActivity extends SwipeBackActivity implements Vie
             txt_latefees.setText(bean.getLate_fees());
             txt_content.setText(bean.getContent());
             txt_status.setText(bean.getStatus());
-
-            if (bean.getCanDealt()) {
-                cb_candealt.setVisibility(View.VISIBLE);
-            }
 
             return convertView;
         }
