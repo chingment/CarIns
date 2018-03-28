@@ -44,6 +44,7 @@ public class OrderListActivity extends SwipeBackActivity implements View.OnClick
     private MyViewPager form_orderlist_viewpager;
     private MyViewPagerAdapter form_orderlist_viewpager_Adapter;
 
+    public int currentProductType = 0;//产品类型
     public int currentStatus = 0;//当前tab 状态
     public int statusItemCount = 0;//状态的类目数量
     public boolean isFirstLoad = true;//是否第一次加载
@@ -55,8 +56,10 @@ public class OrderListActivity extends SwipeBackActivity implements View.OnClick
         setContentView(R.layout.activity_orderlist);
 
         currentStatus = getIntent().getIntExtra("status", 0);
+        currentProductType = getIntent().getIntExtra("productType", 0);
 
-        LogUtil.d("当前状态:" + currentStatus);
+        LogUtil.e("当前状态:" + currentStatus);
+        LogUtil.e("当前类型:" + currentProductType);
 
         initView();
         initViewPager();
@@ -105,7 +108,7 @@ public class OrderListActivity extends SwipeBackActivity implements View.OnClick
 
         for (int i = 0; i < statusItemCount; i++) {
             refreshFlag.put(i, true);
-            form_orderlist_fragments.add(OrderListFragment.newInstance(i));
+            form_orderlist_fragments.add(OrderListFragment.newInstance(i,currentProductType));
         }
 
 
@@ -146,7 +149,7 @@ public class OrderListActivity extends SwipeBackActivity implements View.OnClick
             case R.id.btn_main_header_goback:
 
 
-                Intent intent = new Intent(OrderListActivity.this,MainActivity.class);
+                Intent intent = new Intent(OrderListActivity.this, MainActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 //finish();

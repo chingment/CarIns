@@ -50,14 +50,17 @@ public class OrderListFragment extends BaseLazyFragment {
     private SuperRefreshLayout refresh;
     private RecyclerView mylistview;
     private OrderListAdapter adapter;
+
+    private int productType = 0;//产品类型
     private int pageIndex = 0;
     private int status = 0;//订单状态，0：全部，1：已提交，2：跟进中，3：待支付，4：已完成,5:已取消
     private boolean mHasLoadedOnce;//是否已被加载过一次，第二次就不再去请求数据了
     private View view;
 
-    public static OrderListFragment newInstance(int status) {
+    public static OrderListFragment newInstance(int status,int productType) {
         Bundle bundle = new Bundle();
         bundle.putInt("status", status);
+        bundle.putInt("productType", productType);
         OrderListFragment fragment = new OrderListFragment();
         fragment.setArguments(bundle);
         return fragment;
@@ -65,8 +68,15 @@ public class OrderListFragment extends BaseLazyFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
         view = inflater.inflate(R.layout.fragment_orderlist, container, false);
         status = getArguments().getInt("status");
+        productType = getArguments().getInt("productType");
+
+
+        LogUtil.e("当前状态:" + status);
+        LogUtil.e("当前类型4333333:" + productType);
+
         LogUtil.i(TAG, "onCreateView()");
         return view;
     }
@@ -174,13 +184,18 @@ public class OrderListFragment extends BaseLazyFragment {
         LogUtil.i(TAG, "onLoadData()");
         Map<String, String> params = new HashMap<>();
 
-        LogUtil.i(" context.getAppContext().getUser().getId():"+ context.getAppContext().getUser().getId());
+        LogUtil.i(" context.getAppContext().getUser().getId():" + context.getAppContext().getUser().getId());
 
-        params.put("userId", context.getAppContext().getUser().getId()+"");
-        params.put("merchantId", context.getAppContext().getUser().getMerchantId()+"");
-        params.put("posMachineId", context.getAppContext().getUser().getPosMachineId()+"");
+        params.put("userId", context.getAppContext().getUser().getId() + "");
+        params.put("merchantId", context.getAppContext().getUser().getMerchantId() + "");
+        params.put("posMachineId", context.getAppContext().getUser().getPosMachineId() + "");
         params.put("pageIndex", String.valueOf(pageIndex));
         params.put("status", String.valueOf(status));
+
+        LogUtil.e("当前类型224454554545:" + productType);
+
+        params.put("productType", String.valueOf(productType));
+
         HttpClient.getWithMy(Config.URL.getOrderList, params, new onLoadDataCallBack());
     }
 
@@ -209,7 +224,7 @@ public class OrderListFragment extends BaseLazyFragment {
         public void onSuccess(String response) {
             super.onSuccess(response);
 
-            LogUtil.i(TAG,"onSuccess====>>>" +response);
+            LogUtil.i(TAG, "onSuccess====>>>" + response);
 
 
             ApiResultBean<List<OrderListBean>> result = JSON.parseObject(response, new TypeReference<ApiResultBean<List<OrderListBean>>>() {
@@ -253,7 +268,7 @@ public class OrderListFragment extends BaseLazyFragment {
         @Override
         public void onFailure(Request request, Exception e) {
             super.onFailure(request, e);
-            LogUtil.e(TAG,"onFailure====>>>" +e.getMessage());
+            LogUtil.e(TAG, "onFailure====>>>" + e.getMessage());
 
             if (pageIndex > 0) {
                 refresh.loadError();

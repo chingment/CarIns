@@ -225,6 +225,55 @@
         android:layout_height="8dp"
         android:background="@color/default_bg" />
 
+    <LinearLayout
+        android:id="@+id/form_lllegalquery_cb_isofferprice"
+        android:layout_width="match_parent"
+        android:layout_height="42dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:background="@color/white"
+        android:tag="true"
+        >
+
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical|left"
+            android:text="获取报价"
+            android:textColor="@color/text_333"
+            android:textSize="@dimen/text_size_12" />
+
+        <CheckBox
+            android:id="@+id/form_lllegalquery_cb_isofferprice1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@drawable/widget_form_radio_green"
+            android:checked="true"
+            android:paddingLeft="8dp"
+            android:text="获取"
+            android:textColor="@color/radio_selector_text_color"
+            android:textSize="@dimen/text_size_12" />
+
+        <CheckBox
+            android:id="@+id/form_lllegalquery_cb_isofferprice2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="36dp"
+            android:button="@drawable/widget_form_radio_green"
+            android:paddingLeft="8dp"
+            android:text="不获取"
+            android:textColor="@color/radio_selector_text_color"
+            android:textSize="@dimen/text_size_12" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:background="@color/default_bg" />
+
 
     <TextView
         android:layout_width="wrap_content"

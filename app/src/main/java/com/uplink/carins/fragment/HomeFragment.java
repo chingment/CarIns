@@ -377,7 +377,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 
                                     intent = new Intent(context, OrderListActivity.class);
 
-                                    intent.putExtra("status", 0);//默认选择状态为 全部
+                                    intent.putExtra("status", 0);//默认状态为 全部
+                                    intent.putExtra("productType", 0);//默认产品类型为 全部
 
                                     startActivity(intent);
 

@@ -88,7 +88,15 @@ public class LllegalQueryResultActivity extends SwipeBackActivity implements Vie
                 LllegalPriceRecordItemAdapter nineGridItemdapter = new LllegalPriceRecordItemAdapter();
                 form_lllegalqueryresult_list.setAdapter(nineGridItemdapter);
             }
+
+            if(queryResult.getIsOfferPrice()) {
+                btn_submit.setVisibility(View.VISIBLE);
+            }
+            else {
+                btn_submit.setVisibility(View.GONE);
+            }
         }
+
 
     }
 
@@ -313,6 +321,20 @@ public class LllegalQueryResultActivity extends SwipeBackActivity implements Vie
             txt_latefees.setText(bean.getLate_fees());
             txt_content.setText(bean.getContent());
             txt_status.setText(bean.getStatus());
+
+
+            if(queryResult.getIsOfferPrice()) {
+                cb_candealt.setVisibility(View.VISIBLE);
+                txt_status.setVisibility(View.VISIBLE);
+            }
+            else {
+                cb_candealt.setChecked(false);
+                cb_candealt.setVisibility(View.GONE);
+                txt_servicefee.setText("0");
+                txt_latefees.setText("0");
+                txt_content.setText("");
+                txt_status.setVisibility(View.GONE);
+            }
 
             return convertView;
         }

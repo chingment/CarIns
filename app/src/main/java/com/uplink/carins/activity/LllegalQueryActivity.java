@@ -62,6 +62,11 @@ public class LllegalQueryActivity extends SwipeBackActivity implements View.OnCl
     private LinearLayout form_lllegalquery_cb_isCompany;
     private CheckBox form_lllegalquery_cb_isCompany1;
     private CheckBox form_lllegalquery_cb_isCompany2;
+
+    private LinearLayout form_lllegalquery_cb_isofferprice;
+    private CheckBox form_lllegalquery_cb_isofferprice1;
+    private CheckBox form_lllegalquery_cb_isofferprice2;
+
     private EditText form_lllegalquery_txt_rackno;
     private EditText form_lllegalquery_txt_enginno;
     private TextView txt_queryscore;
@@ -110,6 +115,10 @@ public class LllegalQueryActivity extends SwipeBackActivity implements View.OnCl
         form_lllegalquery_cb_isCompany1 = (CheckBox) findViewById(R.id.form_lllegalquery_cb_isCompany1);
         form_lllegalquery_cb_isCompany2 = (CheckBox) findViewById(R.id.form_lllegalquery_cb_isCompany2);
 
+        form_lllegalquery_cb_isofferprice = (LinearLayout) findViewById(R.id.form_lllegalquery_cb_isofferprice);
+        form_lllegalquery_cb_isofferprice1 = (CheckBox) findViewById(R.id.form_lllegalquery_cb_isofferprice1);
+        form_lllegalquery_cb_isofferprice2 = (CheckBox) findViewById(R.id.form_lllegalquery_cb_isofferprice2);
+
         form_lllegalquery_txt_rackno = (EditText) findViewById(R.id.form_lllegalquery_txt_rackno);
         form_lllegalquery_txt_enginno = (EditText) findViewById(R.id.form_lllegalquery_txt_enginno);
         btn_submit_query = (Button) findViewById(R.id.btn_submit_query);
@@ -148,8 +157,13 @@ public class LllegalQueryActivity extends SwipeBackActivity implements View.OnCl
         btn_recharge.setOnClickListener(this);
 
         sel_lllegalquery_cartype.setOnClickListener(this);
-        form_lllegalquery_cb_isCompany1.setOnCheckedChangeListener(form_carclaim_claimtype_CheckListener);
-        form_lllegalquery_cb_isCompany2.setOnCheckedChangeListener(form_carclaim_claimtype_CheckListener);
+
+        form_lllegalquery_cb_isCompany1.setOnCheckedChangeListener(form_lllegalquery_cb_isCompany_CheckListener);
+        form_lllegalquery_cb_isCompany2.setOnCheckedChangeListener(form_lllegalquery_cb_isCompany_CheckListener);
+
+        form_lllegalquery_cb_isofferprice1.setOnCheckedChangeListener(form_lllegalquery_cb_isofferprice_CheckListener);
+        form_lllegalquery_cb_isofferprice2.setOnCheckedChangeListener(form_lllegalquery_cb_isofferprice_CheckListener);
+
         btn_submit_query.setOnClickListener(this);
 
         popupListViewForCarTypes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -166,7 +180,7 @@ public class LllegalQueryActivity extends SwipeBackActivity implements View.OnCl
     }
 
 
-    CheckBox.OnCheckedChangeListener form_carclaim_claimtype_CheckListener = new CheckBox.OnCheckedChangeListener() {
+    CheckBox.OnCheckedChangeListener form_lllegalquery_cb_isCompany_CheckListener = new CheckBox.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
             if (isChecked)
@@ -178,6 +192,23 @@ public class LllegalQueryActivity extends SwipeBackActivity implements View.OnCl
                     case R.id.form_lllegalquery_cb_isCompany2:
                         form_lllegalquery_cb_isCompany1.setChecked(false);
                         form_lllegalquery_cb_isCompany.setTag("true");
+                        break;
+                }
+        }
+    };
+
+    CheckBox.OnCheckedChangeListener form_lllegalquery_cb_isofferprice_CheckListener = new CheckBox.OnCheckedChangeListener() {
+        @Override
+        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            if (isChecked)
+                switch (buttonView.getId()) {
+                    case R.id.form_lllegalquery_cb_isofferprice1:
+                        form_lllegalquery_cb_isofferprice2.setChecked(false);
+                        form_lllegalquery_cb_isofferprice.setTag("true");
+                        break;
+                    case R.id.form_lllegalquery_cb_isofferprice2:
+                        form_lllegalquery_cb_isofferprice1.setChecked(false);
+                        form_lllegalquery_cb_isofferprice.setTag("fasle");
                         break;
                 }
         }
@@ -246,6 +277,9 @@ public class LllegalQueryActivity extends SwipeBackActivity implements View.OnCl
         String isCompany = form_lllegalquery_cb_isCompany.getTag() + "";
         String rackno = form_lllegalquery_txt_rackno.getText() + "";
         String enginno = form_lllegalquery_txt_enginno.getText() + "";
+        String isOfferPrice = form_lllegalquery_cb_isofferprice.getTag() + "";
+
+
 
         if (StringUtil.isEmptyNotNull(carno)) {
             showToast("请输入车牌号码");
@@ -281,6 +315,7 @@ public class LllegalQueryActivity extends SwipeBackActivity implements View.OnCl
         params.put("isCompany", isCompany);
         params.put("rackNo", rackno);
         params.put("enginNo", enginno);
+        params.put("isOfferPrice", isOfferPrice);
 
         postWithMy(Config.URL.lllegalQuery, params, null, new HttpResponseHandler() {
             @Override

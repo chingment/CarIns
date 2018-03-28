@@ -9,6 +9,7 @@ import java.util.List;
 
 public class LllegalQueryResultBean implements Serializable {
 
+
     public String getCarNo() {
         return carNo;
     }
@@ -58,11 +59,20 @@ public class LllegalQueryResultBean implements Serializable {
         this.queryScore = queryScore;
     }
 
+    public Boolean getIsOfferPrice() {
+        return isOfferPrice;
+    }
+
+    public void setIsOfferPrice(Boolean isOfferPrice) {
+        this.isOfferPrice = isOfferPrice;
+    }
+
     private String carNo;
     private String sumCount;
     private String sumPoint;
     private String sumFine;
     private List<LllegalPriceRecordBean> record;
-    private  int queryScore;
+    private int queryScore;
+    private Boolean isOfferPrice = false;
 
 }
