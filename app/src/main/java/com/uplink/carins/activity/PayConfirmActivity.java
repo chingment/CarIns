@@ -199,7 +199,14 @@ public class PayConfirmActivity extends SwipeBackActivity implements View.OnClic
                         scan2.putExtra("transType", transType);//微信67，支付宝73
                         scan2.putExtra("amount", Long.parseLong("1"));    //金额
                         scan2.putExtra("order", orderInfo.getOrderSn());
-                        this.startActivityForResult(scan2, 1);
+
+                        try {
+                            this.startActivityForResult(scan2, 1);
+                        }
+                        catch (Exception ex)
+                        {
+                            showToast("跳转支付发生异常");
+                        }
                     }
                 }
                 break;
