@@ -32,9 +32,11 @@ import com.uplink.carins.model.api.ApiResultBean;
 import com.uplink.carins.model.api.PayQrCodeDownloadBean;
 import com.uplink.carins.model.api.PayResultQueryBean;
 import com.uplink.carins.model.api.Result;
+import com.uplink.carins.ui.BaseFragmentActivity;
 import com.uplink.carins.ui.swipebacklayout.SwipeBackActivity;
 import com.uplink.carins.utils.CommonUtil;
 import com.uplink.carins.utils.LogUtil;
+import com.uplink.carins.utils.ToastUtil;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -227,10 +229,10 @@ public class PayQrcodeActivity extends SwipeBackActivity implements View.OnClick
         IntentResult intentResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
         if (intentResult != null) {
             if (intentResult.getContents() == null) {
-                Toast.makeText(this, "内容为空", Toast.LENGTH_LONG).show();
+                ToastUtil.showMessage(this, "内容为空", Toast.LENGTH_LONG);
 
             } else {
-                Toast.makeText(this, "扫描成功", Toast.LENGTH_LONG).show();
+                ToastUtil.showMessage(this, "扫描成功", Toast.LENGTH_LONG);
                 // ScanResult 为 获取到的字符串
                 String ScanResult = intentResult.getContents();
                 tv_test.setText(ScanResult);

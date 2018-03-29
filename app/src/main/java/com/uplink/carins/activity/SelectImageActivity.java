@@ -24,6 +24,7 @@ import android.widget.Toast;
 
 import com.uplink.carins.utils.LogUtil;
 import com.uplink.carins.utils.StringUtil;
+import com.uplink.carins.utils.ToastUtil;
 
 import java.io.File;
 
@@ -166,7 +167,7 @@ public class SelectImageActivity extends Activity {
             if (!StringUtil.isEmpty(imagepath)) {
                 finishSelectImage(imagepath);
             } else {
-                Toast.makeText(SelectImageActivity.this, "选择图片失败", Toast.LENGTH_SHORT).show();
+                ToastUtil.showMessage(SelectImageActivity.this, "选择图片失败", Toast.LENGTH_SHORT);
             }
         }
 
@@ -180,8 +181,7 @@ public class SelectImageActivity extends Activity {
         if (!StringUtil.isEmpty(imagePath)) {
             finishSelectImage(imagePath);
         } else {
-            Toast.makeText(SelectImageActivity.this, "选择图片失败", Toast.LENGTH_SHORT).show();
-
+            ToastUtil.showMessage(SelectImageActivity.this, "选择图片失败", Toast.LENGTH_SHORT);
         }
     }
 
@@ -380,8 +380,7 @@ public class SelectImageActivity extends Activity {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 openAlbum();
             } else {
-                Toast.makeText(SelectImageActivity.this, "您需要打开相册权限", Toast.LENGTH_SHORT).show();
-
+                ToastUtil.showMessage(SelectImageActivity.this, "您需要打开相册权限", Toast.LENGTH_SHORT);
             }
         }
         if (requestCode == 3) {
@@ -390,7 +389,7 @@ public class SelectImageActivity extends Activity {
                     && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 startCamera();
             } else {
-                Toast.makeText(SelectImageActivity.this, "需要相机和读写文件权限", Toast.LENGTH_SHORT).show();
+                ToastUtil.showMessage(SelectImageActivity.this, "需要相机和读写文件权限", Toast.LENGTH_SHORT);
             }
         }
     }

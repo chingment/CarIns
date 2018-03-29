@@ -25,6 +25,7 @@ import com.uplink.carins.Own.Config;
 import com.uplink.carins.utils.LogUtil;
 import com.uplink.carins.utils.StringUtil;
 import com.uplink.carins.utils.AbFileUtil;
+import com.uplink.carins.utils.ToastUtil;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -75,13 +76,13 @@ public class HttpClient {
 
             //long t1 = System.nanoTime();
             //LogUtil.i(TAG, String.format("Sending request %s on %s%n%s",
-                    //request.url(), chain.connection(), request.headers()));
+            //request.url(), chain.connection(), request.headers()));
 
             Response response = chain.proceed(request);
 
             //long t2 = System.nanoTime();
             //LogUtil.i(TAG, String.format("Received response for %s in %.1fms%n%s",
-                    //response.request().url(), (t2 - t1) / 1e6d, response.headers()));
+            //response.request().url(), (t2 - t1) / 1e6d, response.headers()));
             return response;
         }
     }
@@ -112,7 +113,8 @@ public class HttpClient {
     public static void get(String url, Map<String, String> param, final HttpResponseHandler handler) {
 
         if (!isNetworkAvailable()) {
-            Toast.makeText(AppContext.getInstance(), R.string.no_network_connection_toast, Toast.LENGTH_SHORT).show();
+            ToastUtil.showMessage(AppContext.getInstance(), "网络连接不可用", Toast.LENGTH_SHORT);
+
             return;
         }
 
@@ -147,7 +149,7 @@ public class HttpClient {
      */
     public static void post(String url, Map<String, String> param, final HttpResponseHandler handler) {
         if (!isNetworkAvailable()) {
-            Toast.makeText(AppContext.getInstance(), R.string.no_network_connection_toast, Toast.LENGTH_SHORT).show();
+            ToastUtil.showMessage(AppContext.getInstance(), "网络连接不可用", Toast.LENGTH_LONG);
             return;
         }
         String paramStr = "";
@@ -177,7 +179,7 @@ public class HttpClient {
     public static void getWithMy(String url, Map<String, String> param, final HttpResponseHandler handler) {
 
         if (!isNetworkAvailable()) {
-            Toast.makeText(AppContext.getInstance(), R.string.no_network_connection_toast, Toast.LENGTH_SHORT).show();
+            ToastUtil.showMessage(AppContext.getInstance(), "网络连接不可用", Toast.LENGTH_SHORT);
             handler.sendCompleteMessage();
             return;
         }
@@ -306,6 +308,7 @@ public class HttpClient {
         client.newCall(requestBuilder.build()).enqueue(new Callback() {
             @Override
             public void onResponse(Call call, Response response) {
+
                 try {
                     handler.sendSuccessMessage(response.body().string());
 
@@ -322,6 +325,77 @@ public class HttpClient {
                 handler.sendCompleteMessage();
             }
         });
+    }
+
+
+    public static String postWithMy2(String url, Map<String, Object> params, Map<String, String> filePaths) {
+        if (!isNetworkAvailable()) {
+            ToastUtil.showMessage(AppContext.getInstance(), "网络连接不可用", Toast.LENGTH_SHORT);
+            return "";
+        }
+
+        JSONObject json = new JSONObject();
+        try {
+            for (Map.Entry<String, Object> entry : params.entrySet()) {
+                json.put(entry.getKey(), entry.getValue());
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return "";
+        }
+
+        Request.Builder requestBuilder = new Request.Builder().url(url);
+        requestBuilder.addHeader("key", "" + BuildConfig.APPKEY);
+        String currenttime = (System.currentTimeMillis() / 1000) + "";
+        requestBuilder.addHeader("timestamp", currenttime);
+        String sign = Config.getSign(json.toString(), currenttime);
+        requestBuilder.addHeader("sign", "" + sign);
+
+
+        try {
+            JSONObject jsonImgData = new JSONObject();
+            if (filePaths != null) {
+                if (filePaths.size() > 0) {
+                    for (Map.Entry<String, String> entry : filePaths.entrySet()) {
+                        JSONObject jsonImgItem = new JSONObject();
+                        String filePath = entry.getValue();
+                        LogUtil.e(TAG, "filePath>>==>>" + filePath);
+                        jsonImgItem.put("type", filePath.substring(filePath.lastIndexOf(".")));
+                        String base64ImgStr = AbFileUtil.GetBase64ImageStr(filePath);
+                        LogUtil.e(TAG, "filePath>>==>>" + base64ImgStr.length());
+                        jsonImgItem.put("data", base64ImgStr);
+                        jsonImgData.put(entry.getKey(), jsonImgItem);
+                    }
+                    json.put("imgData", jsonImgData);
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return "";
+        }
+
+        String data = json.toString();
+
+        LogUtil.i("POST DATA:" + data);
+
+
+        RequestBody body = RequestBody.create(MediaType_JSON, data);
+
+        requestBuilder.post(body);
+
+        String result = "";
+        Response response;
+        try {
+
+            response = client.newCall(requestBuilder.build()).execute();
+            result = response.body().string();
+        } catch (Exception ex) {
+
+            String x=ex.getMessage();
+        }
+
+        return result;
+
     }
 
 

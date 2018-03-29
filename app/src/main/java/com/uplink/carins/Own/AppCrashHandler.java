@@ -9,6 +9,8 @@ import android.os.Looper;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.uplink.carins.utils.ToastUtil;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.PrintWriter;
@@ -107,7 +109,7 @@ public class AppCrashHandler implements Thread.UncaughtExceptionHandler {
             @Override
             public void run() {
                 Looper.prepare();
-                Toast.makeText(mContext, "程序异常【EX000000001】", Toast.LENGTH_SHORT).show();
+                ToastUtil.showMessage(mContext, "程序异常【EX000000001】", Toast.LENGTH_SHORT);
                 Looper.loop();
             }
         }.start();

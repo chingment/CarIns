@@ -31,3 +31,9 @@
 -keep class com.squareup.okhttp.**{*;}
 -keep class java.nio.**{*;}
 -keep class org.codehaus.mojo.**{*;}
+
+-keepattributes Signature
+-dontwarn com.alibaba.fastjson.**
+-keep class com.alibaba.fastjson.**{*;}
+
+-keep class com.uplink.carins.model.**{*;}

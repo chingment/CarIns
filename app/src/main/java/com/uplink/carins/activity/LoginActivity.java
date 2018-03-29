@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Rect;
 import android.os.Build;
 import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.appcompat.BuildConfig;
@@ -47,6 +48,7 @@ import com.uplink.carins.device.N900Device;
 import com.uplink.carins.http.HttpClient;
 import com.uplink.carins.http.HttpResponseHandler;
 import com.uplink.carins.model.api.ApiResultBean;
+import com.uplink.carins.model.api.ApiResultByLoginResultBean;
 import com.uplink.carins.model.api.LoginResultBean;
 import com.uplink.carins.model.api.PayConfirmBean;
 import com.uplink.carins.model.api.Result;
@@ -198,7 +200,6 @@ public class LoginActivity extends BaseFragmentActivity implements View.OnClickL
     }
 
 
-
     private void controlKeyboardLayout(final View root, final View scrollToView) {
         root.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
@@ -227,93 +228,101 @@ public class LoginActivity extends BaseFragmentActivity implements View.OnClickL
 
     private void submitLogin() {
 
-        String username = txt_username.getText() + "";
-        if (StringUtil.isEmpty(username)) {
-            showToast("用户名为空");
-            return;
-        }
-        String password = txt_password.getText() + "";
-        if (StringUtil.isEmpty(password)) {
-            showToast("密码为空");
-            return;
-        }
+
+        //ApiResultByLoginResultBean rt1 = JSON.parseObject("{\"result\":2,\"code\":2020,\"message\":\"登录失败，用户密码错误\"}", ApiResultByLoginResultBean.class);
+
+        //btn_register.setText(rt1.getMessage());
+
+        try {
+            String username = txt_username.getText() + "";
+            if (StringUtil.isEmpty(username)) {
+                showToast("用户名为空");
+                return;
+            }
+            String password = txt_password.getText() + "";
+            if (StringUtil.isEmpty(password)) {
+                showToast("密码为空");
+                return;
+            }
 
 
-        Map<String, Object> param = new HashMap<>();
-        param.put("userName", username);
-        param.put("password", password);
-        param.put("deviceId", appContext.getDeviceId());//861097039013879
+            final Map<String, Object> param = new HashMap<>();
+            param.put("userName", username);
+            param.put("password", password);
+            param.put("deviceId", appContext.getDeviceId());//861097039013879
+
+            postWithMy(Config.URL.login, param, null, new HttpResponseHandler() {
+
+                @Override
+                public void onSuccess(String response) {
+                    super.onSuccess(response);
+
+                    LogUtil.i(TAG, "onSuccess===>>" + response);
+
+                    ApiResultBean<LoginResultBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<LoginResultBean>>() {
+                    });
+
+                    showToast(rt.getMessage());
+
+                    if (rt.getResult() == Result.SUCCESS) {
+
+                        LoginResultBean d = rt.getData();
+
+                        AppCacheManager.setLastUserName(d.getUserName());
 
 
-        postWithMy(Config.URL.login, param, null, new HttpResponseHandler() {
+                        UserBean user = new UserBean();
 
-            @Override
-            public void onSuccess(String response) {
-                super.onSuccess(response);
+                        user.setId(rt.getData().getUserId());
+                        user.setMerchantId(rt.getData().getMerchantId());
+                        user.setPosMachineId(rt.getData().getPosMachineId());
+                        user.setStatus(rt.getData().getStatus());
 
-                LogUtil.i(TAG, "onSuccess===>>" + response);
+                        getAppContext().setUser(user);
 
-                ApiResultBean<LoginResultBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<LoginResultBean>>() {
-                });
+                        Intent intent = null;
+                        switch (d.getStatus()) {
+                            case 1:
 
-                showToast(rt.getMessage());
+                                intent = new Intent(LoginActivity.this, MainActivity.class);
 
-                if (rt.getResult() == Result.SUCCESS) {
+                                break;
+                            case 2:
+                            case 3:
 
-                    LoginResultBean d = rt.getData();
+                                if (d.getOrderInfo() == null) {
+                                    showToast("登陆异常，错误代码:EX100001");
+                                    return;
+                                }
 
-                    AppCacheManager.setLastUserName(d.getUserName());
+                                intent = new Intent(LoginActivity.this, PayConfirmActivity.class);
+                                Bundle b = new Bundle();
+                                b.putSerializable("dataBean", d.getOrderInfo());
+                                intent.putExtras(b);
 
+                                break;
+                        }
 
-                    UserBean user = new UserBean();
+                        if (intent != null) {
+                            startActivity(intent);
+                        }
 
-                    user.setId(rt.getData().getUserId());
-                    user.setMerchantId(rt.getData().getMerchantId());
-                    user.setPosMachineId(rt.getData().getPosMachineId());
-                    user.setStatus(rt.getData().getStatus());
-
-                    getAppContext().setUser(user);
-
-                    Intent intent = null;
-                    switch (d.getStatus()) {
-                        case 1:
-
-                            intent = new Intent(LoginActivity.this, MainActivity.class);
-
-                            break;
-                        case 2:
-                        case 3:
-
-                            if (d.getOrderInfo() == null) {
-                                showToast("登陆异常，错误代码:EX100001");
-                                return;
-                            }
-
-                            intent = new Intent(LoginActivity.this, PayConfirmActivity.class);
-                            Bundle b = new Bundle();
-                            b.putSerializable("dataBean", d.getOrderInfo());
-                            intent.putExtras(b);
-
-                            break;
-                    }
-
-                    if (intent != null) {
-                        startActivity(intent);
                     }
 
                 }
 
-            }
+                @Override
+                public void onFailure(Request request, Exception e) {
+                    super.onFailure(request, e);
+                    LogUtil.e(TAG, e);
+                    showToast("登陆失败");
 
-            @Override
-            public void onFailure(Request request, Exception e) {
-                super.onFailure(request, e);
-                LogUtil.e(TAG, e);
-                showToast("登陆失败");
+                }
 
-            }
-
-        });
+            });
+        } catch (Exception ex) {
+            showToast(ex.getMessage());
+        }
     }
 
 }

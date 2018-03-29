@@ -45,6 +45,7 @@ import com.uplink.carins.model.api.Result;
 import com.uplink.carins.utils.CommonUtil;
 import com.uplink.carins.utils.LogUtil;
 import com.uplink.carins.utils.StringUtil;
+import com.uplink.carins.utils.ToastUtil;
 
 import java.util.HashMap;
 import java.util.List;
@@ -87,8 +88,7 @@ public class BaseFragmentActivity extends FragmentActivity {
     public void startMyTask() {
         if (myTaskHandler == null) {
             if (myTaskRunnable == null) {
-                if (getAppContext().getUser() != null)
-                {
+                if (getAppContext().getUser() != null) {
                     LogUtil.i("开始->定时任务:" + CommonUtil.getCurrentTime());
                     myTaskHandler = new Handler();
                     myTaskRunnable = new Runnable() {
@@ -136,11 +136,6 @@ public class BaseFragmentActivity extends FragmentActivity {
         mProgressDialog = new Dialog(this, R.style.dialog_loading_style);
 
 
-
-
-
-
-
 //        if (n900Device == null) {
 //
 //            n900Device = N900Device.getInstance(this);
@@ -171,7 +166,7 @@ public class BaseFragmentActivity extends FragmentActivity {
 
             LogUtil.i("datetime:" + AppCacheManager.getLastUpdateTime());
 
-            HttpClient.getWithMy(Config.URL.home, params, new CallBack());
+            getWithMy(Config.URL.home, params, new CallBack());
         }
     }
 
@@ -180,8 +175,9 @@ public class BaseFragmentActivity extends FragmentActivity {
     }
 
     public void showToast(String txt) {
-        if (!StringUtil.isEmpty(txt))
-            Toast.makeText(BaseFragmentActivity.this, txt, Toast.LENGTH_SHORT).show();
+        if (!StringUtil.isEmpty(txt)) {
+            ToastUtil.showMessage(BaseFragmentActivity.this, txt, Toast.LENGTH_LONG);
+        }
     }
 
     private Dialog mProgressDialog;
@@ -364,7 +360,15 @@ public class BaseFragmentActivity extends FragmentActivity {
 
             @Override
             public void onSuccess(String response) {
-                handler.onSuccess(response);
+
+                final String s = response;
+                //运行在子线程,,
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        handler.onSuccess(s);
+                    }
+                });
             }
 
             @Override
@@ -390,7 +394,16 @@ public class BaseFragmentActivity extends FragmentActivity {
 
             @Override
             public void onSuccess(String response) {
-                handler.onSuccess(response);
+
+                final String s = response;
+                //运行在子线程,,
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        handler.onSuccess(s);
+                    }
+                });
+
             }
 
             @Override
