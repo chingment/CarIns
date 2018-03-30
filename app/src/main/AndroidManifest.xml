@@ -83,7 +83,12 @@
             android:name=".activity.LllegalQueryActivity"
             android:windowSoftInputMode="stateHidden|stateUnchanged" />
         <activity android:name=".activity.LllegalQueryResultActivity" />
-        <activity android:name=".activity.MallMainActivity"></activity>
+        <activity android:name=".activity.MallMainActivity" />
+        <activity android:name=".activity.OrderDetailsLllegalQueryRechargeActivity" />
+        <activity
+            android:name=".activity.OrderDetailsLllegalDealtActivity"
+            android:label="@string/title_activity_order_details_lllegal_dealt"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import android.support.v4.app.Fragment;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -39,6 +40,7 @@ public class OrderListActivity extends SwipeBackActivity implements View.OnClick
     private ImageView btnHeaderGoBack;
     private TextView txtHeaderTitle;
 
+    private RelativeLayout tab_header;
     private RadioGroup form_orderlist_rb_status;//
     private List<Fragment> form_orderlist_fragments = new ArrayList<Fragment>();
     private MyViewPager form_orderlist_viewpager;
@@ -65,6 +67,16 @@ public class OrderListActivity extends SwipeBackActivity implements View.OnClick
         initViewPager();
         initEvent();
 
+        ViewGroup.LayoutParams params=tab_header.getLayoutParams();
+        if (currentProductType != 0) {
+            tab_header.setVisibility(View.INVISIBLE);
+            params.height=0;
+            tab_header.setLayoutParams(params);
+        }
+        else
+        {
+            params.height=((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 42, getResources().getDisplayMetrics()));
+        }
     }
 
     @Override
@@ -86,6 +98,7 @@ public class OrderListActivity extends SwipeBackActivity implements View.OnClick
         txtHeaderTitle = (TextView) findViewById(R.id.txt_main_header_title);
         txtHeaderTitle.setText("我的订单");
 
+        tab_header = (RelativeLayout) findViewById(R.id.tab_header);
         form_orderlist_rb_status = (RadioGroup) findViewById(R.id.form_orderlist_rb_status);
         form_orderlist_viewpager = (MyViewPager) findViewById(R.id.form_orderlist_viewpager);
     }
@@ -108,7 +121,7 @@ public class OrderListActivity extends SwipeBackActivity implements View.OnClick
 
         for (int i = 0; i < statusItemCount; i++) {
             refreshFlag.put(i, true);
-            form_orderlist_fragments.add(OrderListFragment.newInstance(i,currentProductType));
+            form_orderlist_fragments.add(OrderListFragment.newInstance(i, currentProductType));
         }
 
 

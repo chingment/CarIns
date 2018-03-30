@@ -14,7 +14,7 @@
         android:background="@color/default_bg" />
 
     <RelativeLayout
-        android:id="@+id/form_register"
+        android:id="@+id/form_forgetpwd_modify"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="12dp"

@@ -175,7 +175,7 @@ public class OrderDetailsCarClaimsActivity extends ChoicePhotoAndCropAndSwipeBac
     };
 
     private void loadData() {
-        showProgressDialog(false);
+
         Map<String, String> params = new HashMap<>();
         params.put("userId", this.getAppContext().getUser().getId()+"");
         params.put("merchantId", this.getAppContext().getUser().getMerchantId()+"");
@@ -186,7 +186,6 @@ public class OrderDetailsCarClaimsActivity extends ChoicePhotoAndCropAndSwipeBac
             @Override
             public void onSuccess(String response) {
                 super.onSuccess(response);
-                removeProgressDialog();
                 LogUtil.i(TAG,"onSuccess====>>>" + response);
 
                 ApiResultBean<OrderDetailsCarClaimsBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<OrderDetailsCarClaimsBean>>() {
@@ -201,7 +200,6 @@ public class OrderDetailsCarClaimsActivity extends ChoicePhotoAndCropAndSwipeBac
             public void onFailure(Request request, Exception e) {
                 super.onFailure(request, e);
                 LogUtil.e(TAG,"onFailure====>>>" + e.getMessage());
-                removeProgressDialog();
             }
 
         });

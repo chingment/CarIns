@@ -73,6 +73,7 @@ public class LllegalQueryActivity extends SwipeBackActivity implements View.OnCl
     private Button btn_submit_query;
     private TextView btn_recharge;
 
+    private TextView txt_main_header_right;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -105,6 +106,8 @@ public class LllegalQueryActivity extends SwipeBackActivity implements View.OnCl
         btnHeaderGoBack.setVisibility(View.VISIBLE);
         txtHeaderTitle = (TextView) findViewById(R.id.txt_main_header_title);
         txtHeaderTitle.setText("违章查询");
+
+        txt_main_header_right=(TextView) findViewById(R.id.txt_main_header_right);
 
         gridview_querylog = (MyGridView) findViewById(R.id.gridview_querylog);
         form_lllegalquery_txt_carno = (EditText) findViewById(R.id.form_lllegalquery_txt_carno);
@@ -153,7 +156,7 @@ public class LllegalQueryActivity extends SwipeBackActivity implements View.OnCl
 
     private void initEvent() {
         btnHeaderGoBack.setOnClickListener(this);
-
+        txt_main_header_right.setOnClickListener(this);
         btn_recharge.setOnClickListener(this);
 
         sel_lllegalquery_cartype.setOnClickListener(this);
@@ -265,6 +268,12 @@ public class LllegalQueryActivity extends SwipeBackActivity implements View.OnCl
                 break;
             case R.id.btn_recharge:
                 recharge();
+                break;
+            case R.id.txt_main_header_right:
+                Intent intent = new Intent(this, OrderListActivity.class);
+                intent.putExtra("status", 0);//默认状态为 全部
+                intent.putExtra("productType", 602);//默认产品类型为 违章处理
+                startActivity(intent);
                 break;
         }
     }

@@ -30,4 +30,6 @@
     <string name="custom_date_picker_hour">时</string>
     <string name="custom_date_picker_minute">分</string>
     <string name="title_activity_pay_qrcode">PayQrcodeActivity</string>
+    <string name="title_activity_order_details_lllegal_dealt">OrderDetailsLllegalDealtActivity
+    </string>
 </resources>
