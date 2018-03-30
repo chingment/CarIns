@@ -8,12 +8,6 @@ import java.io.Serializable;
 
 public class GetForgetPwdCheckUsernameCodeResultBean implements Serializable {
 
-    private String userName;
-    private String phone;
-    private String validCode;
-    private String token;
-    private int seconds;
-
     public String getUserName() {
         return userName;
     }
@@ -53,4 +47,14 @@ public class GetForgetPwdCheckUsernameCodeResultBean implements Serializable {
     public void setSeconds(int seconds) {
         this.seconds = seconds;
     }
+
+    private String userName;
+    private String phone;
+    private String validCode;
+    private String token;
+    private int seconds;
+
+
+
+
 }

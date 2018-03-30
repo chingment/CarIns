@@ -113,6 +113,7 @@
                         android:textColor="@color/text_333"
                         android:textSize="@dimen/text_size_12" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
@@ -135,6 +136,7 @@
                         android:textColor="@color/text_333"
                         android:textSize="@dimen/text_size_12" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
@@ -157,6 +159,7 @@
                         android:textColor="@color/text_333"
                         android:textSize="@dimen/text_size_12" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
@@ -179,6 +182,7 @@
                         android:textColor="@color/text_333"
                         android:textSize="@dimen/text_size_12" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
@@ -201,14 +205,14 @@
                         android:textColor="@color/text_333"
                         android:textSize="@dimen/text_size_12" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:id="@+id/layout_submittime"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:background="@drawable/boder_bottom"
                     android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    >
+                    android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -225,14 +229,14 @@
                         android:textColor="@color/text_333"
                         android:textSize="@dimen/text_size_12" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:id="@+id/layout_paytime"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:background="@drawable/boder_bottom"
                     android:gravity="center_vertical"
-                    android:visibility="gone"
-                    >
+                    android:visibility="gone">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -249,6 +253,7 @@
                         android:textColor="@color/text_333"
                         android:textSize="@dimen/text_size_12" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:id="@+id/layout_completetime"
                     android:layout_width="match_parent"
@@ -322,6 +327,29 @@
                 </LinearLayout>
 
             </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="vertical">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="8dp"
+                    android:background="@color/default_bg" />
+
+                <ListView
+                    android:id="@+id/list_lllegalqueryresult"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:divider="@null"
+                    android:scrollbars="none"
+
+                    />
+            </LinearLayout>
         </LinearLayout>
+
+
     </com.uplink.carins.ui.my.MyScrollView>
 </LinearLayout>

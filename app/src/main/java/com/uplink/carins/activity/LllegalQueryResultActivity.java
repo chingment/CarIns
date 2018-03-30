@@ -239,7 +239,7 @@ public class LllegalQueryResultActivity extends SwipeBackActivity implements Vie
                 public void onClick(View v) {
                     dialog_Success.dismiss();
                     Intent l_Intent = new Intent(LllegalQueryResultActivity.this, OrderListActivity.class);
-                    l_Intent.putExtra("status", 3);
+                    l_Intent.putExtra("status", 4);
                     startActivity(l_Intent);
                     finish();
                 }

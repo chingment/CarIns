@@ -195,12 +195,14 @@ public class ForgetPwdCheckUsernameActivity extends SwipeBackActivity implements
 
         Bundle b = new Bundle();
 
-        forgetPwdCheckUsernameResult=new GetForgetPwdCheckUsernameCodeResultBean();
+        //forgetPwdCheckUsernameResult=new GetForgetPwdCheckUsernameCodeResultBean();
 
-//        forgetPwdCheckUsernameResult.setPhone("15989287032");
-//        forgetPwdCheckUsernameResult.setSeconds(120);
-//        forgetPwdCheckUsernameResult.setToken("e0d909f6-b4f6-474d-8bae-a83d5fd765c7");
-//        forgetPwdCheckUsernameResult.setValidCode("565165");
+        //forgetPwdCheckUsernameResult.setUserName("15989287032");
+        //forgetPwdCheckUsernameResult.setPhone("15989287032");
+        //forgetPwdCheckUsernameResult.setSeconds(120);
+        //forgetPwdCheckUsernameResult.setToken("e0d909f6-b4f6-474d-8bae-a83d5fd765c7");
+        //forgetPwdCheckUsernameResult.setValidCode("565165");
+
         b.putSerializable("dataBean", forgetPwdCheckUsernameResult);
         intent.putExtras(b);
         startActivity(intent);

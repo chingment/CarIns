@@ -2,6 +2,8 @@ package com.uplink.carins.model.api;
 
 import com.uplink.carins.utils.StringUtil;
 
+import java.util.List;
+
 /**
  * Created by chingment on 2018/3/30.
  */
@@ -136,6 +138,14 @@ public class OrderDetailsLllegalDealtBean {
         this.remarks = remarks;
     }
 
+    public List<LllegalPriceRecordBean> getLllegalRecord() {
+        return lllegalRecord;
+    }
+
+    public void setLllegalRecord(List<LllegalPriceRecordBean> lllegalRecord) {
+        this.lllegalRecord = lllegalRecord;
+    }
+
     private String payTime;
     private String price;
     private String sumFine;
@@ -144,4 +154,5 @@ public class OrderDetailsLllegalDealtBean {
     private String sumLateFees;
     private String sumPoint;
     private String remarks;
+    private List<LllegalPriceRecordBean> lllegalRecord;;
 }

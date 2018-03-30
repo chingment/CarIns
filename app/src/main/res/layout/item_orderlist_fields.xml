@@ -14,7 +14,7 @@
         android:layout_height="match_parent"
         android:gravity="center_vertical|left"
         android:text="字段"
-        android:textSize="@dimen/text_size_11" />
+        android:textSize="@dimen/text_size_12" />
     <TextView
         android:id="@+id/item_order_field_value"
         android:layout_width="0dp"
@@ -22,5 +22,5 @@
         android:layout_weight="1"
         android:gravity="center_vertical|right"
         android:text="值"
-        android:textSize="@dimen/text_size_11" />
+        android:textSize="@dimen/text_size_12" />
 </LinearLayout>

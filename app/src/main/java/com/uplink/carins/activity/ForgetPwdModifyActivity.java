@@ -60,6 +60,8 @@ public class ForgetPwdModifyActivity extends SwipeBackActivity implements View.O
         form_forgetpwd_modify_txt_password = (EditText) findViewById(R.id.form_forgetpwd_modify_txt_password);
         btn_submit = (Button) findViewById(R.id.btn_submit);
 
+        //LogUtil.e("forgetPwdCheckUsernameResult.getUserName():"+forgetPwdCheckUsernameResult.getUserName());
+        //LogUtil.e("forgetPwdCheckUsernameResult.getPhone():"+forgetPwdCheckUsernameResult.getPhone());
         form_forgetpwd_modify_txt_username.setText(forgetPwdCheckUsernameResult.getUserName());
     }
 
