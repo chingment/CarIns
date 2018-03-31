@@ -42,6 +42,7 @@ import com.uplink.carins.model.api.ApiResultBean;
 import com.uplink.carins.model.api.HomePageBean;
 import com.uplink.carins.model.api.PrintDataBean;
 import com.uplink.carins.model.api.Result;
+import com.uplink.carins.ui.dialog.CustomDialogLoading;
 import com.uplink.carins.utils.CommonUtil;
 import com.uplink.carins.utils.LogUtil;
 import com.uplink.carins.utils.StringUtil;
@@ -125,6 +126,12 @@ public class BaseFragmentActivity extends FragmentActivity {
         }
     }
 
+    private CustomDialogLoading customDialogLoading;
+
+    public  CustomDialogLoading getCustomDialogLoading() {
+        return customDialogLoading;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -133,7 +140,7 @@ public class BaseFragmentActivity extends FragmentActivity {
 
         appContext = (AppContext) getApplication();
 
-        mProgressDialog = new Dialog(this, R.style.dialog_loading_style);
+        customDialogLoading = new CustomDialogLoading(this);
 
 
 //        if (n900Device == null) {
@@ -180,56 +187,54 @@ public class BaseFragmentActivity extends FragmentActivity {
         }
     }
 
-    private Dialog mProgressDialog;
-
-    public TextView mProgressTextView;
-
-    public Dialog getmProgressDialog() {
-        return mProgressDialog;
-    }
-
-    public void showProgressDialog(boolean canCancel) {
-        if (mProgressDialog != null && !mProgressDialog.isShowing() && !this.isFinishing()) {
-            mProgressDialog.show();
-            mProgressDialog.setContentView(R.layout.dialog_base_progress);
-            WindowManager.LayoutParams lp = mProgressDialog.getWindow().getAttributes();
-            lp.dimAmount = 0.0f;
-            mProgressDialog.getWindow().setAttributes(lp);
-            mProgressDialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
-            mProgressDialog.setCanceledOnTouchOutside(false);
-            mProgressTextView = (TextView) mProgressDialog.findViewById(R.id.textView1);
-        }
-        mProgressDialog.setCancelable(canCancel);
-        mProgressTextView.setText("请稍候...");
-    }
-
-    public void showProgressDialog(String text, boolean canCancel) {
-        if (mProgressDialog != null && !mProgressDialog.isShowing() && !this.isFinishing()) {
-            mProgressDialog.show();
-            mProgressDialog.setContentView(R.layout.dialog_base_progress);
-            WindowManager.LayoutParams lp = mProgressDialog.getWindow().getAttributes();
-            lp.dimAmount = 0.0f;
-            mProgressDialog.getWindow().setAttributes(lp);
-            mProgressDialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
-            mProgressDialog.setCanceledOnTouchOutside(false);
-            mProgressTextView = (TextView) mProgressDialog.findViewById(R.id.textView1);
-        }
-        mProgressDialog.setCancelable(canCancel);
-        if (!StringUtil.isEmpty(text)) {
-            mProgressTextView.setText(text);
-        } else {
-            mProgressTextView.setText("请稍候...");
-        }
-    }
+//    public TextView mProgressTextView;
+//
+//    public Dialog getmProgressDialog() {
+//        return mProgressDialog;
+//    }
+//
+//    public void showProgressDialog(boolean canCancel) {
+//        if (mProgressDialog != null && !mProgressDialog.isShowing() && !this.isFinishing()) {
+//            mProgressDialog.show();
+//            mProgressDialog.setContentView(R.layout.dialog_base_progress);
+//            WindowManager.LayoutParams lp = mProgressDialog.getWindow().getAttributes();
+//            lp.dimAmount = 0.0f;
+//            mProgressDialog.getWindow().setAttributes(lp);
+//            mProgressDialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+//            mProgressDialog.setCanceledOnTouchOutside(false);
+//            mProgressTextView = (TextView) mProgressDialog.findViewById(R.id.textView1);
+//        }
+//        mProgressDialog.setCancelable(canCancel);
+//        mProgressTextView.setText("请稍候...");
+//    }
+//
+//    public void showProgressDialog(String text, boolean canCancel) {
+//        if (mProgressDialog != null && !mProgressDialog.isShowing() && !this.isFinishing()) {
+//            mProgressDialog.show();
+//            mProgressDialog.setContentView(R.layout.dialog_base_progress);
+//            WindowManager.LayoutParams lp = mProgressDialog.getWindow().getAttributes();
+//            lp.dimAmount = 0.0f;
+//            mProgressDialog.getWindow().setAttributes(lp);
+//            mProgressDialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+//            mProgressDialog.setCanceledOnTouchOutside(false);
+//            mProgressTextView = (TextView) mProgressDialog.findViewById(R.id.textView1);
+//        }
+//        mProgressDialog.setCancelable(canCancel);
+//        if (!StringUtil.isEmpty(text)) {
+//            mProgressTextView.setText(text);
+//        } else {
+//            mProgressTextView.setText("请稍候...");
+//        }
+//    }
 
     /**
      * 描述：移除进度框.
      */
-    public void removeProgressDialog() {
-        if (mProgressDialog != null && mProgressDialog.isShowing()) {
-            mProgressDialog.dismiss();
-        }
-    }
+//    public void removeProgressDialog() {
+//        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+//            mProgressDialog.dismiss();
+//        }
+//    }
 
 //    @Override
 //    protected void onResume() {
@@ -355,7 +360,8 @@ public class BaseFragmentActivity extends FragmentActivity {
 
             @Override
             public void onBeforeSend() {
-                showProgressDialog(false);
+                customDialogLoading.setProgressText("正在处理中....");
+                customDialogLoading.showDialog();
             }
 
             @Override
@@ -378,7 +384,7 @@ public class BaseFragmentActivity extends FragmentActivity {
 
             @Override
             public void onComplete() {
-                removeProgressDialog();
+                customDialogLoading.cancelDialog();
             }
         });
     }

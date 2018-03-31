@@ -307,9 +307,7 @@ public class LllegalQueryResultActivity extends SwipeBackActivity implements Vie
                 cb_candealt.setChecked(false);
             }
 
-            if (bean.getCanDealt()) {
-                cb_candealt.setVisibility(View.VISIBLE);
-            }
+
 
             txt_city.setText(bean.getLllegalCity());
             txt_address.setText(bean.getAddress());
@@ -324,7 +322,9 @@ public class LllegalQueryResultActivity extends SwipeBackActivity implements Vie
 
 
             if(queryResult.getIsOfferPrice()) {
-                cb_candealt.setVisibility(View.VISIBLE);
+                if (bean.getCanDealt()) {
+                    cb_candealt.setVisibility(View.VISIBLE);
+                }
                 txt_status.setVisibility(View.VISIBLE);
             }
             else {

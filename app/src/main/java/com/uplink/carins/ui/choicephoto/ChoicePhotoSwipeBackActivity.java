@@ -209,7 +209,7 @@ public abstract class ChoicePhotoSwipeBackActivity extends SwipeBackActivity imp
     }
 
     private void DoCropChoice(String path) {
-        showProgressDialog("请稍后...", false);
+        getCustomDialogLoading().showDialog();
         Bitmap bitmap = null;
         if (!StringUtil.isEmpty(old_path)) {
             LogUtil.d(TAG, "将要进行裁剪的图片的路径是 = " + old_path);
@@ -257,7 +257,7 @@ public abstract class ChoicePhotoSwipeBackActivity extends SwipeBackActivity imp
         } else {
             OnCropFail("未在存储卡中找到这个文件");
         }
-        removeProgressDialog();
+        getCustomDialogLoading().cancelDialog();
     }
 
     /**

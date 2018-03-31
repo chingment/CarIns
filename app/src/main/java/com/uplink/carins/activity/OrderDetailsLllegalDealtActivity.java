@@ -160,6 +160,13 @@ public class OrderDetailsLllegalDealtActivity extends SwipeBackActivity implemen
         txt_order_completetime.setText(bean.getCompleteTime());
         txt_order_cancletime.setText(bean.getCancleTime());
 
+        txt_order_price.setText(bean.getPrice());
+        txt_order_sumpoint.setText(bean.getSumPoint());
+        txt_order_sumcount.setText(bean.getSumCount());
+        txt_order_sumservicefees.setText(bean.getSumServiceFees());
+        txt_order_sumlatefees.setText(bean.getSumLateFees());
+        txt_order_sumfine.setText(bean.getSumFine());
+
 
         switch (bean.getStatus()) {
             case 1:
