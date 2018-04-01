@@ -264,7 +264,7 @@ public class OrderDetailsCarClaimsActivity extends ChoicePhotoAndCropAndSwipeBac
                 layout_estimatelist_line.setVisibility(View.VISIBLE);
                 layout_submittime.setVisibility(View.VISIBLE);
                 layout_handmerchant.setVisibility(View.VISIBLE);
-                btn_submit.setVisibility(View.VISIBLE);
+                btn_submit.setVisibility(View.GONE);
                 btn_submit.setText("立即支付");
                 break;
             case 4:

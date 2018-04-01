@@ -77,24 +77,24 @@ public class ToastUtil {
                                    int HIDE_DELAY) {
 
 
-        //Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, message, Toast.LENGTH_LONG).show();
 
-        if (mInstance == null) {
-            mInstance = new ToastUtil(context);
-        } else {
-            // 考虑Activity切换时，Toast依然显示
-            if (!mContext.getClass().getName().endsWith(context.getClass().getName())) {
-                mInstance = new ToastUtil(context);
-            }
-        }
-
-        if (HIDE_DELAY == LENGTH_LONG) {
-            mInstance.HIDE_DELAY = 2500;
-        } else {
-            mInstance.HIDE_DELAY = 1500;
-        }
-        mTextView.setText(message);
-        mInstance.show();
+//        if (mInstance == null) {
+//            mInstance = new ToastUtil(context);
+//        } else {
+//            // 考虑Activity切换时，Toast依然显示
+//            if (!mContext.getClass().getName().endsWith(context.getClass().getName())) {
+//                mInstance = new ToastUtil(context);
+//            }
+//        }
+//
+//        if (HIDE_DELAY == LENGTH_LONG) {
+//            mInstance.HIDE_DELAY = 2500;
+//        } else {
+//            mInstance.HIDE_DELAY = 1500;
+//        }
+//        mTextView.setText(message);
+//        mInstance.show();
     }
 
     public static ToastUtil makeText(Context context, int resId, int HIDE_DELAY) {

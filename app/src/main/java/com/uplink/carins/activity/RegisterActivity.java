@@ -230,7 +230,7 @@ public class RegisterActivity extends SwipeBackActivity implements View.OnClickL
         params.put("password", password);
         params.put("deviceId", getAppContext().getDeviceId());
 
-        HttpClient.postWithMy(Config.URL.accountCreate, params, null, new HttpResponseHandler() {
+        postWithMy(Config.URL.accountCreate, params, null, new HttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
                 super.onSuccess(response);

@@ -277,7 +277,7 @@ public class OrderDetailsCarInsrueActivity extends ChoicePhotoAndCropAndSwipeBac
             case 3:
                 layout_submittime.setVisibility(View.VISIBLE);
                 layout_insurecompany.setVisibility(View.VISIBLE);
-                btn_submit.setVisibility(View.VISIBLE);
+                btn_submit.setVisibility(View.GONE);
                 btn_submit.setText("立即支付");
                 break;
             case 4:
