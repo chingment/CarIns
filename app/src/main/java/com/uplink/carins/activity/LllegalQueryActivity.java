@@ -288,7 +288,9 @@ public class LllegalQueryActivity extends SwipeBackActivity implements View.OnCl
         String enginno = form_lllegalquery_txt_enginno.getText() + "";
         String isOfferPrice = form_lllegalquery_cb_isofferprice.getTag() + "";
 
-
+        carno="粤E58H56";
+        rackno="085173";
+        enginno="713477";
 
         if (StringUtil.isEmptyNotNull(carno)) {
             showToast("请输入车牌号码");

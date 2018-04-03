@@ -18,6 +18,7 @@ import com.uplink.carins.Own.AppManager;
 import com.uplink.carins.R;
 import com.uplink.carins.activity.CarInsServiceAppActivity;
 import com.uplink.carins.activity.ClaimsServiceAppActivity;
+import com.uplink.carins.activity.LllegalQueryActivity;
 import com.uplink.carins.activity.LoginActivity;
 import com.uplink.carins.activity.MainActivity;
 import com.uplink.carins.activity.MallMainActivity;

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
@@ -7,18 +7,14 @@
 
     <include layout="@layout/layout_main_header" />
 
-    <View
+    <RelativeLayout
+        android:id="@+id/ll0"
+        android:layout_below="@+id/layout_header"
         android:layout_width="match_parent"
-        android:layout_height="8dp"
-        android:background="@color/default_bg" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="34dp"
         android:background="@drawable/boder_bottom"
         android:gravity="center_vertical"
         android:orientation="horizontal">
-
         <TextView
             android:id="@+id/txt_lllegal_carno"
             android:layout_width="match_parent"
@@ -29,20 +25,19 @@
             android:paddingTop="6dp"
             android:text="车牌号码"
             android:textSize="@dimen/text_size_14" />
+    </RelativeLayout>
 
-
-    </LinearLayout>
-
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/ll1"
+        android:layout_below="@+id/ll0"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="32dp"
         android:background="@color/white"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/txt_title1"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center_vertical|left"
@@ -54,10 +49,11 @@
             android:textSize="@dimen/text_size_12" />
 
         <TextView
+            android:layout_toRightOf="@+id/txt_title1"
             android:id="@+id/txt_lllegal_sumcount"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:gravity="left"
+            android:gravity="center_vertical|left"
             android:paddingBottom="6dp"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
@@ -67,8 +63,9 @@
             android:textSize="@dimen/text_size_12"
             android:textStyle="bold" />
 
-
         <TextView
+            android:id="@+id/txt_title2"
+            android:layout_toRightOf="@+id/txt_lllegal_sumcount"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center_vertical|left"
@@ -80,10 +77,11 @@
             android:textSize="@dimen/text_size_12" />
 
         <TextView
+            android:layout_toRightOf="@+id/txt_title2"
             android:id="@+id/txt_lllegal_sumpoint"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:gravity="left"
+            android:gravity="center_vertical|left"
             android:paddingBottom="6dp"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
@@ -94,7 +92,8 @@
             android:textStyle="bold" />
 
         <TextView
-
+            android:layout_toRightOf="@+id/txt_lllegal_sumpoint"
+            android:id="@+id/txt_title3"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center_vertical|left"
@@ -103,10 +102,11 @@
             android:textSize="@dimen/text_size_12" />
 
         <TextView
+            android:layout_toRightOf="@+id/txt_title3"
             android:id="@+id/txt_lllegal_sumfine"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:gravity="left"
+            android:gravity="center_vertical|left"
             android:paddingBottom="6dp"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
@@ -116,37 +116,32 @@
             android:textSize="@dimen/text_size_12"
             android:textStyle="bold" />
 
-    </LinearLayout>
+    </RelativeLayout>
 
-    <com.uplink.carins.ui.my.MyScrollView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
+
+    <LinearLayout
         android:layout_above="@+id/btn_submit"
         android:layout_below="@+id/ll1"
-        android:layout_weight="1"
-        android:scrollbars="none">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical">
 
-        <LinearLayout
+        <View
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:orientation="vertical">
+            android:layout_height="8dp"
+            android:background="@color/default_bg" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="8dp"
-                android:background="@color/default_bg" />
+        <ListView
+            android:id="@+id/form_lllegalqueryresult_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="@null"
+            android:scrollbars="none"
 
-            <ListView
-                android:id="@+id/form_lllegalqueryresult_list"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:divider="@null"
-                android:scrollbars="none"
+            />
+    </LinearLayout>
 
-                />
-        </LinearLayout>
-    </com.uplink.carins.ui.my.MyScrollView>
 
     <Button
         android:id="@+id/btn_submit"
@@ -161,6 +156,5 @@
         android:background="@drawable/widget_common_btn"
         android:text="立即处理"
         android:textColor="@color/white"
-        android:textSize="@dimen/text_size_14"
-         />
-</LinearLayout>
+        android:textSize="@dimen/text_size_14" />
+</RelativeLayout>
