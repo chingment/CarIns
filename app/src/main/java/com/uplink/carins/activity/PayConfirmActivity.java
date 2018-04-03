@@ -24,6 +24,7 @@ import com.uplink.carins.http.HttpClient;
 import com.uplink.carins.http.HttpResponseHandler;
 import com.uplink.carins.model.api.ApiResultBean;
 import com.uplink.carins.model.api.ConfirmFieldBean;
+import com.uplink.carins.model.api.GetPayTranSnResultBean;
 import com.uplink.carins.model.api.OrderInfoBean;
 import com.uplink.carins.model.api.PayQrCodeDownloadBean;
 import com.uplink.carins.model.api.PayResultNotifyByLllegalQueryRechargeBean;
@@ -189,24 +190,60 @@ public class PayConfirmActivity extends SwipeBackActivity implements View.OnClic
                     LogUtil.e("transType=>" + transType);
 
                     if (transType == 67 || transType == 73) {
+                        Map<String, Object> params = new HashMap<>();
+                        params.put("userId", this.getAppContext().getUser().getId());
+                        params.put("posMachineId", this.getAppContext().getUser().getPosMachineId());
+                        params.put("merchantId", this.getAppContext().getUser().getMerchantId());
+                        params.put("orderId", orderInfo.getOrderId());
+                        params.put("orderSn", orderInfo.getOrderSn());
+                        params.put("transType", transType);
 
-                        LogUtil.e("订单号：" + orderInfo.getOrderSn());
-                        LogUtil.e("支付金额：" + orderInfo.getAmount());
+                        postWithMy(Config.URL.orderGetPayTranSn, params, null, new HttpResponseHandler() {
+                            @Override
+                            public void onSuccess(String response) {
+                                super.onSuccess(response);
+                                LogUtil.i(TAG, "onSuccess====>>>" + response);
 
-                        Intent scan2 = new Intent();
-                        scan2.setClassName("com.newland.fczhu", "com.newland.fczhu.ui.activity.MainActivity");
-                        //第三方应用传入交易参数给厂商程序
-                        scan2.putExtra("transType", transType);//微信67，支付宝73
-                        scan2.putExtra("amount", Long.parseLong(orderInfo.getAmount()));    //金额
-                        scan2.putExtra("order", orderInfo.getOrderSn());
+                                ApiResultBean<GetPayTranSnResultBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<GetPayTranSnResultBean>>() {
+                                });
 
-                        try {
-                            this.startActivityForResult(scan2, 1);
-                        }
-                        catch (Exception ex)
-                        {
-                            showToast("跳转支付发生异常");
-                        }
+                                if (rt.getResult() == Result.SUCCESS) {
+
+                                    LogUtil.e("订单号：" + orderInfo.getOrderSn());
+                                    LogUtil.e("流水号：" + rt.getData().getPayTransSn());
+                                    LogUtil.e("金额：" + rt.getData().getAmount());
+
+                                    Intent scan2 = new Intent();
+                                    scan2.setClassName("com.newland.fczhu", "com.newland.fczhu.ui.activity.MainActivity");
+                                    //第三方应用传入交易参数给厂商程序
+                                    scan2.putExtra("transType", rt.getData().getTransType());//微信67，支付宝73
+                                    scan2.putExtra("amount", rt.getData().getAmount());    //金额
+
+                                    //scan2.putExtra("transType",67);//微信67，支付宝73
+                                    //scan2.putExtra("amount", Long.parseLong(orderInfo.getAmount()));    //金额
+
+                                    scan2.putExtra("order", rt.getData().getPayTransSn());//交易方式
+
+                                    try {
+                                        startActivityForResult(scan2, 1);
+                                    } catch (Exception ex) {
+                                        showToast("跳转支付发生异常");
+                                    }
+                                } else {
+                                    showToast(rt.getMessage());
+                                }
+
+                            }
+
+                            @Override
+                            public void onFailure(Request request, Exception e) {
+                                super.onFailure(request, e);
+                                LogUtil.e(TAG, "onFailure====>>>" + e.getMessage());
+                                showToast("提交失败");
+                            }
+                        });
+
+
                     }
                 }
                 break;
@@ -240,7 +277,8 @@ public class PayConfirmActivity extends SwipeBackActivity implements View.OnClic
                     Map<String, Object> param = new HashMap<>();
 
                     if (bundle.get("order") != null) {
-                        param.put("orderSn", bundle.get("order"));
+                        param.put("order", bundle.get("order"));
+                        param.put("orderSn", orderInfo.getOrderSn());
                     }
                     if (bundle.get("amount") != null) {
                         param.put("amount", bundle.get("amount"));

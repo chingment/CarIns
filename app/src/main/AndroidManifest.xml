@@ -79,9 +79,6 @@
             android:name="UMENG_CHANNEL"
             android:value="HaoYiLian" />
 
-        <activity
-            android:name=".activity.LllegalQueryActivity"
-            android:windowSoftInputMode="stateHidden|stateUnchanged" />
         <activity android:name=".activity.LllegalQueryResultActivity" />
         <activity android:name=".activity.MallMainActivity" />
         <activity android:name=".activity.OrderDetailsLllegalQueryRechargeActivity" />

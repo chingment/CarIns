@@ -2,47 +2,32 @@ package com.uplink.carins.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.TypeReference;
 import com.uplink.carins.Own.AppCacheManager;
 import com.uplink.carins.Own.AppContext;
 import com.uplink.carins.Own.AppManager;
-import com.uplink.carins.Own.Config;
 import com.uplink.carins.R;
-import com.uplink.carins.activity.CarClaimActivity;
 import com.uplink.carins.activity.CarInsServiceAppActivity;
-import com.uplink.carins.activity.CarInsureDocumentActivity;
-import com.uplink.carins.activity.CarInsureKindActivity;
 import com.uplink.carins.activity.ClaimsServiceAppActivity;
-import com.uplink.carins.activity.LllegalQueryActivity;
 import com.uplink.carins.activity.LoginActivity;
 import com.uplink.carins.activity.MainActivity;
 import com.uplink.carins.activity.MallMainActivity;
 import com.uplink.carins.activity.OrderListActivity;
-import com.uplink.carins.activity.PayConfirmActivity;
 import com.uplink.carins.activity.TalentDemandActivity;
 import com.uplink.carins.activity.WebViewActivity;
-import com.uplink.carins.http.HttpClient;
-import com.uplink.carins.http.HttpResponseHandler;
 import com.uplink.carins.model.api.ApiResultBean;
 import com.uplink.carins.model.api.BannerBean;
 import com.uplink.carins.model.api.ExtendedAppBean;
 import com.uplink.carins.model.api.HomePageBean;
-import com.uplink.carins.model.api.Result;
 import com.uplink.carins.model.common.NineGridItemBean;
 import com.uplink.carins.model.common.NineGridItemType;
 import com.uplink.carins.ui.BaseFragment;
@@ -52,15 +37,10 @@ import com.uplink.carins.ui.loopviewpager.AutoLoopViewPager;
 import com.uplink.carins.ui.my.MyGridView;
 import com.uplink.carins.ui.viewpagerindicator.CirclePageIndicator;
 import com.uplink.carins.utils.CommonUtil;
-import com.uplink.carins.utils.LogUtil;
 import com.uplink.carins.utils.NoDoubleClickUtils;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import okhttp3.Request;
 
 /**
  * Created by chingment on 2017/8/23.
