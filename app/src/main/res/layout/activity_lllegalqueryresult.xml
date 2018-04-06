@@ -119,19 +119,36 @@
     </RelativeLayout>
 
 
-    <LinearLayout
-        android:layout_above="@+id/btn_submit"
+
+    <RelativeLayout
+        android:visibility="gone"
+        android:background="@color/white"
+        android:id="@+id/ll2"
+        android:layout_marginTop="8dp"
         android:layout_below="@+id/ll1"
+        android:layout_width="match_parent"
+        android:layout_height="32dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:textColor="@color/red"
+            android:textSize="@dimen/text_size_12"
+            android:text=""
+            />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_marginTop="8dp"
+        android:layout_above="@+id/btn_submit"
+        android:layout_below="@+id/ll2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:orientation="vertical">
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="8dp"
-            android:background="@color/default_bg" />
-
         <ListView
             android:id="@+id/form_lllegalqueryresult_list"
             android:layout_width="match_parent"

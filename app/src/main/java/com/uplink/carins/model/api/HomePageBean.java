@@ -12,24 +12,15 @@ import java.util.List;
 public class HomePageBean implements Serializable {
 
     private String lastUpdateTime;
-
     private List<BannerBean> banner;
-
     private List<CarInsCompanyBean> carInsCompany;
-
     private List<CarInsKindBean> carInsKind;
-
     private List<CarInsPlanBean> carInsPlan;
-
-    private  List<TalentDemandWorkJobBean> talentDemandWorkJob;
-
+    private List<TalentDemandWorkJobBean> talentDemandWorkJob;
     private OrderInfoBean  orderInfo;
-
     private  List<ExtendedAppBean>  extendedApp;
-
-
     private  int lllegalQueryScore;
-
+    private String serviceTelphone;
 
     public void setBanner(List<BannerBean> banner) {
         this.banner = banner;
@@ -105,6 +96,17 @@ public class HomePageBean implements Serializable {
 
     public int getLllegalQueryScore() {
         return lllegalQueryScore;
+    }
+
+    public void setServiceTelphone(String serviceTelphone ) {
+
+        this.serviceTelphone=serviceTelphone;
+    }
+
+    public String getServiceTelphone() {
+
+        return this.serviceTelphone;
+
     }
 
 }

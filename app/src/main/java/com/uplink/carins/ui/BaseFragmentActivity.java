@@ -111,6 +111,7 @@ public class BaseFragmentActivity extends FragmentActivity {
                                             homeFragment.setBanner(AppCacheManager.getBanner());
                                             homeFragment.setThirdPartyApp(AppCacheManager.getExtendedAppByThirdPartyApp());
                                             homeFragment.setHaoYiLianApp(AppCacheManager.getExtendedAppByHaoYiLianApp());
+                                            homeFragment.setServiceTelphone(AppCacheManager.getServiceTelPhone());
                                             HomeFragment.isNeedUpdateActivity = false;
                                         }
                                     }
@@ -451,7 +452,7 @@ public class BaseFragmentActivity extends FragmentActivity {
                 AppCacheManager.setTalentDemandWorkJob(bean.getTalentDemandWorkJob());
                 AppCacheManager.setExtendedApp(bean.getExtendedApp());
                 AppCacheManager.setLllegalQueryScore(bean.getLllegalQueryScore());
-
+                AppCacheManager.setServiceTelPhone(bean.getServiceTelphone());
 
                 HomeFragment.isNeedUpdateActivity = true;
 

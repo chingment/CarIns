@@ -23,7 +23,7 @@ public class AppCacheManager {
     private static String Cache_Key_Banner = "Cache_Banner";
     private static String Cache_Key_ExtendedApp = "Cache_ExtendedApp";
     private static String Cache_Key_LllegalQueryScore = "Cache_LllegalQueryScore";
-
+    private static String Cache_Key_ServiceTelPhone = "Cache_ServiceTelPhone";
 
     private static ACache getCache() {
 
@@ -67,6 +67,25 @@ public class AppCacheManager {
 
     }
 
+    public static void setServiceTelPhone(String serviceTelPhone) {
+
+        if (serviceTelPhone == null) {
+            serviceTelPhone = "";
+        }
+
+        AppCacheManager.getCache().put(Cache_Key_ServiceTelPhone, serviceTelPhone);
+
+    }
+
+    public static String getServiceTelPhone() {
+
+        String serviceTelPhone = AppCacheManager.getCache().getAsString(Cache_Key_ServiceTelPhone);
+
+        if (serviceTelPhone == null)
+            return "";
+        return serviceTelPhone;
+
+    }
 
     public static void setCarInsCompany(List<CarInsCompanyBean> carInsCompany) {
         ArrayList<CarInsCompanyBean> been = (ArrayList<CarInsCompanyBean>) carInsCompany;
@@ -113,7 +132,6 @@ public class AppCacheManager {
         return carInsCompanyCanInsures;
 
     }
-
 
     public static List<CarInsCompanyBean> getCarInsCompanyCanApplyLossAssess() {
 
@@ -202,7 +220,6 @@ public class AppCacheManager {
 
     }
 
-
     public static CarInsPlanBean getCarInsPlan(int id) {
 
         List<CarInsPlanBean> carInsPlans = AppCacheManager.getCarInsPlan();
@@ -245,7 +262,6 @@ public class AppCacheManager {
         return carInsKinds;
     }
 
-
     public static void setTalentDemandWorkJob(List<TalentDemandWorkJobBean> talentDemandWorkJob) {
         ArrayList<TalentDemandWorkJobBean> been = (ArrayList<TalentDemandWorkJobBean>) talentDemandWorkJob;
         AppCacheManager.getCache().put(Cache_Key_TalentDemandWorkJob, been);
@@ -283,7 +299,6 @@ public class AppCacheManager {
 
     }
 
-
     public static void setBanner(List<BannerBean> bannerBean) {
         ArrayList<BannerBean> been = (ArrayList<BannerBean>) bannerBean;
         AppCacheManager.getCache().put(Cache_Key_Banner, been);
@@ -297,7 +312,6 @@ public class AppCacheManager {
 
     }
 
-
     public static void setExtendedApp(List<ExtendedAppBean> extendedApp) {
         ArrayList<ExtendedAppBean> been = (ArrayList<ExtendedAppBean>) extendedApp;
         AppCacheManager.getCache().put(Cache_Key_ExtendedApp, been);
@@ -310,7 +324,6 @@ public class AppCacheManager {
         return been;
 
     }
-
 
     public static List<ExtendedAppBean> getExtendedAppByCarInsService() {
 

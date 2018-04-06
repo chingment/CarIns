@@ -64,7 +64,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     private MyGridView gridview_ninegrid_thirdpartyapp;
     private MyGridView gridview_ninegrid_haoyilianapp;
     private RelativeLayout gridview_ninegrid_thirdpartyapp_title;
-
+    private TextView txt_servicetelphone;
     public static boolean isNeedUpdateActivity=false;
 
     @Override
@@ -84,6 +84,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         setBanner(AppCacheManager.getBanner());
         setThirdPartyApp(AppCacheManager.getExtendedAppByThirdPartyApp());
         setHaoYiLianApp(AppCacheManager.getExtendedAppByHaoYiLianApp());
+        setServiceTelphone(AppCacheManager.getServiceTelPhone());
 
 
         context.loadTaskData();
@@ -103,6 +104,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         gridview_ninegrid_thirdpartyapp = (MyGridView) context.findViewById(R.id.gridview_ninegrid_thirdpartyapp);
         gridview_ninegrid_thirdpartyapp_title = (RelativeLayout) context.findViewById(R.id.gridview_ninegrid_thirdpartyapp_title);
 
+        txt_servicetelphone=(TextView)root.findViewById(R.id.txt_servicetelphone);
     }
 
 
@@ -110,7 +112,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     public void onClick(View view) {
 
     }
-
 
     public void setBanner(List<BannerBean> banner) {
 
@@ -152,7 +153,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         gridview_ninegrid_thirdpartyapp.setAdapter(nineGridItemdapter);
     }
 
-
     public void setHaoYiLianApp(List<ExtendedAppBean> thirdPartyApp) {
         List<NineGridItemBean> gridviewitems_haoyilian = new ArrayList<NineGridItemBean>();
 
@@ -160,6 +160,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         gridviewitems_haoyilian.add(new NineGridItemBean(0, "理赔服务", NineGridItemType.Window, "com.uplink.carins.activity.ClaimsServiceAppActivity", R.drawable.ic_app_yjlp));
         gridviewitems_haoyilian.add(new NineGridItemBean(0, "人才输送", NineGridItemType.Window, "com.uplink.carins.activity.TalentDemandActivity", R.drawable.ic_app_rcss));
         gridviewitems_haoyilian.add(new NineGridItemBean(0, "违章缴罚", NineGridItemType.Window, "com.uplink.carins.activity.LllegalQueryActivity", R.drawable.ic_app_wzcx));
+        gridviewitems_haoyilian.add(new NineGridItemBean(0, "POS贷款", NineGridItemType.Window, "com.uplink.carins.activity.LllegalQueryActivity", R.drawable.ic_app_wzcx));
         //gridviewitems_haoyilian.add(new NineGridItemBean(0, "商城", NineGridItemType.Window, "com.uplink.carins.activity.MallMainActivity", R.drawable.ic_app_wzcx));
 
         if (thirdPartyApp != null) {
@@ -170,8 +171,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             }
         }
 
-        //gridviewitems_haoyilian.add(new NineGridItemBean("违章缴罚", NineGridItemType.Url, "http://www.baidu.com", R.drawable.ic_app_wzcx));
-
         gridviewitems_haoyilian.add(new NineGridItemBean(0, "我的订单", NineGridItemType.Window, "com.uplink.carins.activity.OrderListActivity", R.drawable.ic_app_wddd));
         gridviewitems_haoyilian.add(new NineGridItemBean(0, "退出", NineGridItemType.Window, "com.uplink.carins.activity.LoginActivity", R.drawable.ic_app_tc));
 
@@ -181,6 +180,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 
     }
 
+    public void setServiceTelphone(String serviceTelPhone) {
+        txt_servicetelphone.setText(serviceTelPhone);
+    }
 
     private class GalleryPagerAdapter extends PagerAdapter {
 

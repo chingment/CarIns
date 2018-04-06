@@ -67,6 +67,14 @@ public class LllegalQueryResultBean implements Serializable {
         this.isOfferPrice = isOfferPrice;
     }
 
+    public String getDealtTip() {
+        return dealtTip;
+    }
+
+    public void setDealtTip(String dealtTip) {
+        this.dealtTip = dealtTip;
+    }
+
     private String carNo;
     private String sumCount;
     private String sumPoint;
@@ -74,5 +82,6 @@ public class LllegalQueryResultBean implements Serializable {
     private List<LllegalPriceRecordBean> record;
     private int queryScore;
     private Boolean isOfferPrice = false;
+    private String dealtTip;
 
 }

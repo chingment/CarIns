@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
@@ -66,6 +67,8 @@ public class LllegalQueryResultActivity extends SwipeBackActivity implements Vie
 
     private List<LllegalPriceRecordBean> lllegalPriceRecord = new ArrayList<>();
 
+    private RelativeLayout ll2;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,11 +92,17 @@ public class LllegalQueryResultActivity extends SwipeBackActivity implements Vie
                 form_lllegalqueryresult_list.setAdapter(nineGridItemdapter);
             }
 
-            if(queryResult.getIsOfferPrice()) {
+            if (queryResult.getIsOfferPrice()) {
                 btn_submit.setVisibility(View.VISIBLE);
+            } else {
+                btn_submit.setVisibility(View.GONE);
+            }
+
+            if(StringUtil.isEmpty(queryResult.getDealtTip())) {
+                ll2.setVisibility(View.GONE);
             }
             else {
-                btn_submit.setVisibility(View.GONE);
+                ll2.setVisibility(View.VISIBLE);
             }
         }
 
@@ -115,6 +124,8 @@ public class LllegalQueryResultActivity extends SwipeBackActivity implements Vie
         txt_lllegal_sumfine = (TextView) findViewById(R.id.txt_lllegal_sumfine);
 
         form_lllegalqueryresult_list = (ListView) findViewById(R.id.form_lllegalqueryresult_list);
+
+        ll2 = (RelativeLayout) findViewById(R.id.ll2);
     }
 
     private void initEvent() {
@@ -206,7 +217,7 @@ public class LllegalQueryResultActivity extends SwipeBackActivity implements Vie
                     Bundle b = new Bundle();
                     b.putSerializable("dataBean", rt.getData());
                     intent.putExtras(b);
-                    startActivityForResult(intent,1);
+                    startActivityForResult(intent, 1);
 
                 } else {
                     showToast(rt.getMessage());
@@ -225,15 +236,16 @@ public class LllegalQueryResultActivity extends SwipeBackActivity implements Vie
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(resultCode==1) {
+        if (resultCode == 1) {
             showSuccessDialog();
         }
     }
 
     private CustomConfirmDialog dialog_Success;
+
     private void showSuccessDialog() {
         if (dialog_Success == null) {
-            dialog_Success = new CustomConfirmDialog(LllegalQueryResultActivity.this, "订单提交成功",false);
+            dialog_Success = new CustomConfirmDialog(LllegalQueryResultActivity.this, "订单提交成功", false);
             dialog_Success.getBtnSure().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -300,13 +312,11 @@ public class LllegalQueryResultActivity extends SwipeBackActivity implements Vie
             cb_candealt.setTag(position);
             cb_candealt.setOnClickListener(canDealtClick);
 
-            if(bean.getNeedDealt()) {
+            if (bean.getNeedDealt()) {
                 cb_candealt.setChecked(true);
-            }
-            else {
+            } else {
                 cb_candealt.setChecked(false);
             }
-
 
 
             txt_city.setText(bean.getLllegalCity());
@@ -321,13 +331,15 @@ public class LllegalQueryResultActivity extends SwipeBackActivity implements Vie
             txt_status.setText(bean.getStatus());
 
 
-            if(queryResult.getIsOfferPrice()) {
+            if (queryResult.getIsOfferPrice()) {
                 if (bean.getCanDealt()) {
                     cb_candealt.setVisibility(View.VISIBLE);
+                } else {
+                    cb_candealt.setVisibility(View.GONE);
                 }
+
                 txt_status.setVisibility(View.VISIBLE);
-            }
-            else {
+            } else {
                 cb_candealt.setChecked(false);
                 cb_candealt.setVisibility(View.GONE);
                 txt_servicefee.setText("0");
