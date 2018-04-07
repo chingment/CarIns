@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
+import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -12,10 +13,15 @@ import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.uplink.carins.R;
+import com.uplink.carins.ui.BaseFragmentActivity;
+import com.uplink.carins.ui.dialog.CustomConfirmDialog;
 import com.uplink.carins.ui.swipebacklayout.SwipeBackActivity;
+import com.uplink.carins.utils.LogUtil;
 import com.uplink.carins.utils.StringUtil;
+import com.uplink.carins.utils.ToastUtil;
 
 /**
  * WebView
@@ -58,8 +64,8 @@ public class WebViewActivity extends SwipeBackActivity implements View.OnClickLi
         initEvent();
 
         Intent intent = getIntent();
-        String title="";
-        String url="";
+        String title = "";
+        String url = "";
 
         if (intent != null) {
             title = intent.getStringExtra("title");
@@ -73,7 +79,7 @@ public class WebViewActivity extends SwipeBackActivity implements View.OnClickLi
 
         // 设置支持JavaScript脚本
         WebSettings webSettings = mainWebView.getSettings();
-        webSettings.setJavaScriptEnabled(true);
+
         // 设置可以访问文件
         webSettings.setAllowFileAccess(true);
         // 设置可以支持缩放
@@ -98,8 +104,9 @@ public class WebViewActivity extends SwipeBackActivity implements View.OnClickLi
         webSettings.setGeolocationDatabasePath("/data/data/cn.car.insurance/databases/");
         // enable Web Storage: localStorage, sessionStorage
         webSettings.setDomStorageEnabled(true);
-        mainWebView.loadUrl(url);
 
+
+        webSettings.setJavaScriptCanOpenWindowsAutomatically(true);
 
         // 设置WebViewClient
         mainWebView.setWebViewClient(new WebViewClient() {
@@ -107,7 +114,10 @@ public class WebViewActivity extends SwipeBackActivity implements View.OnClickLi
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 // 使用自己的WebView组件来响应Url加载事件，而不是使用默认浏览器器加载页面
+
+                view.addJavascriptInterface(new JSInterface(), "jsi");
                 view.loadUrl(url);
+
                 // 相应完成返回true
                 return true;
             }
@@ -165,6 +175,12 @@ public class WebViewActivity extends SwipeBackActivity implements View.OnClickLi
             // super.onReceivedTitle(view, title);
             // }
         });
+
+        webSettings.setJavaScriptEnabled(true);
+        //映射.可以调用js里面的方法
+        mainWebView.addJavascriptInterface(new JSInterface(), "jsi");
+
+        mainWebView.loadUrl(url);
     }
 
     private void initEvent() {
@@ -172,8 +188,8 @@ public class WebViewActivity extends SwipeBackActivity implements View.OnClickLi
     }
 
     private void initView() {
-        btnHeaderGoBack = (ImageView)findViewById(R.id.btn_main_header_goback);
-        txtHeaderTitle = (TextView)findViewById(R.id.txt_main_header_title);
+        btnHeaderGoBack = (ImageView) findViewById(R.id.btn_main_header_goback);
+        txtHeaderTitle = (TextView) findViewById(R.id.txt_main_header_title);
         mainWebView = (WebView) findViewById(R.id.webView);
         mainProgressBar = (ProgressBar) findViewById(R.id.progress_bar);
     }
@@ -198,4 +214,58 @@ public class WebViewActivity extends SwipeBackActivity implements View.OnClickLi
         }
     }
 
+    private CustomConfirmDialog dialog_Success;
+
+    private void showSuccessDialog(String text) {
+        if (dialog_Success == null) {
+
+            dialog_Success = new CustomConfirmDialog(WebViewActivity.this, text, false);
+
+            dialog_Success.getBtnSure().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    dialog_Success.dismiss();
+
+                    Intent l_Intent = new Intent(WebViewActivity.this, OrderListActivity.class);
+                    l_Intent.putExtra("status", 1);
+                    startActivity(l_Intent);
+                    finish();
+
+                }
+            });
+
+            dialog_Success.getBtnCancle().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    dialog_Success.dismiss();
+                }
+            });
+
+
+        }
+
+        dialog_Success.show();
+    }
+
+    private final class JSInterface {
+        /**
+         * 注意这里的@JavascriptInterface注解， target是4.2以上都需要添加这个注解，否则无法调用
+         *
+         * @param text
+         */
+        @JavascriptInterface
+        public void showToast(String text) {
+            LogUtil.e("=>>>>>>>>>>" + text);
+            ToastUtil.showMessage(WebViewActivity.this, text, Toast.LENGTH_LONG);
+        }
+
+        @JavascriptInterface
+        public void submitOrderSuccess(String text) {
+            LogUtil.e("=>>>>>>>>>>" + text);
+            showSuccessDialog(text);
+        }
+
+    }
 }
