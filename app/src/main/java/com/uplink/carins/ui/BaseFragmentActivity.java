@@ -486,7 +486,7 @@ public class BaseFragmentActivity extends FragmentActivity {
         public void onFailure(Request request, Exception e) {
             super.onFailure(request, e);
             LogUtil.e(TAG, "onFailure====>>>" + e.getMessage());
-            showToast("数据加载失败");
+            //showToast("数据加载失败");
         }
     }
 
