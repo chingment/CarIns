@@ -74,7 +74,7 @@ android {
         release {
             buildConfigField "String", "ENVIRONMENT", "\"http://api.gzhaoyilian.com\""
             buildConfigField "String", "APPKEY", "\"haoyilian\""
-            buildConfigField "String", "APPSECRET", "\"6ZB97cdVz211O08EKZ6yriAYrHXFBowC\""
+            buildConfigField "String", "APPSECRET", "\"7460e6512f1940f68c00fe1fdb2b7eb1\""
             buildConfigField "boolean", "SHOWDEBUG", "true"
             minifyEnabled true
             shrinkResources true
