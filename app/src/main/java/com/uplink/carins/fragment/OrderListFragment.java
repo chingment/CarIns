@@ -30,6 +30,7 @@ import com.uplink.carins.http.HttpClient;
 import com.uplink.carins.http.HttpResponseHandler;
 import com.uplink.carins.model.api.ApiResultBean;
 import com.uplink.carins.model.api.OrderListBean;
+import com.uplink.carins.model.api.ProductType;
 import com.uplink.carins.ui.BaseLazyFragment;
 import com.uplink.carins.ui.refreshview.ItemDivider;
 import com.uplink.carins.ui.refreshview.SuperRefreshLayout;
@@ -113,28 +114,28 @@ public class OrderListFragment extends BaseLazyFragment {
                 Intent intent = null;
 
                 switch (productType) {
-                    case 2011:
+                    case ProductType.CarInsure:
                         intent = new Intent(context, OrderDetailsCarInsrueActivity.class);
                         break;
-                    case 2013:
+                    case ProductType.CarClaims:
                         intent = new Intent(context, OrderDetailsCarClaimsActivity.class);
                         break;
-                    case 301:
+                    case ProductType.ServiceFee:
                         intent = new Intent(context, OrderDetailsServiceFeeActivity.class);
                         break;
-                    case 401:
+                    case ProductType.TalentDeman:
                         intent = new Intent(context, OrderDetailsTalentDemandActivity.class);
                         break;
-                    case 501:
+                    case ProductType.ApplylossAssess:
                         intent = new Intent(context, OrderDetailsApplyLossAssessActivity.class);
                         break;
-                    case 601:
+                    case ProductType.LllegalQueryRecharg:
                         intent = new Intent(context, OrderDetailsLllegalQueryRechargeActivity.class);
                         break;
-                    case 602:
+                    case ProductType.LllegalDealt:
                         intent = new Intent(context, OrderDetailsLllegalDealtActivity.class);
                         break;
-                    case 701:
+                    case ProductType.Credit:
                         intent = new Intent(context, OrderDetailsCreditActivity.class);
                         break;
                 }

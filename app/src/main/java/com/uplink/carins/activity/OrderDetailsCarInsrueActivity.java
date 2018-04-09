@@ -276,7 +276,7 @@ public class OrderDetailsCarInsrueActivity extends ChoicePhotoAndCropAndSwipeBac
                 break;
             case 3:
                 layout_submittime.setVisibility(View.VISIBLE);
-                layout_insurecompany.setVisibility(View.VISIBLE);
+                layout_insurecompany.setVisibility(View.GONE);
                 btn_submit.setVisibility(View.GONE);
                 btn_submit.setText("立即支付");
                 break;
@@ -284,7 +284,7 @@ public class OrderDetailsCarInsrueActivity extends ChoicePhotoAndCropAndSwipeBac
                 layout_submittime.setVisibility(View.VISIBLE);
                 layout_paytime.setVisibility(View.VISIBLE);
                 layout_completetime.setVisibility(View.VISIBLE);
-                layout_insurecompany.setVisibility(View.VISIBLE);
+                layout_insurecompany.setVisibility(View.GONE);
                 list_carinsoffercompany.setVisibility(View.GONE);
 
                 txt_order_insurancecompanyname.setText(bean.getInsuranceCompanyName());
@@ -469,8 +469,8 @@ public class OrderDetailsCarInsrueActivity extends ChoicePhotoAndCropAndSwipeBac
 
             if (order_status == 3) {
                 item_offercompany_info.setTag(cb_offercompany);
-                item_offercompany_info.setOnClickListener(myInfoClick);
-                cb_offercompany.setVisibility(View.VISIBLE);
+                //item_offercompany_info.setOnClickListener(myInfoClick);
+                cb_offercompany.setVisibility(View.GONE);
             } else {
                 cb_offercompany.setVisibility(View.GONE);
             }

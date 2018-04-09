@@ -24,6 +24,7 @@ import com.uplink.carins.http.HttpResponseHandler;
 import com.uplink.carins.model.api.ApiResultBean;
 import com.uplink.carins.model.api.CarInsCompanyBean;
 import com.uplink.carins.model.api.CarInsKindBean;
+import com.uplink.carins.model.api.ProductType;
 import com.uplink.carins.model.api.Result;
 import com.uplink.carins.ui.ViewHolder;
 import com.uplink.carins.ui.choicephoto.ChoicePhotoAndCropAndSwipeBackActivity;
@@ -170,7 +171,7 @@ public class CarInsureDocumentActivity extends ChoicePhotoAndCropAndSwipeBackAct
         params.put("userId",this.getAppContext().getUser().getId());
         params.put("merchantId", this.getAppContext().getUser().getMerchantId());
         params.put("posMachineId", this.getAppContext().getUser().getPosMachineId());
-        params.put("type", "2011");
+        params.put("type", ProductType.CarInsure);
         params.put("insurePlanId", carInsPlanId);
 
 
