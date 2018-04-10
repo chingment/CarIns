@@ -17,6 +17,7 @@ import com.uplink.carins.activity.OrderDetailsApplyLossAssessActivity;
 import com.uplink.carins.activity.OrderDetailsCarClaimsActivity;
 import com.uplink.carins.activity.OrderDetailsCarInsrueActivity;
 import com.uplink.carins.activity.OrderDetailsCreditActivity;
+import com.uplink.carins.activity.OrderDetailsInsuranceActivity;
 import com.uplink.carins.activity.OrderDetailsLllegalDealtActivity;
 import com.uplink.carins.activity.OrderDetailsLllegalQueryRechargeActivity;
 import com.uplink.carins.activity.OrderDetailsServiceFeeActivity;
@@ -139,6 +140,10 @@ public class OrderListFragment extends BaseLazyFragment {
                         case OrderType.Credit:
                             intent = new Intent(context, OrderDetailsCreditActivity.class);
                             break;
+                        case OrderType.Insurance:
+                            intent = new Intent(context, OrderDetailsInsuranceActivity.class);
+                            break;
+
                     }
 
 

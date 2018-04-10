@@ -3,14 +3,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/default_bg"
+    >
 
     <include layout="@layout/layout_main_header" />
 
     <com.uplink.carins.ui.refreshview.SuperRefreshLayout
         android:id="@+id/refresh"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        >
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/mylistview"

@@ -90,7 +90,9 @@
             android:label="@string/title_activity_order_details_lllegal_dealt"
             android:theme="@style/AppTheme" />
         <activity android:name=".activity.OrderDetailsCreditActivity" />
-        <activity android:name=".activity.ProductListByInsuranceActivity"></activity>
+        <activity android:name=".activity.ProductListByInsuranceActivity" />
+        <activity android:name=".activity.ProductDetailsByInsuranceActivity" />
+        <activity android:name=".activity.OrderDetailsInsuranceActivity"></activity>
     </application>
 
 </manifest>

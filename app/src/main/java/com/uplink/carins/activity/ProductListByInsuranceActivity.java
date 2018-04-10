@@ -1,28 +1,32 @@
 package com.uplink.carins.activity;
 
-import android.support.v7.app.AppCompatActivity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
+import com.uplink.carins.Own.AppContext;
 import com.uplink.carins.Own.Config;
 import com.uplink.carins.R;
-import com.uplink.carins.activity.adapter.ProductListAdapter;
-import com.uplink.carins.fragment.OrderListFragment;
 import com.uplink.carins.http.HttpClient;
 import com.uplink.carins.http.HttpResponseHandler;
 import com.uplink.carins.model.api.ApiResultBean;
-import com.uplink.carins.model.api.OrderListBean;
 import com.uplink.carins.model.api.ProductListBean;
+import com.uplink.carins.model.api.Result;
 import com.uplink.carins.ui.refreshview.ItemDivider;
+import com.uplink.carins.ui.refreshview.MyViewHolder;
 import com.uplink.carins.ui.refreshview.OnRefreshHandler;
+import com.uplink.carins.ui.refreshview.RefreshAdapter;
 import com.uplink.carins.ui.refreshview.SuperRefreshLayout;
 import com.uplink.carins.ui.swipebacklayout.SwipeBackActivity;
+import com.uplink.carins.utils.CommonUtil;
 import com.uplink.carins.utils.LogUtil;
 
 import java.util.ArrayList;
@@ -42,8 +46,6 @@ public class ProductListByInsuranceActivity extends SwipeBackActivity implements
     private RecyclerView mylistview;
     private ProductListAdapter adapter;
     private int pageIndex = 0;
-    private boolean mHasLoadedOnce;//是否已被加载过一次，第二次就不再去请求数据了
-    private boolean refreshFlag = false;//刷新标识
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +53,6 @@ public class ProductListByInsuranceActivity extends SwipeBackActivity implements
         setContentView(R.layout.activity_productlistbyinsurance);
         initView();
         initEvent();
-        onLoadData();
     }
 
     @Override
@@ -86,7 +87,6 @@ public class ProductListByInsuranceActivity extends SwipeBackActivity implements
         refresh.setOnRefreshHandler(new OnRefreshHandler() {
             @Override
             public void refresh() {
-                setRefreshOne(false);
                 refresh.setRefreshing(true);
                 pageIndex = 0;
                 onLoadData();
@@ -101,10 +101,7 @@ public class ProductListByInsuranceActivity extends SwipeBackActivity implements
         });
 
         pageIndex = 0;
-    }
-
-    public void setRefreshOne(boolean flag) {
-        refreshFlag = false;
+        onLoadData();
     }
 
     private void onLoadData() {
@@ -129,53 +126,106 @@ public class ProductListByInsuranceActivity extends SwipeBackActivity implements
         public void onSuccess(String response) {
             super.onSuccess(response);
 
-            ApiResultBean<List<ProductListBean>> result = JSON.parseObject(response, new TypeReference<ApiResultBean<List<ProductListBean>>>() {
+            LogUtil.e("=>>>>>"+response);
+
+            ApiResultBean<List<ProductListBean>> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<List<ProductListBean>>>() {
             });
 
-            boolean isHasData = false;
-            List<ProductListBean> data = result.getData();
-            if (data != null) {
-                if (data.size() > 0) {
-                    isHasData = true;
-                }
-            }
 
-            if (isHasData) {
+            if (rt.getResult() == Result.SUCCESS) {
 
-                if (pageIndex == 0) {
-                    refresh.setRefreshing(false);
-                    adapter.setData(data);
+                List<ProductListBean> list = rt.getData();
 
+                if (list != null && list.size() > 0) {
+                    if (pageIndex == 0) {
+                        refresh.setRefreshing(false);
+                        refresh.loadComplete(true);
+                        adapter.setData(list);
+                    } else {
+                        refresh.loadComplete(true);
+                        adapter.addData(list);
+                    }
                 } else {
-                    adapter.addData(data);
-                }
-                adapter.notifyDataSetChanged();
-
-                if (data.size() > 5) {
-                    refresh.loadComplete(true);
-                } else {
+                    if (pageIndex == 0) {
+                        refresh.setRefreshing(false);
+                        adapter.setData(new ArrayList<ProductListBean>());
+                    }
                     refresh.loadComplete(false);
                 }
 
-            } else {
-                if (pageIndex > 0) {
-                    refresh.loadComplete(false);
-                } else {
-                    adapter.setData(new ArrayList<ProductListBean>());
-                    refresh.setRefreshing(false);
-                }
             }
+
         }
 
         @Override
         public void onFailure(Request request, Exception e) {
             super.onFailure(request, e);
-
-            if (pageIndex > 0) {
-                refresh.loadError();
-            } else {
-                refresh.setRefreshing(false);
-            }
+            refresh.loadError();
+            refresh.setRefreshing(false);
         }
     }
+
+    private class ProductListAdapter extends RefreshAdapter {
+
+        private List<ProductListBean> data = new ArrayList<>();
+        private LayoutInflater inflater;
+
+        public void setData(List<ProductListBean> data) {
+            this.data = data;
+
+            notifyDataSetChanged();
+
+        }
+
+        public void addData(List<ProductListBean> data) {
+            this.data.addAll(data);
+            notifyDataSetChanged();
+        }
+
+        @Override
+        public MyViewHolder onCreateItemHolder(ViewGroup parent, int viewType) {
+            return new MyViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_produtlist_1, parent, false)) {
+            };
+        }
+
+        @Override
+        public void onBindItemHolder(final RecyclerView.ViewHolder holder, int position) {
+
+            ProductListBean bean = data.get(position);
+
+            ImageView txt_product_mainimg = (ImageView) holder.itemView.findViewById(R.id.item_product_mainimg);
+            TextView txt_product_name = (TextView) holder.itemView.findViewById(R.id.item_product_name);
+            TextView txt_product_briefintro = (TextView) holder.itemView.findViewById(R.id.item_product_briefintro);
+            TextView txt_product_showprice = (TextView) holder.itemView.findViewById(R.id.item_product_showprice);
+
+            txt_product_name.setText(bean.getName() + "");
+            txt_product_briefintro.setText(bean.getBriefIntro() + "");
+            txt_product_showprice.setText(bean.getShowPrice() + "");
+            txt_product_mainimg.setTag(position + "");
+            CommonUtil.loadImageFromUrl(AppContext.getInstance(), txt_product_mainimg, bean.getMainImg().toString());
+
+            txt_product_mainimg.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = Integer.parseInt(v.getTag() + "");
+                    ProductListBean dataBean = data.get(position);
+
+                    Intent intent = new Intent(ProductListByInsuranceActivity.this, ProductDetailsByInsuranceActivity.class);
+                    Bundle b = new Bundle();
+                    b.putSerializable("dataBean", dataBean);
+                    intent.putExtras(b);
+                    startActivity(intent);
+                }
+            });
+
+        }
+
+        @Override
+        public int getCount() {
+            return data.size();
+        }
+
+
+    }
+
 }

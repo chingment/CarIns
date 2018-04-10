@@ -1,16 +1,22 @@
 package com.uplink.carins.model.api;
 
+import java.io.Serializable;
+import java.util.List;
+
 /**
  * Created by chingment on 2018/4/10.
  */
 
-public class ProductListBean {
+public class ProductListBean implements Serializable {
     private int id;
     private String skuId;
     private String name;
     private String mainImg;
     private String price;
     private String showPrice;
+    private String details;
+    private List<ImgSetBean> dispalyImgs;
+    private String briefIntro;
 
     public int getId() {
         return id;
@@ -60,6 +66,22 @@ public class ProductListBean {
         this.showPrice = showPrice;
     }
 
+    public String getDetails() {
+        return details;
+    }
+
+    public void setDetails(String details) {
+        this.details = details;
+    }
+
+    public List<ImgSetBean> getDispalyImgs() {
+        return dispalyImgs;
+    }
+
+    public void setDispalyImgs(List<ImgSetBean> dispalyImgs) {
+        this.dispalyImgs = dispalyImgs;
+    }
+
     public String getBriefIntro() {
         return briefIntro;
     }
@@ -76,6 +98,5 @@ public class ProductListBean {
         isHot = hot;
     }
 
-    private String briefIntro;
     private boolean isHot;
 }

@@ -50,6 +50,7 @@ public class Config {
         public static final String lllegalQueryLog  = BuildConfig.ENVIRONMENT + "/api/lllegal/querylog";
         public static final String submitLllegalQueryScoreRecharge= BuildConfig.ENVIRONMENT + "/api/Order/SubmitLllegalQueryScoreRecharge";
         public static final String submitLllegalDealt= BuildConfig.ENVIRONMENT + "/api/Lllegal/Dealt";
+        public static final String submitInsurance= BuildConfig.ENVIRONMENT + "/api/Order/SubmitInsurance";
         public static final String orderGetPayTranSn = BuildConfig.ENVIRONMENT + "/api/Order/GetPayTranSn";
     }
 }

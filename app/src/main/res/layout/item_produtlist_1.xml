@@ -1,11 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+
+        <ImageView
+            android:scaleType="fitXY"
+            android:id="@+id/item_product_mainimg"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:src="@drawable/ic_item_ninegrid_default"/>
 
 
     <LinearLayout
-        android:id="@+id/item_product_area1"
+        android:id="@+id/item_product_area2"
+        android:layout_width="match_parent"
+        android:layout_height="32dp"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp">
+
+
+        <TextView
+            android:id="@+id/item_product_briefintro"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="8dp"
+            android:paddingStart="8dp"
+            android:paddingRight="0dp"
+            android:paddingEnd="0dp"
+            android:textColor="@color/item_order_area1_text"
+            android:text="商品简述"
+            android:textSize="@dimen/text_size_11" />
+
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/item_product_area3"
         android:layout_width="match_parent"
         android:layout_height="32dp"
         android:background="@color/white"
@@ -23,10 +60,22 @@
             android:paddingStart="8dp"
             android:paddingRight="0dp"
             android:paddingEnd="0dp"
-            android:textColor="@color/item_order_area1_text"
+            android:textColor="@color/gray"
             android:text="商品名称"
-            android:textSize="@dimen/text_size_11" />
+            android:textSize="@dimen/text_size_14" />
 
+        <TextView
+            android:id="@+id/item_product_showprice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="8dp"
+            android:paddingStart="8dp"
+            android:paddingRight="0dp"
+            android:paddingEnd="0dp"
+            android:textColor="@color/green"
+            android:text="30元／份"
+            android:gravity="right"
+            android:textSize="@dimen/text_size_14" />
 
 
     </LinearLayout>
