@@ -31,6 +31,7 @@ import com.uplink.carins.model.api.LllegalPriceRecordBean;
 import com.uplink.carins.model.api.LllegalQueryLogBean;
 import com.uplink.carins.model.api.LllegalQueryResultBean;
 import com.uplink.carins.model.api.OrderInfoBean;
+import com.uplink.carins.model.api.OrderType;
 import com.uplink.carins.model.api.PayConfirmBean;
 import com.uplink.carins.model.api.Result;
 import com.uplink.carins.ui.ViewHolder;
@@ -272,7 +273,7 @@ public class LllegalQueryActivity extends SwipeBackActivity implements View.OnCl
             case R.id.txt_main_header_right:
                 Intent intent = new Intent(this, OrderListActivity.class);
                 intent.putExtra("status", 0);//默认状态为 全部
-                intent.putExtra("productType", 602);//默认产品类型为 违章处理
+                intent.putExtra("productType", OrderType.LllegalDealt);//默认产品类型为 违章处理
                 startActivity(intent);
                 break;
         }
