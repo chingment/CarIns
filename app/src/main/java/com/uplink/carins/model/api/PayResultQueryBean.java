@@ -8,7 +8,7 @@ import java.io.Serializable;
 
 public class PayResultQueryBean implements Serializable {
     private String orderSn;
-    private int productType;
+    private int orderType;
     private int status;
     private String remarks;
     private PrintDataBean printData;
@@ -22,12 +22,12 @@ public class PayResultQueryBean implements Serializable {
         this.orderSn = orderSn;
     }
 
-    public int getProductType() {
-        return productType;
+    public int getOrderType() {
+        return orderType;
     }
 
-    public void setProductType(int productType) {
-        this.productType = productType;
+    public void setOrderType(int orderType) {
+        this.orderType = orderType;
     }
 
 

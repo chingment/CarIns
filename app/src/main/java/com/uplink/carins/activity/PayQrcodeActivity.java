@@ -29,6 +29,7 @@ import com.uplink.carins.device.N900Device;
 import com.uplink.carins.http.HttpClient;
 import com.uplink.carins.http.HttpResponseHandler;
 import com.uplink.carins.model.api.ApiResultBean;
+import com.uplink.carins.model.api.OrderType;
 import com.uplink.carins.model.api.PayQrCodeDownloadBean;
 import com.uplink.carins.model.api.PayResultQueryBean;
 import com.uplink.carins.model.api.Result;
@@ -128,7 +129,7 @@ public class PayQrcodeActivity extends SwipeBackActivity implements View.OnClick
                         showToast(rt.getMessage());
 
                         //当支付服务费 跳转到主页
-                        if (d.getProductType() == 301) {
+                        if (d.getOrderType() == OrderType.ServiceFee) {
 
                             startMyTask();
 

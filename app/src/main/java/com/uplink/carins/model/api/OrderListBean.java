@@ -17,7 +17,18 @@ public class OrderListBean implements Serializable {
     private String statusName;
     private String remarks;
     private int followStatus;
+    private String detailsUrl;
+
     private List<OrderFieldBean> orderField;
+
+
+    public String getDetailsUrl() {
+        return detailsUrl;
+    }
+
+    public void setDetailsUrl(String detailsUrl) {
+        this.detailsUrl = detailsUrl;
+    }
 
     public int getId() {
         return id;

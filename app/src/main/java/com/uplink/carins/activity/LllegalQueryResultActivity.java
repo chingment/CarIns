@@ -59,6 +59,7 @@ public class LllegalQueryResultActivity extends SwipeBackActivity implements Vie
 
     private LllegalQueryResultBean queryResult;
 
+    public  TextView txt_lllegal_dealttip;
     private TextView txt_lllegal_carno;
     private TextView txt_lllegal_sumcount;
     private TextView txt_lllegal_sumpoint;
@@ -102,6 +103,7 @@ public class LllegalQueryResultActivity extends SwipeBackActivity implements Vie
                 ll2.setVisibility(View.GONE);
             }
             else {
+                txt_lllegal_dealttip.setText(queryResult.getDealtTip());
                 ll2.setVisibility(View.VISIBLE);
             }
         }
@@ -118,6 +120,7 @@ public class LllegalQueryResultActivity extends SwipeBackActivity implements Vie
 
         inflater = LayoutInflater.from(this);
         btn_submit = (Button) findViewById(R.id.btn_submit);
+        txt_lllegal_dealttip= (TextView) findViewById(R.id.txt_lllegal_dealttip);
         txt_lllegal_carno = (TextView) findViewById(R.id.txt_lllegal_carno);
         txt_lllegal_sumcount = (TextView) findViewById(R.id.txt_lllegal_sumcount);
         txt_lllegal_sumpoint = (TextView) findViewById(R.id.txt_lllegal_sumpoint);

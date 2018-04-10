@@ -51,6 +51,7 @@ public class ProductListByInsuranceActivity extends SwipeBackActivity implements
         setContentView(R.layout.activity_productlistbyinsurance);
         initView();
         initEvent();
+        onLoadData();
     }
 
     @Override

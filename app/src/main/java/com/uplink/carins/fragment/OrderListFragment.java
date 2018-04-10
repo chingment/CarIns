@@ -22,6 +22,7 @@ import com.uplink.carins.activity.OrderDetailsLllegalQueryRechargeActivity;
 import com.uplink.carins.activity.OrderDetailsServiceFeeActivity;
 import com.uplink.carins.activity.OrderDetailsTalentDemandActivity;
 import com.uplink.carins.activity.OrderListActivity;
+import com.uplink.carins.activity.WebViewActivity;
 import com.uplink.carins.activity.adapter.OrderListAdapter;
 import com.uplink.carins.http.HttpClient;
 import com.uplink.carins.http.HttpResponseHandler;
@@ -32,7 +33,9 @@ import com.uplink.carins.ui.BaseLazyFragment;
 import com.uplink.carins.ui.refreshview.ItemDivider;
 import com.uplink.carins.ui.refreshview.SuperRefreshLayout;
 import com.uplink.carins.ui.refreshview.OnRefreshHandler;
+import com.uplink.carins.utils.CommonUtil;
 import com.uplink.carins.utils.LogUtil;
+import com.uplink.carins.utils.StringUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -56,7 +59,7 @@ public class OrderListFragment extends BaseLazyFragment {
     private boolean mHasLoadedOnce;//是否已被加载过一次，第二次就不再去请求数据了
     private View view;
 
-    public static OrderListFragment newInstance(int status,int productType) {
+    public static OrderListFragment newInstance(int status, int productType) {
         Bundle bundle = new Bundle();
         bundle.putInt("status", status);
         bundle.putInt("productType", productType);
@@ -106,40 +109,49 @@ public class OrderListFragment extends BaseLazyFragment {
                 int status = dataBean.getStatus();
 
                 int orderType = dataBean.getType();
+
                 Intent intent = null;
 
-                switch (orderType) {
-                    case OrderType.CarInsure:
-                        intent = new Intent(context, OrderDetailsCarInsrueActivity.class);
-                        break;
-                    case OrderType.CarClaims:
-                        intent = new Intent(context, OrderDetailsCarClaimsActivity.class);
-                        break;
-                    case OrderType.ServiceFee:
-                        intent = new Intent(context, OrderDetailsServiceFeeActivity.class);
-                        break;
-                    case OrderType.TalentDeman:
-                        intent = new Intent(context, OrderDetailsTalentDemandActivity.class);
-                        break;
-                    case OrderType.ApplylossAssess:
-                        intent = new Intent(context, OrderDetailsApplyLossAssessActivity.class);
-                        break;
-                    case OrderType.LllegalQueryRecharg:
-                        intent = new Intent(context, OrderDetailsLllegalQueryRechargeActivity.class);
-                        break;
-                    case OrderType.LllegalDealt:
-                        intent = new Intent(context, OrderDetailsLllegalDealtActivity.class);
-                        break;
-                    case OrderType.Credit:
-                        intent = new Intent(context, OrderDetailsCreditActivity.class);
-                        break;
-                }
+                if (StringUtil.isEmpty(dataBean.getDetailsUrl())) {
+
+                    switch (orderType) {
+                        case OrderType.CarInsure:
+                            intent = new Intent(context, OrderDetailsCarInsrueActivity.class);
+                            break;
+                        case OrderType.CarClaims:
+                            intent = new Intent(context, OrderDetailsCarClaimsActivity.class);
+                            break;
+                        case OrderType.ServiceFee:
+                            intent = new Intent(context, OrderDetailsServiceFeeActivity.class);
+                            break;
+                        case OrderType.TalentDeman:
+                            intent = new Intent(context, OrderDetailsTalentDemandActivity.class);
+                            break;
+                        case OrderType.ApplylossAssess:
+                            intent = new Intent(context, OrderDetailsApplyLossAssessActivity.class);
+                            break;
+                        case OrderType.LllegalQueryRecharg:
+                            intent = new Intent(context, OrderDetailsLllegalQueryRechargeActivity.class);
+                            break;
+                        case OrderType.LllegalDealt:
+                            intent = new Intent(context, OrderDetailsLllegalDealtActivity.class);
+                            break;
+                        case OrderType.Credit:
+                            intent = new Intent(context, OrderDetailsCreditActivity.class);
+                            break;
+                    }
 
 
-                if (intent != null) {
-                    Bundle b = new Bundle();
-                    b.putSerializable("dataBean", dataBean);
-                    intent.putExtras(b);
+                    if (intent != null) {
+                        Bundle b = new Bundle();
+                        b.putSerializable("dataBean", dataBean);
+                        intent.putExtras(b);
+                        startActivity(intent);
+                    }
+                } else {
+                    intent = new Intent(context, WebViewActivity.class);
+                    intent.putExtra("title", "查看详情");
+                    intent.putExtra("url", dataBean.getDetailsUrl());
                     startActivity(intent);
                 }
             }
