@@ -79,9 +79,9 @@
             android:name="UMENG_CHANNEL"
             android:value="HaoYiLian" />
 
-        <activity android:name=".activity.LllegalQueryActivity"
-            android:windowSoftInputMode = "stateAlwaysHidden|adjustPan"
-            />
+        <activity
+            android:name=".activity.LllegalQueryActivity"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
         <activity android:name=".activity.LllegalQueryResultActivity" />
         <activity android:name=".activity.MallMainActivity" />
         <activity android:name=".activity.OrderDetailsLllegalQueryRechargeActivity" />
@@ -89,7 +89,8 @@
             android:name=".activity.OrderDetailsLllegalDealtActivity"
             android:label="@string/title_activity_order_details_lllegal_dealt"
             android:theme="@style/AppTheme" />
-        <activity android:name=".activity.OrderDetailsCreditActivity"></activity>
+        <activity android:name=".activity.OrderDetailsCreditActivity" />
+        <activity android:name=".activity.ProductListByInsuranceActivity"></activity>
     </application>
 
 </manifest>

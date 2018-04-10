@@ -26,6 +26,7 @@ import com.uplink.carins.model.api.ApiResultBean;
 import com.uplink.carins.model.api.ConfirmFieldBean;
 import com.uplink.carins.model.api.GetPayTranSnResultBean;
 import com.uplink.carins.model.api.OrderInfoBean;
+import com.uplink.carins.model.api.OrderType;
 import com.uplink.carins.model.api.PayQrCodeDownloadBean;
 import com.uplink.carins.model.api.PayResultNotifyByLllegalQueryRechargeBean;
 import com.uplink.carins.model.api.Result;
@@ -160,9 +161,9 @@ public class PayConfirmActivity extends SwipeBackActivity implements View.OnClic
         switch (v.getId()) {
             case R.id.btn_main_header_goback:
 
-                LogUtil.i("d=>>>>>>>>getOrderInfo().getProductType2" + orderInfo.getProductType());
+                LogUtil.i("d=>>>>>>>>getOrderInfo().getProductType2" + orderInfo.getType());
 
-                if (orderInfo.getProductType() == 301) {
+                if (orderInfo.getType() == OrderType.ServiceFee) {
 
                     AppContext.getInstance().setUser(null);
                     AppCacheManager.setLastUpdateTime("");
@@ -331,20 +332,20 @@ public class PayConfirmActivity extends SwipeBackActivity implements View.OnClic
 
                             if (rt.getResult() == Result.SUCCESS) {
 
-                                switch (orderInfo.getProductType()) {
-                                    case 301:
+                                switch (orderInfo.getType()) {
+                                    case OrderType.ServiceFee:
                                         Intent intent = new Intent(PayConfirmActivity.this, MainActivity.class);
                                         startActivity(intent);
                                         finish();
                                         break;
-                                    case 601:
+                                    case OrderType.LllegalQueryRecharg:
                                         ApiResultBean<PayResultNotifyByLllegalQueryRechargeBean> rt601 = JSON.parseObject(response, new TypeReference<ApiResultBean<PayResultNotifyByLllegalQueryRechargeBean>>() {
                                         });
                                         AppCacheManager.setLllegalQueryScore(rt601.getData().getScore());
                                         setResult(1, null);
                                         finish();
                                         break;
-                                    case 602:
+                                    case OrderType.LllegalDealt:
                                         setResult(1, null);
                                         finish();
                                         break;

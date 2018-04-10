@@ -11,8 +11,8 @@ public class OrderListBean implements Serializable {
 
     private int id;
     private String sn;
-    private String product;
-    private int productType;
+    private String typeName;
+    private int type;
     private int status;
     private String statusName;
     private String remarks;
@@ -35,20 +35,20 @@ public class OrderListBean implements Serializable {
         this.sn = sn;
     }
 
-    public String getProduct() {
-        return product;
+    public String getTypeName() {
+        return typeName;
     }
 
-    public void setProduct(String product) {
-        this.product = product;
+    public void setTypeName(String typeName) {
+        this.typeName = typeName;
     }
 
-    public int getProductType() {
-        return productType;
+    public int getType() {
+        return type;
     }
 
-    public void setProductType(int productType) {
-        this.productType = productType;
+    public void setType(int type) {
+        this.type = type;
     }
 
     public int getStatus() {

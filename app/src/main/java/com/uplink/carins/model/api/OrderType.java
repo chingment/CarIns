@@ -4,7 +4,7 @@ package com.uplink.carins.model.api;
  * Created by chingment on 2018/4/9.
  */
 
-public class ProductType {
+public class OrderType {
     public final static int CarInsure = 300001;
     public final static int CarClaims = 300002;
     public final static int ServiceFee = 300003;

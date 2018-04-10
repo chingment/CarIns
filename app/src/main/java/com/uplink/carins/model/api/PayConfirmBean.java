@@ -7,16 +7,16 @@ import java.util.List;
  */
 
 public class PayConfirmBean {
-    private String productName;
+    private String typeName;
     private List<ConfirmFieldBean> confirmField;
     private List<PayMethodBean> payMethod;
 
-    public String getProductName() {
-        return productName;
+    public String getTypeName() {
+        return typeName;
     }
 
-    public void setProductName(String productName) {
-        this.productName = productName;
+    public void setTypeName(String typeName) {
+        this.typeName = typeName;
     }
 
     public  List<ConfirmFieldBean> getConfirmField() {

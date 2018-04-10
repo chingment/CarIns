@@ -16,15 +16,13 @@ import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
-import com.uplink.carins.Own.AppManager;
 import com.uplink.carins.Own.Config;
 import com.uplink.carins.R;
-import com.uplink.carins.http.HttpClient;
 import com.uplink.carins.http.HttpResponseHandler;
 import com.uplink.carins.model.api.ApiResultBean;
 import com.uplink.carins.model.api.CarInsCompanyBean;
 import com.uplink.carins.model.api.CarInsKindBean;
-import com.uplink.carins.model.api.ProductType;
+import com.uplink.carins.model.api.OrderType;
 import com.uplink.carins.model.api.Result;
 import com.uplink.carins.ui.ViewHolder;
 import com.uplink.carins.ui.choicephoto.ChoicePhotoAndCropAndSwipeBackActivity;
@@ -171,7 +169,7 @@ public class CarInsureDocumentActivity extends ChoicePhotoAndCropAndSwipeBackAct
         params.put("userId",this.getAppContext().getUser().getId());
         params.put("merchantId", this.getAppContext().getUser().getMerchantId());
         params.put("posMachineId", this.getAppContext().getUser().getPosMachineId());
-        params.put("type", ProductType.CarInsure);
+        params.put("type", OrderType.CarInsure);
         params.put("insurePlanId", carInsPlanId);
 
 

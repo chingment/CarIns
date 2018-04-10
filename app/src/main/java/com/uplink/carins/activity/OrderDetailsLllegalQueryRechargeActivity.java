@@ -106,7 +106,7 @@ public class OrderDetailsLllegalQueryRechargeActivity extends SwipeBackActivity 
         params.put("merchantId", this.getAppContext().getUser().getMerchantId()+"");
         params.put("posMachineId", this.getAppContext().getUser().getPosMachineId()+"");
         params.put("orderId", order.getId() + "");
-        params.put("productType", order.getProductType() + "");
+        params.put("type", order.getType() + "");
         getWithMy(Config.URL.getDetails, params, new HttpResponseHandler() {
             @Override
             public void onSuccess(String response) {

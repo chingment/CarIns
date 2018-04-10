@@ -27,6 +27,7 @@ public class Config {
     public class URL {
         public static final String login =BuildConfig.ENVIRONMENT+"/api/Account/Login";
         public static final String getOrderList =BuildConfig.ENVIRONMENT+"/api/Order/GetList";
+        public static final String getProductList =BuildConfig.ENVIRONMENT+"/api/Product/GetList";
         public static final String submitInsure = BuildConfig.ENVIRONMENT + "/api/CarService/SubmitInsure";
         public static final String submitClaim = BuildConfig.ENVIRONMENT + "/api/CarService/SubmitClaim";
         public static final String home = BuildConfig.ENVIRONMENT + "/api/Account/Home";

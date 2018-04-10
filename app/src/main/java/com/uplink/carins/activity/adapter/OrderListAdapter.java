@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.uplink.carins.R;
 import com.uplink.carins.model.api.OrderListBean;
+import com.uplink.carins.model.api.OrderType;
 import com.uplink.carins.ui.ViewHolder;
 import com.uplink.carins.ui.refreshview.MyViewHolder;
 import com.uplink.carins.ui.refreshview.RefreshAdapter;
@@ -65,12 +66,12 @@ public class OrderListAdapter extends RefreshAdapter {
 
 
         txt_sn.setText(bean.getSn() + "");
-        txt_product_name.setText(bean.getProduct() + "");
+        txt_product_name.setText(bean.getTypeName() + "");
         txt_status_name.setText(bean.getStatusName() + "");
         txt_remarks.setText(bean.getRemarks());
 
         int status = bean.getStatus();
-        int product_type = bean.getProductType();
+        int order_type = bean.getType();
         int follow_status = bean.getFollowStatus();
 
         switch (status) {
@@ -79,14 +80,14 @@ public class OrderListAdapter extends RefreshAdapter {
                 break;
             case 2://跟进中
 
-                if (product_type == 2011) {
+                if (order_type == OrderType.CarInsure) {
                     if (follow_status == 1) {
 
                         btn_cancle.setVisibility(View.VISIBLE);
                     } else if (follow_status == 2) {
 
                     }
-                } else if (product_type == 2013) {
+                } else if (order_type == OrderType.CarClaims) {
                     if (follow_status == 2) {
 
                     } else {
@@ -96,9 +97,9 @@ public class OrderListAdapter extends RefreshAdapter {
 
                 break;
             case 3://待支付
-                if (product_type == 2011 || product_type == 2012) {
+                if (order_type == OrderType.CarInsure) {
                     btn_cancle.setVisibility(View.VISIBLE);
-                } else if (product_type == 2013) {
+                } else if (order_type == OrderType.CarClaims) {
                 }
                 break;
             case 4://已完成

@@ -2,7 +2,6 @@ package com.uplink.carins.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.appcompat.BuildConfig;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,8 +11,6 @@ import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
-import com.google.gson.reflect.TypeToken;
-import com.uplink.carins.Own.AppManager;
 import com.uplink.carins.Own.Config;
 import com.uplink.carins.R;
 import com.uplink.carins.activity.OrderDetailsApplyLossAssessActivity;
@@ -30,15 +27,13 @@ import com.uplink.carins.http.HttpClient;
 import com.uplink.carins.http.HttpResponseHandler;
 import com.uplink.carins.model.api.ApiResultBean;
 import com.uplink.carins.model.api.OrderListBean;
-import com.uplink.carins.model.api.ProductType;
+import com.uplink.carins.model.api.OrderType;
 import com.uplink.carins.ui.BaseLazyFragment;
 import com.uplink.carins.ui.refreshview.ItemDivider;
 import com.uplink.carins.ui.refreshview.SuperRefreshLayout;
 import com.uplink.carins.ui.refreshview.OnRefreshHandler;
-import com.uplink.carins.utils.GsonUtil;
 import com.uplink.carins.utils.LogUtil;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -55,7 +50,7 @@ public class OrderListFragment extends BaseLazyFragment {
     private RecyclerView mylistview;
     private OrderListAdapter adapter;
 
-    private int productType = 0;//产品类型
+    private int orderType = 0;//订单类型
     private int pageIndex = 0;
     private int status = 0;//订单状态，0：全部，1：已提交，2：跟进中，3：待支付，4：已完成,5:已取消
     private boolean mHasLoadedOnce;//是否已被加载过一次，第二次就不再去请求数据了
@@ -75,11 +70,11 @@ public class OrderListFragment extends BaseLazyFragment {
 
         view = inflater.inflate(R.layout.fragment_orderlist, container, false);
         status = getArguments().getInt("status");
-        productType = getArguments().getInt("productType");
+        orderType = getArguments().getInt("productType");
 
 
         LogUtil.e("当前状态:" + status);
-        LogUtil.e("当前类型4333333:" + productType);
+        LogUtil.e("当前类型4333333:" + orderType);
 
         LogUtil.i(TAG, "onCreateView()");
         return view;
@@ -109,33 +104,33 @@ public class OrderListFragment extends BaseLazyFragment {
             @Override
             public void openOrderDetail(OrderListBean dataBean) {
                 int status = dataBean.getStatus();
-                // 2011车险投保 2012车险续保 2013车险理赔
-                int productType = dataBean.getProductType();
+
+                int orderType = dataBean.getType();
                 Intent intent = null;
 
-                switch (productType) {
-                    case ProductType.CarInsure:
+                switch (orderType) {
+                    case OrderType.CarInsure:
                         intent = new Intent(context, OrderDetailsCarInsrueActivity.class);
                         break;
-                    case ProductType.CarClaims:
+                    case OrderType.CarClaims:
                         intent = new Intent(context, OrderDetailsCarClaimsActivity.class);
                         break;
-                    case ProductType.ServiceFee:
+                    case OrderType.ServiceFee:
                         intent = new Intent(context, OrderDetailsServiceFeeActivity.class);
                         break;
-                    case ProductType.TalentDeman:
+                    case OrderType.TalentDeman:
                         intent = new Intent(context, OrderDetailsTalentDemandActivity.class);
                         break;
-                    case ProductType.ApplylossAssess:
+                    case OrderType.ApplylossAssess:
                         intent = new Intent(context, OrderDetailsApplyLossAssessActivity.class);
                         break;
-                    case ProductType.LllegalQueryRecharg:
+                    case OrderType.LllegalQueryRecharg:
                         intent = new Intent(context, OrderDetailsLllegalQueryRechargeActivity.class);
                         break;
-                    case ProductType.LllegalDealt:
+                    case OrderType.LllegalDealt:
                         intent = new Intent(context, OrderDetailsLllegalDealtActivity.class);
                         break;
-                    case ProductType.Credit:
+                    case OrderType.Credit:
                         intent = new Intent(context, OrderDetailsCreditActivity.class);
                         break;
                 }
@@ -205,9 +200,9 @@ public class OrderListFragment extends BaseLazyFragment {
         params.put("pageIndex", String.valueOf(pageIndex));
         params.put("status", String.valueOf(status));
 
-        LogUtil.e("当前类型224454554545:" + productType);
+        LogUtil.e("当前类型224454554545:" + orderType);
 
-        params.put("productType", String.valueOf(productType));
+        params.put("type", String.valueOf(orderType));
 
         HttpClient.getWithMy(Config.URL.getOrderList, params, new onLoadDataCallBack());
     }
