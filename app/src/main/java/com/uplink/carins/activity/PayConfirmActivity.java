@@ -161,9 +161,9 @@ public class PayConfirmActivity extends SwipeBackActivity implements View.OnClic
         switch (v.getId()) {
             case R.id.btn_main_header_goback:
 
-                LogUtil.i("d=>>>>>>>>getOrderInfo().getProductType2" + orderInfo.getType());
+                LogUtil.i("d=>>>>>>>>getOrderInfo().getProductType2" + orderInfo.getOrderType());
 
-                if (orderInfo.getType() == OrderType.ServiceFee) {
+                if (orderInfo.getOrderType() == OrderType.ServiceFee) {
 
                     AppContext.getInstance().setUser(null);
                     AppCacheManager.setLastUpdateTime("");
@@ -332,7 +332,7 @@ public class PayConfirmActivity extends SwipeBackActivity implements View.OnClic
 
                             if (rt.getResult() == Result.SUCCESS) {
 
-                                switch (orderInfo.getType()) {
+                                switch (orderInfo.getOrderType()) {
                                     case OrderType.ServiceFee:
                                         Intent intent = new Intent(PayConfirmActivity.this, MainActivity.class);
                                         startActivity(intent);

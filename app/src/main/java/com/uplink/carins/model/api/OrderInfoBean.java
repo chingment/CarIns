@@ -10,8 +10,8 @@ import java.util.List;
 public class OrderInfoBean implements Serializable {
     private int orderId;
     private String orderSn;
-    private int type;
-    private String typeName;
+    private int orderType;
+    private String orderTypeName;
     private List<ConfirmFieldBean> confirmField;
     //private List<PayMethodBean> payMethod;
 
@@ -32,12 +32,12 @@ public class OrderInfoBean implements Serializable {
         this.orderSn = orderSn;
     }
 
-    public String getTypeName() {
-        return typeName;
+    public String getOrderTypeName() {
+        return orderTypeName;
     }
 
-    public void setTypeName(String typeName) {
-        this.typeName = typeName;
+    public void setOrderTypeName(String orderTypeName) {
+        this.orderTypeName = orderTypeName;
     }
 
     public List<ConfirmFieldBean> getConfirmField() {
@@ -48,12 +48,12 @@ public class OrderInfoBean implements Serializable {
         this.confirmField = confirmField;
     }
 
-    public int getType() {
-        return type;
+    public int getOrderType() {
+        return orderType;
     }
 
-    public void setType(int productType) {
-        this.type = type;
+    public void setOrderType(int orderType) {
+        this.orderType = orderType;
     }
 
 //    public List<PayMethodBean> getPayMethod() {

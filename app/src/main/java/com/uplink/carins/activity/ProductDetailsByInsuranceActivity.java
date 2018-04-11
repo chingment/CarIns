@@ -1,10 +1,15 @@
 package com.uplink.carins.activity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.support.v4.view.PagerAdapter;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -20,6 +25,7 @@ import com.uplink.carins.model.api.ImgSetBean;
 import com.uplink.carins.model.api.OrderInfoBean;
 import com.uplink.carins.model.api.ProductListBean;
 import com.uplink.carins.model.api.Result;
+import com.uplink.carins.ui.MerchantWebView;
 import com.uplink.carins.ui.dialog.CustomConfirmDialog;
 import com.uplink.carins.ui.loopviewpager.AutoLoopViewPager;
 import com.uplink.carins.ui.swipebacklayout.SwipeBackActivity;
@@ -55,6 +61,8 @@ public class ProductDetailsByInsuranceActivity extends SwipeBackActivity impleme
     private TextView txt_showprice;
     private TextView txt_details;
 
+    private MerchantWebView txt_details_webView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,7 +93,23 @@ public class ProductDetailsByInsuranceActivity extends SwipeBackActivity impleme
         txt_briefintro = (TextView) findViewById(R.id.txt_briefintro);
         txt_name = (TextView) findViewById(R.id.txt_showprice);
         txt_showprice = (TextView) findViewById(R.id.txt_showprice);
-        txt_details = (TextView) findViewById(R.id.txt_details);
+        //txt_details = (TextView) findViewById(R.id.txt_details);
+
+        txt_details_webView = (MerchantWebView) findViewById(R.id.txt_details_webView);
+
+//        //WebView加载web资源
+        txt_details_webView.loadUrl(product.getDetailsUrl());
+//        //覆盖WebView默认使用第三方或系统默认浏览器打开网页的行为，使网页用WebView打开
+        txt_details_webView.setWebViewClient(new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                // TODO Auto-generated method stub
+                //返回值是true的时候控制去WebView打开，为false调用系统浏览器或第三方浏览器
+                view.loadUrl(url);
+                return true;
+            }
+        });
+
     }
 
     private void initEvent() {

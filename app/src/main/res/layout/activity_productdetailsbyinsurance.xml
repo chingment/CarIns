@@ -10,111 +10,137 @@
         android:id="@+id/include"
         layout="@layout/layout_main_header" />
 
-
-    <RelativeLayout
-        android:id="@+id/banner"
+    <com.uplink.carins.ui.my.MyScrollView
         android:layout_width="match_parent"
-        android:layout_height="180dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
+        android:layout_height="match_parent"
+        android:fadingEdge="none"
+        android:scrollbars="none"
         android:layout_below="@+id/include"
-        android:background="@color/white">
+        android:layout_above="@+id/btn_submit"
+        >
 
-        <com.uplink.carins.ui.loopviewpager.AutoLoopViewPager
-            android:id="@+id/banner_pager"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        <com.uplink.carins.ui.viewpagerindicator.CirclePageIndicator
-            android:id="@+id/banner_indicator"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="5dp"
-            android:padding="5dp" />
-    </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/banner"
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:background="@color/white">
 
-    <RelativeLayout
-        android:id="@+id/rl1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/banner"
-        android:layout_marginTop="8dp"
-        android:background="@color/white"
-        android:orientation="vertical"
-        android:paddingBottom="5dp"
-        android:paddingTop="5dp">
+                <com.uplink.carins.ui.loopviewpager.AutoLoopViewPager
+                    android:id="@+id/banner_pager"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
 
-        <TextView
-            android:id="@+id/txt_briefintro"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingEnd="8dp"
-            android:paddingLeft="8dp"
-            android:paddingRight="8dp"
-            android:paddingStart="8dp"
-            android:text="商品简述"
-            android:textColor="@color/item_order_area1_text"
-            android:textSize="@dimen/text_size_13" />
-    </RelativeLayout>
+                <com.uplink.carins.ui.viewpagerindicator.CirclePageIndicator
+                    android:id="@+id/banner_indicator"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="5dp"
+                    android:padding="5dp" />
+            </RelativeLayout>
 
-    <RelativeLayout
-        android:id="@+id/rl2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/rl1"
-        android:layout_marginTop="8dp"
-        android:background="@color/white"
-        android:orientation="vertical"
-        android:paddingBottom="5dp"
-        android:paddingTop="5dp">
+            <RelativeLayout
+                android:id="@+id/rl1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/banner"
+                android:layout_marginTop="8dp"
+                android:background="@color/white"
+                android:orientation="vertical"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp">
 
+                <TextView
+                    android:id="@+id/txt_briefintro"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingEnd="8dp"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:paddingStart="8dp"
+                    android:text="商品简述"
+                    android:textColor="@color/item_order_area1_text"
+                    android:textSize="@dimen/text_size_13" />
+            </RelativeLayout>
 
-        <TextView
-            android:id="@+id/txt_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingEnd="8dp"
-            android:paddingLeft="8dp"
-            android:paddingRight="8dp"
-            android:paddingStart="8dp"
-            android:text="商品名称"
-            android:textColor="@color/gray"
-            android:textSize="@dimen/text_size_15" />
-
-        <TextView
-            android:id="@+id/txt_showprice"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="right"
-            android:paddingEnd="8dp"
-            android:paddingLeft="8dp"
-            android:paddingRight="8dp"
-            android:paddingStart="8dp"
-            android:text="30元／份"
-            android:textColor="@color/green"
-            android:textSize="@dimen/text_size_15" />
+            <RelativeLayout
+                android:id="@+id/rl2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rl1"
+                android:background="@color/white"
+                android:orientation="vertical"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp">
 
 
-    </RelativeLayout>
+                <TextView
+                    android:id="@+id/txt_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingEnd="8dp"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:paddingStart="8dp"
+                    android:text="商品名称"
+                    android:textColor="@color/gray"
+                    android:textSize="@dimen/text_size_15" />
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/rl2"
-        android:layout_marginTop="8dp"
-        android:background="@color/white"
-        android:orientation="vertical"
-        android:paddingBottom="5dp"
-        android:paddingTop="5dp">
+                <TextView
+                    android:id="@+id/txt_showprice"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:paddingEnd="8dp"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:paddingStart="8dp"
+                    android:text="30元／份"
+                    android:textColor="@color/green"
+                    android:textSize="@dimen/text_size_15" />
 
-        <TextView
-            android:id="@+id/txt_details"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center" />
-    </RelativeLayout>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rl2"
+                android:layout_marginTop="8dp"
+                android:background="@color/white"
+                android:orientation="vertical"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingEnd="8dp"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:paddingStart="8dp"
+                    android:text="产品详情"
+                    android:textColor="@color/orange"
+                    android:textSize="@dimen/text_size_15" />
+            </RelativeLayout>
+
+            <com.uplink.carins.ui.MerchantWebView
+                android:id="@+id/txt_details_webView"
+                android:layout_width="fill_parent"
+                android:layout_height="500dp" />
+
+
+
+        </LinearLayout>
+    </com.uplink.carins.ui.my.MyScrollView>
 
     <Button
         android:id="@+id/btn_submit"

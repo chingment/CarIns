@@ -14,7 +14,7 @@ public class ProductListBean implements Serializable {
     private String mainImg;
     private String price;
     private String showPrice;
-    private String details;
+    private String detailsUrl;
     private List<ImgSetBean> dispalyImgs;
     private String briefIntro;
 
@@ -66,12 +66,12 @@ public class ProductListBean implements Serializable {
         this.showPrice = showPrice;
     }
 
-    public String getDetails() {
-        return details;
+    public String getDetailsUrl() {
+        return detailsUrl;
     }
 
-    public void setDetails(String details) {
-        this.details = details;
+    public void setDetailsUrl(String detailsUrl) {
+        this.detailsUrl = detailsUrl;
     }
 
     public List<ImgSetBean> getDispalyImgs() {
