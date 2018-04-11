@@ -237,18 +237,6 @@ public class BaseFragmentActivity extends FragmentActivity {
 //        }
 //    }
 
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//        MobclickAgent.onResume(this);
-//    }
-//
-//    public void onPause() {
-//        super.onPause();
-//        MobclickAgent.onPause(this);
-//    }
-
-
     /**
      * Activity从后台重新回到前台时被调用
      */
@@ -276,7 +264,7 @@ public class BaseFragmentActivity extends FragmentActivity {
     protected void onResume() {
 
         super.onResume();
-
+        MobclickAgent.onResume(this);
         if (!isActive) {
 
             startMyTask();
@@ -293,7 +281,7 @@ public class BaseFragmentActivity extends FragmentActivity {
     @Override
     protected void onPause() {
         super.onPause();
-
+        MobclickAgent.onPause(this);
         LogUtil.e("onPause is invoke!!!");
     }
 
