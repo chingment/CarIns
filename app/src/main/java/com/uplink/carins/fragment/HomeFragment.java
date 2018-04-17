@@ -156,7 +156,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     public void setHaoYiLianApp(List<ExtendedAppBean> thirdPartyApp) {
         List<NineGridItemBean> gridviewitems_haoyilian = new ArrayList<NineGridItemBean>();
 
-        gridviewitems_haoyilian.add(new NineGridItemBean(0, "投保服务", NineGridItemType.Window, "com.uplink.carins.activity.CarInsServiceAppActivity", R.drawable.ic_app_yjtb));
+        gridviewitems_haoyilian.add(new NineGridItemBean(0, "保险服务", NineGridItemType.Window, "com.uplink.carins.activity.CarInsServiceAppActivity", R.drawable.ic_app_yjtb));
         gridviewitems_haoyilian.add(new NineGridItemBean(0, "理赔服务", NineGridItemType.Window, "com.uplink.carins.activity.ClaimsServiceAppActivity", R.drawable.ic_app_yjlp));
         gridviewitems_haoyilian.add(new NineGridItemBean(0, "人才输送", NineGridItemType.Window, "com.uplink.carins.activity.TalentDemandActivity", R.drawable.ic_app_rcss));
         gridviewitems_haoyilian.add(new NineGridItemBean(0, "违章缴罚", NineGridItemType.Window, "com.uplink.carins.activity.LllegalQueryActivity", R.drawable.ic_app_wzcx));
