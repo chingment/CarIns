@@ -13,6 +13,7 @@ public class OrderInfoBean implements Serializable {
     private int orderType;
     private String orderTypeName;
     private List<ConfirmFieldBean> confirmField;
+    private String payTransSn;
     //private List<PayMethodBean> payMethod;
 
 
@@ -54,6 +55,15 @@ public class OrderInfoBean implements Serializable {
 
     public void setOrderType(int orderType) {
         this.orderType = orderType;
+    }
+
+
+    public String getPayTransSn() {
+        return payTransSn;
+    }
+
+    public void setPayTransSn(String payTransSn) {
+        this.payTransSn = payTransSn;
     }
 
 //    public List<PayMethodBean> getPayMethod() {

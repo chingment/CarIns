@@ -1,6 +1,7 @@
 package com.uplink.carins.activity;
 
 import android.app.Activity;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -35,7 +36,9 @@ import com.uplink.carins.utils.IpAdressUtil;
 import com.uplink.carins.utils.LogUtil;
 import com.uplink.carins.utils.NoDoubleClickUtils;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -155,6 +158,15 @@ public class PayConfirmActivity extends SwipeBackActivity implements View.OnClic
         }
     };
 
+    public static String getCurrentYMDHMS() {
+        String res;
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+        long lt = System.currentTimeMillis();
+        Date date = new Date(lt);
+        res = simpleDateFormat.format(date);
+        return res;
+    }
+
     @Override
     public void onClick(View v) {
 
@@ -214,22 +226,44 @@ public class PayConfirmActivity extends SwipeBackActivity implements View.OnClic
                                     LogUtil.e("流水号：" + rt.getData().getPayTransSn());
                                     LogUtil.e("金额：" + rt.getData().getAmount());
 
-                                    Intent scan2 = new Intent();
-                                    scan2.setClassName("com.newland.fczhu", "com.newland.fczhu.ui.activity.MainActivity");
-                                    //第三方应用传入交易参数给厂商程序
-                                    scan2.putExtra("transType", rt.getData().getTransType());//微信67，支付宝73
-                                    scan2.putExtra("amount", rt.getData().getAmount());    //金额
+                                    orderInfo.setOrderSn(rt.getData().getPayTransSn());
 
-                                    //scan2.putExtra("transType",67);//微信67，支付宝73
-                                    //scan2.putExtra("amount", Long.parseLong(orderInfo.getAmount()));    //金额
+//                                    Intent scan2 = new Intent();
+//                                    scan2.setClassName("com.newland.fczhu", "com.newland.fczhu.ui.activity.MainActivity");
+//                                    //第三方应用传入交易参数给厂商程序
+//                                    scan2.putExtra("transType", rt.getData().getTransType());//微信67，支付宝73
+//                                    scan2.putExtra("amount", rt.getData().getAmount());    //金额
+//                                    scan2.putExtra("order", rt.getData().getPayTransSn());//交易方式
+//
+//                                    try {
+//                                        startActivityForResult(scan2, 1);
+//                                    } catch (Exception ex) {
+//                                        showToast("跳转支付发生异常");
+//                                    }
 
-                                    scan2.putExtra("order", rt.getData().getPayTransSn());//交易方式
 
                                     try {
-                                        startActivityForResult(scan2, 1);
-                                    } catch (Exception ex) {
+                                        ComponentName component = new ComponentName("com.newland.caishen", "com.newland.caishen.ui.activity.MainActivity");
+                                        Intent intent = new Intent();
+                                        intent.setComponent(component);
+
+                                        Bundle bundle = new Bundle();
+                                        bundle.putString("msg_tp", "0200");
+                                        bundle.putString("pay_tp", rt.getData().getTransType() == 67 ? "11" : "12");//0银行卡  1微信  2支付宝
+                                        bundle.putString("proc_tp", "00");
+                                        bundle.putString("proc_cd", "660000");
+                                        bundle.putString("amt", "" + rt.getData().getOrderPrice());
+                                        bundle.putString("order_no", rt.getData().getPayTransSn());
+                                        bundle.putString("appid", "com.hyl.carins");
+                                        bundle.putString("time_stamp", getCurrentYMDHMS());
+                                        bundle.putString("print_info", "");
+                                        intent.putExtras(bundle);
+                                        startActivityForResult(intent, 1);
+                                    }catch (Exception ex) {
                                         showToast("跳转支付发生异常");
                                     }
+
+
                                 } else {
                                     showToast(rt.getMessage());
                                 }
@@ -255,119 +289,234 @@ public class PayConfirmActivity extends SwipeBackActivity implements View.OnClic
         super.onActivityResult(requestCode, resultCode, data);
 
 
-        if (data == null) {
-            LogUtil.e("data 数据为空");
-        } else {
-            Bundle bundle = data.getExtras();
-            if (bundle == null) {
-                LogUtil.e("bundle 数据为空");
-            } else {
-                Set<String> keySet = bundle.keySet();  //获取所有的Key,
-                if (keySet == null) {
-                    LogUtil.e("bundle keySet 数据为空");
-                } else {
-                    LogUtil.e("读取 keySet数据");
+        Bundle bundle = data.getExtras();
+        if (requestCode == 1 && bundle != null) {
+            switch (resultCode) {
+                // 支付成功
+                case Activity.RESULT_OK:
+                    String msgTp = bundle.getString("msg_tp") + "";
+                    if (msgTp.equals("0210")) {
 
+                        Map<String, Object> param = new HashMap<>();
 
-                    for (String key : keySet) {
-
-                        LogUtil.e("key=>" + key + " value=>" + bundle.get(key));
-
-                    }
-
-                    Map<String, Object> param = new HashMap<>();
-
-                    if (bundle.get("order") != null) {
-                        param.put("order", bundle.get("order"));
+                        param.put("order", orderInfo.getPayTransSn());
                         param.put("orderSn", orderInfo.getOrderSn());
-                    }
-                    if (bundle.get("amount") != null) {
-                        param.put("amount", bundle.get("amount"));
-                    }
-                    if (bundle.get("cardNo") != null) {
-                        param.put("cardNo", bundle.get("cardNo"));
-                    }
-                    if (bundle.get("traceNo") != null) {
-                        param.put("traceNo", bundle.get("traceNo"));
-                    }
-                    if (bundle.get("shopId") != null) {
-                        param.put("shopId", bundle.get("shopId"));
-                    }
-                    if (bundle.get("shopName") != null) {
-                        param.put("shopName", bundle.get("shopName"));
-                    }
-                    if (bundle.get("batchNo") != null) {
-                        param.put("batchNo", bundle.get("batchNo"));
-                    }
-                    if (bundle.get("posId") != null) {
-                        param.put("posId", bundle.get("posId"));
-                    }
-                    if (bundle.get("refNo") != null) {
-                        param.put("refNo", bundle.get("refNo"));
-                    }
-                    if (bundle.get("transDate") != null) {
-                        param.put("transDate", bundle.get("transDate"));
-                    }
-                    if (bundle.get("transTime") != null) {
-                        param.put("transTime", bundle.get("transTime"));
-                    }
-                    if (bundle.get("transType") != null) {
-                        param.put("transType", bundle.get("transType"));
-                    }
-                    if (bundle.get("authCode") != null) {
-                        param.put("authCode", bundle.get("authCode"));
-                    }
+
+                        if (bundle.get("amount") != null) {
+                            param.put("amount", bundle.get("amount"));
+                        }
+                        if (bundle.get("cardNo") != null) {
+                            param.put("cardNo", bundle.get("cardNo"));
+                        }
+                        if (bundle.get("traceNo") != null) {
+                            param.put("traceNo", bundle.get("traceNo"));
+                        }
+                        if (bundle.get("shopId") != null) {
+                            param.put("shopId", bundle.get("shopId"));
+                        }
+                        if (bundle.get("shopName") != null) {
+                            param.put("shopName", bundle.get("shopName"));
+                        }
+                        if (bundle.get("batchNo") != null) {
+                            param.put("batchNo", bundle.get("batchNo"));
+                        }
+                        if (bundle.get("posId") != null) {
+                            param.put("posId", bundle.get("posId"));
+                        }
+                        if (bundle.get("refNo") != null) {
+                            param.put("refNo", bundle.get("refNo"));
+                        }
+                        if (bundle.get("transDate") != null) {
+                            param.put("transDate", bundle.get("transDate"));
+                        }
+                        if (bundle.get("transTime") != null) {
+                            param.put("transTime", bundle.get("transTime"));
+                        }
+                        if (bundle.get("transType") != null) {
+                            param.put("transType", bundle.get("transType"));
+                        }
+                        if (bundle.get("authCode") != null) {
+                            param.put("authCode", bundle.get("authCode"));
+                        }
 
 
-                    postWithMy(Config.URL.orderPayResultNotify, param, null, new HttpResponseHandler() {
+                        postWithMy(Config.URL.orderPayResultNotify, param, null, new HttpResponseHandler() {
 
-                        @Override
-                        public void onSuccess(String response) {
-                            super.onSuccess(response);
+                            @Override
+                            public void onSuccess(String response) {
+                                super.onSuccess(response);
 
-                            LogUtil.i(TAG, "onSuccess===>>" + response);
+                                LogUtil.i(TAG, "onSuccess===>>" + response);
 
-                            ApiResultBean<Object> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<Object>>() {
-                            });
+                                ApiResultBean<Object> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<Object>>() {
+                                });
 
-                            if (rt.getResult() == Result.SUCCESS) {
+                                if (rt.getResult() == Result.SUCCESS) {
 
-                                switch (orderInfo.getOrderType()) {
-                                    case OrderType.ServiceFee:
-                                        Intent intent = new Intent(PayConfirmActivity.this, MainActivity.class);
-                                        startActivity(intent);
-                                        finish();
-                                        break;
-                                    case OrderType.LllegalQueryRecharg:
-                                        ApiResultBean<PayResultNotifyByLllegalQueryRechargeBean> rt601 = JSON.parseObject(response, new TypeReference<ApiResultBean<PayResultNotifyByLllegalQueryRechargeBean>>() {
-                                        });
-                                        AppCacheManager.setLllegalQueryScore(rt601.getData().getScore());
-                                        setResult(1, null);
-                                        finish();
-                                        break;
-                                    case OrderType.LllegalDealt:
-                                        setResult(1, null);
-                                        finish();
-                                        break;
+                                    switch (orderInfo.getOrderType()) {
+                                        case OrderType.ServiceFee:
+                                            Intent intent = new Intent(PayConfirmActivity.this, MainActivity.class);
+                                            startActivity(intent);
+                                            finish();
+                                            break;
+                                        case OrderType.LllegalQueryRecharg:
+                                            ApiResultBean<PayResultNotifyByLllegalQueryRechargeBean> rt601 = JSON.parseObject(response, new TypeReference<ApiResultBean<PayResultNotifyByLllegalQueryRechargeBean>>() {
+                                            });
+                                            AppCacheManager.setLllegalQueryScore(rt601.getData().getScore());
+                                            setResult(1, null);
+                                            finish();
+                                            break;
+                                        case OrderType.LllegalDealt:
+                                            setResult(1, null);
+                                            finish();
+                                            break;
+                                    }
+
+                                } else {
+                                    showToast(rt.getMessage());
                                 }
 
-                            } else {
-                                showToast(rt.getMessage());
                             }
 
-                        }
+                            @Override
+                            public void onFailure(Request request, Exception e) {
+                                super.onFailure(request, e);
+                                LogUtil.e(TAG, e);
+                                showToast("发生异常");
+                            }
+                        });
 
-                        @Override
-                        public void onFailure(Request request, Exception e) {
-                            super.onFailure(request, e);
-                            LogUtil.e(TAG, e);
-                            showToast("发生异常");
-                        }
-                    });
 
-                }
+                    }
+                    break;
+                // 支付取消
+                case Activity.RESULT_CANCELED:
+                    String reason = bundle.getString("reason");
+                    if (reason != null) {
+                        showToast("交易已取消");
+                    }
+                    break;
+
+                default:
+                    // TODO:
+                    break;
             }
         }
+
+
+//        if (data == null) {
+//            LogUtil.e("data 数据为空");
+//        } else {
+//            Bundle bundle = data.getExtras();
+//            if (bundle == null) {
+//                LogUtil.e("bundle 数据为空");
+//            } else {
+//                Set<String> keySet = bundle.keySet();  //获取所有的Key,
+//                if (keySet == null) {
+//                    LogUtil.e("bundle keySet 数据为空");
+//                } else {
+//                    LogUtil.e("读取 keySet数据");
+//
+//
+//                    for (String key : keySet) {
+//
+//                        LogUtil.e("key=>" + key + " value=>" + bundle.get(key));
+//
+//                    }
+//
+//                    Map<String, Object> param = new HashMap<>();
+//
+//                    if (bundle.get("order") != null) {
+//                        param.put("order", bundle.get("order"));
+//                        param.put("orderSn", orderInfo.getOrderSn());
+//                    }
+//                    if (bundle.get("amount") != null) {
+//                        param.put("amount", bundle.get("amount"));
+//                    }
+//                    if (bundle.get("cardNo") != null) {
+//                        param.put("cardNo", bundle.get("cardNo"));
+//                    }
+//                    if (bundle.get("traceNo") != null) {
+//                        param.put("traceNo", bundle.get("traceNo"));
+//                    }
+//                    if (bundle.get("shopId") != null) {
+//                        param.put("shopId", bundle.get("shopId"));
+//                    }
+//                    if (bundle.get("shopName") != null) {
+//                        param.put("shopName", bundle.get("shopName"));
+//                    }
+//                    if (bundle.get("batchNo") != null) {
+//                        param.put("batchNo", bundle.get("batchNo"));
+//                    }
+//                    if (bundle.get("posId") != null) {
+//                        param.put("posId", bundle.get("posId"));
+//                    }
+//                    if (bundle.get("refNo") != null) {
+//                        param.put("refNo", bundle.get("refNo"));
+//                    }
+//                    if (bundle.get("transDate") != null) {
+//                        param.put("transDate", bundle.get("transDate"));
+//                    }
+//                    if (bundle.get("transTime") != null) {
+//                        param.put("transTime", bundle.get("transTime"));
+//                    }
+//                    if (bundle.get("transType") != null) {
+//                        param.put("transType", bundle.get("transType"));
+//                    }
+//                    if (bundle.get("authCode") != null) {
+//                        param.put("authCode", bundle.get("authCode"));
+//                    }
+//
+//
+//                    postWithMy(Config.URL.orderPayResultNotify, param, null, new HttpResponseHandler() {
+//
+//                        @Override
+//                        public void onSuccess(String response) {
+//                            super.onSuccess(response);
+//
+//                            LogUtil.i(TAG, "onSuccess===>>" + response);
+//
+//                            ApiResultBean<Object> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<Object>>() {
+//                            });
+//
+//                            if (rt.getResult() == Result.SUCCESS) {
+//
+//                                switch (orderInfo.getOrderType()) {
+//                                    case OrderType.ServiceFee:
+//                                        Intent intent = new Intent(PayConfirmActivity.this, MainActivity.class);
+//                                        startActivity(intent);
+//                                        finish();
+//                                        break;
+//                                    case OrderType.LllegalQueryRecharg:
+//                                        ApiResultBean<PayResultNotifyByLllegalQueryRechargeBean> rt601 = JSON.parseObject(response, new TypeReference<ApiResultBean<PayResultNotifyByLllegalQueryRechargeBean>>() {
+//                                        });
+//                                        AppCacheManager.setLllegalQueryScore(rt601.getData().getScore());
+//                                        setResult(1, null);
+//                                        finish();
+//                                        break;
+//                                    case OrderType.LllegalDealt:
+//                                        setResult(1, null);
+//                                        finish();
+//                                        break;
+//                                }
+//
+//                            } else {
+//                                showToast(rt.getMessage());
+//                            }
+//
+//                        }
+//
+//                        @Override
+//                        public void onFailure(Request request, Exception e) {
+//                            super.onFailure(request, e);
+//                            LogUtil.e(TAG, e);
+//                            showToast("发生异常");
+//                        }
+//                    });
+//
+//                }
+//            }
+//        }
     }
 
 

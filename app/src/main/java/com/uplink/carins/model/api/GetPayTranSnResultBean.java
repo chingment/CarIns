@@ -12,6 +12,17 @@ public class GetPayTranSnResultBean implements Serializable {
     private String orderSn;
     private String payTransSn;
     private int transType;
+    private long amount;
+    private String orderPrice;
+
+
+    public String getOrderPrice() {
+        return orderPrice;
+    }
+
+    public void setOrderPrice(String orderPrice) {
+        this.orderPrice = orderPrice;
+    }
 
     public long getAmount() {
         return amount;
@@ -20,8 +31,6 @@ public class GetPayTranSnResultBean implements Serializable {
     public void setAmount(long amount) {
         this.amount = amount;
     }
-
-    private long amount;
 
     public int getTransType() {
         return transType;

@@ -390,6 +390,10 @@ public class LllegalQueryActivity extends SwipeBackActivity implements View.OnCl
 
                     startActivityForResult(intent,1);
                 }
+                else
+                {
+                    showToast(rt.getMessage());
+                }
 
             }
 
