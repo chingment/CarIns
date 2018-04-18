@@ -80,7 +80,7 @@ public class LoginActivity extends BaseFragmentActivity implements View.OnClickL
 
     TextView btn_register;
     TextView btn_forgetpwd;
-
+    TextView txt_version;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -116,7 +116,9 @@ public class LoginActivity extends BaseFragmentActivity implements View.OnClickL
         logo_login = (ImageView) this.findViewById(R.id.logo_login);
         btn_register = (TextView) this.findViewById(R.id.btn_register);
         btn_forgetpwd = (TextView) this.findViewById(R.id.btn_forgetpwd);
+        txt_version = (TextView) this.findViewById(R.id.txt_version);
 
+        txt_version.setText(com.uplink.carins.BuildConfig.VERSION_NAME);
     }
 
     public void initEvent() {

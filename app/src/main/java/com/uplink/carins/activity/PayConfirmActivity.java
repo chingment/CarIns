@@ -299,8 +299,8 @@ public class PayConfirmActivity extends SwipeBackActivity implements View.OnClic
 
                         Map<String, Object> param = new HashMap<>();
 
-                        param.put("order", orderInfo.getPayTransSn());
-                        param.put("orderSn", orderInfo.getOrderSn());
+                        param.put("order", orderInfo.getPayTransSn());//交易流水号
+                        param.put("orderSn", orderInfo.getOrderSn());//订单号
 
                         if (bundle.get("amount") != null) {
                             param.put("amount", bundle.get("amount"));
