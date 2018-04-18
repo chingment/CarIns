@@ -226,7 +226,7 @@ public class PayConfirmActivity extends SwipeBackActivity implements View.OnClic
                                     LogUtil.e("流水号：" + rt.getData().getPayTransSn());
                                     LogUtil.e("金额：" + rt.getData().getAmount());
 
-                                    orderInfo.setOrderSn(rt.getData().getPayTransSn());
+                                    orderInfo.setPayTransSn(rt.getData().getPayTransSn());
 
 //                                    Intent scan2 = new Intent();
 //                                    scan2.setClassName("com.newland.fczhu", "com.newland.fczhu.ui.activity.MainActivity");
