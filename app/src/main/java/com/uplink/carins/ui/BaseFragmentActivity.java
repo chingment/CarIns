@@ -357,13 +357,19 @@ public class BaseFragmentActivity extends FragmentActivity {
             public void onSuccess(String response) {
 
                 final String s = response;
-                //运行在子线程,,
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        handler.onSuccess(s);
-                    }
-                });
+                if(s.indexOf("{\"result\":")>-1) {
+                    //运行在子线程,,
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            handler.onSuccess(s);
+                        }
+                    });
+                }
+                else
+                {
+                    LogUtil.e("解释错误：原始数据》》"+s);
+                }
             }
 
             @Override
@@ -391,14 +397,21 @@ public class BaseFragmentActivity extends FragmentActivity {
             public void onSuccess(String response) {
 
                 final String s = response;
-                //运行在子线程,,
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        handler.onSuccess(s);
-                    }
-                });
 
+
+                if(s.indexOf("{\"result\":")>-1) {
+                    //运行在子线程,,
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            handler.onSuccess(s);
+                        }
+                    });
+                }
+                else {
+
+                    LogUtil.e("解释错误：原始数据》》" + s);
+                }
             }
 
             @Override
