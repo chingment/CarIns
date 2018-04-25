@@ -98,6 +98,7 @@
             android:gravity="center_vertical|left"
             android:hint="请输入车牌号码"
             android:maxLength="18"
+            android:singleLine="true"
             android:maxLines="1"
             android:textColor="@color/text"
             android:textColorHint="@color/text_hint"
@@ -239,6 +240,7 @@
                 android:inputType="phone"
                 android:maxLength="18"
                 android:maxLines="1"
+                android:singleLine="true"
                 android:textColor="@color/text"
                 android:textColorHint="@color/text_hint"
                 android:textSize="@dimen/text_size_12" />
@@ -269,6 +271,7 @@
                 android:inputType="phone"
                 android:maxLength="18"
                 android:maxLines="1"
+                android:singleLine="true"
                 android:textColor="@color/text"
                 android:textColorHint="@color/text_hint"
                 android:textSize="@dimen/text_size_12" />

@@ -357,7 +357,7 @@ public class BaseFragmentActivity extends FragmentActivity {
             public void onSuccess(String response) {
 
                 final String s = response;
-                if(s.indexOf("{\"result\":")>-1) {
+                if(s.indexOf("\"result\":")>-1) {
                     //运行在子线程,,
                     runOnUiThread(new Runnable() {
                         @Override
@@ -399,7 +399,7 @@ public class BaseFragmentActivity extends FragmentActivity {
                 final String s = response;
 
 
-                if(s.indexOf("{\"result\":")>-1) {
+                if(s.indexOf("\"result\":")>-1) {
                     //运行在子线程,,
                     runOnUiThread(new Runnable() {
                         @Override
