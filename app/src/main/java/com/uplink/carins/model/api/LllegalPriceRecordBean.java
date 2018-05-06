@@ -168,6 +168,30 @@ public class LllegalPriceRecordBean implements Serializable {
         this.canDealt = canDealt;
     }
 
+    public Boolean getCanUrgent() {
+        return canUrgent;
+    }
+
+    public void setCanUrgent(Boolean canUrgent) {
+        this.canUrgent = canUrgent;
+    }
+
+    public Boolean getNeedUrgent() {
+        return needUrgent;
+    }
+
+    public void setNeedUrgent(Boolean needUrgent) {
+        this.needUrgent = needUrgent;
+    }
+
+    public String getUrgentFee() {
+        return urgentFee;
+    }
+
+    public void setUrgentFee(String urgentFee) {
+        this.urgentFee = urgentFee;
+    }
+
     private  String carNo;
     private  String bookNo;
     private  String bookType;
@@ -188,5 +212,8 @@ public class LllegalPriceRecordBean implements Serializable {
     private  Boolean needDealt;
     private  String status;
     private  Boolean canDealt;
+    private  Boolean canUrgent;
+    private  Boolean needUrgent;
+    private  String urgentFee;
 
 }

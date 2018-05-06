@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/white"
+    xmlns:slideswitch="http://schemas.android.com/apk/res-auto"
     >
 
     <RelativeLayout
@@ -58,11 +59,13 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:paddingTop="6dp"
+            android:layout_weight="1"
             />
 
         <TextView
             android:id="@+id/item_lllegal_status"
-            android:layout_width="match_parent"
+            android:width="80dp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="right"
             android:text="待处理"
@@ -121,24 +124,27 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:gravity="center_vertical|left"
-            android:text="扣分："
+            android:gravity="center_vertical|right"
+            android:text="扣 分："
             android:textColor="@color/text_333"
             android:textSize="@dimen/text_size_11"
             android:paddingBottom="6dp"
             android:paddingLeft="10dp"
             android:paddingTop="6dp"
+            android:width="55dp"
             />
         <TextView
             android:id="@+id/item_lllegal_point"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="left"
-            android:text="3"
+            android:text="0"
+            android:width="60dp"
             android:textColor="@color/text_333"
             android:textSize="@dimen/text_size_11"
             android:paddingBottom="6dp"
             android:paddingRight="10dp"
+            android:paddingLeft="10dp"
             android:paddingTop="6dp"
             android:textStyle="bold"
             />
@@ -147,8 +153,9 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:gravity="center_vertical|left"
+            android:gravity="center_vertical|right"
             android:text="罚款："
+            android:width="60dp"
             android:textColor="@color/text_333"
             android:textSize="@dimen/text_size_11"
             android:paddingBottom="6dp"
@@ -159,20 +166,23 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="left"
-            android:text="200"
+            android:text="0"
+            android:width="60dp"
             android:textColor="@color/text_333"
             android:textSize="@dimen/text_size_11"
             android:paddingBottom="6dp"
             android:paddingRight="10dp"
+            android:paddingLeft="10dp"
             android:paddingTop="6dp"
             android:textStyle="bold"
             />
 
         <TextView
-
+            android:id="@+id/title_lllegal_servicefee"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:gravity="center_vertical|left"
+            android:gravity="center_vertical|right"
+            android:width="60dp"
             android:text="手续费："
             android:textColor="@color/text_333"
             android:textSize="@dimen/text_size_12" />
@@ -181,38 +191,107 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="left"
-            android:text="200"
+            android:text="0"
+            android:width="60dp"
             android:textColor="@color/text_333"
             android:textSize="@dimen/text_size_11"
             android:paddingBottom="6dp"
             android:paddingRight="10dp"
+            android:paddingLeft="10dp"
             android:paddingTop="6dp"
             android:textStyle="bold"
             />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:gravity="center_vertical|left"
+            android:width="55dp"
+            android:gravity="center_vertical|right"
             android:text="滞纳金："
             android:textColor="@color/text_333"
             android:textSize="@dimen/text_size_12" />
+
         <TextView
             android:id="@+id/item_lllegal_late_fees"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:gravity="left"
-            android:text="0"
-            android:textColor="@color/text_333"
-            android:textSize="@dimen/text_size_11"
+            android:gravity="center_vertical|left"
             android:paddingBottom="6dp"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:paddingTop="6dp"
+            android:text="0"
+            android:width="60dp"
+            android:textColor="@color/text_333"
+            android:textSize="@dimen/text_size_11"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/title_lllegal_urgent"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:width="60dp"
+            android:gravity="center_vertical|right"
+            android:paddingBottom="6dp"
+            android:paddingLeft="10dp"
+            android:paddingTop="6dp"
+            android:text="不加急："
+            android:textColor="@color/text_333"
+            android:textSize="@dimen/text_size_11" />
+
+
+        <com.uplink.carins.ui.SlideSwitch
+            android:id="@+id/item_lllegal_urgent"
+            android:layout_width="38dp"
+            android:layout_height="16dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="22dp"
+            android:gravity="center"
+            slideswitch:isOpen="false"
+            slideswitch:shape="circle"
+            slideswitch:themeColor="@color/item_carinsplankind_text_checked_kuang_green"
+            slideswitch:themeColorFalse="@color/item_carinsplankind_text_checked_false" />
+
+        <TextView
+            android:id="@+id/title_lllegal_urgentfee"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical|right"
+            android:width="60dp"
+            android:text="加急费："
+            android:textColor="@color/text_333"
+            android:textSize="@dimen/text_size_12"
+            android:visibility="gone"
+            />
+        <TextView
+            android:id="@+id/item_lllegal_urgentfee"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="left"
+            android:text="0"
+            android:width="60dp"
+            android:textColor="@color/text_333"
+            android:textSize="@dimen/text_size_11"
+            android:paddingBottom="6dp"
+            android:paddingRight="10dp"
+            android:paddingLeft="10dp"
+            android:paddingTop="6dp"
             android:textStyle="bold"
+            android:visibility="gone"
             />
 
+
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

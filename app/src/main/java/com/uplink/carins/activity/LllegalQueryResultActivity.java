@@ -36,6 +36,7 @@ import com.uplink.carins.model.api.LllegalPriceRecordBean;
 import com.uplink.carins.model.api.LllegalQueryResultBean;
 import com.uplink.carins.model.api.OrderInfoBean;
 import com.uplink.carins.model.api.Result;
+import com.uplink.carins.ui.SlideSwitch;
 import com.uplink.carins.ui.ViewHolder;
 import com.uplink.carins.ui.dialog.CustomConfirmDialog;
 import com.uplink.carins.ui.swipebacklayout.SwipeBackActivity;
@@ -192,6 +193,8 @@ public class LllegalQueryResultActivity extends SwipeBackActivity implements Vie
                     jsonFa1.put("lllegalDesc", item.getLllegalDesc());
                     jsonFa1.put("lllegalCity", item.getLllegalCity());
                     jsonFa1.put("address", item.getAddress());
+                    jsonFa1.put("needUrgent", item.getNeedUrgent());
+                    jsonFa1.put("urgentFee", item.getUrgentFee());
                     json_Records.put(jsonFa1);
                 }
             }
@@ -276,6 +279,8 @@ public class LllegalQueryResultActivity extends SwipeBackActivity implements Vie
 
         }
 
+
+
         @Override
         public int getCount() {
             return lllegalPriceRecord.size();
@@ -308,10 +313,21 @@ public class LllegalQueryResultActivity extends SwipeBackActivity implements Vie
             TextView txt_point = ViewHolder.get(convertView, R.id.item_lllegal_point);
             TextView txt_fine = ViewHolder.get(convertView, R.id.item_lllegal_fine);
             TextView txt_servicefee = ViewHolder.get(convertView, R.id.item_lllegal_servicefee);
+            TextView title_servicefee = ViewHolder.get(convertView, R.id.title_lllegal_servicefee);
+
             TextView txt_latefees = ViewHolder.get(convertView, R.id.item_lllegal_late_fees);
             TextView txt_content = ViewHolder.get(convertView, R.id.item_lllegal_content);
             TextView txt_status = ViewHolder.get(convertView, R.id.item_lllegal_status);
             CheckBox cb_candealt = ViewHolder.get(convertView, R.id.item_lllegal_candealt);
+
+            TextView title_urgent = ViewHolder.get(convertView, R.id.title_lllegal_urgent);
+            SlideSwitch cb_urgent = ViewHolder.get(convertView, R.id.item_lllegal_urgent);
+            cb_urgent.setTag(position);
+            cb_urgent.setSlideCheckListener(canUrgentClick);
+
+            TextView txt_urgentfee = ViewHolder.get(convertView, R.id.item_lllegal_urgentfee);
+            TextView title_urgentfee = ViewHolder.get(convertView, R.id.title_lllegal_urgentfee);
+
             cb_candealt.setTag(position);
             cb_candealt.setOnClickListener(canDealtClick);
 
@@ -335,10 +351,33 @@ public class LllegalQueryResultActivity extends SwipeBackActivity implements Vie
 
 
             if (queryResult.getIsOfferPrice()) {
+                //可处理
                 if (bean.getCanDealt()) {
                     cb_candealt.setVisibility(View.VISIBLE);
                 } else {
                     cb_candealt.setVisibility(View.GONE);
+                }
+
+                //可加急
+                if (bean.getCanUrgent()) {
+                    title_urgent.setVisibility(View.VISIBLE);
+                    cb_urgent.setVisibility(View.VISIBLE);
+
+                    if(bean.getNeedUrgent()) {
+                        txt_urgentfee.setVisibility(View.VISIBLE);
+                        title_urgentfee.setVisibility(View.VISIBLE);
+
+                        txt_urgentfee.setText(bean.getUrgentFee());
+                    }
+                    else {
+                        txt_urgentfee.setVisibility(View.GONE);
+                        title_urgentfee.setVisibility(View.GONE);
+                    }
+
+
+                } else {
+                    title_urgent.setVisibility(View.GONE);
+                    cb_urgent.setVisibility(View.GONE);
                 }
 
                 txt_status.setVisibility(View.VISIBLE);
@@ -349,6 +388,15 @@ public class LllegalQueryResultActivity extends SwipeBackActivity implements Vie
                 txt_latefees.setText("0");
                 txt_content.setText("");
                 txt_status.setVisibility(View.GONE);
+
+                title_servicefee.setVisibility(View.GONE);
+                txt_servicefee.setVisibility(View.GONE);
+
+                title_urgent.setVisibility(View.GONE);
+                cb_urgent.setVisibility(View.GONE);
+
+                txt_urgentfee.setVisibility(View.GONE);
+                title_urgentfee.setVisibility(View.GONE);
             }
 
             return convertView;
@@ -366,6 +414,24 @@ public class LllegalQueryResultActivity extends SwipeBackActivity implements Vie
                 } else {
                     bean.setNeedDealt(false);
                 }
+            }
+        };
+
+
+        private SlideSwitch.SlideCheckListener canUrgentClick = new SlideSwitch.SlideCheckListener() {
+            @Override
+            public void check(View v, boolean ifCheck) {
+
+                int position = Integer.parseInt(v.getTag().toString());
+                LllegalPriceRecordBean bean = lllegalPriceRecord.get(position);
+
+                if (ifCheck) {
+                    bean.setNeedUrgent(true);
+                } else {
+                    bean.setNeedUrgent(false);
+                }
+
+                notifyDataSetChanged();
             }
         };
 
