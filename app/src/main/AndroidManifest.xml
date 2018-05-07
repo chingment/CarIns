@@ -92,7 +92,9 @@
         <activity android:name=".activity.OrderDetailsCreditActivity" />
         <activity android:name=".activity.ProductListByInsuranceActivity" />
         <activity android:name=".activity.ProductDetailsByInsuranceActivity" />
-        <activity android:name=".activity.OrderDetailsInsuranceActivity"></activity>
+        <activity android:name=".activity.OrderDetailsInsuranceActivity" />
+        <activity android:name=".activity.NwCarInsGetCarInfoActivity" />
+        <activity android:name=".activity.NwCarInsConfirmCarInfoActivity"></activity>
     </application>
 
 </manifest>

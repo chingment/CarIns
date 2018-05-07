@@ -60,7 +60,7 @@ public class LllegalQueryResultActivity extends SwipeBackActivity implements Vie
 
     private LllegalQueryResultBean queryResult;
 
-    public  TextView txt_lllegal_dealttip;
+    public TextView txt_lllegal_dealttip;
     private TextView txt_lllegal_carno;
     private TextView txt_lllegal_sumcount;
     private TextView txt_lllegal_sumpoint;
@@ -100,10 +100,9 @@ public class LllegalQueryResultActivity extends SwipeBackActivity implements Vie
                 btn_submit.setVisibility(View.GONE);
             }
 
-            if(StringUtil.isEmpty(queryResult.getDealtTip())) {
+            if (StringUtil.isEmpty(queryResult.getDealtTip())) {
                 ll2.setVisibility(View.GONE);
-            }
-            else {
+            } else {
                 txt_lllegal_dealttip.setText(queryResult.getDealtTip());
                 ll2.setVisibility(View.VISIBLE);
             }
@@ -121,7 +120,7 @@ public class LllegalQueryResultActivity extends SwipeBackActivity implements Vie
 
         inflater = LayoutInflater.from(this);
         btn_submit = (Button) findViewById(R.id.btn_submit);
-        txt_lllegal_dealttip= (TextView) findViewById(R.id.txt_lllegal_dealttip);
+        txt_lllegal_dealttip = (TextView) findViewById(R.id.txt_lllegal_dealttip);
         txt_lllegal_carno = (TextView) findViewById(R.id.txt_lllegal_carno);
         txt_lllegal_sumcount = (TextView) findViewById(R.id.txt_lllegal_sumcount);
         txt_lllegal_sumpoint = (TextView) findViewById(R.id.txt_lllegal_sumpoint);
@@ -194,7 +193,13 @@ public class LllegalQueryResultActivity extends SwipeBackActivity implements Vie
                     jsonFa1.put("lllegalCity", item.getLllegalCity());
                     jsonFa1.put("address", item.getAddress());
                     jsonFa1.put("needUrgent", item.getNeedUrgent());
-                    jsonFa1.put("urgentFee", item.getUrgentFee());
+
+                    if (item.getNeedUrgent()) {
+                        jsonFa1.put("urgentFee", item.getUrgentFee());
+                    } else {
+                        jsonFa1.put("urgentFee", 0);
+                    }
+
                     json_Records.put(jsonFa1);
                 }
             }
@@ -280,7 +285,6 @@ public class LllegalQueryResultActivity extends SwipeBackActivity implements Vie
         }
 
 
-
         @Override
         public int getCount() {
             return lllegalPriceRecord.size();
@@ -363,13 +367,12 @@ public class LllegalQueryResultActivity extends SwipeBackActivity implements Vie
                     title_urgent.setVisibility(View.VISIBLE);
                     cb_urgent.setVisibility(View.VISIBLE);
 
-                    if(bean.getNeedUrgent()) {
+                    if (bean.getNeedUrgent()) {
                         txt_urgentfee.setVisibility(View.VISIBLE);
                         title_urgentfee.setVisibility(View.VISIBLE);
 
                         txt_urgentfee.setText(bean.getUrgentFee());
-                    }
-                    else {
+                    } else {
                         txt_urgentfee.setVisibility(View.GONE);
                         title_urgentfee.setVisibility(View.GONE);
                     }

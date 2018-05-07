@@ -59,6 +59,8 @@ public class CarInsServiceAppActivity extends SwipeBackActivity implements View.
 
         gridviewitems.add(new NineGridItemBean(0,"车险投保", NineGridItemType.Window, "com.uplink.carins.activity.CarInsureKindActivity", R.drawable.ic_app_yjtb));
 
+        //gridviewitems.add(new NineGridItemBean(0,"车险投保", NineGridItemType.Window, "com.uplink.carins.activity.NwCarInsGetCarInfoActivity", R.drawable.ic_app_yjtb));
+
         gridviewitems.add(new NineGridItemBean(0,"团体意外险", NineGridItemType.Window, "com.uplink.carins.activity.ProductListByInsuranceActivity", R.drawable.ic_app_ywbx));
 
         List<ExtendedAppBean> extendedApp = AppCacheManager.getExtendedAppByCarInsService();
@@ -91,6 +93,10 @@ public class CarInsServiceAppActivity extends SwipeBackActivity implements View.
                             switch (action) {
                                 case "com.uplink.carins.activity.CarInsureKindActivity":
                                     intent = new Intent(CarInsServiceAppActivity.this, CarInsureKindActivity.class);
+                                    startActivity(intent);
+                                    break;
+                                case "com.uplink.carins.activity.NwCarInsGetCarInfoActivity":
+                                    intent = new Intent(CarInsServiceAppActivity.this, NwCarInsGetCarInfoActivity.class);
                                     startActivity(intent);
                                     break;
                                 case "com.uplink.carins.activity.ProductListByInsuranceActivity":

@@ -52,5 +52,6 @@ public class Config {
         public static final String submitLllegalDealt= BuildConfig.ENVIRONMENT + "/api/Lllegal/Dealt";
         public static final String submitInsurance= BuildConfig.ENVIRONMENT + "/api/Order/SubmitInsurance";
         public static final String orderGetPayTranSn = BuildConfig.ENVIRONMENT + "/api/Order/GetPayTranSn";
+        public static final String carInsGetCarInfo = BuildConfig.ENVIRONMENT + "/api/CarIns/GetCarInfo";
     }
 }
