@@ -6,6 +6,8 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -27,6 +29,7 @@ import com.uplink.carins.model.api.Result;
 import com.uplink.carins.ui.choicephoto.ChoicePhotoAndCropAndSwipeBackActivity;
 import com.uplink.carins.utils.AbFileUtil;
 import com.uplink.carins.utils.BitmapUtil;
+import com.uplink.carins.utils.CarKeyboardUtil;
 import com.uplink.carins.utils.LogUtil;
 import com.uplink.carins.utils.NoDoubleClickUtils;
 import com.uplink.carins.utils.StringUtil;
@@ -56,7 +59,7 @@ public class NwCarInsGetCarInfoActivity extends ChoicePhotoAndCropAndSwipeBackAc
 
     private Button btn_submit;
     private EditText txt_keyword;
-
+    private CarKeyboardUtil keyboardUtil;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,10 +73,13 @@ public class NwCarInsGetCarInfoActivity extends ChoicePhotoAndCropAndSwipeBackAc
         btnHeaderGoBack = (ImageView) findViewById(R.id.btn_main_header_goback);
         btnHeaderGoBack.setVisibility(View.VISIBLE);
         txtHeaderTitle = (TextView) findViewById(R.id.txt_main_header_title);
-        txtHeaderTitle.setText("上传证件");
+        txtHeaderTitle.setText("车牌号码");
 
         btn_submit = (Button) findViewById(R.id.btn_submit);
         txt_keyword = (EditText) findViewById(R.id.txt_keyword);
+
+        txt_keyword.setText("粤AT810P");
+        keyboardUtil = new CarKeyboardUtil(this, txt_keyword);
         // 车辆行驶证
         layout_carinsure_xingshizheng = (LinearLayout) findViewById(R.id.layout_carinsure_xingshizheng);
         img_carinsure_xingshizheng = (ImageView) findViewById(R.id.img_carinsure_xingshizheng);
@@ -86,7 +92,52 @@ public class NwCarInsGetCarInfoActivity extends ChoicePhotoAndCropAndSwipeBackAc
         btn_submit.setOnClickListener(this);
         //车辆行驶证
         layout_carinsure_xingshizheng.setOnClickListener(this);
+
+        txt_keyword.setOnTouchListener(new View.OnTouchListener() {
+
+            @Override
+            public boolean onTouch(View view, MotionEvent event) {
+
+                switch (view.getId()) {
+                    case R.id.txt_keyword:
+                        keyboardUtil.hideSystemKeyBroad();
+                        keyboardUtil.hideSoftInputMethod();
+                        if (!keyboardUtil.isShow())
+                            keyboardUtil.showKeyboard();
+                        break;
+                    default:
+                        if (keyboardUtil.isShow())
+                            keyboardUtil.hideKeyboard();
+                        break;
+                }
+
+                return false;
+            }
+        });
     }
+
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        if (keyboardUtil.isShow()) {
+            keyboardUtil.hideKeyboard();
+        }
+        return super.onTouchEvent(event);
+
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if (keyboardUtil.isShow()) {
+                keyboardUtil.hideKeyboard();
+            } else {
+                finish();
+            }
+        }
+        return false;
+    }
+
 
     @Override
     public void onClick(View v) {

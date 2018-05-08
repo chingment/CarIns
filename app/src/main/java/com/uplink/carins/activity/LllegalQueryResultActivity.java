@@ -193,13 +193,7 @@ public class LllegalQueryResultActivity extends SwipeBackActivity implements Vie
                     jsonFa1.put("lllegalCity", item.getLllegalCity());
                     jsonFa1.put("address", item.getAddress());
                     jsonFa1.put("needUrgent", item.getNeedUrgent());
-
-                    if (item.getNeedUrgent()) {
-                        jsonFa1.put("urgentFee", item.getUrgentFee());
-                    } else {
-                        jsonFa1.put("urgentFee", 0);
-                    }
-
+                    jsonFa1.put("urgentFee", item.getUrgentFee());
                     json_Records.put(jsonFa1);
                 }
             }
@@ -352,7 +346,7 @@ public class LllegalQueryResultActivity extends SwipeBackActivity implements Vie
             txt_latefees.setText(bean.getLate_fees());
             txt_content.setText(bean.getContent());
             txt_status.setText(bean.getStatus());
-
+            txt_urgentfee.setText(bean.getUrgentFee());
 
             if (queryResult.getIsOfferPrice()) {
                 //可处理
@@ -370,8 +364,6 @@ public class LllegalQueryResultActivity extends SwipeBackActivity implements Vie
                     if (bean.getNeedUrgent()) {
                         txt_urgentfee.setVisibility(View.VISIBLE);
                         title_urgentfee.setVisibility(View.VISIBLE);
-
-                        txt_urgentfee.setText(bean.getUrgentFee());
                     } else {
                         txt_urgentfee.setVisibility(View.GONE);
                         title_urgentfee.setVisibility(View.GONE);

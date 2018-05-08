@@ -69,8 +69,8 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="车牌号"
                         android:width="60dp"
+                        android:text="车牌号"
                         android:textColor="@color/text_333"
                         android:textSize="@dimen/text_size_12" />
 
@@ -101,8 +101,8 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="车架号"
                         android:width="60dp"
+                        android:text="车架号"
                         android:textColor="@color/text_333"
                         android:textSize="@dimen/text_size_12" />
 
@@ -126,26 +126,64 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
+                    android:layout_height="80dp"
                     android:background="@drawable/boder_bottom"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:width="60dp"
+                            android:text="车型"
+                            android:textColor="@color/text_333"
+                            android:textSize="@dimen/text_size_12" />
+
+                        <TextView
+                            android:id="@+id/txt_modelName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="left"
+                            android:textColor="@color/text_333"
+                            android:textSize="@dimen/text_size_12" />
+
+                        <Button
+                            android:id="@+id/btn_GoGetCarModel"
+                            android:layout_width="68dp"
+                            android:layout_height="26dp"
+                            android:background="@drawable/widget_common_btn"
+                            android:text="选择车型"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_size_14" />
+
+                    </LinearLayout>
 
                     <TextView
+                        android:id="@+id/txt_carmodelinfo"
+                        android:paddingLeft="60dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="车型"
-                        android:width="60dp"
+                        android:layout_weight="1"
+                        android:text=""
                         android:textColor="@color/text_333"
                         android:textSize="@dimen/text_size_12" />
 
                     <TextView
-                        android:id="@+id/txt_modelName"
-                        android:layout_width="match_parent"
+                        android:paddingLeft="60dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:gravity="right"
-                        android:textColor="@color/text_333"
+                        android:layout_weight="1"
+                        android:text="*以上是自动匹配车型，如有误请重新选择车型"
+                        android:textColor="@color/red"
                         android:textSize="@dimen/text_size_12" />
+
+
                 </LinearLayout>
 
                 <LinearLayout
@@ -158,8 +196,8 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="发动机号"
                         android:width="60dp"
+                        android:text="发动机号"
                         android:textColor="@color/text_333"
                         android:textSize="@dimen/text_size_12" />
 
@@ -191,8 +229,8 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="座位数"
                         android:width="60dp"
+                        android:text="座位数"
                         android:textColor="@color/text_333"
                         android:textSize="@dimen/text_size_12" />
 
@@ -223,8 +261,8 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="注册日期"
                         android:width="60dp"
+                        android:text="注册日期"
                         android:textColor="@color/text_333"
                         android:textSize="@dimen/text_size_12" />
 
@@ -296,7 +334,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="12dp"
                     android:button="@drawable/widget_form_radio_green"
-                    android:checked="true"
                     android:paddingLeft="8dp"
                     android:text="否"
                     android:textColor="@color/radio_selector_text_color"
@@ -304,6 +341,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/layout_chgownerDate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
@@ -320,8 +358,8 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="过户日期"
                         android:width="60dp"
+                        android:text="过户日期"
                         android:textColor="@color/text_333"
                         android:textSize="@dimen/text_size_12" />
 
@@ -331,7 +369,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="@null"
-                        android:hint="过户日期"
+                        android:hint="请填写过户日期"
                         android:maxLength="20"
                         android:maxLines="1"
                         android:singleLine="true"
@@ -394,7 +432,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="12dp"
                     android:button="@drawable/widget_form_radio_green"
-                    android:checked="true"
                     android:paddingLeft="8dp"
                     android:text="否"
                     android:textColor="@color/radio_selector_text_color"
@@ -412,15 +449,15 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
-                    android:background="@drawable/boder_bottom"
+
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="车主姓名"
                         android:width="60dp"
+                        android:text="车主姓名"
                         android:textColor="@color/text_333"
                         android:textSize="@dimen/text_size_12" />
 
@@ -429,7 +466,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="@null"
-                        android:hint="姓名"
+                        android:hint="请输入车主姓名（选填）"
                         android:maxLength="20"
                         android:maxLines="1"
                         android:singleLine="true"
@@ -442,16 +479,18 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/layout_customers_carowner_certno"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
+                    android:background="@drawable/boder_top"
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="证件号码"
                         android:width="60dp"
+                        android:text="证件号码"
                         android:textColor="@color/text_333"
                         android:textSize="@dimen/text_size_12" />
 
@@ -460,7 +499,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="@null"
-                        android:hint="证件号码"
+                        android:hint="请输入证件号码（选填）"
                         android:maxLength="20"
                         android:maxLines="1"
                         android:singleLine="true"
@@ -490,5 +529,21 @@
         android:text="确定以上信息无误"
         android:textColor="@color/white"
         android:textSize="@dimen/text_size_14" />
+
+    <android.inputmethodservice.KeyboardView
+        android:id="@+id/keyboard_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="#f1f1f1"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:keyBackground="@drawable/btn_keyboard_key"
+        android:keyTextColor="#ff000000"
+        android:keyTextSize="16sp"
+        android:paddingBottom="8dp"
+        android:paddingTop="8dp"
+        android:shadowRadius="999"
+        android:visibility="gone" />
 
 </LinearLayout>

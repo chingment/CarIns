@@ -18,8 +18,8 @@ public class CarInfoBean implements Serializable {
     private String modelName;
     private String displacement;
     private String marketYear;
-    private int ratedPassengerCapacity;
-    private float replacementValue;
+    private String ratedPassengerCapacity;
+    private String replacementValue;
     private String chgownerType;
     private String chgownerDate;
     private String tonnage;
@@ -109,19 +109,19 @@ public class CarInfoBean implements Serializable {
         this.marketYear = marketYear;
     }
 
-    public int getRatedPassengerCapacity() {
+    public String getRatedPassengerCapacity() {
         return ratedPassengerCapacity;
     }
 
-    public void setRatedPassengerCapacity(int ratedPassengerCapacity) {
+    public void setRatedPassengerCapacity(String ratedPassengerCapacity) {
         this.ratedPassengerCapacity = ratedPassengerCapacity;
     }
 
-    public float getReplacementValue() {
+    public String getReplacementValue() {
         return replacementValue;
     }
 
-    public void setReplacementValue(float replacementValue) {
+    public void setReplacementValue(String replacementValue) {
         this.replacementValue = replacementValue;
     }
 

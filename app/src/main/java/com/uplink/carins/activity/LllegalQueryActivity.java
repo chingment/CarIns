@@ -228,7 +228,7 @@ public class LllegalQueryActivity extends SwipeBackActivity implements View.OnCl
         params.put("merchantId", getAppContext().getUser().getMerchantId() + "");
         params.put("posMachineId", getAppContext().getUser().getPosMachineId() + "");
 
-        getWithMy(Config.URL.lllegalQueryLog, params, new HttpResponseHandler() {
+        getWithMy(Config.URL.lllegalQueryLog, params,false,"", new HttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
                 super.onSuccess(response);

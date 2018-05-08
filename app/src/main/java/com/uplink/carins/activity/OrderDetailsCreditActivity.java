@@ -134,7 +134,7 @@ public class OrderDetailsCreditActivity extends SwipeBackActivity implements Vie
         params.put("posMachineId", this.getAppContext().getUser().getPosMachineId()+"");
         params.put("orderId", order.getId() + "");
         params.put("type", order.getType() + "");
-        getWithMy(Config.URL.getDetails, params, new HttpResponseHandler() {
+        getWithMy(Config.URL.getDetails, params,false,"", new HttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
                 super.onSuccess(response);

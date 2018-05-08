@@ -199,7 +199,7 @@ public class HttpClient {
         requestBuilder.addHeader("timestamp", currenttime);
         String sign = Config.getSign(data, currenttime);
         requestBuilder.addHeader("sign", "" + sign);
-
+        requestBuilder.addHeader("version", com.uplink.carins.BuildConfig.VERSION_NAME);
 
         Request request = requestBuilder.build();
         client.newCall(request).enqueue(new Callback() {
@@ -270,6 +270,7 @@ public class HttpClient {
         requestBuilder.addHeader("timestamp", currenttime);
         String sign = Config.getSign(json.toString(), currenttime);
         requestBuilder.addHeader("sign", "" + sign);
+        requestBuilder.addHeader("version", com.uplink.carins.BuildConfig.VERSION_NAME);
 
 
         try {

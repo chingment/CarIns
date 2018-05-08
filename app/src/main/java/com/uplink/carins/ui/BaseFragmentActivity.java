@@ -129,7 +129,7 @@ public class BaseFragmentActivity extends FragmentActivity {
 
     private CustomDialogLoading customDialogLoading;
 
-    public  CustomDialogLoading getCustomDialogLoading() {
+    public CustomDialogLoading getCustomDialogLoading() {
         return customDialogLoading;
     }
 
@@ -174,7 +174,7 @@ public class BaseFragmentActivity extends FragmentActivity {
 
             LogUtil.i("datetime:" + AppCacheManager.getLastUpdateTime());
 
-            getWithMy(Config.URL.home, params, new CallBack());
+            getWithMy(Config.URL.home, params,false,"",new CallBack());
         }
     }
 
@@ -357,7 +357,7 @@ public class BaseFragmentActivity extends FragmentActivity {
             public void onSuccess(String response) {
 
                 final String s = response;
-                if(s.indexOf("\"result\":")>-1) {
+                if (s.indexOf("\"result\":") > -1) {
                     //运行在子线程,,
                     runOnUiThread(new Runnable() {
                         @Override
@@ -365,10 +365,8 @@ public class BaseFragmentActivity extends FragmentActivity {
                             handler.onSuccess(s);
                         }
                     });
-                }
-                else
-                {
-                    LogUtil.e("解释错误：原始数据》》"+s);
+                } else {
+                    LogUtil.e("解释错误：原始数据》》" + s);
                 }
             }
 
@@ -384,13 +382,18 @@ public class BaseFragmentActivity extends FragmentActivity {
         });
     }
 
-    public void getWithMy(String url, Map<String, String> param, final HttpResponseHandler handler) {
+    public void getWithMy(String url, Map<String, String> param, final Boolean isShowLoading, final String loadingMsg, final HttpResponseHandler handler) {
         HttpClient.getWithMy(url, param, new HttpResponseHandler() {
 
             @Override
             public void onBeforeSend() {
 
-                //showProgressDialog(false);
+                if (isShowLoading) {
+                    if (!StringUtil.isEmptyNotNull(loadingMsg)) {
+                        customDialogLoading.setProgressText(loadingMsg);
+                        customDialogLoading.showDialog();
+                    }
+                }
             }
 
             @Override
@@ -399,7 +402,7 @@ public class BaseFragmentActivity extends FragmentActivity {
                 final String s = response;
 
 
-                if(s.indexOf("\"result\":")>-1) {
+                if (s.indexOf("\"result\":") > -1) {
                     //运行在子线程,,
                     runOnUiThread(new Runnable() {
                         @Override
@@ -407,8 +410,7 @@ public class BaseFragmentActivity extends FragmentActivity {
                             handler.onSuccess(s);
                         }
                     });
-                }
-                else {
+                } else {
 
                     LogUtil.e("解释错误：原始数据》》" + s);
                 }
@@ -421,7 +423,9 @@ public class BaseFragmentActivity extends FragmentActivity {
 
             @Override
             public void onComplete() {
-                //removeProgressDialog();
+                if (isShowLoading) {
+                    customDialogLoading.cancelDialog();
+                }
             }
         });
     }
