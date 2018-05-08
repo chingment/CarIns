@@ -53,6 +53,7 @@ public class NwCarInsConfirmCarInfoActivity extends SwipeBackActivity implements
     private LinearLayout layout_chgownerDate;
 
     private Button btn_GoGetCarModel;
+    private Button btn_submit;
 
     private CarInfoResultBean carInfo;
 
@@ -60,6 +61,8 @@ public class NwCarInsConfirmCarInfoActivity extends SwipeBackActivity implements
     private CustomDatePicker firstRegisterDatePicker;
 
     private CarKeyboardUtil keyboardUtil;
+
+    private TextView txt_carmodelinfo;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,14 +75,14 @@ public class NwCarInsConfirmCarInfoActivity extends SwipeBackActivity implements
         initData();
 
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.CHINA);
-        String now = sdf.format(new Date());
+//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.CHINA);
+//        String now = sdf.format(new Date());
         firstRegisterDatePicker = new CustomDatePicker(this, new CustomDatePicker.ResultHandler() {
             @Override
             public void handle(String time) { // 回调接口，获得选中的时间
                 txt_firstRegisterDate.setText(time.split(" ")[0]);
             }
-        }, now, "2099-12-31 00:00"); // 初始化日期格式请用：yyyy-MM-dd HH:mm，否则不能正常运行
+        }, "1960-01-01 00:00", "2099-12-31 00:00"); // 初始化日期格式请用：yyyy-MM-dd HH:mm，否则不能正常运行
 
         firstRegisterDatePicker.showSpecificTime(false); // 不显示时和分
         firstRegisterDatePicker.setIsLoop(false); // 不允许循环滚动
@@ -89,7 +92,7 @@ public class NwCarInsConfirmCarInfoActivity extends SwipeBackActivity implements
             public void handle(String time) { // 回调接口，获得选中的时间
                 txt_chgownerDate.setText(time.split(" ")[0]);
             }
-        }, now, "2099-12-31 00:00"); // 初始化日期格式请用：yyyy-MM-dd HH:mm，否则不能正常运行
+        }, "1960-01-01 00:00", "2099-12-31 00:00"); // 初始化日期格式请用：yyyy-MM-dd HH:mm，否则不能正常运行
 
         chgownerDatePicker.showSpecificTime(false); // 不显示时和分
         chgownerDatePicker.setIsLoop(false); // 不允许循环滚动
@@ -101,6 +104,7 @@ public class NwCarInsConfirmCarInfoActivity extends SwipeBackActivity implements
         txtHeaderTitle = (TextView) findViewById(R.id.txt_main_header_title);
         txtHeaderTitle.setText("确认信息");
 
+        btn_submit = (Button) findViewById(R.id.btn_submit);
         btn_GoGetCarModel = (Button) findViewById(R.id.btn_GoGetCarModel);
 
         txt_licensePlateNo = (EditText) findViewById(R.id.txt_licensePlateNo);
@@ -129,11 +133,13 @@ public class NwCarInsConfirmCarInfoActivity extends SwipeBackActivity implements
 
         layout_customers_carowner_certno = (LinearLayout) findViewById(R.id.layout_customers_carowner_certno);
         layout_chgownerDate = (LinearLayout) findViewById(R.id.layout_chgownerDate);
+
+        txt_carmodelinfo= (TextView) findViewById(R.id.txt_carmodelinfo);
     }
 
     private void initEvent() {
         btnHeaderGoBack.setOnClickListener(this);
-
+        btn_submit.setOnClickListener(this);
         btn_GoGetCarModel.setOnClickListener(this);
         txt_chgownerDate.setOnClickListener(this);
         txt_firstRegisterDate.setOnClickListener(this);
@@ -209,6 +215,7 @@ public class NwCarInsConfirmCarInfoActivity extends SwipeBackActivity implements
                     if (isChecked) {
                         cb_chgownerType_1.setChecked(false);
                         layout_chgownerDate.setVisibility(View.VISIBLE);
+                        carInfo.getCar().setChgownerType("1");
                     } else {
                         boolean chgownerType_1 = cb_chgownerType_1.isChecked();
                         if (chgownerType_1 == false) {
@@ -220,6 +227,7 @@ public class NwCarInsConfirmCarInfoActivity extends SwipeBackActivity implements
                     if (isChecked) {
                         cb_chgownerType_0.setChecked(false);
                         layout_chgownerDate.setVisibility(View.GONE);
+                        carInfo.getCar().setChgownerType("0");
                     } else {
                         boolean chgownerType_0 = cb_chgownerType_0.isChecked();
                         if (chgownerType_0 == false) {
@@ -286,10 +294,10 @@ public class NwCarInsConfirmCarInfoActivity extends SwipeBackActivity implements
     @Override
     public void onClick(View v) {
 
-        String firstRegisterDate="";
+        String firstRegisterDate = "";
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.CHINA);
         String now = sdf.format(new Date());
-
+        String chgownerDate = "";
         switch (v.getId()) {
             case R.id.btn_main_header_goback:
                 finish();
@@ -302,7 +310,7 @@ public class NwCarInsConfirmCarInfoActivity extends SwipeBackActivity implements
                 firstRegisterDatePicker.show(firstRegisterDate);
                 break;
             case R.id.txt_chgownerDate:
-                String chgownerDate = txt_chgownerDate.getText().toString();
+                chgownerDate = txt_chgownerDate.getText().toString();
                 if (StringUtil.isEmptyNotNull(chgownerDate)) {
                     chgownerDate = now;
                 }
@@ -333,6 +341,18 @@ public class NwCarInsConfirmCarInfoActivity extends SwipeBackActivity implements
                 startActivityForResult(intent, 0);
 
                 break;
+            case R.id.btn_submit:
+
+                if (carInfo.getCar().getChgownerType().equals("1")) {
+                    chgownerDate = txt_chgownerDate.getText().toString();
+
+                    if (StringUtil.isEmptyNotNull(chgownerDate)) {
+                        showToast("过户日期不能为空");
+                        return;
+                    }
+                }
+
+                break;
         }
     }
 
@@ -340,18 +360,20 @@ public class NwCarInsConfirmCarInfoActivity extends SwipeBackActivity implements
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (resultCode) {
             case RESULT_OK:
-                CarInsCarModelInfoBean carInsCarModelInfo = (CarInsCarModelInfoBean) data.getSerializableExtra("dataBean");
+                CarInsCarModelInfoBean bean = (CarInsCarModelInfoBean) data.getSerializableExtra("dataBean");
 
 
-                txt_ratedPassengerCapacity.setText(carInsCarModelInfo.getRatedPassengerCapacity());
+                txt_ratedPassengerCapacity.setText(bean.getRatedPassengerCapacity());
 
 
-                carInfo.getCar().setModelName(carInsCarModelInfo.getModelName());
-                carInfo.getCar().setModelCode(carInsCarModelInfo.getModelCode());
-                carInfo.getCar().setRatedPassengerCapacity(carInsCarModelInfo.getRatedPassengerCapacity());
-                carInfo.getCar().setDisplacement(carInsCarModelInfo.getDisplacement());
-                carInfo.getCar().setReplacementValue(carInsCarModelInfo.getReplacementValue());
+                carInfo.getCar().setModelName(bean.getModelName());
+                carInfo.getCar().setModelCode(bean.getModelCode());
+                carInfo.getCar().setRatedPassengerCapacity(bean.getRatedPassengerCapacity());
+                carInfo.getCar().setDisplacement(bean.getDisplacement());
+                carInfo.getCar().setReplacementValue(bean.getReplacementValue());
 
+                String carmodelinfo = bean.getModelName() + ":排量" + bean.getDisplacement() + " " + bean.getMarketYear() + "款" + " " + bean.getRatedPassengerCapacity() + "座" + "（参考价：" + bean.getReplacementValue() + "）";
+                txt_carmodelinfo.setText(carmodelinfo);
 
                 break;
             default:
