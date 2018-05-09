@@ -15,6 +15,7 @@ public class CustomerBean implements Serializable {
     private String identityFacePicKey ;
     private String identityBackPicKey ;
     private String orgPicKey ;
+    private String insuredFlag;
 
     public String getName() {
         return name;
@@ -70,5 +71,13 @@ public class CustomerBean implements Serializable {
 
     public void setOrgPicKey(String orgPicKey) {
         this.orgPicKey = orgPicKey;
+    }
+
+    public String getInsuredFlag() {
+        return insuredFlag;
+    }
+
+    public void setInsuredFlag(String insuredFlag) {
+        this.insuredFlag = insuredFlag;
     }
 }

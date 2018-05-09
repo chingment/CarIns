@@ -253,7 +253,7 @@ public class LoginActivity extends BaseFragmentActivity implements View.OnClickL
             param.put("password", password);
             param.put("deviceId", appContext.getDeviceId());//861097039013879
 
-            postWithMy(Config.URL.login, param, null, new HttpResponseHandler() {
+            postWithMy(Config.URL.login, param, null,true,"正在登录中", new HttpResponseHandler() {
 
                 @Override
                 public void onSuccess(String response) {

@@ -117,7 +117,7 @@ public class ForgetPwdCheckUsernameActivity extends SwipeBackActivity implements
         Map<String, Object> params = new HashMap<>();
         params.put("phone", phone);
 
-        postWithMy(Config.URL.getGetForgetPwdCode, params, null, new HttpResponseHandler() {
+        postWithMy(Config.URL.getGetForgetPwdCode, params, null,true,"正在提交中", new HttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
                 super.onSuccess(response);

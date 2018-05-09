@@ -329,7 +329,7 @@ public class LllegalQueryActivity extends SwipeBackActivity implements View.OnCl
         params.put("enginNo", enginno);
         params.put("isOfferPrice", isOfferPrice);
 
-        postWithMy(Config.URL.lllegalQuery, params, null, new HttpResponseHandler() {
+        postWithMy(Config.URL.lllegalQuery, params, null,true,"正在提交中", new HttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
                 super.onSuccess(response);
@@ -372,7 +372,7 @@ public class LllegalQueryActivity extends SwipeBackActivity implements View.OnCl
         params.put("merchantId", this.getAppContext().getUser().getMerchantId());
         params.put("score", "50");
 
-        postWithMy(Config.URL.submitLllegalQueryScoreRecharge, params, null, new HttpResponseHandler() {
+        postWithMy(Config.URL.submitLllegalQueryScoreRecharge, params, null,true,"正在提交中", new HttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
                 super.onSuccess(response);

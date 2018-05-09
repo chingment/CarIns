@@ -154,8 +154,6 @@ public class NwCarInsGetCarInfoActivity extends ChoicePhotoAndCropAndSwipeBackAc
                         showToast("请输入车牌号码");
                         return;
                     }
-
-                    keyword = "粤AT810P";
                     submit(2, keyword);
                 }
                 break;
@@ -178,7 +176,7 @@ public class NwCarInsGetCarInfoActivity extends ChoicePhotoAndCropAndSwipeBackAc
         params.put("keyword", keyword);
 
 
-        postWithMy(Config.URL.carInsGetCarInfo, params, null, new HttpResponseHandler() {
+        postWithMy(Config.URL.carInsGetCarInfo, params, null,true,"正在查询中", new HttpResponseHandler() {
 
             @Override
             public void onSuccess(String response) {

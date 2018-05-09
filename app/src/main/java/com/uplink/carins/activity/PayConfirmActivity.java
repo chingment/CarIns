@@ -214,7 +214,7 @@ public class PayConfirmActivity extends SwipeBackActivity implements View.OnClic
                         params.put("transType", transType);
 
 
-                        postWithMy(Config.URL.orderGetPayTranSn, params, null, new HttpResponseHandler() {
+                        postWithMy(Config.URL.orderGetPayTranSn, params, null,true,"正在提交中", new HttpResponseHandler() {
                             @Override
                             public void onSuccess(String response) {
                                 super.onSuccess(response);
@@ -331,7 +331,7 @@ public class PayConfirmActivity extends SwipeBackActivity implements View.OnClic
                         }
 
 
-                        postWithMy(Config.URL.orderPayResultNotify, param, null, new HttpResponseHandler() {
+                        postWithMy(Config.URL.orderPayResultNotify, param, null,true,"正在提交中", new HttpResponseHandler() {
 
                             @Override
                             public void onSuccess(String response) {

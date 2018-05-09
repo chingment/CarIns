@@ -8,7 +8,18 @@ import java.util.List;
  */
 
 public class CarInfoResultBean implements Serializable {
+    private String orderSeq;
     private String auto ;
+    private CarInfoBean car ;
+    private List<CustomerBean> customers ;
+
+    public String getOrderSeq() {
+        return orderSeq;
+    }
+
+    public void setOrderSeq(String orderSeq) {
+        this.orderSeq = orderSeq;
+    }
 
     public String getAuto() {
         return auto;
@@ -34,6 +45,4 @@ public class CarInfoResultBean implements Serializable {
         this.customers = customers;
     }
 
-    private CarInfoBean car ;
-    private List<CustomerBean> customers ;
 }

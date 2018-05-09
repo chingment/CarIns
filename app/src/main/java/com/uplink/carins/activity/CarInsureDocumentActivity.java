@@ -210,7 +210,7 @@ public class CarInsureDocumentActivity extends ChoicePhotoAndCropAndSwipeBackAct
             files.put("CZ_SFZ_Img", path_carinsure_shenfenzheng);
         }
 
-        postWithMy(Config.URL.submitInsure, params, files,  new HttpResponseHandler() {
+        postWithMy(Config.URL.submitInsure, params, files,true,"正在提交中",  new HttpResponseHandler() {
 
             @Override
             public void onSuccess(String response) {

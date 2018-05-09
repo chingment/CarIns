@@ -248,7 +248,7 @@ public class CarClaimActivity extends SwipeBackActivity implements View.OnClickL
         params.put("merchantId", this.getAppContext().getUser().getMerchantId());
         params.put("repairsType", "1");
 
-        postWithMy(Config.URL.submitClaim, params, null, new HttpResponseHandler() {
+        postWithMy(Config.URL.submitClaim, params, null,true,"正在提交中", new HttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
                 super.onSuccess(response);

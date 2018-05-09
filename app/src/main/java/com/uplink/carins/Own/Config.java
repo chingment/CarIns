@@ -54,5 +54,8 @@ public class Config {
         public static final String orderGetPayTranSn = BuildConfig.ENVIRONMENT + "/api/Order/GetPayTranSn";
         public static final String carInsGetCarInfo = BuildConfig.ENVIRONMENT + "/api/CarIns/GetCarInfo";
         public static final String carInsGetCarModelInfo = BuildConfig.ENVIRONMENT + "/api/CarIns/GetCarModelInfo";
+        public static final String carInsEditBaseInfo = BuildConfig.ENVIRONMENT + "/api/CarIns/EditBaseInfo";
+        public static final String carInsComanyInfo = BuildConfig.ENVIRONMENT + "/api/CarIns/InsComanyInfo";
+
     }
 }

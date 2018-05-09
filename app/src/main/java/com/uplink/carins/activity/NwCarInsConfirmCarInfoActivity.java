@@ -63,6 +63,8 @@ public class NwCarInsConfirmCarInfoActivity extends SwipeBackActivity implements
     private CarKeyboardUtil keyboardUtil;
 
     private TextView txt_carmodelinfo;
+    private TextView txt_carmodelinfo_tip;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -134,7 +136,8 @@ public class NwCarInsConfirmCarInfoActivity extends SwipeBackActivity implements
         layout_customers_carowner_certno = (LinearLayout) findViewById(R.id.layout_customers_carowner_certno);
         layout_chgownerDate = (LinearLayout) findViewById(R.id.layout_chgownerDate);
 
-        txt_carmodelinfo= (TextView) findViewById(R.id.txt_carmodelinfo);
+        txt_carmodelinfo = (TextView) findViewById(R.id.txt_carmodelinfo);
+        txt_carmodelinfo_tip = (TextView) findViewById(R.id.txt_carmodelinfo_tip);
     }
 
     private void initEvent() {
@@ -174,13 +177,13 @@ public class NwCarInsConfirmCarInfoActivity extends SwipeBackActivity implements
 
 
     private void initData() {
-        txt_licensePlateNo.setText(carInfo.getCar().getLicensePlateNo() + "");
-        txt_vin.setText(carInfo.getCar().getVin() + "");
-        txt_modelName.setText(carInfo.getCar().getModelName() + "");
-        txt_engineNo.setText(carInfo.getCar().getEngineNo() + "");
-        txt_ratedPassengerCapacity.setText(carInfo.getCar().getRatedPassengerCapacity() + "");
-        txt_firstRegisterDate.setText(carInfo.getCar().getFirstRegisterDate() + "");
-        //txt_chgownerDate.setText(carInfo.getCar().getChgownerDate() + "");
+        txt_licensePlateNo.setText(carInfo.getCar().getLicensePlateNo());
+        txt_vin.setText(carInfo.getCar().getVin());
+        txt_modelName.setText(carInfo.getCar().getModelName());
+        txt_engineNo.setText(carInfo.getCar().getEngineNo());
+        txt_ratedPassengerCapacity.setText(carInfo.getCar().getRatedPassengerCapacity());
+        txt_firstRegisterDate.setText(carInfo.getCar().getFirstRegisterDate());
+        txt_chgownerDate.setText(carInfo.getCar().getChgownerDate());
 
         String belong = carInfo.getCar().getBelong();
 
@@ -204,6 +207,11 @@ public class NwCarInsConfirmCarInfoActivity extends SwipeBackActivity implements
             cb_chgownerType_1.setChecked(false);
         }
 
+        if (StringUtil.isEmptyNotNull(carInfo.getCar().getModelCode())) {
+            txt_carmodelinfo_tip.setText("* 车型匹配失败，请手动选择车型");
+        } else {
+            txt_carmodelinfo_tip.setText("* 以上是自动匹配车型，如有误请重新选择车型");
+        }
     }
 
     CheckBox.OnCheckedChangeListener cb_chgownerType_CheckListener = new CheckBox.OnCheckedChangeListener() {
@@ -298,6 +306,8 @@ public class NwCarInsConfirmCarInfoActivity extends SwipeBackActivity implements
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.CHINA);
         String now = sdf.format(new Date());
         String chgownerDate = "";
+        Intent intent = null;
+        Bundle b = null;
         switch (v.getId()) {
             case R.id.btn_main_header_goback:
                 finish();
@@ -326,7 +336,7 @@ public class NwCarInsConfirmCarInfoActivity extends SwipeBackActivity implements
                     return;
                 }
 
-                Intent intent = new Intent(NwCarInsConfirmCarInfoActivity.this, NwCarInsGetCarModelInfoActivity.class);
+                intent = new Intent(NwCarInsConfirmCarInfoActivity.this, NwCarInsGetCarModelInfoActivity.class);
 
 
                 CarInsGetCarModelInfoPmsBean pmsData = new CarInsGetCarModelInfoPmsBean();
@@ -334,7 +344,7 @@ public class NwCarInsConfirmCarInfoActivity extends SwipeBackActivity implements
                 pmsData.setVin(vin);
                 pmsData.setFirstRegisterDate(firstRegisterDate);
                 pmsData.setModelName(modelName);
-                Bundle b = new Bundle();
+                b = new Bundle();
                 b.putSerializable("dataBean", pmsData);
                 intent.putExtras(b);
 
@@ -351,6 +361,25 @@ public class NwCarInsConfirmCarInfoActivity extends SwipeBackActivity implements
                         return;
                     }
                 }
+
+                String modeName = txt_modelName.getText().toString();
+                if (StringUtil.isEmptyNotNull(modeName)) {
+                    showToast("请选择车型");
+                    return;
+                }
+
+
+                String arowner_name = txt_customers_carowner_name.getText().toString();
+                String arowner_certno = txt_customers_carowner_certno.getText().toString();
+                intent = new Intent(NwCarInsConfirmCarInfoActivity.this, NwCarInsKindActivity.class);
+                b = new Bundle();
+                carInfo.setAuto("1");
+                carInfo.getCustomers().get(2).setName(arowner_name);
+                carInfo.getCustomers().get(2).setCertNo(arowner_certno);
+                b.putSerializable("dataBean", carInfo);
+                intent.putExtras(b);
+
+                startActivity(intent);
 
                 break;
         }

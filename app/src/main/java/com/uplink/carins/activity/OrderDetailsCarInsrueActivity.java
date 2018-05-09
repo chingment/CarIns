@@ -340,7 +340,7 @@ public class OrderDetailsCarInsrueActivity extends ChoicePhotoAndCropAndSwipeBac
             }
         }
 
-        postWithMy(Config.URL.submitFollowInsure, params, files, new HttpResponseHandler() {
+        postWithMy(Config.URL.submitFollowInsure, params, files,true,"正在提交中", new HttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
                 super.onSuccess(response);

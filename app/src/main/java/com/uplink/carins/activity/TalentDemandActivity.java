@@ -295,7 +295,7 @@ public class TalentDemandActivity extends SwipeBackActivity implements View.OnCl
         params.put("useStartTime", useStartTime);
         params.put("useEndTime", useEndTime);
 
-        postWithMy(Config.URL.submitTalentDemand, params,null, new  HttpResponseHandler() {
+        postWithMy(Config.URL.submitTalentDemand, params,null,true,"正在提交中", new  HttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
                 super.onSuccess(response);

@@ -138,7 +138,7 @@ public class ProductDetailsByInsuranceActivity extends SwipeBackActivity impleme
         params.put("posMachineId", this.getAppContext().getUser().getPosMachineId());
         params.put("productSkuId", product.getSkuId());
 
-        postWithMy(Config.URL.submitInsurance, params, null, new HttpResponseHandler() {
+        postWithMy(Config.URL.submitInsurance, params, null, true,"正在提交中",new HttpResponseHandler() {
 
             @Override
             public void onSuccess(String response) {

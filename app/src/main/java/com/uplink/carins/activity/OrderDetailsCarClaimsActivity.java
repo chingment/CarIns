@@ -299,7 +299,7 @@ public class OrderDetailsCarClaimsActivity extends ChoicePhotoAndCropAndSwipeBac
 
         files.put("estimateListImg",list_order_zj_path.get(0));
 
-        postWithMy(Config.URL.submitEstimateList, params, files, new HttpResponseHandler() {
+        postWithMy(Config.URL.submitEstimateList, params, files, true,"正在提交中",new HttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
                 super.onSuccess(response);

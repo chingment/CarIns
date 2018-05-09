@@ -213,7 +213,7 @@ public class ApplyLossAssessActivity extends SwipeBackActivity implements View.O
         params.put("posMachineId", this.getAppContext().getUser().getPosMachineId() + "");
         params.put("insuranceCompanyId", insuranceCompanyId);
 
-        postWithMy(Config.URL.submitApplyLossAssess, params, null, new HttpResponseHandler() {
+        postWithMy(Config.URL.submitApplyLossAssess, params, null,true,"正在提交中", new HttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
                 super.onSuccess(response);

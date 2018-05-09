@@ -343,14 +343,18 @@ public class BaseFragmentActivity extends FragmentActivity {
         return false;
     }
 
-    public void postWithMy(String url, Map<String, Object> params, Map<String, String> filePaths, final HttpResponseHandler handler) {
+    public void postWithMy(String url, Map<String, Object> params, Map<String, String> filePaths, final Boolean isShowLoading, final String loadingMsg, final HttpResponseHandler handler) {
 
         HttpClient.postWithMy(url, params, filePaths, new HttpResponseHandler() {
 
             @Override
             public void onBeforeSend() {
-                customDialogLoading.setProgressText("正在处理中....");
-                customDialogLoading.showDialog();
+                if (isShowLoading) {
+                    if (!StringUtil.isEmptyNotNull(loadingMsg)) {
+                        customDialogLoading.setProgressText(loadingMsg);
+                        customDialogLoading.showDialog();
+                    }
+                }
             }
 
             @Override
@@ -366,6 +370,7 @@ public class BaseFragmentActivity extends FragmentActivity {
                         }
                     });
                 } else {
+                    showToast("服务器数据异常");
                     LogUtil.e("解释错误：原始数据》》" + s);
                 }
             }
@@ -377,7 +382,9 @@ public class BaseFragmentActivity extends FragmentActivity {
 
             @Override
             public void onComplete() {
-                customDialogLoading.cancelDialog();
+                if (isShowLoading) {
+                    customDialogLoading.cancelDialog();
+                }
             }
         });
     }

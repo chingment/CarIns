@@ -205,7 +205,7 @@ public class LllegalQueryResultActivity extends SwipeBackActivity implements Vie
         params.put("lllegalRecord", json_Records);
 
 
-        postWithMy(Config.URL.submitLllegalDealt, params, null, new HttpResponseHandler() {
+        postWithMy(Config.URL.submitLllegalDealt, params, null,true,"正在提交中", new HttpResponseHandler() {
 
             @Override
             public void onSuccess(String response) {

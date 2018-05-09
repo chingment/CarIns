@@ -154,7 +154,7 @@ public class RegisterActivity extends SwipeBackActivity implements View.OnClickL
         Map<String, Object> params = new HashMap<>();
         params.put("phone", phone);
 
-        postWithMy(Config.URL.getCreateAccountCode, params, null, new HttpResponseHandler() {
+        postWithMy(Config.URL.getCreateAccountCode, params, null,true,"正在提交中", new HttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
                 super.onSuccess(response);
@@ -230,7 +230,7 @@ public class RegisterActivity extends SwipeBackActivity implements View.OnClickL
         params.put("password", password);
         params.put("deviceId", getAppContext().getDeviceId());
 
-        postWithMy(Config.URL.accountCreate, params, null, new HttpResponseHandler() {
+        postWithMy(Config.URL.accountCreate, params, null, true,"正在提交中",new HttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
                 super.onSuccess(response);
