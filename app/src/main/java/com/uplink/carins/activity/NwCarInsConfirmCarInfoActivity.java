@@ -302,10 +302,18 @@ public class NwCarInsConfirmCarInfoActivity extends SwipeBackActivity implements
     @Override
     public void onClick(View v) {
 
-        String firstRegisterDate = "";
+        String licensePlateNo = txt_licensePlateNo.getText().toString();
+        String vin = txt_vin.getText().toString();
+        String engineNo = txt_engineNo.getText().toString();
+        String modelName = txt_modelName.getText().toString();
+        String ratedPassengerCapacity = txt_ratedPassengerCapacity.getText().toString();
+        String firstRegisterDate = txt_firstRegisterDate.getText().toString();
+        String chgownerDate = txt_chgownerDate.getText().toString();
+        String arowner_name = txt_customers_carowner_name.getText().toString();
+        String arowner_certno = txt_customers_carowner_certno.getText().toString();
+
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.CHINA);
         String now = sdf.format(new Date());
-        String chgownerDate = "";
         Intent intent = null;
         Bundle b = null;
         switch (v.getId()) {
@@ -313,14 +321,13 @@ public class NwCarInsConfirmCarInfoActivity extends SwipeBackActivity implements
                 finish();
                 break;
             case R.id.txt_firstRegisterDate:
-                firstRegisterDate = txt_firstRegisterDate.getText().toString();
                 if (StringUtil.isEmptyNotNull(firstRegisterDate)) {
                     firstRegisterDate = now;
                 }
                 firstRegisterDatePicker.show(firstRegisterDate);
                 break;
             case R.id.txt_chgownerDate:
-                chgownerDate = txt_chgownerDate.getText().toString();
+
                 if (StringUtil.isEmptyNotNull(chgownerDate)) {
                     chgownerDate = now;
                 }
@@ -328,9 +335,6 @@ public class NwCarInsConfirmCarInfoActivity extends SwipeBackActivity implements
                 break;
             case R.id.btn_GoGetCarModel:
 
-                String vin = txt_vin.getText() + "";
-                firstRegisterDate = txt_firstRegisterDate.getText() + "";
-                String modelName = txt_modelName.getText() + "";
                 if (StringUtil.isEmpty(firstRegisterDate)) {
                     showToast("请输入注册日期");
                     return;
@@ -354,26 +358,27 @@ public class NwCarInsConfirmCarInfoActivity extends SwipeBackActivity implements
             case R.id.btn_submit:
 
                 if (carInfo.getCar().getChgownerType().equals("1")) {
-                    chgownerDate = txt_chgownerDate.getText().toString();
-
                     if (StringUtil.isEmptyNotNull(chgownerDate)) {
                         showToast("过户日期不能为空");
                         return;
                     }
                 }
 
-                String modeName = txt_modelName.getText().toString();
-                if (StringUtil.isEmptyNotNull(modeName)) {
+                if (StringUtil.isEmptyNotNull(modelName)) {
                     showToast("请选择车型");
                     return;
                 }
 
-
-                String arowner_name = txt_customers_carowner_name.getText().toString();
-                String arowner_certno = txt_customers_carowner_certno.getText().toString();
                 intent = new Intent(NwCarInsConfirmCarInfoActivity.this, NwCarInsKindActivity.class);
                 b = new Bundle();
                 carInfo.setAuto("1");
+                carInfo.getCar().setLicensePlateNo(licensePlateNo);
+                carInfo.getCar().setVin(vin);
+                carInfo.getCar().setModelName(modelName);
+                carInfo.getCar().setEngineNo(engineNo);
+                carInfo.getCar().setRatedPassengerCapacity(ratedPassengerCapacity);
+                carInfo.getCar().setFirstRegisterDate(firstRegisterDate);
+                carInfo.getCar().setChgownerDate(chgownerDate);
                 carInfo.getCustomers().get(2).setName(arowner_name);
                 carInfo.getCustomers().get(2).setCertNo(arowner_certno);
                 b.putSerializable("dataBean", carInfo);

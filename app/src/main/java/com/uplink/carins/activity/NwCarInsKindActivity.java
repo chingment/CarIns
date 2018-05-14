@@ -315,9 +315,15 @@ public class NwCarInsKindActivity extends SwipeBackActivity implements View.OnCl
 
                     Intent intent = new Intent(NwCarInsKindActivity.this, NwCarInsCompanyActivity.class);
                     Bundle b = new Bundle();
-                    b.putSerializable("dataBean", rt.getData());
-                    intent.putExtras(b);
+                    b.putSerializable("carInfoBean", rt.getData());
 
+
+                    int plandIndex = Integer.parseInt(form_carinsurekind_rb_insurekind.getTag().toString());
+                    CarInsPlanBean carInsPlan = carInsPlans.get(plandIndex);
+                    List<CarInsKindBean> carInsKinds = carInsPlanKindMap.get(carInsPlan.getId());
+                    b.putSerializable("insKindsBean", (Serializable)carInsKinds);
+
+                    intent.putExtras(b);
                     startActivity(intent);
 
                 } else {

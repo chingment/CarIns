@@ -138,20 +138,20 @@
                     android:layout_width="300dp"
                     android:layout_height="36dp"
                     android:orientation="horizontal"
-                    android:background="@drawable/boder_bottom"
                     >
 
 
                     <EditText
                         android:id="@+id/txt_keyword"
-                        android:layout_width="200dp"
+                        android:layout_width="190dp"
                         android:layout_height="match_parent"
-                        android:background="@null"
+                        android:background="@drawable/boder_bottom"
                         android:hint="车牌号码"
                         android:maxLines="1"
                         android:singleLine="true"
                         android:textColor="@color/text"
                         android:textColorHint="@color/text_hint"
+                        android:layout_marginRight="10dp"
                         android:textSize="12.0sp" />
 
                     <Button

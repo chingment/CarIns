@@ -56,6 +56,7 @@ public class Config {
         public static final String carInsGetCarModelInfo = BuildConfig.ENVIRONMENT + "/api/CarIns/GetCarModelInfo";
         public static final String carInsEditBaseInfo = BuildConfig.ENVIRONMENT + "/api/CarIns/EditBaseInfo";
         public static final String carInsComanyInfo = BuildConfig.ENVIRONMENT + "/api/CarIns/InsComanyInfo";
+        public static final String carInsInsInquiry = BuildConfig.ENVIRONMENT + "/api/CarIns/InsInquiry";
 
     }
 }

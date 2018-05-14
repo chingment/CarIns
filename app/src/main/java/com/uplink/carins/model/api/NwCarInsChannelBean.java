@@ -18,13 +18,24 @@ public class NwCarInsChannelBean implements Serializable {
     private String opType;
     private String remote;
     private String sort;
-
+    private int channelId;
+    private int offerResult;
+    private float offerPremium;
+    private String offerMsg;
     public int getCompanyId() {
         return companyId;
     }
 
     public void setCompanyId(int companyId) {
         this.companyId = companyId;
+    }
+
+    public int getChannelId() {
+        return channelId;
+    }
+
+    public void setChannelId(int channelId) {
+        this.channelId = channelId;
     }
 
     public String getCompanyImg() {
@@ -97,6 +108,30 @@ public class NwCarInsChannelBean implements Serializable {
 
     public void setSort(String sort) {
         this.sort = sort;
+    }
+
+    public int getOfferResult() {
+        return offerResult;
+    }
+
+    public void setOfferResult(int offerResult) {
+        this.offerResult = offerResult;
+    }
+
+    public float getOfferPremium() {
+        return offerPremium;
+    }
+
+    public void setOfferPremium(float offerPremium) {
+        this.offerPremium = offerPremium;
+    }
+
+    public String getOfferMsg() {
+        return offerMsg;
+    }
+
+    public void setOfferMsg(String offerMsg) {
+        this.offerMsg = offerMsg;
     }
 
 }
