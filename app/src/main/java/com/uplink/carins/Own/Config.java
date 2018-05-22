@@ -40,7 +40,7 @@ public class Config {
         public static final String getGetForgetPwdCode = BuildConfig.ENVIRONMENT  + "/api/Sms/GetForgetPwdCode";
         public static final String accountCreate = BuildConfig.ENVIRONMENT  + "/api/Account/Create";
         public static final String accountResetPassword = BuildConfig.ENVIRONMENT  + "/api/Account/ResetPassword";
-        public static final String orderQrCodeDownload = BuildConfig.ENVIRONMENT  + "/api/Order/QrCodeDownload";
+        public static final String orderPayUnifiedOrder = BuildConfig.ENVIRONMENT  + "/api/Order/PayUnifiedOrder";
         public static final String orderPayResultQuery = BuildConfig.ENVIRONMENT  + "/api/Order/PayResultQuery";
         public static final String extendedAppGoTo = BuildConfig.ENVIRONMENT  + "/ExtendedApp/GoTo";
         public static final String orderPayResultNotify = BuildConfig.ENVIRONMENT  + "/api/Order/PayResultNotify";

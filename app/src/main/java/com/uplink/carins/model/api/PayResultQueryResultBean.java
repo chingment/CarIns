@@ -6,7 +6,7 @@ import java.io.Serializable;
  * Created by chingment on 2018/1/29.
  */
 
-public class PayResultQueryBean implements Serializable {
+public class PayResultQueryResultBean implements Serializable {
     private String orderSn;
     private int orderType;
     private int status;

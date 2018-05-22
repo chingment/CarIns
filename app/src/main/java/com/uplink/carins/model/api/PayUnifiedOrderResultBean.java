@@ -6,7 +6,7 @@ import java.io.Serializable;
  * Created by chingment on 2018/1/29.
  */
 
-public class PayQrCodeDownloadBean implements Serializable {
+public class PayUnifiedOrderResultBean implements Serializable {
 
     private String orderSn;
     private String mwebUrl;

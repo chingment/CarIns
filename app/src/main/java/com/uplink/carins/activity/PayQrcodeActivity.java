@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -21,19 +20,15 @@ import com.google.zxing.common.BitMatrix;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
-import com.newland.mtype.module.common.printer.Printer;
-import com.newland.mtype.module.common.printer.PrinterResult;
 import com.uplink.carins.Own.Config;
 import com.uplink.carins.R;
-import com.uplink.carins.device.N900Device;
 import com.uplink.carins.http.HttpClient;
 import com.uplink.carins.http.HttpResponseHandler;
 import com.uplink.carins.model.api.ApiResultBean;
 import com.uplink.carins.model.api.OrderType;
-import com.uplink.carins.model.api.PayQrCodeDownloadBean;
-import com.uplink.carins.model.api.PayResultQueryBean;
+import com.uplink.carins.model.api.PayUnifiedOrderResultBean;
+import com.uplink.carins.model.api.PayResultQueryResultBean;
 import com.uplink.carins.model.api.Result;
-import com.uplink.carins.ui.BaseFragmentActivity;
 import com.uplink.carins.ui.swipebacklayout.SwipeBackActivity;
 import com.uplink.carins.utils.CommonUtil;
 import com.uplink.carins.utils.LogUtil;
@@ -41,7 +36,6 @@ import com.uplink.carins.utils.ToastUtil;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 import okhttp3.Request;
 
@@ -51,7 +45,7 @@ public class PayQrcodeActivity extends SwipeBackActivity implements View.OnClick
 
     private ImageView btnHeaderGoBack;
     private TextView txtHeaderTitle;
-    private PayQrCodeDownloadBean payQrCodeDownload;
+    private PayUnifiedOrderResultBean payQrCodeDownload;
 
 
     private TextView tv_test;
@@ -72,7 +66,7 @@ public class PayQrcodeActivity extends SwipeBackActivity implements View.OnClick
         initView();
         initEvent();
 
-        payQrCodeDownload = (PayQrCodeDownloadBean) getIntent().getSerializableExtra("dataBean");
+        payQrCodeDownload = (PayUnifiedOrderResultBean) getIntent().getSerializableExtra("dataBean");
 
         switch (payQrCodeDownload.getPayWay()) {
             case 2:
@@ -116,13 +110,13 @@ public class PayQrcodeActivity extends SwipeBackActivity implements View.OnClick
 
                 LogUtil.i(TAG, "onSuccess====>>>" + response);
 
-                ApiResultBean<PayResultQueryBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<PayResultQueryBean>>() {
+                ApiResultBean<PayResultQueryResultBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<PayResultQueryResultBean>>() {
                 });
 
 
                 if (rt.getResult() == Result.SUCCESS) {
 
-                    PayResultQueryBean d = rt.getData();
+                    PayResultQueryResultBean d = rt.getData();
                     //4 为 已完成支付
                     if (d.getStatus() == 4) {
 
