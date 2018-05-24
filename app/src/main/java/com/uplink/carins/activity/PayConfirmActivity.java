@@ -202,6 +202,7 @@ public class PayConfirmActivity extends SwipeBackActivity implements View.OnClic
                 case OrderType.ServiceFee:
                     Intent intent = new Intent(PayConfirmActivity.this, MainActivity.class);
                     startActivity(intent);
+                    startMyTask();
                     finish();
                     break;
                 case OrderType.LllegalQueryRecharg:

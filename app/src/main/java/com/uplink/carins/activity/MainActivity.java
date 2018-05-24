@@ -66,15 +66,6 @@ public class MainActivity extends BaseFragmentActivity {
 
         startMyTask();
 
-
-//        PrintDataBean printData = (PrintDataBean)getIntent().getSerializableExtra("printDataBean");
-//        if(printData!=null) {
-//            printTicket(printData);
-//        }
-//        else
-//        {
-//            LogUtil.i("打印小票的信息为空");
-//        }
     }
 
     public void initView() {

@@ -84,7 +84,7 @@ public class LllegalQueryActivity extends SwipeBackActivity implements View.OnCl
         setContentView(R.layout.activity_lllegalquery);
         initView();
         initEvent();
-
+        getAccountBaseInfo();
         getQuerylog();
 
     }
@@ -343,7 +343,6 @@ public class LllegalQueryActivity extends SwipeBackActivity implements View.OnCl
                 showToast(rt.getMessage());
                 if (rt.getResult() == Result.SUCCESS) {
 
-                    AppCacheManager.setLllegalQueryScore(rt.getData().getQueryScore());
 
                     txt_queryscore.setText(rt.getData().getQueryScore() + "");
 
@@ -406,11 +405,7 @@ public class LllegalQueryActivity extends SwipeBackActivity implements View.OnCl
         });
     }
 
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
+    private void getAccountBaseInfo() {
         getAcountBaseInfo(new AcountBaseInfoHandler() {
             @Override
             public void handler(AcountBaseInfoResultBean bean) {
@@ -419,10 +414,11 @@ public class LllegalQueryActivity extends SwipeBackActivity implements View.OnCl
         });
     }
 
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        txt_queryscore.setText(AppCacheManager.getLllegalQueryScore());
-//    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode,resultCode,data);
+        getAccountBaseInfo();
+    }
 
 
     private class LllegalQueryLogItemAdapter extends BaseAdapter {

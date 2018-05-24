@@ -125,6 +125,8 @@ public class PayQrcodeActivity extends SwipeBackActivity implements View.OnClick
                         intent.putExtras(bundle);
                         setResult(1, intent);
                         finish();
+
+                        printTicket(d.getPrintData());
                     }
                 }
             }
