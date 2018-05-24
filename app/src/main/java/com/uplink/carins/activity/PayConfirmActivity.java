@@ -34,6 +34,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import okhttp3.Request;
 
@@ -107,7 +108,6 @@ public class PayConfirmActivity extends SwipeBackActivity implements View.OnClic
         for (int i = 0; i < layout_paymethod_count; i++) {
             View view = layout_paymethod.getChildAt(i);
             if (view instanceof RelativeLayout) {
-
                 view.setOnClickListener(myPayMethodClick);
             }
         }
@@ -173,8 +173,7 @@ public class PayConfirmActivity extends SwipeBackActivity implements View.OnClic
 
                     stopMyTask();
                     Intent intent = new Intent(PayConfirmActivity.this, LoginActivity.class);
-                    startActivity(intent);
-                    AppManager.getAppManager().finishAllActivity();
+                    startActivityForResult(intent, 1);
                 } else {
                     finish();
                 }
@@ -189,6 +188,35 @@ public class PayConfirmActivity extends SwipeBackActivity implements View.OnClic
                 break;
         }
     }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        LogUtil.e("onActivityResult");
+        if (data == null) {
+            LogUtil.e("data 数据为空");
+        } else {
+            LogUtil.e("OrderType" + orderInfo.getOrderType());
+            switch (orderInfo.getOrderType()) {
+                case OrderType.ServiceFee:
+                    Intent intent = new Intent(PayConfirmActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                    break;
+                case OrderType.LllegalQueryRecharg:
+                    setResult(1, null);
+                    finish();
+                    break;
+                case OrderType.LllegalDealt:
+                    setResult(1, null);
+                    finish();
+                    break;
+            }
+        }
+
+    }
+
 
     public void getPayQrCode() {
 
@@ -216,7 +244,7 @@ public class PayConfirmActivity extends SwipeBackActivity implements View.OnClic
                     b.putSerializable("dataBean", rt.getData());
                     Intent intent = new Intent(PayConfirmActivity.this, PayQrcodeActivity.class);
                     intent.putExtras(b);
-                    startActivity(intent);
+                    startActivityForResult(intent, 1);
                 } else {
                     showToast(rt.getMessage());
                 }

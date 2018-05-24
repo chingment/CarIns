@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -113,35 +114,17 @@ public class PayQrcodeActivity extends SwipeBackActivity implements View.OnClick
                 ApiResultBean<PayResultQueryResultBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<PayResultQueryResultBean>>() {
                 });
 
-
                 if (rt.getResult() == Result.SUCCESS) {
 
                     PayResultQueryResultBean d = rt.getData();
                     //4 为 已完成支付
                     if (d.getStatus() == 4) {
-
-                        showToast(rt.getMessage());
-
-                        //当支付服务费 跳转到主页
-                        if (d.getOrderType() == OrderType.ServiceFee) {
-
-                            startMyTask();
-
-
-
-                            Intent intent = new Intent(PayQrcodeActivity.this, MainActivity.class);
-
-                            if(rt.getData()!=null) {
-                                if(rt.getData().getPrintData()!=null) {
-                                    Bundle b = new Bundle();
-                                    b.putSerializable("printDataBean", rt.getData().getPrintData());
-                                    intent.putExtras(b);
-                                }
-                            }
-
-                            startActivity(intent);
-                            finish();
-                        }
+                        Intent intent=new Intent();
+                        Bundle bundle=new Bundle();
+                        bundle.putSerializable("dataBean", d);
+                        intent.putExtras(bundle);
+                        setResult(1, intent);
+                        finish();
                     }
                 }
             }
@@ -209,6 +192,8 @@ public class PayQrcodeActivity extends SwipeBackActivity implements View.OnClick
         BitMatrix result = null;
         MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
         try {
+            DisplayMetrics dm = new DisplayMetrics();
+            int width = dm.widthPixels-100;
             result = multiFormatWriter.encode(str, BarcodeFormat.QR_CODE, 400, 400);
             BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
             bitmap = barcodeEncoder.createBitmap(result);
