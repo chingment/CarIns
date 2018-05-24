@@ -34,10 +34,12 @@ import com.uplink.carins.activity.MainActivity;
 import com.uplink.carins.activity.PayConfirmActivity;
 import com.uplink.carins.activity.PayQrcodeActivity;
 import com.uplink.carins.activity.RegisterActivity;
+import com.uplink.carins.activity.adapter.AcountBaseInfoHandler;
 import com.uplink.carins.device.N900Device;
 import com.uplink.carins.fragment.HomeFragment;
 import com.uplink.carins.http.HttpClient;
 import com.uplink.carins.http.HttpResponseHandler;
+import com.uplink.carins.model.api.AcountBaseInfoResultBean;
 import com.uplink.carins.model.api.ApiResultBean;
 import com.uplink.carins.model.api.HomePageBean;
 import com.uplink.carins.model.api.PrintDataBean;
@@ -174,7 +176,42 @@ public class BaseFragmentActivity extends FragmentActivity {
 
             LogUtil.i("datetime:" + AppCacheManager.getLastUpdateTime());
 
-            getWithMy(Config.URL.home, params,false,"",new CallBack());
+            getWithMy(Config.URL.home, params, false, "", new CallBack());
+        }
+    }
+
+    public void getAcountBaseInfo(final AcountBaseInfoHandler handler) {
+
+        if (getAppContext().getUser() != null) {
+
+            Map<String, String> params = new HashMap<>();
+            params.put("userId", getAppContext().getUser().getId() + "");
+            params.put("merchantId", getAppContext().getUser().getMerchantId() + "");
+            params.put("posMachineId", getAppContext().getUser().getPosMachineId() + "");
+
+            getWithMy(Config.URL.accountBaseInfo, params, false, "", new HttpResponseHandler() {
+
+                @Override
+                public void onSuccess(String response) {
+                    super.onSuccess(response);
+
+                    ApiResultBean<AcountBaseInfoResultBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<AcountBaseInfoResultBean>>() {
+                    });
+
+                    if (rt.getResult() == Result.SUCCESS) {
+                        handler.handler(rt.getData());
+                    }
+                }
+
+                @Override
+                public void onFailure(Request request, Exception e) {
+                    super.onFailure(request, e);
+                    LogUtil.e(TAG, e);
+                    showToast("登陆失败");
+
+                }
+
+            });
         }
     }
 

@@ -24,7 +24,9 @@ import com.alibaba.fastjson.TypeReference;
 import com.uplink.carins.Own.AppCacheManager;
 import com.uplink.carins.Own.Config;
 import com.uplink.carins.R;
+import com.uplink.carins.activity.adapter.AcountBaseInfoHandler;
 import com.uplink.carins.http.HttpResponseHandler;
+import com.uplink.carins.model.api.AcountBaseInfoResultBean;
 import com.uplink.carins.model.api.ApiResultBean;
 import com.uplink.carins.model.api.CarTypeBean;
 import com.uplink.carins.model.api.LllegalPriceRecordBean;
@@ -75,6 +77,7 @@ public class LllegalQueryActivity extends SwipeBackActivity implements View.OnCl
     private TextView btn_recharge;
 
     private TextView txt_main_header_right;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -108,7 +111,7 @@ public class LllegalQueryActivity extends SwipeBackActivity implements View.OnCl
         txtHeaderTitle = (TextView) findViewById(R.id.txt_main_header_title);
         txtHeaderTitle.setText("违章查询");
 
-        txt_main_header_right=(TextView) findViewById(R.id.txt_main_header_right);
+        txt_main_header_right = (TextView) findViewById(R.id.txt_main_header_right);
 
         gridview_querylog = (MyGridView) findViewById(R.id.gridview_querylog);
         form_lllegalquery_txt_carno = (EditText) findViewById(R.id.form_lllegalquery_txt_carno);
@@ -130,7 +133,6 @@ public class LllegalQueryActivity extends SwipeBackActivity implements View.OnCl
         inflater = LayoutInflater.from(this);
 
         txt_queryscore = (TextView) findViewById(R.id.txt_queryscore);
-        txt_queryscore.setText(AppCacheManager.getLllegalQueryScore());
 
         btn_recharge = (TextView) findViewById(R.id.btn_recharge);
 
@@ -228,7 +230,7 @@ public class LllegalQueryActivity extends SwipeBackActivity implements View.OnCl
         params.put("merchantId", getAppContext().getUser().getMerchantId() + "");
         params.put("posMachineId", getAppContext().getUser().getPosMachineId() + "");
 
-        getWithMy(Config.URL.lllegalQueryLog, params,false,"", new HttpResponseHandler() {
+        getWithMy(Config.URL.lllegalQueryLog, params, false, "", new HttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
                 super.onSuccess(response);
@@ -329,7 +331,7 @@ public class LllegalQueryActivity extends SwipeBackActivity implements View.OnCl
         params.put("enginNo", enginno);
         params.put("isOfferPrice", isOfferPrice);
 
-        postWithMy(Config.URL.lllegalQuery, params, null,true,"正在提交中", new HttpResponseHandler() {
+        postWithMy(Config.URL.lllegalQuery, params, null, true, "正在提交中", new HttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
                 super.onSuccess(response);
@@ -372,7 +374,7 @@ public class LllegalQueryActivity extends SwipeBackActivity implements View.OnCl
         params.put("merchantId", this.getAppContext().getUser().getMerchantId());
         params.put("score", "50");
 
-        postWithMy(Config.URL.submitLllegalQueryScoreRecharge, params, null,true,"正在提交中", new HttpResponseHandler() {
+        postWithMy(Config.URL.submitLllegalQueryScoreRecharge, params, null, true, "正在提交中", new HttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
                 super.onSuccess(response);
@@ -388,10 +390,8 @@ public class LllegalQueryActivity extends SwipeBackActivity implements View.OnCl
                     b.putSerializable("dataBean", rt.getData());
                     intent.putExtras(b);
 
-                    startActivityForResult(intent,1);
-                }
-                else
-                {
+                    startActivityForResult(intent, 1);
+                } else {
                     showToast(rt.getMessage());
                 }
 
@@ -406,10 +406,23 @@ public class LllegalQueryActivity extends SwipeBackActivity implements View.OnCl
         });
     }
 
+
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        txt_queryscore.setText(AppCacheManager.getLllegalQueryScore());
+    protected void onResume() {
+        super.onResume();
+
+        getAcountBaseInfo(new AcountBaseInfoHandler() {
+            @Override
+            public void handler(AcountBaseInfoResultBean bean) {
+                txt_queryscore.setText(bean.getLllegalQueryScore() + "");
+            }
+        });
     }
+
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        txt_queryscore.setText(AppCacheManager.getLllegalQueryScore());
+//    }
 
 
     private class LllegalQueryLogItemAdapter extends BaseAdapter {
