@@ -55,7 +55,7 @@ public class PayQrcodeActivity extends SwipeBackActivity implements View.OnClick
     private Button btn_test2;
 
     private Handler handler;
-
+    private Runnable runnable;
     private RelativeLayout layout_bg;
 
     @Override
@@ -83,7 +83,7 @@ public class PayQrcodeActivity extends SwipeBackActivity implements View.OnClick
 
 
         handler = new Handler();
-        Runnable runnable = new Runnable() {
+        runnable = new Runnable() {
             @Override
             public void run() {
                 LogUtil.i("支付结果查询:" + CommonUtil.getCurrentTime());
@@ -119,7 +119,7 @@ public class PayQrcodeActivity extends SwipeBackActivity implements View.OnClick
                     PayResultQueryResultBean d = rt.getData();
                     //4 为 已完成支付
                     if (d.getStatus() == 4) {
-
+                        handler.removeCallbacks(runnable); //关闭定时执行操作
                         printTicket(d.getPrintData());
 
                         Intent intent=new Intent();

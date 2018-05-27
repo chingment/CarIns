@@ -51,7 +51,7 @@ public class PayResultQueryResultBean implements Serializable {
         return printData;
     }
 
-    public void setPrintData(PrintDataBean expiryTime) {
+    public void setPrintData(PrintDataBean printData) {
         this.printData = printData;
     }
 }
