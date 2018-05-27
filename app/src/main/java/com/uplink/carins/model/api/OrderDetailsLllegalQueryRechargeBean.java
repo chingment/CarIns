@@ -11,6 +11,7 @@ public class OrderDetailsLllegalQueryRechargeBean {
     private int status;
     private String statusName;
     private String submitTime;
+    private PrintDataBean printData;
 
     public int getId() {
         return id;
@@ -98,6 +99,14 @@ public class OrderDetailsLllegalQueryRechargeBean {
 
     public void setRemarks(String remarks) {
         this.remarks = remarks;
+    }
+
+    public PrintDataBean getPrintData() {
+        return printData;
+    }
+
+    public void setPrintData(PrintDataBean printData) {
+        this.printData = printData;
     }
 
     private String completeTime;

@@ -11,12 +11,21 @@ public class PrintDataBean implements Serializable {
     private  String merchantName;
     private  String merchantCode;
     private  String productName;
+    private  String orderSn;
     private  String tradeType;
     private  String tradeNo;
     private  String tradeDateTime;
     private  String tradePayMethod;
     private  String tradeAmount;
     private  String serviceHotline;
+
+    public String getOrderSn() {
+        return orderSn;
+    }
+
+    public void setOrderSn(String orderSn) {
+        this.orderSn = orderSn;
+    }
 
     public String getMerchantName() {
         return merchantName;

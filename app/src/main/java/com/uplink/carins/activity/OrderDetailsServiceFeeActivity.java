@@ -63,7 +63,7 @@ public class OrderDetailsServiceFeeActivity extends SwipeBackActivity implements
 
     private Button btn_printer;
 
-    private OrderDetailsServiceFeeBean orderDetailsServiceFee;
+    private OrderDetailsServiceFeeBean orderDetails;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,9 +122,9 @@ public class OrderDetailsServiceFeeActivity extends SwipeBackActivity implements
             case R.id.btn_printer:
 
 
-                if (orderDetailsServiceFee != null) {
-                    if (orderDetailsServiceFee.getPrintData() != null) {
-                        //printTicket(orderDetailsServiceFee.getPrintData());
+                if (orderDetails != null) {
+                    if (orderDetails.getPrintData() != null) {
+                        printTicket(orderDetails.getPrintData());
                     }
                 }
 
@@ -162,7 +162,7 @@ public class OrderDetailsServiceFeeActivity extends SwipeBackActivity implements
             case 4:
                 layout_paytime.setVisibility(View.VISIBLE);
                 layout_completetime.setVisibility(View.VISIBLE);
-                //btn_printer.setVisibility(View.VISIBLE);
+                btn_printer.setVisibility(View.VISIBLE);
                 break;
             case 5:
                 layout_cancletime.setVisibility(View.VISIBLE);
@@ -190,8 +190,8 @@ public class OrderDetailsServiceFeeActivity extends SwipeBackActivity implements
 
                 if (rt.getResult() == Result.SUCCESS) {
 
-                    orderDetailsServiceFee = rt.getData();
-                    setView(orderDetailsServiceFee);
+                    orderDetails = rt.getData();
+                    setView(orderDetails);
                 }
             }
 

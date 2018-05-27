@@ -146,21 +146,21 @@ public class BaseFragmentActivity extends FragmentActivity {
         customDialogLoading = new CustomDialogLoading(this);
 
 
-//        if (n900Device == null) {
-//
-//            n900Device = N900Device.getInstance(this);
-//
-//            try {
-//                new Thread(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        n900Device.connectDevice();
-//                    }
-//                }).start();
-//            } catch (Exception e) {
-//                showToast("设备连接异常：" + e);
-//            }
-//        }
+        if (n900Device == null) {
+
+            n900Device = N900Device.getInstance(this);
+
+            try {
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        n900Device.connectDevice();
+                    }
+                }).start();
+            } catch (Exception e) {
+                showToast("设备连接异常：" + e);
+            }
+        }
 
     }
 
@@ -567,17 +567,16 @@ public class BaseFragmentActivity extends FragmentActivity {
             scriptBuffer.append("*text l 商户存根/MERCHANT COPY\n");
             scriptBuffer.append("*line" + "\n");// 打印虚线
             scriptBuffer.append("*text l 商户名称:" + data.getMerchantName() + "\n");
-            scriptBuffer.append("*text l 商户编号:" + data.getMerchantCode() + "\n");
-            scriptBuffer.append("*text l 终端编号:20130717\n");
-            scriptBuffer.append("*line" + "\n");// 打印虚线
-            scriptBuffer.append("*text l 交易类型:消费/SALE\n");
+            scriptBuffer.append("*text l 交易类型:" + data.getTradeType() + "\n");
             scriptBuffer.append("*text l 商品名称:" + data.getProductName() + "\n");
             scriptBuffer.append("*text l 交易单号:" + data.getTradeNo() + "\n");
+            scriptBuffer.append("*text l 订单号:" + data.getOrderSn() + "\n");
             scriptBuffer.append("*text l 支付方式:" + data.getTradePayMethod() + "\n");
             scriptBuffer.append("*text l 日期时间:" + data.getTradeDateTime() + "\n");
             scriptBuffer.append("*text l 金 额:RMB " + data.getTradeAmount() + "\n");
-            scriptBuffer.append("*text l 程序版本:" + getVersionName() + "\n");
-            scriptBuffer.append("*underline l 服务热线:888888888\n");
+            scriptBuffer.append("*text l 服务热线:" + data.getServiceHotline() + "\n");
+            //scriptBuffer.append("*text l 程序版本:" + getVersionName() + "\n");
+            //scriptBuffer.append("*underline l 服务热线:888888888\n");
             scriptBuffer.append("*text l ++++++++++++++ X ++++++++++++++ \n");
             scriptBuffer.append("!NLPRNOVER"); // 走纸//10
 

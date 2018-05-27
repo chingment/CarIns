@@ -2,6 +2,7 @@ package com.uplink.carins.activity;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -24,7 +25,7 @@ import java.util.Map;
 
 import okhttp3.Request;
 
-public class OrderDetailsLllegalQueryRechargeActivity extends SwipeBackActivity implements View.OnClickListener{
+public class OrderDetailsLllegalQueryRechargeActivity extends SwipeBackActivity implements View.OnClickListener {
 
     private String TAG = "OrderDetailsLllegalQueryRechargeActivity";
 
@@ -48,6 +49,10 @@ public class OrderDetailsLllegalQueryRechargeActivity extends SwipeBackActivity 
     private TextView txt_order_score;
     private TextView txt_order_price;
 
+    private Button btn_printer;
+
+    private OrderDetailsLllegalQueryRechargeBean orderDetails;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,7 +64,6 @@ public class OrderDetailsLllegalQueryRechargeActivity extends SwipeBackActivity 
         initEvent();
         loadData();
     }
-
 
 
     private void initView() {
@@ -83,10 +87,13 @@ public class OrderDetailsLllegalQueryRechargeActivity extends SwipeBackActivity 
         txt_order_score = (TextView) findViewById(R.id.txt_order_score);
         txt_order_price = (TextView) findViewById(R.id.txt_order_price);
 
+        btn_printer = (Button) findViewById(R.id.btn_printer);
+
     }
 
     private void initEvent() {
         btnHeaderGoBack.setOnClickListener(this);
+        btn_printer.setOnClickListener(this);
 
     }
 
@@ -96,27 +103,38 @@ public class OrderDetailsLllegalQueryRechargeActivity extends SwipeBackActivity 
             case R.id.btn_main_header_goback:
                 finish();
                 break;
+            case R.id.btn_printer:
+
+
+                if (orderDetails != null) {
+                    if (orderDetails.getPrintData() != null) {
+                        printTicket(orderDetails.getPrintData());
+                    }
+                }
+
+                break;
         }
     }
 
     private void loadData() {
 
         Map<String, String> params = new HashMap<>();
-        params.put("userId", this.getAppContext().getUser().getId()+"");
-        params.put("merchantId", this.getAppContext().getUser().getMerchantId()+"");
-        params.put("posMachineId", this.getAppContext().getUser().getPosMachineId()+"");
+        params.put("userId", this.getAppContext().getUser().getId() + "");
+        params.put("merchantId", this.getAppContext().getUser().getMerchantId() + "");
+        params.put("posMachineId", this.getAppContext().getUser().getPosMachineId() + "");
         params.put("orderId", order.getId() + "");
         params.put("type", order.getType() + "");
-        getWithMy(Config.URL.getDetails, params,false,"", new HttpResponseHandler() {
+        getWithMy(Config.URL.getDetails, params, false, "", new HttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
                 super.onSuccess(response);
-                LogUtil.i(TAG,"onSuccess====>>>" + response);
+                LogUtil.i(TAG, "onSuccess====>>>" + response);
 
                 ApiResultBean<OrderDetailsLllegalQueryRechargeBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<OrderDetailsLllegalQueryRechargeBean>>() {
                 });
 
                 if (rt.getResult() == Result.SUCCESS) {
+                    orderDetails = rt.getData();
                     setView(rt.getData());
                 }
             }
@@ -124,7 +142,7 @@ public class OrderDetailsLllegalQueryRechargeActivity extends SwipeBackActivity 
             @Override
             public void onFailure(Request request, Exception e) {
                 super.onFailure(request, e);
-                LogUtil.e(TAG,"onFailure====>>>" + e.getMessage());
+                LogUtil.e(TAG, "onFailure====>>>" + e.getMessage());
             }
 
         });
@@ -139,8 +157,8 @@ public class OrderDetailsLllegalQueryRechargeActivity extends SwipeBackActivity 
         txt_order_paytime.setText(bean.getPayTime());
         txt_order_completetime.setText(bean.getCompleteTime());
         txt_order_cancletime.setText(bean.getCancleTime());
-        txt_order_price.setText(bean.getPrice()+"");
-        txt_order_score.setText(bean.getScore()+"");
+        txt_order_price.setText(bean.getPrice() + "");
+        txt_order_score.setText(bean.getScore() + "");
 
         switch (bean.getStatus()) {
             case 1:
@@ -156,6 +174,7 @@ public class OrderDetailsLllegalQueryRechargeActivity extends SwipeBackActivity 
                 layout_submittime.setVisibility(View.VISIBLE);
                 layout_paytime.setVisibility(View.VISIBLE);
                 layout_completetime.setVisibility(View.VISIBLE);
+                btn_printer.setVisibility(View.VISIBLE);
                 break;
             case 5:
                 layout_cancletime.setVisibility(View.VISIBLE);
