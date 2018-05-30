@@ -507,16 +507,20 @@ public class BaseFragmentActivity extends FragmentActivity {
 
                 if (bean.getOrderInfo() != null) {
 
+                    LogUtil.i("bean.getOrderInfo():hasdata 0");
+
                     Bundle b = new Bundle();
                     b.putSerializable("dataBean", bean.getOrderInfo());
                     Activity act = AppManager.getAppManager().currentActivity();
 
                     if (act != null) {
-
+                        LogUtil.i("bean.getOrderInfo():hasdata 1");
                         if (getAppContext().getUser() != null) {
+                            LogUtil.i("bean.getOrderInfo():hasdata 2");
                             Boolean isPayConfirmActivity = act instanceof PayConfirmActivity;
                             Boolean isPayQrcodeActivity = act instanceof PayQrcodeActivity;
                             if (isPayConfirmActivity.equals(false) && isPayQrcodeActivity.equals(false)) {
+                                LogUtil.i("bean.getOrderInfo():hasdata 3");
                                 Intent intent = new Intent(act, PayConfirmActivity.class);
                                 intent.putExtras(b);
                                 stopMyTask();
@@ -525,6 +529,10 @@ public class BaseFragmentActivity extends FragmentActivity {
                         }
 
                     }
+                }
+                else
+                {
+                    LogUtil.i("bean.getOrderInfo():null");
                 }
 
             }
