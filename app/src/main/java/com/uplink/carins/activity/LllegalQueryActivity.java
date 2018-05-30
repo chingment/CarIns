@@ -4,7 +4,9 @@ import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -39,6 +41,7 @@ import com.uplink.carins.model.api.Result;
 import com.uplink.carins.ui.ViewHolder;
 import com.uplink.carins.ui.my.MyGridView;
 import com.uplink.carins.ui.swipebacklayout.SwipeBackActivity;
+import com.uplink.carins.utils.CarKeyboardUtil;
 import com.uplink.carins.utils.LogUtil;
 import com.uplink.carins.utils.NoDoubleClickUtils;
 import com.uplink.carins.utils.StringUtil;
@@ -77,6 +80,7 @@ public class LllegalQueryActivity extends SwipeBackActivity implements View.OnCl
     private TextView btn_recharge;
 
     private TextView txt_main_header_right;
+    private CarKeyboardUtil keyboardUtil;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +90,7 @@ public class LllegalQueryActivity extends SwipeBackActivity implements View.OnCl
         initEvent();
         getAccountBaseInfo();
         getQuerylog();
+
 
     }
 
@@ -115,7 +120,7 @@ public class LllegalQueryActivity extends SwipeBackActivity implements View.OnCl
 
         gridview_querylog = (MyGridView) findViewById(R.id.gridview_querylog);
         form_lllegalquery_txt_carno = (EditText) findViewById(R.id.form_lllegalquery_txt_carno);
-
+        keyboardUtil = new CarKeyboardUtil(this, form_lllegalquery_txt_carno);
         sel_lllegalquery_cartype = (LinearLayout) findViewById(R.id.sel_lllegalquery_cartype);
         form_lllegalquery_txt_cartype = (TextView) findViewById(R.id.form_lllegalquery_txt_cartype);
         form_lllegalquery_cb_isCompany = (LinearLayout) findViewById(R.id.form_lllegalquery_cb_isCompany);
@@ -183,6 +188,41 @@ public class LllegalQueryActivity extends SwipeBackActivity implements View.OnCl
                     popupWindowForCarTypes.dismiss();
             }
         });
+
+        form_lllegalquery_txt_carno.setOnTouchListener(new View.OnTouchListener() {
+
+            @Override
+            public boolean onTouch(View view, MotionEvent event) {
+
+                switch (view.getId()) {
+                    case R.id.form_lllegalquery_txt_carno:
+                        keyboardUtil.hideSystemKeyBroad();
+                        keyboardUtil.hideSoftInputMethod();
+                        if (!keyboardUtil.isShow())
+                            keyboardUtil.showKeyboard();
+                        break;
+                    default:
+                        if (keyboardUtil.isShow())
+                            keyboardUtil.hideKeyboard();
+                        break;
+                }
+
+                return false;
+            }
+        });
+
+        form_lllegalquery_txt_carno.setOnFocusChangeListener(new android.view.View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+// 此处为得到焦点时的处理内容
+                } else {
+                    if (keyboardUtil.isShow())
+                        keyboardUtil.hideKeyboard();
+                }
+            }
+        });
+
     }
 
 
@@ -415,8 +455,29 @@ public class LllegalQueryActivity extends SwipeBackActivity implements View.OnCl
     }
 
     @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        if (keyboardUtil.isShow()) {
+            keyboardUtil.hideKeyboard();
+        }
+        return super.onTouchEvent(event);
+
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if (keyboardUtil.isShow()) {
+                keyboardUtil.hideKeyboard();
+            } else {
+                finish();
+            }
+        }
+        return false;
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode,resultCode,data);
+        super.onActivityResult(requestCode, resultCode, data);
         getAccountBaseInfo();
     }
 

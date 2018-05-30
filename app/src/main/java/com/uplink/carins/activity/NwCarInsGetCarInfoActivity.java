@@ -114,6 +114,18 @@ public class NwCarInsGetCarInfoActivity extends ChoicePhotoAndCropAndSwipeBackAc
                 return false;
             }
         });
+
+        txt_keyword.setOnFocusChangeListener(new android.view.View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+// 此处为得到焦点时的处理内容
+                } else {
+                    if (keyboardUtil.isShow())
+                        keyboardUtil.hideKeyboard();
+                }
+            }
+        });
     }
 
 
