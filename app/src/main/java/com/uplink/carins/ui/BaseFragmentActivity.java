@@ -3,15 +3,21 @@ package com.uplink.carins.ui;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.Dialog;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.IBinder;
+import android.os.RemoteException;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,6 +27,11 @@ import com.alibaba.fastjson.TypeReference;
 import com.newland.mtype.module.common.printer.PrintContext;
 import com.newland.mtype.module.common.printer.Printer;
 import com.newland.mtype.module.common.printer.PrinterStatus;
+import com.nld.cloudpos.aidl.AidlDeviceService;
+import com.nld.cloudpos.aidl.printer.AidlPrinter;
+import com.nld.cloudpos.aidl.printer.AidlPrinterListener;
+import com.nld.cloudpos.aidl.printer.PrintItemObj;
+import com.nld.cloudpos.data.PrinterConstant;
 import com.umeng.analytics.MobclickAgent;
 import com.uplink.carins.Own.AppCacheManager;
 import com.uplink.carins.Own.AppContext;
@@ -35,7 +46,6 @@ import com.uplink.carins.activity.PayConfirmActivity;
 import com.uplink.carins.activity.PayQrcodeActivity;
 import com.uplink.carins.activity.RegisterActivity;
 import com.uplink.carins.activity.adapter.AcountBaseInfoHandler;
-import com.uplink.carins.device.N900Device;
 import com.uplink.carins.fragment.HomeFragment;
 import com.uplink.carins.http.HttpClient;
 import com.uplink.carins.http.HttpResponseHandler;
@@ -50,6 +60,7 @@ import com.uplink.carins.utils.LogUtil;
 import com.uplink.carins.utils.StringUtil;
 import com.uplink.carins.utils.ToastUtil;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -69,12 +80,6 @@ public class BaseFragmentActivity extends FragmentActivity {
     private static Runnable myTaskRunnable;
 
     private static boolean isActive = false;
-
-    private static N900Device n900Device;
-
-    public static N900Device getn900Device() {
-        return n900Device;
-    }
 
 
     public void stopMyTask() {
@@ -119,11 +124,11 @@ public class BaseFragmentActivity extends FragmentActivity {
                                     }
                                 }
                             }
-                            myTaskHandler.postDelayed(this, 5000);
+                            myTaskHandler.postDelayed(this, 50000);
                         }
                     };
 
-                    myTaskHandler.postDelayed(myTaskRunnable, 5000);
+                    myTaskHandler.postDelayed(myTaskRunnable, 50000);
                 }
             }
         }
@@ -133,6 +138,28 @@ public class BaseFragmentActivity extends FragmentActivity {
 
     public CustomDialogLoading getCustomDialogLoading() {
         return customDialogLoading;
+    }
+
+
+    AidlDeviceService aidlDeviceService = null;
+    AidlPrinter aidlPrinter = null;
+    private ServiceConnection serviceConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            Log.d(TAG, "bind device service");
+            aidlDeviceService = AidlDeviceService.Stub.asInterface(service);
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            Log.d(TAG, "unbind device service");
+            aidlDeviceService = null;
+        }
+    };
+
+    public void bindServiceConnection() {
+        bindService(new Intent("nld_cloudpos_device_service"), serviceConnection,
+                Context.BIND_AUTO_CREATE);
     }
 
     @Override
@@ -145,22 +172,7 @@ public class BaseFragmentActivity extends FragmentActivity {
 
         customDialogLoading = new CustomDialogLoading(this);
 
-
-        if (n900Device == null) {
-
-            n900Device = N900Device.getInstance(this);
-
-            try {
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        n900Device.connectDevice();
-                    }
-                }).start();
-            } catch (Exception e) {
-                showToast("设备连接异常：" + e);
-            }
-        }
+        bindServiceConnection();
 
     }
 
@@ -225,54 +237,15 @@ public class BaseFragmentActivity extends FragmentActivity {
         }
     }
 
-//    public TextView mProgressTextView;
-//
-//    public Dialog getmProgressDialog() {
-//        return mProgressDialog;
-//    }
-//
-//    public void showProgressDialog(boolean canCancel) {
-//        if (mProgressDialog != null && !mProgressDialog.isShowing() && !this.isFinishing()) {
-//            mProgressDialog.show();
-//            mProgressDialog.setContentView(R.layout.dialog_base_progress);
-//            WindowManager.LayoutParams lp = mProgressDialog.getWindow().getAttributes();
-//            lp.dimAmount = 0.0f;
-//            mProgressDialog.getWindow().setAttributes(lp);
-//            mProgressDialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
-//            mProgressDialog.setCanceledOnTouchOutside(false);
-//            mProgressTextView = (TextView) mProgressDialog.findViewById(R.id.textView1);
-//        }
-//        mProgressDialog.setCancelable(canCancel);
-//        mProgressTextView.setText("请稍候...");
-//    }
-//
-//    public void showProgressDialog(String text, boolean canCancel) {
-//        if (mProgressDialog != null && !mProgressDialog.isShowing() && !this.isFinishing()) {
-//            mProgressDialog.show();
-//            mProgressDialog.setContentView(R.layout.dialog_base_progress);
-//            WindowManager.LayoutParams lp = mProgressDialog.getWindow().getAttributes();
-//            lp.dimAmount = 0.0f;
-//            mProgressDialog.getWindow().setAttributes(lp);
-//            mProgressDialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
-//            mProgressDialog.setCanceledOnTouchOutside(false);
-//            mProgressTextView = (TextView) mProgressDialog.findViewById(R.id.textView1);
-//        }
-//        mProgressDialog.setCancelable(canCancel);
-//        if (!StringUtil.isEmpty(text)) {
-//            mProgressTextView.setText(text);
-//        } else {
-//            mProgressTextView.setText("请稍候...");
-//        }
-//    }
-
-    /**
-     * 描述：移除进度框.
-     */
-//    public void removeProgressDialog() {
-//        if (mProgressDialog != null && mProgressDialog.isShowing()) {
-//            mProgressDialog.dismiss();
-//        }
-//    }
+    public void showMsg(String string) {
+        final String log = string;
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                showToast(log);
+            }
+        });
+    }
 
     /**
      * Activity从后台重新回到前台时被调用
@@ -529,9 +502,7 @@ public class BaseFragmentActivity extends FragmentActivity {
                         }
 
                     }
-                }
-                else
-                {
+                } else {
                     LogUtil.i("bean.getOrderInfo():null");
                 }
 
@@ -555,41 +526,59 @@ public class BaseFragmentActivity extends FragmentActivity {
                 return;
             }
 
-            Printer printer = getn900Device().getPrinter();
 
-            if (printer.getStatus() != PrinterStatus.NORMAL) {
-                showToast("打印失败，打印机状态不正常,请检查设备");
-                return;
-            }
+            aidlPrinter = AidlPrinter.Stub.asInterface(aidlDeviceService.getPrinter());
 
-            Map<String, Bitmap> map = new HashMap<String, Bitmap>();
+            //文本内容
+            final List<PrintItemObj> printItems = new ArrayList<PrintItemObj>();
 
-            StringBuffer scriptBuffer = new StringBuffer();
-            scriptBuffer.append("*text l ++++++++++++++ X ++++++++++++++ \n");
-            scriptBuffer.append("!hz l\n !asc l\n !gray 5\n");// 设置标题字体为大号
-            scriptBuffer.append("!yspace 5\n");// 设置行间距,取值【0,60】，默认6
-            scriptBuffer.append("*text c 签购单\n");
-            scriptBuffer.append("!hz n\n !asc n !gray 5\n");// 设置内容字体为中号
-            scriptBuffer.append("!yspace 10\n");// 设置内容行间距
-            scriptBuffer.append("*line" + "\n");// 打印虚线
-            scriptBuffer.append("*text l 商户存根/MERCHANT COPY\n");
-            scriptBuffer.append("*line" + "\n");// 打印虚线
-            scriptBuffer.append("*text l 商户名称:" + data.getMerchantName() + "\n");
-            scriptBuffer.append("*text l 交易类型:" + data.getTradeType() + "\n");
-            scriptBuffer.append("*text l 商品名称:" + data.getProductName() + "\n");
-            scriptBuffer.append("*text l 交易单号:" + data.getTradeNo() + "\n");
-            scriptBuffer.append("*text l 订单号:" + data.getOrderSn() + "\n");
-            scriptBuffer.append("*text l 支付方式:" + data.getTradePayMethod() + "\n");
-            scriptBuffer.append("*text l 日期时间:" + data.getTradeDateTime() + "\n");
-            scriptBuffer.append("*text l 金 额:RMB " + data.getTradeAmount() + "\n");
-            scriptBuffer.append("*text l 服务热线:" + data.getServiceHotline() + "\n");
-            //scriptBuffer.append("*text l 程序版本:" + getVersionName() + "\n");
-            //scriptBuffer.append("*underline l 服务热线:888888888\n");
-            scriptBuffer.append("*text l ++++++++++++++ X ++++++++++++++ \n");
-            scriptBuffer.append("!NLPRNOVER"); // 走纸//10
+            printItems.add(new PrintItemObj("签购单", PrinterConstant.FontScale.FONTSCALE_DW_H, PrinterConstant.FontType.FONTTYPE_N, PrintItemObj.ALIGN.CENTER, false, 6));
+            printItems.add(new PrintItemObj("商户存根/MERCHANT COPY", PrinterConstant.FontScale.FONTSCALE_DW_H, PrinterConstant.FontType.FONTTYPE_N, PrintItemObj.ALIGN.CENTER, false, 6));
+            printItems.add(new PrintItemObj("商户名称:" + data.getMerchantName(), PrinterConstant.FontScale.FONTSCALE_DW_H, PrinterConstant.FontType.FONTTYPE_S, PrintItemObj.ALIGN.LEFT, false, 6));
+            printItems.add(new PrintItemObj("交易类型:" + data.getTradeType(), PrinterConstant.FontScale.FONTSCALE_DW_H, PrinterConstant.FontType.FONTTYPE_S, PrintItemObj.ALIGN.LEFT, false, 6));
+            printItems.add(new PrintItemObj("商品名称:" + data.getProductName(), PrinterConstant.FontScale.FONTSCALE_DW_H, PrinterConstant.FontType.FONTTYPE_S, PrintItemObj.ALIGN.LEFT, false, 6));
+            printItems.add(new PrintItemObj("交易单号:" + data.getTradeNo(), PrinterConstant.FontScale.FONTSCALE_DW_H, PrinterConstant.FontType.FONTTYPE_S, PrintItemObj.ALIGN.LEFT, false, 6));
+            printItems.add(new PrintItemObj("订单号:" + data.getOrderSn(), PrinterConstant.FontScale.FONTSCALE_DW_H, PrinterConstant.FontType.FONTTYPE_S, PrintItemObj.ALIGN.LEFT, false, 6));
+            printItems.add(new PrintItemObj("支付方式:" + data.getTradePayMethod(), PrinterConstant.FontScale.FONTSCALE_DW_H, PrinterConstant.FontType.FONTTYPE_S, PrintItemObj.ALIGN.LEFT, false, 6));
+            printItems.add(new PrintItemObj("日期时间:" + data.getTradeDateTime(), PrinterConstant.FontScale.FONTSCALE_DW_H, PrinterConstant.FontType.FONTTYPE_S, PrintItemObj.ALIGN.LEFT, false, 6));
+            printItems.add(new PrintItemObj("金 额:RMB " + data.getTradeAmount(), PrinterConstant.FontScale.FONTSCALE_DW_H, PrinterConstant.FontType.FONTTYPE_S, PrintItemObj.ALIGN.LEFT, false, 6));
+            printItems.add(new PrintItemObj("服务热线:" + data.getServiceHotline(), PrinterConstant.FontScale.FONTSCALE_DW_H, PrinterConstant.FontType.FONTTYPE_S, PrintItemObj.ALIGN.LEFT, false, 6));
+            printItems.add(new PrintItemObj("\r"));
+            printItems.add(new PrintItemObj("\r"));
+            printItems.add(new PrintItemObj("-------------------------------"));
 
-            printer.printByScript(PrintContext.defaultContext(), scriptBuffer.toString().getBytes("GBK"), map, 60, TimeUnit.SECONDS);
 
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    if (aidlPrinter != null) {
+                        try {
+                            aidlPrinter.open();
+                            //打印文本
+                            aidlPrinter.printText(printItems);
+                            aidlPrinter.start(new AidlPrinterListener.Stub() {
+
+                                @Override
+                                public void onPrintFinish() throws RemoteException {
+                                    Log.e(TAG, "打印结束");
+                                    /**如果出现纸撕下部分有未输出的内容释放下面代码**/
+                                    aidlPrinter.paperSkip(2);
+                                    showMsg("打印结束");
+                                }
+
+                                @Override
+                                public void onError(int errorCode) throws RemoteException {
+                                    Log.e(TAG, "打印异常");
+                                    showMsg("打印异常码:" + errorCode);
+                                }
+                            });
+
+                        } catch (RemoteException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }).start();
 
         } catch (Exception e) {
             e.printStackTrace();
