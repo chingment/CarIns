@@ -30,16 +30,7 @@ public class AppContext extends Application {
         super.onCreate();
 
         AppCrashHandler.getInstance().init(this);//初始化全局异常管理
-
-        // 注册App异常崩溃处理器
-        //registerUncaughtExceptionHandler();
     }
-
-    private void registerUncaughtExceptionHandler() {
-        Thread.setDefaultUncaughtExceptionHandler(AppException.getAppExceptionHandler());
-    }
-
-
 
     public UserBean getUser() {
         return AppCacheManager.getUser();

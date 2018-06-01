@@ -1,5 +1,6 @@
 package com.uplink.carins.activity;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -106,11 +107,13 @@ public class OrderDetailsServiceFeeActivity extends SwipeBackActivity implements
 
         btn_printer = (Button) findViewById(R.id.btn_printer);
 
+
     }
 
     private void initEvent() {
         btnHeaderGoBack.setOnClickListener(this);
         btn_printer.setOnClickListener(this);
+
     }
 
     @Override
@@ -178,7 +181,7 @@ public class OrderDetailsServiceFeeActivity extends SwipeBackActivity implements
         params.put("posMachineId", this.getAppContext().getUser().getPosMachineId() + "");
         params.put("orderId", order.getId() + "");
         params.put("type", order.getType() + "");
-        getWithMy(Config.URL.getDetails, params,false,"", new HttpResponseHandler() {
+        getWithMy(Config.URL.getDetails, params, false, "", new HttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
                 super.onSuccess(response);

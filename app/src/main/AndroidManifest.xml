@@ -97,7 +97,8 @@
         <activity android:name=".activity.NwCarInsConfirmCarInfoActivity" />
         <activity android:name=".activity.NwCarInsGetCarModelInfoActivity" />
         <activity android:name=".activity.NwCarInsKindActivity" />
-        <activity android:name=".activity.NwCarInsCompanyActivity"></activity>
+        <activity android:name=".activity.NwCarInsCompanyActivity" />
+        <activity android:name=".activity.PrintDemoActivity"></activity>
     </application>
 
 </manifest>

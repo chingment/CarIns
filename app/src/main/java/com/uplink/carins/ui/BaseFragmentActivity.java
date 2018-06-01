@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.RemoteException;
+import android.os.SystemClock;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.WindowManager;
@@ -173,7 +174,6 @@ public class BaseFragmentActivity extends FragmentActivity {
         customDialogLoading = new CustomDialogLoading(this);
 
         bindServiceConnection();
-
     }
 
 
@@ -318,6 +318,8 @@ public class BaseFragmentActivity extends FragmentActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        //unbindService(serviceConnection);
+        //aidlPrinter = null;
         LogUtil.e("onDestroy is invoke!!!");
         // 结束Activity从堆栈中移除
         AppManager.getAppManager().finishActivity(this);
@@ -517,8 +519,15 @@ public class BaseFragmentActivity extends FragmentActivity {
         }
     }
 
+    /**
+     * 打印文本
+     *
+     * @throws RemoteException
+     */
 
     public void printTicket(PrintDataBean data) {
+
+
         try {
 
             if (data == null) {
@@ -526,8 +535,17 @@ public class BaseFragmentActivity extends FragmentActivity {
                 return;
             }
 
+            if (aidlDeviceService == null) {
+                showToast("aidlDeviceService为空");
+                return;
+            }
 
             aidlPrinter = AidlPrinter.Stub.asInterface(aidlDeviceService.getPrinter());
+
+            if (aidlPrinter == null) {
+                showToast("打印设备对象为空");
+                return;
+            }
 
             //文本内容
             final List<PrintItemObj> printItems = new ArrayList<PrintItemObj>();
@@ -580,9 +598,9 @@ public class BaseFragmentActivity extends FragmentActivity {
                 }
             }).start();
 
-        } catch (Exception e) {
-            e.printStackTrace();
-            showToast("打印失败,设备异常" + e);
+        } catch (RemoteException ex) {
+            ex.printStackTrace();
+            showToast("打印失败,设备异常" + ex);
         }
     }
 

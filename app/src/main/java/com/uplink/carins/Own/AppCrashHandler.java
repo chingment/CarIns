@@ -9,6 +9,10 @@ import android.os.Looper;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.uplink.carins.http.HttpClient;
+import com.uplink.carins.http.HttpResponseHandler;
+import com.uplink.carins.utils.LogUtil;
+import com.uplink.carins.utils.StringUtil;
 import com.uplink.carins.utils.ToastUtil;
 
 import java.io.File;
@@ -22,89 +26,61 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import okhttp3.Request;
+
 /**
  * Created by chingment on 2018/3/27.
  */
 
 public class AppCrashHandler implements Thread.UncaughtExceptionHandler {
-
-    /**
-     * 系统默认UncaughtExceptionHandler
-     */
+    private String TAG = "AppCrashHandler";
     private Thread.UncaughtExceptionHandler mDefaultHandler;
-
-    /**
-     * context
-     */
     private Context mContext;
-
-    /**
-     * 存储异常和参数信息
-     */
-    private Map<String,String> paramsMap = new HashMap<>();
-
-    /**
-     * 格式化时间
-     */
+    private Map<String, String> paramsMap = new HashMap<>();
     private SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
-
-    private String TAG = this.getClass().getSimpleName();
-
     private static AppCrashHandler mInstance;
 
     private AppCrashHandler() {
 
     }
 
-    /**
-     * 获取CrashHandler实例
-     */
-    public static synchronized AppCrashHandler getInstance(){
-        if(null == mInstance){
+    public static synchronized AppCrashHandler getInstance() {
+        if (null == mInstance) {
             mInstance = new AppCrashHandler();
         }
         return mInstance;
     }
 
-    public void init(Context context){
+    public void init(Context context) {
         mContext = context;
         mDefaultHandler = Thread.getDefaultUncaughtExceptionHandler();
-        //设置该CrashHandler为系统默认的
         Thread.setDefaultUncaughtExceptionHandler(this);
     }
 
-    /**
-     * uncaughtException 回调函数
-     */
     @Override
     public void uncaughtException(Thread thread, Throwable ex) {
-        if(!handleException(ex) && mDefaultHandler != null){//如果自己没处理交给系统处理
-            mDefaultHandler.uncaughtException(thread,ex);
-        }else{//自己处理
-            try {//延迟3秒杀进程
+
+
+        if (!handleException(ex) && mDefaultHandler != null) {//如果自己没处理交给系统处理
+            mDefaultHandler.uncaughtException(thread, ex);
+        } else {
+            try {
                 Thread.sleep(3000);
             } catch (InterruptedException e) {
                 Log.e(TAG, "error : ", e);
             }
-            //退出程序
             AppManager.getAppManager().AppExit(mContext);
         }
 
     }
 
-    /**
-     * 收集错误信息.发送到服务器
-     * @return 处理了该异常返回true,否则false
-     */
     private boolean handleException(Throwable ex) {
         if (ex == null) {
             return false;
         }
-        //收集设备参数信息
+
         collectDeviceInfo(mContext);
-        //添加自定义信息
-        addCustomInfo();
-        //使用Toast来显示异常信息
+
         new Thread() {
             @Override
             public void run() {
@@ -113,17 +89,11 @@ public class AppCrashHandler implements Thread.UncaughtExceptionHandler {
                 Looper.loop();
             }
         }.start();
-        //保存日志文件
         saveCrashInfo2File(ex);
         return true;
     }
 
-
-    /**
-     * 收集设备参数信息
-     * @param ctx
-     */
-    public void collectDeviceInfo(Context ctx) {
+    private void collectDeviceInfo(Context ctx) {
         //获取versionName,versionCode
         try {
             PackageManager pm = ctx.getPackageManager();
@@ -149,19 +119,6 @@ public class AppCrashHandler implements Thread.UncaughtExceptionHandler {
         }
     }
 
-    /**
-     * 添加自定义参数
-     */
-    private void addCustomInfo() {
-
-    }
-
-    /**
-     * 保存错误信息到文件中
-     *
-     * @param ex
-     * @return  返回文件名称,便于将文件传送到服务器
-     */
     private String saveCrashInfo2File(Throwable ex) {
 
         StringBuffer sb = new StringBuffer();
@@ -173,6 +130,7 @@ public class AppCrashHandler implements Thread.UncaughtExceptionHandler {
 
         Writer writer = new StringWriter();
         PrintWriter printWriter = new PrintWriter(writer);
+
         ex.printStackTrace(printWriter);
         Throwable cause = ex.getCause();
         while (cause != null) {
@@ -183,20 +141,38 @@ public class AppCrashHandler implements Thread.UncaughtExceptionHandler {
         String result = writer.toString();
         sb.append(result);
         try {
-            long timestamp = System.currentTimeMillis();
-            String time = format.format(new Date());
-            String fileName = "crash-" + time + "-" + timestamp + ".log";
-            if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
-                String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/crash/";
-                File dir = new File(path);
-                if (!dir.exists()) {
-                    dir.mkdirs();
+            LogUtil.e("打印错误：" + result);
+
+            Map<String, Object> params = new HashMap<>();
+            params.put("userId", "0");
+            params.put("merchantId", "0");
+            params.put("posMachineId", "0");
+            params.put("trace", sb.toString());
+
+            HttpClient.postWithMy(Config.URL.globalUploadLogTrace, params, null, new HttpResponseHandler() {
+                @Override
+                public void onSuccess(String response) {
+
                 }
-                FileOutputStream fos = new FileOutputStream(path + fileName);
-                fos.write(sb.toString().getBytes());
-                fos.close();
-            }
-            return fileName;
+            });
+
+
+//            long timestamp = System.currentTimeMillis();
+//            String time = format.format(new Date());
+//            String fileName = "crash-" + time + "-" + timestamp + ".log";
+//            if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+//                String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/crash/";
+//                File dir = new File(path);
+//                if (!dir.exists()) {
+//                    dir.mkdirs();
+//                }
+//                FileOutputStream fos = new FileOutputStream(path + fileName);
+//                fos.write(sb.toString().getBytes());
+//                fos.close();
+//            }
+//            return fileName;
+
+
         } catch (Exception e) {
             Log.e(TAG, "an error occured while writing file...", e);
         }

@@ -58,6 +58,6 @@ public class Config {
         public static final String carInsEditBaseInfo = BuildConfig.ENVIRONMENT + "/api/CarIns/EditBaseInfo";
         public static final String carInsComanyInfo = BuildConfig.ENVIRONMENT + "/api/CarIns/InsComanyInfo";
         public static final String carInsInsInquiry = BuildConfig.ENVIRONMENT + "/api/CarIns/InsInquiry";
-
+        public static final String globalUploadLogTrace = BuildConfig.ENVIRONMENT + "/api/Global/UploadLogTrace";
     }
 }

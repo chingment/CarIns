@@ -1,5 +1,6 @@
 package com.uplink.carins.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -50,7 +51,7 @@ public class OrderDetailsLllegalQueryRechargeActivity extends SwipeBackActivity 
     private TextView txt_order_price;
 
     private Button btn_printer;
-
+    private Button btn_bind;
     private OrderDetailsLllegalQueryRechargeBean orderDetails;
 
     @Override
@@ -88,19 +89,29 @@ public class OrderDetailsLllegalQueryRechargeActivity extends SwipeBackActivity 
         txt_order_price = (TextView) findViewById(R.id.txt_order_price);
 
         btn_printer = (Button) findViewById(R.id.btn_printer);
+        btn_bind = (Button) findViewById(R.id.btn_bind);
 
+        if (appContext.getUser().getId() == 1234) {
+            btn_bind.setVisibility(View.VISIBLE);
+        }
     }
 
     private void initEvent() {
         btnHeaderGoBack.setOnClickListener(this);
         btn_printer.setOnClickListener(this);
-
+        btn_bind.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_main_header_goback:
+                finish();
+                break;
+            case R.id.btn_bind:
+
+                Intent intent = new Intent(OrderDetailsLllegalQueryRechargeActivity.this, PrintDemoActivity.class);
+                startActivity(intent);
                 finish();
                 break;
             case R.id.btn_printer:
