@@ -59,8 +59,8 @@ public class ClaimsServiceAppActivity extends SwipeBackActivity implements View.
         final List<NineGridItemBean> gridviewitems = new ArrayList<NineGridItemBean>();
 
 
-        gridviewitems.add(new NineGridItemBean(0,"一键理赔", NineGridItemType.Window, "com.uplink.carins.activity.CarClaimActivity", R.drawable.ic_app_yjlp));
-        gridviewitems.add(new NineGridItemBean(0,"定损点申请", NineGridItemType.Window, "com.uplink.carins.activity.ApplyLossAssessActivity", R.drawable.ic_app_yjtb));
+        gridviewitems.add(new NineGridItemBean(0,"0","一键理赔", NineGridItemType.Window, "com.uplink.carins.activity.CarClaimActivity", R.drawable.ic_app_yjlp));
+        gridviewitems.add(new NineGridItemBean(0,"0","定损点申请", NineGridItemType.Window, "com.uplink.carins.activity.ApplyLossAssessActivity", R.drawable.ic_app_yjtb));
 
         NineGridItemdapter nineGridItemdapter=new NineGridItemdapter(gridviewitems);
 

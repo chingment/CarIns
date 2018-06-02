@@ -173,7 +173,8 @@ public class BaseFragmentActivity extends FragmentActivity {
 
         customDialogLoading = new CustomDialogLoading(this);
 
-        bindServiceConnection();
+
+        //bindServiceConnection();
     }
 
 

@@ -34,6 +34,7 @@ public class CarInsServiceAppActivity extends SwipeBackActivity implements View.
     private ImageView btnHeaderGoBack;
     private TextView txtHeaderTitle;
     private LayoutInflater inflater;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,27 +52,28 @@ public class CarInsServiceAppActivity extends SwipeBackActivity implements View.
         txtHeaderTitle.setText("投保服务");
 
 
-
         MyGridView gridview = (MyGridView) findViewById(R.id.gridview_ninegrid);
 
 
         final List<NineGridItemBean> gridviewitems = new ArrayList<NineGridItemBean>();
 
-        gridviewitems.add(new NineGridItemBean(0,"车险投保", NineGridItemType.Window, "com.uplink.carins.activity.CarInsureKindActivity", R.drawable.ic_app_yjtb));
+        gridviewitems.add(new NineGridItemBean(0, "0", "车险投保", NineGridItemType.Window, "com.uplink.carins.activity.CarInsureKindActivity", R.drawable.ic_app_yjtb));
 
-        if(appContext.getUser().getId()==1234) {
-            gridviewitems.add(new NineGridItemBean(0, "车险投保", NineGridItemType.Window, "com.uplink.carins.activity.NwCarInsGetCarInfoActivity", R.drawable.ic_app_yjtb));
+        if (appContext.getUser().getId() == 1234) {
+            gridviewitems.add(new NineGridItemBean(0, "0", "车险投保", NineGridItemType.Window, "com.uplink.carins.activity.NwCarInsGetCarInfoActivity", R.drawable.ic_app_yjtb));
 
-            gridviewitems.add(new NineGridItemBean(0, "团体意外险", NineGridItemType.Window, "com.uplink.carins.activity.ProductListByInsuranceActivity", R.drawable.ic_app_ywbx));
+            gridviewitems.add(new NineGridItemBean(0, "301", "个人外险", NineGridItemType.Window, "com.uplink.carins.activity.InsProductPlanActivity", R.drawable.ic_app_ywbx));
+            gridviewitems.add(new NineGridItemBean(0, "401", "团体外险", NineGridItemType.Window, "com.uplink.carins.activity.InsProductPlanActivity", R.drawable.ic_app_ywbx));
         }
 
         List<ExtendedAppBean> extendedApp = AppCacheManager.getExtendedAppByCarInsService();
 
         for (ExtendedAppBean bean : extendedApp) {
-            gridviewitems.add(new NineGridItemBean(bean.getId(),bean.getName(), NineGridItemType.Url, bean.getLinkUrl(), bean.getImgUrl()));
+
+            gridviewitems.add(new NineGridItemBean(bean.getId(), bean.getReferenceId(), bean.getName(), NineGridItemType.Url, bean.getLinkUrl(), bean.getImgUrl()));
         }
 
-        NineGridItemdapter nineGridItemdapter=new NineGridItemdapter(gridviewitems);
+        NineGridItemdapter nineGridItemdapter = new NineGridItemdapter(gridviewitems);
 
         gridview.setAdapter(nineGridItemdapter);
 
@@ -86,6 +88,7 @@ public class CarInsServiceAppActivity extends SwipeBackActivity implements View.
                     NineGridItemType type = gridviewitem.getType();
                     String action = gridviewitem.getAction();
                     String title = gridviewitem.getTitle();
+                    String referenceId = gridviewitem.getReferenceId();
                     Intent intent;
 
 
@@ -95,14 +98,26 @@ public class CarInsServiceAppActivity extends SwipeBackActivity implements View.
                             switch (action) {
                                 case "com.uplink.carins.activity.CarInsureKindActivity":
                                     intent = new Intent(CarInsServiceAppActivity.this, CarInsureKindActivity.class);
+                                    intent.putExtra("referenceId", referenceId);
+                                    intent.putExtra("title", title);
                                     startActivity(intent);
                                     break;
                                 case "com.uplink.carins.activity.NwCarInsGetCarInfoActivity":
                                     intent = new Intent(CarInsServiceAppActivity.this, NwCarInsGetCarInfoActivity.class);
+                                    intent.putExtra("referenceId", referenceId);
+                                    intent.putExtra("title", title);
                                     startActivity(intent);
                                     break;
                                 case "com.uplink.carins.activity.ProductListByInsuranceActivity":
                                     intent = new Intent(CarInsServiceAppActivity.this, ProductListByInsuranceActivity.class);
+                                    intent.putExtra("referenceId", referenceId);
+                                    intent.putExtra("title", title);
+                                    startActivity(intent);
+                                    break;
+                                case "com.uplink.carins.activity.InsProductPlanActivity":
+                                    intent = new Intent(CarInsServiceAppActivity.this, InsProductPlanActivity.class);
+                                    intent.putExtra("referenceId", referenceId);
+                                    intent.putExtra("title", title);
                                     startActivity(intent);
                                     break;
                             }
@@ -172,13 +187,10 @@ public class CarInsServiceAppActivity extends SwipeBackActivity implements View.
             item_title.setText(bean.getTitle());
 
 
-
-            if(bean.getIcon() instanceof Integer) {
+            if (bean.getIcon() instanceof Integer) {
                 item_img.setImageDrawable(getResources().getDrawable(((int) bean.getIcon())));
-            }
-            else
-            {
-                CommonUtil.loadImageFromUrl(CarInsServiceAppActivity.this,item_img,bean.getIcon().toString());
+            } else {
+                CommonUtil.loadImageFromUrl(CarInsServiceAppActivity.this, item_img, bean.getIcon().toString());
             }
 
             return convertView;

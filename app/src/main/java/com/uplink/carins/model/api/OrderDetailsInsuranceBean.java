@@ -1,5 +1,7 @@
 package com.uplink.carins.model.api;
 
+import java.util.List;
+
 /**
  * Created by chingment on 2018/4/10.
  */
@@ -87,12 +89,12 @@ public class OrderDetailsInsuranceBean {
         this.remarks = remarks;
     }
 
-    public String getInsuranceCompanyName() {
-        return insuranceCompanyName;
+    public String getInsCompanyName() {
+        return insCompanyName;
     }
 
-    public void setInsuranceCompanyName(String insuranceCompanyName) {
-        this.insuranceCompanyName = insuranceCompanyName;
+    public void setInsCompanyName(String insCompanyName) {
+        this.insCompanyName = insCompanyName;
     }
 
     public String getProductSkuName() {
@@ -103,16 +105,26 @@ public class OrderDetailsInsuranceBean {
         this.productSkuName = productSkuName;
     }
 
-    public String getProductTypeName() {
-        return ProductTypeName;
-    }
-
-    public void setProductTypeName(String productTypeName) {
-        ProductTypeName = productTypeName;
-    }
-
     private String remarks;
-    private String insuranceCompanyName;
+
+    public List<ZjBean> getCredentialsImgs() {
+        return credentialsImgs;
+    }
+
+    public void setCredentialsImgs(List<ZjBean> credentialsImgs) {
+        this.credentialsImgs = credentialsImgs;
+    }
+
+    public List<ItemFieldBean> getProductSkuAttrItems() {
+        return productSkuAttrItems;
+    }
+
+    public void setProductSkuAttrItems(List<ItemFieldBean> productSkuAttrItems) {
+        this.productSkuAttrItems = productSkuAttrItems;
+    }
+
+    private String insCompanyName;
     private String productSkuName;
-    private String ProductTypeName;
+    private List<ZjBean> credentialsImgs;
+    private List<ItemFieldBean> productSkuAttrItems;
 }

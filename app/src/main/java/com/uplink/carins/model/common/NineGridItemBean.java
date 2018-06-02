@@ -13,7 +13,7 @@ public class NineGridItemBean {
     private Object icon;
     private NineGridItemType type;
     private String action;
-
+    private String referenceId;
 
     public int getAppId() {
         return appId;
@@ -56,17 +56,26 @@ public class NineGridItemBean {
         this.action = action;
     }
 
+    public String getReferenceId() {
+        return referenceId;
+    }
+
+    public void setReferenceId(String referenceId) {
+        this.referenceId = referenceId;
+    }
+
     public  NineGridItemBean()
     {
 
     }
 
-    public  NineGridItemBean(int appId, String title,NineGridItemType type,String action, Object icon)
+    public  NineGridItemBean(int appId,String referenceId, String title,NineGridItemType type,String action, Object icon)
     {
         this.appId=appId;
         this.title=title;
         this.type=type;
         this.icon=icon;
         this.action=action;
+        this.referenceId=referenceId;
     }
 }

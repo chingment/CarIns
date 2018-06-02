@@ -15,6 +15,7 @@ public class ExtendedAppBean implements Serializable {
     private String appKey;
     private String appSecret;
     private int type;
+    private String referenceId;
 
     public int getId() {
         return id;
@@ -70,5 +71,13 @@ public class ExtendedAppBean implements Serializable {
 
     public void setType(int type) {
         this.type = type;
+    }
+
+    public String getReferenceId() {
+        return referenceId;
+    }
+
+    public void setReferenceId(String referenceId) {
+        this.referenceId = referenceId;
     }
 }
