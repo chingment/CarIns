@@ -74,14 +74,14 @@ public class ClaimsServiceAppActivity extends SwipeBackActivity implements View.
                 if (!NoDoubleClickUtils.isDoubleClick()) {
                     NineGridItemBean gridviewitem = gridviewitems.get(position);
 
-                    NineGridItemType type = gridviewitem.getType();
+                    int type = gridviewitem.getType();
                     String action = gridviewitem.getAction();
                     String title = gridviewitem.getTitle();
                     Intent intent;
 
 
                     switch (type) {
-                        case Window:
+                        case NineGridItemType.Window:
                             intent = new Intent();
                             switch (action) {
                                 case "com.uplink.carins.activity.CarClaimActivity":
@@ -94,7 +94,7 @@ public class ClaimsServiceAppActivity extends SwipeBackActivity implements View.
                                     break;
                             }
                             break;
-                        case Url:
+                        case NineGridItemType.Url:
                             intent = new Intent(ClaimsServiceAppActivity.this, WebViewActivity.class);
                             intent.putExtra("title", title);
                             intent.putExtra("url", CommonUtil.getExtendedAppUrl(gridviewitem));

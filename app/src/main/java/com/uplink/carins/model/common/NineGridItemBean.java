@@ -11,7 +11,7 @@ public class NineGridItemBean {
     private int appId;
     private String title;
     private Object icon;
-    private NineGridItemType type;
+    private int type;
     private String action;
     private String referenceId;
 
@@ -40,11 +40,11 @@ public class NineGridItemBean {
         this.icon = icon;
     }
 
-    public NineGridItemType getType() {
+    public int getType() {
         return type;
     }
 
-    public void setType(NineGridItemType type) {
+    public void setType(int type) {
         this.type = type;
     }
 
@@ -69,7 +69,7 @@ public class NineGridItemBean {
 
     }
 
-    public  NineGridItemBean(int appId,String referenceId, String title,NineGridItemType type,String action, Object icon)
+    public  NineGridItemBean(int appId,String referenceId, String title,int type,String action, Object icon)
     {
         this.appId=appId;
         this.title=title;

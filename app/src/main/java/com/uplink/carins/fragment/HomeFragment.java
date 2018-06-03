@@ -38,6 +38,7 @@ import com.uplink.carins.ui.loopviewpager.AutoLoopViewPager;
 import com.uplink.carins.ui.my.MyGridView;
 import com.uplink.carins.ui.viewpagerindicator.CirclePageIndicator;
 import com.uplink.carins.utils.CommonUtil;
+import com.uplink.carins.utils.LogUtil;
 import com.uplink.carins.utils.NoDoubleClickUtils;
 
 import java.util.ArrayList;
@@ -166,7 +167,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         if (thirdPartyApp != null) {
             if (thirdPartyApp.size() > 0) {
                 for (ExtendedAppBean bean : thirdPartyApp) {
-                    gridviewitems_haoyilian.add(new NineGridItemBean(bean.getId(),bean.getReferenceId(), bean.getName(), NineGridItemType.Url, bean.getLinkUrl(), bean.getImgUrl()));
+
+                    gridviewitems_haoyilian.add(new NineGridItemBean(bean.getId(),bean.getReferenceId(), bean.getName(), bean.getLinkType(), bean.getLinkUrl(), bean.getImgUrl()));
                 }
             }
         }
@@ -299,7 +301,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                     int position = (int) v.getTag();
 
                     NineGridItemBean gridviewitem = items.get(position);
-                    NineGridItemType type = gridviewitem.getType();
+                    int type = gridviewitem.getType();
                     String action = gridviewitem.getAction();
                     String title = gridviewitem.getTitle();
                     Intent intent;
@@ -308,7 +310,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                     //context.startActivity(intent);
 
                     switch (type) {
-                        case Window:
+                        case NineGridItemType.Window:
                             intent = new Intent();
                             switch (action) {
                                 case "com.uplink.carins.activity.LoginActivity":
@@ -392,7 +394,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                                     break;
                             }
                             break;
-                        case Url:
+                        case NineGridItemType.Url:
 
                             intent = new Intent(context, WebViewActivity.class);
                             intent.putExtra("title", title);

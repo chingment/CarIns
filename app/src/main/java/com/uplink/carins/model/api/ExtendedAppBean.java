@@ -11,6 +11,16 @@ public class ExtendedAppBean implements Serializable {
     private int id;
     private String name;
     private String linkUrl;
+    private int linkType;
+
+    public int getLinkType() {
+        return linkType;
+    }
+
+    public void setLinkType(int linkType) {
+        this.linkType = linkType;
+    }
+
     private String imgUrl;
     private String appKey;
     private String appSecret;

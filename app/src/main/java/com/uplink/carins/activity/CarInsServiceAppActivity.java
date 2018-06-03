@@ -62,15 +62,15 @@ public class CarInsServiceAppActivity extends SwipeBackActivity implements View.
         if (appContext.getUser().getId() == 1234) {
             gridviewitems.add(new NineGridItemBean(0, "0", "车险投保", NineGridItemType.Window, "com.uplink.carins.activity.NwCarInsGetCarInfoActivity", R.drawable.ic_app_yjtb));
 
-            gridviewitems.add(new NineGridItemBean(0, "301", "个人外险", NineGridItemType.Window, "com.uplink.carins.activity.InsProductPlanActivity", R.drawable.ic_app_ywbx));
-            gridviewitems.add(new NineGridItemBean(0, "401", "团体外险", NineGridItemType.Window, "com.uplink.carins.activity.InsProductPlanActivity", R.drawable.ic_app_ywbx));
+            //gridviewitems.add(new NineGridItemBean(0, "301", "个人意外险", NineGridItemType.Window, "com.uplink.carins.activity.InsProductPlanActivity", R.drawable.ic_app_ywbx));
+            //gridviewitems.add(new NineGridItemBean(0, "401", "团体意外险", NineGridItemType.Window, "com.uplink.carins.activity.InsProductPlanActivity", R.drawable.ic_app_ywbx));
         }
 
         List<ExtendedAppBean> extendedApp = AppCacheManager.getExtendedAppByCarInsService();
 
         for (ExtendedAppBean bean : extendedApp) {
 
-            gridviewitems.add(new NineGridItemBean(bean.getId(), bean.getReferenceId(), bean.getName(), NineGridItemType.Url, bean.getLinkUrl(), bean.getImgUrl()));
+            gridviewitems.add(new NineGridItemBean(bean.getId(), bean.getReferenceId(), bean.getName(), bean.getLinkType(), bean.getLinkUrl(), bean.getImgUrl()));
         }
 
         NineGridItemdapter nineGridItemdapter = new NineGridItemdapter(gridviewitems);
@@ -85,7 +85,7 @@ public class CarInsServiceAppActivity extends SwipeBackActivity implements View.
                 if (!NoDoubleClickUtils.isDoubleClick()) {
                     NineGridItemBean gridviewitem = gridviewitems.get(position);
 
-                    NineGridItemType type = gridviewitem.getType();
+                    int type = gridviewitem.getType();
                     String action = gridviewitem.getAction();
                     String title = gridviewitem.getTitle();
                     String referenceId = gridviewitem.getReferenceId();
@@ -93,7 +93,7 @@ public class CarInsServiceAppActivity extends SwipeBackActivity implements View.
 
 
                     switch (type) {
-                        case Window:
+                        case NineGridItemType.Window:
                             intent = new Intent();
                             switch (action) {
                                 case "com.uplink.carins.activity.CarInsureKindActivity":
@@ -122,7 +122,7 @@ public class CarInsServiceAppActivity extends SwipeBackActivity implements View.
                                     break;
                             }
                             break;
-                        case Url:
+                        case NineGridItemType.Url:
                             intent = new Intent(CarInsServiceAppActivity.this, WebViewActivity.class);
                             intent.putExtra("title", title);
                             intent.putExtra("url", CommonUtil.getExtendedAppUrl(gridviewitem));
