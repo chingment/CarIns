@@ -4,7 +4,6 @@
     android:layout_height="wrap_content"
     android:gravity="center"
     android:orientation="vertical"
-    android:descendantFocusability="blocksDescendants"
     >
 
     <LinearLayout
@@ -54,7 +53,7 @@
                     android:layout_height="180dp"
                     android:divider="@null"
                     android:scrollbars="none"
-
+                    android:focusable="false"
                     />
 
             </LinearLayout>

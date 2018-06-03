@@ -28,6 +28,7 @@ import com.uplink.carins.ui.ViewHolder;
 import com.uplink.carins.ui.swipebacklayout.SwipeBackActivity;
 import com.uplink.carins.utils.CommonUtil;
 import com.uplink.carins.utils.LogUtil;
+import com.uplink.carins.utils.StringUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -87,7 +88,13 @@ public class InsProductPlanActivity extends SwipeBackActivity implements View.On
     public void setView(InsPlanBean bean) {
         insPlanBean = bean;
 
-        CommonUtil.loadImageFromUrl(InsProductPlanActivity.this, img_banner, bean.getBannerImgUrl());
+        if(StringUtil.isEmptyNotNull(bean.getBannerImgUrl())) {
+            img_banner.setVisibility(View.GONE);
+        }
+        else {
+            CommonUtil.loadImageFromUrl(InsProductPlanActivity.this, img_banner, bean.getBannerImgUrl());
+            img_banner.setVisibility(View.VISIBLE);
+        }
 
         InsPlanProductSkuAdapter adapter = new InsPlanProductSkuAdapter();
         list_plan.setAdapter(adapter);
@@ -178,10 +185,17 @@ public class InsProductPlanActivity extends SwipeBackActivity implements View.On
             box.setTag(position);
             box.setOnClickListener(clickListener);
 
+            list_fields.setFocusable(false);
+            list_fields.setClickable(false);
+            list_fields.setPressed(false);
+            list_fields.setEnabled(false);
+
+            //list_fields.setTag(position);
+            //list_fields.setOnClickListener(clickListener);
             return convertView;
         }
 
-        private TextView.OnClickListener clickListener = new View.OnClickListener() {
+        private View.OnClickListener clickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 final int position = Integer.parseInt(v.getTag().toString());
