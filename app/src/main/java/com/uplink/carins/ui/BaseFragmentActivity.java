@@ -174,7 +174,11 @@ public class BaseFragmentActivity extends FragmentActivity {
         customDialogLoading = new CustomDialogLoading(this);
 
 
-        //bindServiceConnection();
+        try {
+            bindServiceConnection();
+        } catch (Exception ex) {
+            //showToast("链接打印机失败");
+        }
     }
 
 
@@ -535,6 +539,8 @@ public class BaseFragmentActivity extends FragmentActivity {
                 showToast("打印的数据为空");
                 return;
             }
+
+            bindServiceConnection();
 
             if (aidlDeviceService == null) {
                 showToast("aidlDeviceService为空");
