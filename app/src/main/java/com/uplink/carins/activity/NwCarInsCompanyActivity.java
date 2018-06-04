@@ -56,6 +56,7 @@ public class NwCarInsCompanyActivity extends SwipeBackActivity implements View.O
     private CarInfoResultBean carInfo;
     private List<CarInsKindBean> insKinds;
     private CustomConfirmDialog dialog_ConfirmArtificial;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -209,9 +210,9 @@ public class NwCarInsCompanyActivity extends SwipeBackActivity implements View.O
             @Override
             public void onClick(View v) {
                 final int position = Integer.parseInt(v.getTag().toString());
-
-                if (carInfo.getAuto().equals("0")) {
-
+                NwCarInsChannelBean bean = carInsCompanys.get(position);
+                if (bean.getOfferResult() == 2) {
+                    carInfo.setAuto("0");
                     if (dialog_ConfirmArtificial == null) {
 
                         dialog_ConfirmArtificial = new CustomConfirmDialog(NwCarInsCompanyActivity.this, "提交人工报价需要等候1约0分钟，请注意查看我的订单？", true);
@@ -235,24 +236,27 @@ public class NwCarInsCompanyActivity extends SwipeBackActivity implements View.O
                     }
 
                     dialog_ConfirmArtificial.show();
-                }
-               else {
+                } else {
+                    carInfo.setAuto("1");
                     gefOffer(position);
                 }
             }
         };
 
-        private  void  gefOffer(final int position)
-        {
+        private void gefOffer(final int position) {
 
             Map<String, Object> params = new HashMap<>();
 
+            params.put("userId", getAppContext().getUser().getId());
+            params.put("merchantId", getAppContext().getUser().getMerchantId());
+            params.put("posMachineId", getAppContext().getUser().getPosMachineId());
             params.put("auto", carInfo.getAuto());
             params.put("orderSeq", carInfo.getOrderSeq());
             params.put("channelId", carInsCompanys.get(position).getChannelId());
             params.put("companyCode", carInsCompanys.get(position).getCode());
-            params.put("ciStartDate", "2018-05-16");
-            params.put("biStartDate", "2018-05-16");
+            params.put("carInfoOrderId", carInfo.getCarInfoOrderId());
+            params.put("ciStartDate", "2018-06-20");
+            params.put("biStartDate", "2018-06-20");
 
             JSONArray json_CarInsKinds = new JSONArray();
 
@@ -312,11 +316,11 @@ public class NwCarInsCompanyActivity extends SwipeBackActivity implements View.O
                     });
 
                     if (rt.getResult() == Result.SUCCESS) {
-                        carInfo.setAuto("1");
+                        //carInfo.setAuto("1");
                         carInsCompanys.get(position).setOfferResult(1);//1 为自动报价成功，2为自动报价失败
                         carInsCompanys.get(position).setOfferPremium(rt.getData().getSumPremium());
                     } else {
-                        carInfo.setAuto("0");
+                        //carInfo.setAuto("0");
                         carInsCompanys.get(position).setOfferResult(2);
                         carInsCompanys.get(position).setOfferMsg(rt.getMessage());
                     }

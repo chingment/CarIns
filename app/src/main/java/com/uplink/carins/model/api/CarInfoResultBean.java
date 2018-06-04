@@ -12,6 +12,15 @@ public class CarInfoResultBean implements Serializable {
     private String auto ;
     private CarInfoBean car ;
     private List<CustomerBean> customers ;
+    private int carInfoOrderId;
+
+    public int getCarInfoOrderId() {
+        return carInfoOrderId;
+    }
+
+    public void setCarInfoOrderId(int carInfoOrderId) {
+        this.carInfoOrderId = carInfoOrderId;
+    }
 
     public String getOrderSeq() {
         return orderSeq;
