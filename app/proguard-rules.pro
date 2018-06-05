@@ -37,3 +37,4 @@
 -keep class com.alibaba.fastjson.**{*;}
 
 -keep class com.uplink.carins.model.**{*;}
+-keep class com.nld.cloudpos.**{*;}

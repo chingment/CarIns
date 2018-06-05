@@ -559,15 +559,15 @@ public class BaseFragmentActivity extends FragmentActivity {
 
             printItems.add(new PrintItemObj("签购单", PrinterConstant.FontScale.FONTSCALE_DW_H, PrinterConstant.FontType.FONTTYPE_N, PrintItemObj.ALIGN.CENTER, false, 6));
             printItems.add(new PrintItemObj("商户存根/MERCHANT COPY", PrinterConstant.FontScale.FONTSCALE_DW_H, PrinterConstant.FontType.FONTTYPE_N, PrintItemObj.ALIGN.CENTER, false, 6));
-            printItems.add(new PrintItemObj("商户名称:" + data.getMerchantName(), PrinterConstant.FontScale.FONTSCALE_DW_H, PrinterConstant.FontType.FONTTYPE_S, PrintItemObj.ALIGN.LEFT, false, 6));
-            printItems.add(new PrintItemObj("交易类型:" + data.getTradeType(), PrinterConstant.FontScale.FONTSCALE_DW_H, PrinterConstant.FontType.FONTTYPE_S, PrintItemObj.ALIGN.LEFT, false, 6));
-            printItems.add(new PrintItemObj("商品名称:" + data.getProductName(), PrinterConstant.FontScale.FONTSCALE_DW_H, PrinterConstant.FontType.FONTTYPE_S, PrintItemObj.ALIGN.LEFT, false, 6));
-            printItems.add(new PrintItemObj("交易单号:" + data.getTradeNo(), PrinterConstant.FontScale.FONTSCALE_DW_H, PrinterConstant.FontType.FONTTYPE_S, PrintItemObj.ALIGN.LEFT, false, 6));
-            printItems.add(new PrintItemObj("订单号:" + data.getOrderSn(), PrinterConstant.FontScale.FONTSCALE_DW_H, PrinterConstant.FontType.FONTTYPE_S, PrintItemObj.ALIGN.LEFT, false, 6));
-            printItems.add(new PrintItemObj("支付方式:" + data.getTradePayMethod(), PrinterConstant.FontScale.FONTSCALE_DW_H, PrinterConstant.FontType.FONTTYPE_S, PrintItemObj.ALIGN.LEFT, false, 6));
-            printItems.add(new PrintItemObj("日期时间:" + data.getTradeDateTime(), PrinterConstant.FontScale.FONTSCALE_DW_H, PrinterConstant.FontType.FONTTYPE_S, PrintItemObj.ALIGN.LEFT, false, 6));
-            printItems.add(new PrintItemObj("金 额:RMB " + data.getTradeAmount(), PrinterConstant.FontScale.FONTSCALE_DW_H, PrinterConstant.FontType.FONTTYPE_S, PrintItemObj.ALIGN.LEFT, false, 6));
-            printItems.add(new PrintItemObj("服务热线:" + data.getServiceHotline(), PrinterConstant.FontScale.FONTSCALE_DW_H, PrinterConstant.FontType.FONTTYPE_S, PrintItemObj.ALIGN.LEFT, false, 6));
+            printItems.add(new PrintItemObj("商户名称:" + data.getMerchantName(),  PrinterConstant.FontScale.FONTSCALE_W_H, PrinterConstant.FontType.FONTTYPE_N, PrintItemObj.ALIGN.LEFT, false, 6));
+            printItems.add(new PrintItemObj("交易类型:" + data.getTradeType(), PrinterConstant.FontScale.FONTSCALE_W_H, PrinterConstant.FontType.FONTTYPE_N, PrintItemObj.ALIGN.LEFT, false, 6));
+            printItems.add(new PrintItemObj("商品名称:" + data.getProductName(), PrinterConstant.FontScale.FONTSCALE_W_H, PrinterConstant.FontType.FONTTYPE_N, PrintItemObj.ALIGN.LEFT, false, 6));
+            printItems.add(new PrintItemObj("交易单号:" + data.getTradeNo(), PrinterConstant.FontScale.FONTSCALE_W_H, PrinterConstant.FontType.FONTTYPE_N, PrintItemObj.ALIGN.LEFT, false, 6));
+            printItems.add(new PrintItemObj("订单号:" + data.getOrderSn(), PrinterConstant.FontScale.FONTSCALE_W_H, PrinterConstant.FontType.FONTTYPE_N, PrintItemObj.ALIGN.LEFT, false, 6));
+            printItems.add(new PrintItemObj("支付方式:" + data.getTradePayMethod(), PrinterConstant.FontScale.FONTSCALE_W_H, PrinterConstant.FontType.FONTTYPE_N, PrintItemObj.ALIGN.LEFT, false, 6));
+            printItems.add(new PrintItemObj("日期时间:" + data.getTradeDateTime(), PrinterConstant.FontScale.FONTSCALE_W_H, PrinterConstant.FontType.FONTTYPE_N, PrintItemObj.ALIGN.LEFT, false, 6));
+            printItems.add(new PrintItemObj("金 额:RMB " + data.getTradeAmount(), PrinterConstant.FontScale.FONTSCALE_W_H, PrinterConstant.FontType.FONTTYPE_N, PrintItemObj.ALIGN.LEFT, false, 6));
+            printItems.add(new PrintItemObj("服务热线:" + data.getServiceHotline(), PrinterConstant.FontScale.FONTSCALE_W_H, PrinterConstant.FontType.FONTTYPE_N, PrintItemObj.ALIGN.LEFT, false, 6));
             printItems.add(new PrintItemObj("\r"));
             printItems.add(new PrintItemObj("\r"));
             printItems.add(new PrintItemObj("-------------------------------"));
