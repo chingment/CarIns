@@ -323,7 +323,7 @@ public class BaseFragmentActivity extends FragmentActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        //unbindService(serviceConnection);
+        unbindService(serviceConnection);
         //aidlPrinter = null;
         LogUtil.e("onDestroy is invoke!!!");
         // 结束Activity从堆栈中移除
@@ -540,7 +540,6 @@ public class BaseFragmentActivity extends FragmentActivity {
                 return;
             }
 
-            bindServiceConnection();
 
             if (aidlDeviceService == null) {
                 showToast("aidlDeviceService为空");
