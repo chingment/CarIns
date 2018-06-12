@@ -17,7 +17,7 @@
     <color name="main_footer_line">#140000</color>
     <color name="main_footer_text_color_normal">#333333</color>
     <color name="main_footer_text_color_selected">#FA931E</color>
-
+    <color name="dividerline">#E6E6E6</color>
 
     <color name="main_header_bg">#FFF</color>
     <color name="main_header_title">#000000</color>

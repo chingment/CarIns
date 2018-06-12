@@ -67,7 +67,7 @@
     </RelativeLayout>
 
     <ListView
-        android:id="@+id/list_offer_itemt"
+        android:id="@+id/list_offer_parent"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/btn_submit"

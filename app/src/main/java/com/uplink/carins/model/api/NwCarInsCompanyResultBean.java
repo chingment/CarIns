@@ -26,12 +26,12 @@ public class NwCarInsCompanyResultBean implements Serializable {
         this.licensePicKey = licensePicKey;
     }
 
-    public List<NwCarInsChannelBean> getChannels() {
-        return channels;
+    public List<NwCarInsCompanyBean> getCompanys() {
+        return companys;
     }
 
-    public void setChannels(List<NwCarInsChannelBean> channels) {
-        this.channels = channels;
+    public void setCompanys(List<NwCarInsCompanyBean> companys) {
+        this.companys = companys;
     }
 
     public List<NwCarInsAreaBean> getAreas() {
@@ -43,6 +43,6 @@ public class NwCarInsCompanyResultBean implements Serializable {
     }
 
     private String licensePicKey;
-    private List<NwCarInsChannelBean> channels;
+    private List<NwCarInsCompanyBean> companys;
     private List<NwCarInsAreaBean> areas;
 }

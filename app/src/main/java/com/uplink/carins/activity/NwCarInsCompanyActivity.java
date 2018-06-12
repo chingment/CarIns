@@ -20,9 +20,8 @@ import com.uplink.carins.http.HttpResponseHandler;
 import com.uplink.carins.model.api.ApiResultBean;
 import com.uplink.carins.model.api.CarInfoResultBean;
 import com.uplink.carins.model.api.CarInsKindBean;
-import com.uplink.carins.model.api.NwCarInsChannelBean;
+import com.uplink.carins.model.api.NwCarInsCompanyBean;
 import com.uplink.carins.model.api.NwCarInsCompanyResultBean;
-import com.uplink.carins.model.api.NwCarInsInsInquiryResultBean;
 import com.uplink.carins.model.api.Result;
 import com.uplink.carins.ui.ViewHolder;
 import com.uplink.carins.ui.dialog.CustomConfirmDialog;
@@ -45,13 +44,14 @@ public class NwCarInsCompanyActivity extends SwipeBackActivity implements View.O
     private String TAG = "NwCarInsCompanyActivity";
     private ImageView btnHeaderGoBack;
     private TextView txtHeaderTitle;
+
     private ListView list_carinscompany;
 
     private CarInfoResultBean carInfo;
     private List<CarInsKindBean> insKinds;
     private CustomConfirmDialog dialog_ConfirmArtificial;
 
-    private List<NwCarInsChannelBean> insChannels;
+    private List<NwCarInsCompanyBean> insChannels;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,9 +70,9 @@ public class NwCarInsCompanyActivity extends SwipeBackActivity implements View.O
         btnHeaderGoBack = (ImageView) findViewById(R.id.btn_main_header_goback);
         btnHeaderGoBack.setVisibility(View.VISIBLE);
         txtHeaderTitle = (TextView) findViewById(R.id.txt_main_header_title);
-
-        list_carinscompany = (ListView) findViewById(R.id.list_carinscompany);
         txtHeaderTitle.setText("报价");
+        list_carinscompany = (ListView) findViewById(R.id.list_carinscompany);
+
     }
 
     private void initEvent() {
@@ -83,12 +83,12 @@ public class NwCarInsCompanyActivity extends SwipeBackActivity implements View.O
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 LogUtil.e("测试");
 
-                NwCarInsChannelBean bean = insChannels.get(position);
+                NwCarInsCompanyBean bean = insChannels.get(position);
 
                 if (bean.getOfferResult() == 1) {
-                    Intent intent = new Intent(NwCarInsCompanyActivity.this, NwCarInsOfferResultActivity.class);
+                    Intent intent = new Intent(NwCarInsCompanyActivity.this, NwCarInsCompanyOfferResultActivity.class);
                     Bundle b = new Bundle();
-                    b.putSerializable("dataBean", bean.getOfferData());
+                    b.putSerializable("dataBean", bean);
                     intent.putExtras(b);
                     startActivity(intent);
                 }
@@ -118,7 +118,7 @@ public class NwCarInsCompanyActivity extends SwipeBackActivity implements View.O
                 });
 
                 if (rt.getResult() == Result.SUCCESS) {
-                    insChannels = rt.getData().getChannels();
+                    insChannels = rt.getData().getCompanys();
                     CarInsCompanyAdapter list_carinscompany_adapter = new CarInsCompanyAdapter();
                     list_carinscompany.setAdapter(list_carinscompany_adapter);
                     list_carinscompany_adapter.setData(insChannels);
@@ -149,14 +149,14 @@ public class NwCarInsCompanyActivity extends SwipeBackActivity implements View.O
 
     private class CarInsCompanyAdapter extends BaseAdapter { // shoplist适配器
 
-        private List<NwCarInsChannelBean> carInsCompanys;
+        private List<NwCarInsCompanyBean> carInsCompanys;
 
         CarInsCompanyAdapter() {
 
             this.carInsCompanys = new ArrayList<>();
         }
 
-        public void setData(List<NwCarInsChannelBean> carInsCompanys) {
+        public void setData(List<NwCarInsCompanyBean> carInsCompanys) {
             this.carInsCompanys = carInsCompanys;
 
             notifyDataSetChanged();
@@ -181,7 +181,7 @@ public class NwCarInsCompanyActivity extends SwipeBackActivity implements View.O
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            NwCarInsChannelBean bean = carInsCompanys.get(position);
+            NwCarInsCompanyBean bean = carInsCompanys.get(position);
             if (convertView == null) {
                 convertView = LayoutInflater.from(NwCarInsCompanyActivity.this).inflate(R.layout.item_company_insoffer, parent, false);
             }
@@ -199,7 +199,7 @@ public class NwCarInsCompanyActivity extends SwipeBackActivity implements View.O
             if (bean.getOfferResult() == 1) {
                 item_arrow_right.setVisibility(View.VISIBLE);
                 item_offerpremium.setVisibility(View.VISIBLE);
-                item_offerpremium.setText(bean.getOfferPremium() + "");
+                item_offerpremium.setText(bean.getOfferSumPremium() + "");
                 item_btnoffer0.setVisibility(View.GONE);
                 item_btnoffer1.setVisibility(View.GONE);
                 item_offermsg.setVisibility(View.INVISIBLE);
@@ -211,7 +211,7 @@ public class NwCarInsCompanyActivity extends SwipeBackActivity implements View.O
                 item_offermsg.setVisibility(View.VISIBLE);
             }
 
-            CommonUtil.loadImageFromUrl(NwCarInsCompanyActivity.this, item_img, bean.getCompanyImg() + "");
+            CommonUtil.loadImageFromUrl(NwCarInsCompanyActivity.this, item_img, bean.getImgUrl() + "");
 
             item_name.setText(bean.getName());
             item_desc.setText(bean.getDescp());
@@ -227,7 +227,7 @@ public class NwCarInsCompanyActivity extends SwipeBackActivity implements View.O
             @Override
             public void onClick(View v) {
                 final int position = Integer.parseInt(v.getTag().toString());
-                NwCarInsChannelBean bean = carInsCompanys.get(position);
+                NwCarInsCompanyBean bean = carInsCompanys.get(position);
                 if (bean.getOfferResult() == 2) {
                     carInfo.setAuto("0");
                     if (dialog_ConfirmArtificial == null) {
@@ -269,8 +269,8 @@ public class NwCarInsCompanyActivity extends SwipeBackActivity implements View.O
             params.put("posMachineId", getAppContext().getUser().getPosMachineId());
             params.put("auto", carInfo.getAuto());
             params.put("carInfoOrderId", carInfo.getCarInfoOrderId());
-            params.put("channelId", carInsCompanys.get(position).getChannelId());
-            params.put("companyCode", carInsCompanys.get(position).getCode());
+            params.put("channelId", carInsCompanys.get(position).getPartnerChannelId());
+            params.put("companyCode", carInsCompanys.get(position).getPartnerCode());
             params.put("carInfoOrderId", carInfo.getCarInfoOrderId());
             params.put("ciStartDate", "2018-06-20");
             params.put("biStartDate", "2018-06-20");
@@ -329,21 +329,20 @@ public class NwCarInsCompanyActivity extends SwipeBackActivity implements View.O
                     super.onSuccess(response);
 
                     LogUtil.i(TAG, "onSuccess====>>>" + response);
-                    ApiResultBean<NwCarInsInsInquiryResultBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<NwCarInsInsInquiryResultBean>>() {
+                    ApiResultBean<NwCarInsCompanyBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<NwCarInsCompanyBean>>() {
                     });
 
                     if (rt.getResult() == Result.SUCCESS) {
                         //carInfo.setAuto("1");
                         carInsCompanys.get(position).setOfferResult(1);//1 为自动报价成功，2为自动报价失败
-                        carInsCompanys.get(position).setOfferPremium(rt.getData().getSumPremium());
-                        carInsCompanys.get(position).setOfferData(rt.getData());
+                        carInsCompanys.get(position).setOfferSumPremium(rt.getData().getOfferSumPremium());
+                        carInsCompanys.get(position).setOfferInquirys(rt.getData().getOfferInquirys());
                     } else {
                         //carInfo.setAuto("0");
                         carInsCompanys.get(position).setOfferResult(2);
-                        carInsCompanys.get(position).setOfferMsg(rt.getMessage());
                     }
-                    
-                    carInsCompanys.get(position).setOfferMsg(rt.getMessage());
+
+                    carInsCompanys.get(position).setOfferMessage(rt.getMessage());
 
                     setData(carInsCompanys);
                 }

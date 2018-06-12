@@ -1,43 +1,43 @@
 package com.uplink.carins.activity;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.uplink.carins.R;
-import com.uplink.carins.model.api.NwCarInsInsInquiryResultBean;
+import com.uplink.carins.activity.adapter.NwItemParentFieldAdapter;
+import com.uplink.carins.model.api.NwCarInsCompanyBean;
 import com.uplink.carins.ui.swipebacklayout.SwipeBackActivity;
 import com.uplink.carins.utils.CommonUtil;
 import com.uplink.carins.utils.LogUtil;
 
-public class NwCarInsOfferResultActivity extends SwipeBackActivity implements View.OnClickListener {
+public class NwCarInsCompanyOfferResultActivity extends SwipeBackActivity implements View.OnClickListener {
 
 
-    String TAG = "NwCarInsKindActivity";
-
-
+    String TAG = "NwCarInsCompanyOfferResultActivity";
     private ImageView btnHeaderGoBack;
     private TextView txtHeaderTitle;
     private Button btn_submit;
-    private NwCarInsInsInquiryResultBean offerResult;
+
+    private NwCarInsCompanyBean offerResult;
 
 
     private ImageView company_img;
     private TextView company_name;
     private TextView company_desc;
-
+    private ListView list_offer_parent;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_nwcarins_offerresult);
+        setContentView(R.layout.activity_nwcarins_companyofferresult);
 
         initView();
         initEvent();
 
-        offerResult = (NwCarInsInsInquiryResultBean) getIntent().getSerializableExtra("dataBean");
+        offerResult = (NwCarInsCompanyBean) getIntent().getSerializableExtra("dataBean");
 
         initData(offerResult);
     }
@@ -51,6 +51,7 @@ public class NwCarInsOfferResultActivity extends SwipeBackActivity implements Vi
         company_img = (ImageView) findViewById(R.id.company_img);
         company_name = (TextView) findViewById(R.id.company_name);
         company_desc = (TextView) findViewById(R.id.company_desc);
+        list_offer_parent= (ListView) findViewById(R.id.list_offer_parent);
     }
 
     private void initEvent() {
@@ -58,21 +59,24 @@ public class NwCarInsOfferResultActivity extends SwipeBackActivity implements Vi
         btn_submit.setOnClickListener(this);
     }
 
-    private void initData(NwCarInsInsInquiryResultBean bean) {
+    private void initData(NwCarInsCompanyBean bean) {
 
         if (bean == null) {
             LogUtil.e("bean为空");
             return;
         }
 
-        if (bean.getChannel() == null) {
-            LogUtil.e("bean.getChannel为空");
-            return;
-        }
 
-        CommonUtil.loadImageFromUrl(NwCarInsOfferResultActivity.this, company_img, bean.getChannel().getCompanyImg() + "");
-        company_name.setText(bean.getChannel().getName());
-        company_desc.setText(bean.getChannel().getDescp());
+
+        CommonUtil.loadImageFromUrl(NwCarInsCompanyOfferResultActivity.this, company_img, bean.getImgUrl() + "");
+        company_name.setText(bean.getName());
+        company_desc.setText(bean.getDescp());
+
+
+        NwItemParentFieldAdapter adapter=new NwItemParentFieldAdapter(NwCarInsCompanyOfferResultActivity.this,bean.getOfferInquirys());
+
+        list_offer_parent.setAdapter(adapter);
+
 
     }
 
