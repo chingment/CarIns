@@ -1,5 +1,6 @@
 package com.uplink.carins.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -29,6 +30,7 @@ public class NwCarInsCompanyOfferResultActivity extends SwipeBackActivity implem
     private TextView company_name;
     private TextView company_desc;
     private ListView list_offer_parent;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,7 +53,7 @@ public class NwCarInsCompanyOfferResultActivity extends SwipeBackActivity implem
         company_img = (ImageView) findViewById(R.id.company_img);
         company_name = (TextView) findViewById(R.id.company_name);
         company_desc = (TextView) findViewById(R.id.company_desc);
-        list_offer_parent= (ListView) findViewById(R.id.list_offer_parent);
+        list_offer_parent = (ListView) findViewById(R.id.list_offer_parent);
     }
 
     private void initEvent() {
@@ -67,13 +69,12 @@ public class NwCarInsCompanyOfferResultActivity extends SwipeBackActivity implem
         }
 
 
-
         CommonUtil.loadImageFromUrl(NwCarInsCompanyOfferResultActivity.this, company_img, bean.getImgUrl() + "");
         company_name.setText(bean.getName());
         company_desc.setText(bean.getDescp());
 
 
-        NwItemParentFieldAdapter adapter=new NwItemParentFieldAdapter(NwCarInsCompanyOfferResultActivity.this,bean.getOfferInquirys());
+        NwItemParentFieldAdapter adapter = new NwItemParentFieldAdapter(NwCarInsCompanyOfferResultActivity.this, bean.getOfferInquirys());
 
         list_offer_parent.setAdapter(adapter);
 
@@ -88,7 +89,11 @@ public class NwCarInsCompanyOfferResultActivity extends SwipeBackActivity implem
                 finish();
                 break;
             case R.id.btn_submit:
-
+                Intent intent = new Intent(NwCarInsCompanyOfferResultActivity.this, NwCarInsInsureActivity.class);
+//                Bundle b = new Bundle();
+//                b.putSerializable("dataBean", bean);
+//                intent.putExtras(b);
+                startActivity(intent);
 
                 break;
         }

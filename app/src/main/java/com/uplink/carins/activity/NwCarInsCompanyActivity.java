@@ -333,12 +333,11 @@ public class NwCarInsCompanyActivity extends SwipeBackActivity implements View.O
                     });
 
                     if (rt.getResult() == Result.SUCCESS) {
-                        //carInfo.setAuto("1");
                         carInsCompanys.get(position).setOfferResult(1);//1 为自动报价成功，2为自动报价失败
                         carInsCompanys.get(position).setOfferSumPremium(rt.getData().getOfferSumPremium());
                         carInsCompanys.get(position).setOfferInquirys(rt.getData().getOfferInquirys());
+                        carInsCompanys.get(position).setOfferId(rt.getData().getOfferId());
                     } else {
-                        //carInfo.setAuto("0");
                         carInsCompanys.get(position).setOfferResult(2);
                     }
 
