@@ -1,7 +1,5 @@
 package com.uplink.carins.model.api;
 
-import com.uplink.carins.ui.crop.util.PaintUtil;
-
 import java.io.Serializable;
 
 /**

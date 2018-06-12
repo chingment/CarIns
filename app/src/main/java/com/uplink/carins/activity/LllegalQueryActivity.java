@@ -2,7 +2,6 @@ package com.uplink.carins.activity;
 
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -23,7 +22,6 @@ import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
-import com.uplink.carins.Own.AppCacheManager;
 import com.uplink.carins.Own.Config;
 import com.uplink.carins.R;
 import com.uplink.carins.activity.adapter.AcountBaseInfoHandler;
@@ -31,19 +29,16 @@ import com.uplink.carins.http.HttpResponseHandler;
 import com.uplink.carins.model.api.AcountBaseInfoResultBean;
 import com.uplink.carins.model.api.ApiResultBean;
 import com.uplink.carins.model.api.CarTypeBean;
-import com.uplink.carins.model.api.LllegalPriceRecordBean;
 import com.uplink.carins.model.api.LllegalQueryLogBean;
 import com.uplink.carins.model.api.LllegalQueryResultBean;
 import com.uplink.carins.model.api.OrderInfoBean;
 import com.uplink.carins.model.api.OrderType;
-import com.uplink.carins.model.api.PayConfirmBean;
 import com.uplink.carins.model.api.Result;
 import com.uplink.carins.ui.ViewHolder;
 import com.uplink.carins.ui.my.MyGridView;
 import com.uplink.carins.ui.swipebacklayout.SwipeBackActivity;
 import com.uplink.carins.utils.CarKeyboardUtil;
 import com.uplink.carins.utils.LogUtil;
-import com.uplink.carins.utils.NoDoubleClickUtils;
 import com.uplink.carins.utils.StringUtil;
 
 import java.util.ArrayList;

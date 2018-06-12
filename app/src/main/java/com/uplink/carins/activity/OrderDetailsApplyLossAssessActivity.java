@@ -1,6 +1,5 @@
 package com.uplink.carins.activity;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -11,7 +10,6 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.uplink.carins.Own.Config;
 import com.uplink.carins.R;
-import com.uplink.carins.http.HttpClient;
 import com.uplink.carins.http.HttpResponseHandler;
 import com.uplink.carins.model.api.ApiResultBean;
 import com.uplink.carins.model.api.OrderDetailsApplyLossAssessBean;
@@ -19,7 +17,6 @@ import com.uplink.carins.model.api.OrderListBean;
 import com.uplink.carins.model.api.Result;
 import com.uplink.carins.ui.swipebacklayout.SwipeBackActivity;
 import com.uplink.carins.utils.LogUtil;
-import com.uplink.carins.utils.StringUtil;
 
 import java.util.HashMap;
 import java.util.Map;

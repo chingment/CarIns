@@ -1,6 +1,5 @@
 package com.uplink.carins.activity;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +14,6 @@ import com.uplink.carins.R;
 import com.uplink.carins.http.HttpResponseHandler;
 import com.uplink.carins.model.api.ApiResultBean;
 import com.uplink.carins.model.api.OrderDetailsCreditBean;
-import com.uplink.carins.model.api.OrderDetailsTalentDemandBean;
 import com.uplink.carins.model.api.OrderListBean;
 import com.uplink.carins.model.api.Result;
 import com.uplink.carins.ui.swipebacklayout.SwipeBackActivity;

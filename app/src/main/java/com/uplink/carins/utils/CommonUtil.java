@@ -1,10 +1,7 @@
 package com.uplink.carins.utils;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
-import android.graphics.drawable.Drawable;
-import android.telephony.TelephonyManager;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -21,8 +18,6 @@ import com.uplink.carins.R;
 import com.uplink.carins.model.api.UserBean;
 import com.uplink.carins.model.common.NineGridItemBean;
 
-import java.io.IOException;
-import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;

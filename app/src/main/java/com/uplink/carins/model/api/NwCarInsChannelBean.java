@@ -19,9 +19,20 @@ public class NwCarInsChannelBean implements Serializable {
     private String remote;
     private String sort;
     private int channelId;
+
     private int offerResult;
     private float offerPremium;
     private String offerMsg;
+    private NwCarInsInsInquiryResultBean offerData;
+
+    public NwCarInsInsInquiryResultBean getOfferData() {
+        return offerData;
+    }
+
+    public void setOfferData(NwCarInsInsInquiryResultBean offerData) {
+        this.offerData = offerData;
+    }
+
     public int getCompanyId() {
         return companyId;
     }

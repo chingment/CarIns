@@ -1,7 +1,5 @@
 package com.uplink.carins.model.api;
 
-import com.uplink.carins.utils.StringUtil;
-
 /**
  * Created by chingment on 2018/1/19.
  */

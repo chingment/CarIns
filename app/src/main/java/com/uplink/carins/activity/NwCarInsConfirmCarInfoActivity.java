@@ -1,9 +1,7 @@
 package com.uplink.carins.activity;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -22,7 +20,6 @@ import com.uplink.carins.model.api.CarInsGetCarModelInfoPmsBean;
 import com.uplink.carins.ui.dataPicker.CustomDatePicker;
 import com.uplink.carins.ui.swipebacklayout.SwipeBackActivity;
 import com.uplink.carins.utils.CarKeyboardUtil;
-import com.uplink.carins.utils.LogUtil;
 import com.uplink.carins.utils.StringUtil;
 
 import java.text.SimpleDateFormat;
@@ -372,6 +369,7 @@ public class NwCarInsConfirmCarInfoActivity extends SwipeBackActivity implements
                 intent = new Intent(NwCarInsConfirmCarInfoActivity.this, NwCarInsKindActivity.class);
                 b = new Bundle();
                 carInfo.setAuto("1");
+
                 carInfo.getCar().setLicensePlateNo(licensePlateNo);
                 carInfo.getCar().setVin(vin);
                 carInfo.getCar().setModelName(modelName);

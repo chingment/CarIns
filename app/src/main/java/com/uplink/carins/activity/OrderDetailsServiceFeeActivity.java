@@ -1,8 +1,5 @@
 package com.uplink.carins.activity;
 
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -12,18 +9,12 @@ import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
-import com.newland.mtype.module.common.printer.PrintContext;
-import com.newland.mtype.module.common.printer.Printer;
-import com.newland.mtype.module.common.printer.PrinterResult;
-import com.newland.mtype.module.common.printer.PrinterStatus;
 import com.uplink.carins.Own.Config;
 import com.uplink.carins.R;
-import com.uplink.carins.http.HttpClient;
 import com.uplink.carins.http.HttpResponseHandler;
 import com.uplink.carins.model.api.ApiResultBean;
 import com.uplink.carins.model.api.OrderDetailsServiceFeeBean;
 import com.uplink.carins.model.api.OrderListBean;
-import com.uplink.carins.model.api.PrintDataBean;
 import com.uplink.carins.model.api.Result;
 import com.uplink.carins.ui.swipebacklayout.SwipeBackActivity;
 import com.uplink.carins.utils.LogUtil;
@@ -31,7 +22,6 @@ import com.uplink.carins.utils.StringUtil;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 import okhttp3.Request;
 

@@ -1,14 +1,12 @@
 package com.uplink.carins.activity;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -24,10 +22,7 @@ import com.uplink.carins.model.api.ApiResultBean;
 import com.uplink.carins.model.api.CarInsCarModelInfoBean;
 import com.uplink.carins.model.api.CarInsCarModelInfoResultBean;
 import com.uplink.carins.model.api.CarInsGetCarModelInfoPmsBean;
-import com.uplink.carins.model.api.LllegalPriceRecordBean;
-import com.uplink.carins.model.api.OrderDetailsCarInsureBean;
 import com.uplink.carins.model.api.Result;
-import com.uplink.carins.ui.SlideSwitch;
 import com.uplink.carins.ui.ViewHolder;
 import com.uplink.carins.ui.swipebacklayout.SwipeBackActivity;
 import com.uplink.carins.utils.LogUtil;

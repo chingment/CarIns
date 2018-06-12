@@ -2,7 +2,6 @@ package com.uplink.carins.Own;
 
 import com.uplink.carins.model.api.*;
 import com.uplink.carins.utils.ACache;
-import com.uplink.carins.utils.LogUtil;
 
 import java.util.ArrayList;
 import java.util.List;

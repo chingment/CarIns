@@ -1,6 +1,5 @@
 package com.uplink.carins.model.api;
 
-import java.io.BufferedOutputStream;
 import java.io.Serializable;
 
 /**

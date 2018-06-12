@@ -26,7 +26,6 @@ import com.uplink.carins.R;
 import com.uplink.carins.http.HttpClient;
 import com.uplink.carins.http.HttpResponseHandler;
 import com.uplink.carins.model.api.ApiResultBean;
-import com.uplink.carins.model.api.OrderType;
 import com.uplink.carins.model.api.PayUnifiedOrderResultBean;
 import com.uplink.carins.model.api.PayResultQueryResultBean;
 import com.uplink.carins.model.api.Result;

@@ -19,7 +19,6 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 
@@ -28,7 +27,6 @@ import com.uplink.carins.R;
 import com.uplink.carins.model.api.CarInsKindBean;
 import com.uplink.carins.model.api.CarInsPlanBean;
 import com.uplink.carins.model.api.CarInsPlanKindParentBean;
-import com.uplink.carins.ui.crop.util.PaintUtil;
 import com.uplink.carins.ui.dialog.CustomChooseListDialog;
 import com.uplink.carins.ui.dialog.CustomEditTextDialog;
 import com.uplink.carins.ui.SlideSwitch;
@@ -36,12 +34,7 @@ import com.uplink.carins.ui.ViewHolder;
 import com.uplink.carins.ui.swipebacklayout.SwipeBackActivity;
 import com.uplink.carins.utils.AnimationUtil;
 import com.uplink.carins.utils.CommonUtil;
-import com.uplink.carins.utils.LogUtil;
 import com.uplink.carins.utils.StringUtil;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.util.ArrayList;

@@ -1,14 +1,12 @@
 package com.uplink.carins.activity;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -16,15 +14,11 @@ import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
-import com.uplink.carins.Own.AppCacheManager;
-import com.uplink.carins.Own.AppContext;
-import com.uplink.carins.Own.AppManager;
 import com.uplink.carins.Own.Config;
 import com.uplink.carins.R;
 import com.uplink.carins.http.HttpResponseHandler;
 import com.uplink.carins.model.api.ApiResultBean;
 import com.uplink.carins.model.api.CarInfoResultBean;
-import com.uplink.carins.model.api.CarInsCompanyBean;
 import com.uplink.carins.model.api.CarInsKindBean;
 import com.uplink.carins.model.api.NwCarInsChannelBean;
 import com.uplink.carins.model.api.NwCarInsCompanyResultBean;
@@ -57,6 +51,8 @@ public class NwCarInsCompanyActivity extends SwipeBackActivity implements View.O
     private List<CarInsKindBean> insKinds;
     private CustomConfirmDialog dialog_ConfirmArtificial;
 
+    private List<NwCarInsChannelBean> insChannels;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,13 +77,33 @@ public class NwCarInsCompanyActivity extends SwipeBackActivity implements View.O
 
     private void initEvent() {
         btnHeaderGoBack.setOnClickListener(this);
+
+        list_carinscompany.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                LogUtil.e("测试");
+
+                NwCarInsChannelBean bean = insChannels.get(position);
+
+                if (bean.getOfferResult() == 1) {
+                    Intent intent = new Intent(NwCarInsCompanyActivity.this, NwCarInsOfferResultActivity.class);
+                    Bundle b = new Bundle();
+                    b.putSerializable("dataBean", bean.getOfferData());
+                    intent.putExtras(b);
+                    startActivity(intent);
+                }
+            }
+        });
     }
 
     private void getComanyInfo() {
 
         Map<String, Object> params = new HashMap<>();
 
-        params.put("orderSeq", carInfo.getOrderSeq());
+        params.put("userId", appContext.getUser().getId());
+        params.put("merchantId", appContext.getUser().getMerchantId());
+        params.put("posMachineId", appContext.getUser().getPosMachineId());
+        params.put("carInfoOrdeId", carInfo.getCarInfoOrderId());
         params.put("areaId", 440100);
 
         postWithMy(Config.URL.carInsComanyInfo, params, null, true, "正在加载中", new HttpResponseHandler() {
@@ -102,9 +118,10 @@ public class NwCarInsCompanyActivity extends SwipeBackActivity implements View.O
                 });
 
                 if (rt.getResult() == Result.SUCCESS) {
+                    insChannels = rt.getData().getChannels();
                     CarInsCompanyAdapter list_carinscompany_adapter = new CarInsCompanyAdapter();
                     list_carinscompany.setAdapter(list_carinscompany_adapter);
-                    list_carinscompany_adapter.setData(rt.getData().getChannels());
+                    list_carinscompany_adapter.setData(insChannels);
 
                 } else {
                     showToast(rt.getMessage());
@@ -251,7 +268,7 @@ public class NwCarInsCompanyActivity extends SwipeBackActivity implements View.O
             params.put("merchantId", getAppContext().getUser().getMerchantId());
             params.put("posMachineId", getAppContext().getUser().getPosMachineId());
             params.put("auto", carInfo.getAuto());
-            params.put("orderSeq", carInfo.getOrderSeq());
+            params.put("carInfoOrderId", carInfo.getCarInfoOrderId());
             params.put("channelId", carInsCompanys.get(position).getChannelId());
             params.put("companyCode", carInsCompanys.get(position).getCode());
             params.put("carInfoOrderId", carInfo.getCarInfoOrderId());
@@ -319,11 +336,13 @@ public class NwCarInsCompanyActivity extends SwipeBackActivity implements View.O
                         //carInfo.setAuto("1");
                         carInsCompanys.get(position).setOfferResult(1);//1 为自动报价成功，2为自动报价失败
                         carInsCompanys.get(position).setOfferPremium(rt.getData().getSumPremium());
+                        carInsCompanys.get(position).setOfferData(rt.getData());
                     } else {
                         //carInfo.setAuto("0");
                         carInsCompanys.get(position).setOfferResult(2);
                         carInsCompanys.get(position).setOfferMsg(rt.getMessage());
                     }
+                    
                     carInsCompanys.get(position).setOfferMsg(rt.getMessage());
 
                     setData(carInsCompanys);

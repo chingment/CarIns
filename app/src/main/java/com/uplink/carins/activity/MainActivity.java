@@ -1,42 +1,21 @@
 package com.uplink.carins.activity;
 
 
-import android.content.OperationApplicationException;
-import android.graphics.Color;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
-import android.view.View;
 import android.widget.*;
 
-import com.squareup.picasso.Picasso;
 import com.uplink.carins.R;
-import com.uplink.carins.device.N900Device;
 import com.uplink.carins.fragment.HomeFragment;
 import com.uplink.carins.fragment.MyFragment;
-import com.uplink.carins.model.api.PrintDataBean;
 import com.uplink.carins.ui.*;
 import com.uplink.carins.utils.LogUtil;
 
-import com.zsoft.signala.hubs.HubConnection;
-import com.zsoft.signala.hubs.HubOnDataCallback;
-import com.zsoft.signala.hubs.IHubProxy;
-import com.zsoft.signala.transport.StateBase;
-import com.zsoft.signala.transport.longpolling.LongPollingTransport;
-
-import org.json.JSONArray;
-
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.zip.GZIPOutputStream;
 
 
 public class MainActivity extends BaseFragmentActivity {

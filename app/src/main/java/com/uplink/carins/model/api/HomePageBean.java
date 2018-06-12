@@ -1,7 +1,5 @@
 package com.uplink.carins.model.api;
 
-import com.uplink.carins.Own.AppCacheManager;
-
 import java.io.Serializable;
 import java.util.List;
 

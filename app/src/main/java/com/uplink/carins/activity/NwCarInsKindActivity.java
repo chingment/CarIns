@@ -2,7 +2,6 @@ package com.uplink.carins.activity;
 
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
@@ -244,10 +243,10 @@ public class NwCarInsKindActivity extends SwipeBackActivity implements View.OnCl
     private void submit() {
 
         Map<String, Object> params = new HashMap<>();
-        //params.put("userId", this.getAppContext().getUser().getId());
-        //params.put("merchantId", this.getAppContext().getUser().getMerchantId());
-        //params.put("posMachineId", this.getAppContext().getUser().getPosMachineId());
-        params.put("orderSeq", "");
+        params.put("userId", this.getAppContext().getUser().getId());
+        params.put("merchantId", this.getAppContext().getUser().getMerchantId());
+        params.put("posMachineId", this.getAppContext().getUser().getPosMachineId());
+        params.put("carInfoOrderId", carInfo.getCarInfoOrderId());
         params.put("auto", carInfo.getAuto());
 
         JSONObject jsonObj_CarInfo = new JSONObject();

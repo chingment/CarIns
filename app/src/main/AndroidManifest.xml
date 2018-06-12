@@ -100,7 +100,8 @@
         <activity android:name=".activity.NwCarInsCompanyActivity" />
         <activity android:name=".activity.PrintDemoActivity" />
         <activity android:name=".activity.InsProductPlanActivity" />
-        <activity android:name=".activity.InsProductPlanDetailsActivity"></activity>
+        <activity android:name=".activity.InsProductPlanDetailsActivity" />
+        <activity android:name=".activity.NwCarInsOfferResultActivity"></activity>
     </application>
 
 </manifest>

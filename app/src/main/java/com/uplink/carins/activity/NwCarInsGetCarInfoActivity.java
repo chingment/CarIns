@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -22,9 +21,6 @@ import com.uplink.carins.R;
 import com.uplink.carins.http.HttpResponseHandler;
 import com.uplink.carins.model.api.ApiResultBean;
 import com.uplink.carins.model.api.CarInfoResultBean;
-import com.uplink.carins.model.api.CarInsCompanyBean;
-import com.uplink.carins.model.api.CarInsKindBean;
-import com.uplink.carins.model.api.OrderType;
 import com.uplink.carins.model.api.Result;
 import com.uplink.carins.ui.choicephoto.ChoicePhotoAndCropAndSwipeBackActivity;
 import com.uplink.carins.utils.AbFileUtil;
@@ -34,11 +30,6 @@ import com.uplink.carins.utils.LogUtil;
 import com.uplink.carins.utils.NoDoubleClickUtils;
 import com.uplink.carins.utils.StringUtil;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 

@@ -10,8 +10,16 @@ import java.util.List;
 
 public class NwCarInsInsInquiryResultBean implements Serializable {
     private NwCarInsChannelBean channel;
-    private String inquirySeq;
-    private String orderSeq;
+    private int offerId;
+
+    public int getOfferId() {
+        return offerId;
+    }
+
+    public void setOfferId(int offerId) {
+        this.offerId = offerId;
+    }
+
     private float sumPremium;
 
     public NwCarInsChannelBean getChannel() {
@@ -20,22 +28,6 @@ public class NwCarInsInsInquiryResultBean implements Serializable {
 
     public void setChannel(NwCarInsChannelBean channel) {
         this.channel = channel;
-    }
-
-    public String getInquirySeq() {
-        return inquirySeq;
-    }
-
-    public void setInquirySeq(String inquirySeq) {
-        this.inquirySeq = inquirySeq;
-    }
-
-    public String getOrderSeq() {
-        return orderSeq;
-    }
-
-    public void setOrderSeq(String orderSeq) {
-        this.orderSeq = orderSeq;
     }
 
     public float getSumPremium() {

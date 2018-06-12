@@ -15,7 +15,6 @@ import com.uplink.carins.ui.ViewHolder;
 import com.uplink.carins.ui.refreshview.MyViewHolder;
 import com.uplink.carins.ui.refreshview.RefreshAdapter;
 import com.uplink.carins.utils.CommonUtil;
-import com.uplink.carins.utils.LogUtil;
 
 import java.util.ArrayList;
 import java.util.List;

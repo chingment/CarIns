@@ -34,7 +34,6 @@ import com.uplink.carins.ui.BaseLazyFragment;
 import com.uplink.carins.ui.refreshview.ItemDivider;
 import com.uplink.carins.ui.refreshview.SuperRefreshLayout;
 import com.uplink.carins.ui.refreshview.OnRefreshHandler;
-import com.uplink.carins.utils.CommonUtil;
 import com.uplink.carins.utils.LogUtil;
 import com.uplink.carins.utils.StringUtil;
 
