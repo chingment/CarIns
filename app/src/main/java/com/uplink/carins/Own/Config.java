@@ -61,5 +61,7 @@ public class Config {
         public static final String globalUploadLogTrace = BuildConfig.ENVIRONMENT + "/api/Global/UploadLogTrace";
         public static final String insPrdGetPlan = BuildConfig.ENVIRONMENT + "/api/InsPrd/GetPlan";
         public static final String carInsUploadImg = BuildConfig.ENVIRONMENT + "/api/CarIns/UploadImg";
+        public static final String carInsInsure = BuildConfig.ENVIRONMENT + "/api/CarIns/Insure";
+        public static final String carInsGetBaseInfo = BuildConfig.ENVIRONMENT + "/api/CarIns/GetBaseInfo";
     }
 }

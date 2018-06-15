@@ -102,9 +102,7 @@ public class NwCarInsCompanyOfferResultActivity extends SwipeBackActivity implem
                 finish();
                 break;
             case R.id.btn_submit:
-
                 submit();
-
                 break;
         }
     }
@@ -117,7 +115,7 @@ public class NwCarInsCompanyOfferResultActivity extends SwipeBackActivity implem
         params.put("merchantId", this.getAppContext().getUser().getMerchantId() + "");
         params.put("posMachineId", this.getAppContext().getUser().getPosMachineId() + "");
         params.put("offerId", offerResult.getOfferId() + "");
-        getWithMy(Config.URL.getDetails, params, false, "", new HttpResponseHandler() {
+        getWithMy(Config.URL.carInsGetBaseInfo, params, false, "", new HttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
                 super.onSuccess(response);
@@ -129,10 +127,13 @@ public class NwCarInsCompanyOfferResultActivity extends SwipeBackActivity implem
 
                     Intent intent = new Intent(NwCarInsCompanyOfferResultActivity.this, NwCarInsInsureActivity.class);
                     Bundle b = new Bundle();
-                    b.putSerializable("dataBean", rt.getData());
+                    b.putSerializable("carInsBaseInfo", rt.getData());
+                    b.putSerializable("offerInfo", offerResult);
                     intent.putExtras(b);
                     startActivity(intent);
 
+                } else {
+                    showToast(rt.getMessage());
                 }
             }
         });

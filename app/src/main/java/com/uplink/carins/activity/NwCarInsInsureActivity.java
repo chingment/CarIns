@@ -22,8 +22,12 @@ import com.uplink.carins.http.HttpResponseHandler;
 import com.uplink.carins.model.api.ApiResultBean;
 import com.uplink.carins.model.api.CarInsCompanyBean;
 import com.uplink.carins.model.api.CarInsKindBean;
+import com.uplink.carins.model.api.CustomerBean;
 import com.uplink.carins.model.api.NwCarInsBaseInfoBean;
 import com.uplink.carins.model.api.NwCarInsCompanyBean;
+import com.uplink.carins.model.api.NwUploadResultBean;
+import com.uplink.carins.model.api.NwUploadResultByIdentityBean;
+import com.uplink.carins.model.api.NwUploadResultByLicenseBean;
 import com.uplink.carins.model.api.OrderType;
 import com.uplink.carins.model.api.Result;
 import com.uplink.carins.ui.choicephoto.ChoicePhotoAndCropAndSwipeBackActivity;
@@ -77,15 +81,24 @@ public class NwCarInsInsureActivity extends ChoicePhotoAndCropAndSwipeBackActivi
     private String path_carowner_shenfenzheng_back = "";
 
     private NwCarInsBaseInfoBean carInsBaseInfo;
+    private NwCarInsCompanyBean offerInfo;
+
+    private String imgKey_carowner_xingshizheng = "";
+    private String imgUrl_carowner_xingshizheng = "";
+    private String imgKey_carowner_shenfenzheng_face = "";
+    private String imgUrl_carowner_shenfenzheng_face = "";
+    private String imgKey_carowner_shenfenzheng_back = "";
+    private String imgUrl_carowner_shenfenzheng_back = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nwcarins_insure);
-        carInsBaseInfo = (NwCarInsBaseInfoBean) getIntent().getSerializableExtra("dataBean");
+        carInsBaseInfo = (NwCarInsBaseInfoBean) getIntent().getSerializableExtra("carInsBaseInfo");
+        offerInfo = (NwCarInsCompanyBean) getIntent().getSerializableExtra("offerInfo");
         initView();
         initEvent();
-        //initData(carInsBaseInfo);
+        initData();
     }
 
     private void initView() {
@@ -125,7 +138,16 @@ public class NwCarInsInsureActivity extends ChoicePhotoAndCropAndSwipeBackActivi
         layout_carowner_shenfenzheng_back.setOnClickListener(this);
     }
 
-    private void initData(NwCarInsBaseInfoBean bean) {
+    private void initData() {
+
+        CommonUtil.loadImageFromUrl(NwCarInsInsureActivity.this, img_company_logo, offerInfo.getImgUrl() + "");
+        txt_company_name.setText(offerInfo.getName());
+
+        CustomerBean carowner = carInsBaseInfo.getCustomers().get(0);
+
+        txt_carowner_name.setText(carowner.getName());
+        txt_carowner_certno.setText(carowner.getCertNo());
+        txt_carowner_address.setText(carowner.getAddress());
 
 
     }
@@ -162,24 +184,29 @@ public class NwCarInsInsureActivity extends ChoicePhotoAndCropAndSwipeBackActivi
     private void submit() {
 
 
-        if (StringUtil.isEmpty(carInsBaseInfo.getCustomers().get(0).getIdentityBackPicKey())) {
+        if (StringUtil.isEmpty(imgKey_carowner_shenfenzheng_face)) {
             showToast("请上传身份证（正面）");
             return;
         }
 
-        if (StringUtil.isEmpty(carInsBaseInfo.getCustomers().get(0).getIdentityBackPicKey())) {
-            showToast("请上传身份证（背面）");
+        if (StringUtil.isEmpty(imgKey_carowner_shenfenzheng_back)) {
+            showToast("请上传身份证（反面）");
             return;
         }
 
-
-        if (StringUtil.isEmpty(carInsBaseInfo.getCar().getLicensePicKey())) {
+        if (StringUtil.isEmpty(imgKey_carowner_xingshizheng)) {
             showToast("请上传车辆行驶证");
             return;
         }
 
+        String carowner_name = txt_carowner_name.getText().toString();
         String carowner_certno = txt_carowner_certno.getText().toString();
         String carowner_address = txt_carowner_address.getText().toString();
+
+        if (StringUtil.isEmpty(carowner_name)) {
+            showToast("请输入车主姓名");
+            return;
+        }
 
         if (StringUtil.isEmpty(carowner_certno)) {
             showToast("请输入证件号码");
@@ -196,20 +223,64 @@ public class NwCarInsInsureActivity extends ChoicePhotoAndCropAndSwipeBackActivi
         params.put("userId", this.getAppContext().getUser().getId());
         params.put("merchantId", this.getAppContext().getUser().getMerchantId());
         params.put("posMachineId", this.getAppContext().getUser().getPosMachineId());
-        params.put("offerId", carInsBaseInfo.getCar());
+        params.put("offerId", offerInfo.getOfferId() + "");
 
-        postWithMy(Config.URL.submitInsure, params, null, true, "正在提交中", new HttpResponseHandler() {
+
+        JSONObject jsonObj_CarInfo = new JSONObject();
+        try {
+            jsonObj_CarInfo.put("belong", carInsBaseInfo.getCar().getBelong());
+            jsonObj_CarInfo.put("carType", carInsBaseInfo.getCar().getCarType());
+            jsonObj_CarInfo.put("licensePlateNo", carInsBaseInfo.getCar().getLicensePlateNo());
+            jsonObj_CarInfo.put("vin", carInsBaseInfo.getCar().getVin());
+            jsonObj_CarInfo.put("engineNo", carInsBaseInfo.getCar().getEngineNo());
+            jsonObj_CarInfo.put("modelCode", carInsBaseInfo.getCar().getModelCode());
+            jsonObj_CarInfo.put("modelName", carInsBaseInfo.getCar().getModelName());
+            jsonObj_CarInfo.put("firstRegisterDate", carInsBaseInfo.getCar().getFirstRegisterDate());
+            jsonObj_CarInfo.put("displacement", carInsBaseInfo.getCar().getDisplacement());
+            jsonObj_CarInfo.put("marketYear", carInsBaseInfo.getCar().getMarketYear());
+            jsonObj_CarInfo.put("ratedPassengerCapacity", carInsBaseInfo.getCar().getReplacementValue());
+            jsonObj_CarInfo.put("replacementValue", carInsBaseInfo.getCar().getReplacementValue());
+            jsonObj_CarInfo.put("chgownerType", carInsBaseInfo.getCar().getChgownerType());
+            jsonObj_CarInfo.put("chgownerDate", carInsBaseInfo.getCar().getChgownerDate());
+            jsonObj_CarInfo.put("tonnage", carInsBaseInfo.getCar().getTonnage());
+            jsonObj_CarInfo.put("wholeWeight", carInsBaseInfo.getCar().getWholeWeight());
+            jsonObj_CarInfo.put("licensePicKey", carInsBaseInfo.getCar().getLicensePicKey());
+            jsonObj_CarInfo.put("carCertPicKey", carInsBaseInfo.getCar().getCarCertPicKey());
+            jsonObj_CarInfo.put("carInvoicePicKey", carInsBaseInfo.getCar().getCarInvoicePicKey());
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return;
+        }
+        params.put("car", jsonObj_CarInfo);
+
+        JSONArray json_Customers = new JSONArray();
+
+        try {
+            for (CustomerBean item : carInsBaseInfo.getCustomers()) {
+                JSONObject jsonObj_Customer = new JSONObject();
+                jsonObj_Customer.put("insuredFlag", item.getInsuredFlag());
+                jsonObj_Customer.put("name", txt_carowner_name);
+                jsonObj_Customer.put("certNo", txt_carowner_certno);
+                jsonObj_Customer.put("mobile", "15989287032");
+                jsonObj_Customer.put("address", txt_carowner_address);
+                jsonObj_Customer.put("identityFacePicKey", item.getIdentityFacePicKey());
+                jsonObj_Customer.put("identityBackPicKey", item.getIdentityBackPicKey());
+                jsonObj_Customer.put("orgPicKey", item.getOrgPicKey());
+                json_Customers.put(jsonObj_Customer);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return;
+        }
+
+        postWithMy(Config.URL.carInsInsure, params, null, true, "正在核保中", new HttpResponseHandler() {
 
             @Override
             public void onSuccess(String response) {
                 super.onSuccess(response);
-
-                LogUtil.i(TAG, "onSuccess====>>>" + response);
-
                 ApiResultBean<Object> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<Object>>() {
                 });
-
-
+                showToast(rt.getMessage());
                 if (rt.getResult() == Result.SUCCESS) {
 
                 } else {
@@ -255,17 +326,17 @@ public class NwCarInsInsureActivity extends ChoicePhotoAndCropAndSwipeBackActivi
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             switch (msg.what) {
-                case choice_index_carowner_xingshizheng:
-                    onLoad(img_carowner_xingshizheng, path_carowner_xingshizheng);
-                    getImageInfo("10", path_carowner_xingshizheng);
-                    break;
                 case choice_index_carowner_shenfenzheng_face:
                     onLoad(img_carowner_shenfenzheng_face, path_carowner_shenfenzheng_face);
-                    getImageInfo("11", path_carowner_shenfenzheng_face);
+                    getImageInfo(choice_index_carowner_shenfenzheng_face, "1", path_carowner_shenfenzheng_face);
                     break;
                 case choice_index_carowner_shenfenzheng_back:
                     onLoad(img_carowner_shenfenzheng_back, path_carowner_shenfenzheng_back);
-                    getImageInfo("1", path_carowner_shenfenzheng_back);
+                    getImageInfo(choice_index_carowner_shenfenzheng_back, "1", path_carowner_shenfenzheng_back);
+                    break;
+                case choice_index_carowner_xingshizheng:
+                    onLoad(img_carowner_xingshizheng, path_carowner_xingshizheng);
+                    getImageInfo(choice_index_carowner_xingshizheng, "1", path_carowner_xingshizheng);
                     break;
             }
 
@@ -281,7 +352,7 @@ public class NwCarInsInsureActivity extends ChoicePhotoAndCropAndSwipeBackActivi
         }
     }
 
-    private void getImageInfo(String type, String filePath) {
+    private void getImageInfo(final int choice_index, String type, String filePath) {
 
         Map<String, Object> params = new HashMap<>();
         params.put("type", type);
@@ -299,8 +370,42 @@ public class NwCarInsInsureActivity extends ChoicePhotoAndCropAndSwipeBackActivi
 
                 LogUtil.i(TAG, "onSuccess====>>>" + response);
 
-                ApiResultBean<Object> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<Object>>() {
+                ApiResultBean<NwUploadResultBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<NwUploadResultBean>>() {
                 });
+
+                if (rt.getResult() == Result.SUCCESS) {
+
+                    switch (choice_index) {
+                        case choice_index_carowner_xingshizheng:
+
+                            ApiResultBean<NwUploadResultByLicenseBean> xingshizheng = JSON.parseObject(response, new TypeReference<ApiResultBean<NwUploadResultByLicenseBean>>() {
+                            });
+
+                            imgKey_carowner_xingshizheng = xingshizheng.getData().getKey();
+                            imgUrl_carowner_xingshizheng = xingshizheng.getData().getUrl();
+
+
+                            break;
+                        case choice_index_carowner_shenfenzheng_face:
+                            ApiResultBean<NwUploadResultByIdentityBean> shenfenzheng_face = JSON.parseObject(response, new TypeReference<ApiResultBean<NwUploadResultByIdentityBean>>() {
+                            });
+
+                            imgKey_carowner_shenfenzheng_face = shenfenzheng_face.getData().getKey();
+                            imgUrl_carowner_shenfenzheng_face = shenfenzheng_face.getData().getUrl();
+
+                            break;
+                        case choice_index_carowner_shenfenzheng_back:
+                            ApiResultBean<NwUploadResultBean> shenfenzheng_back = JSON.parseObject(response, new TypeReference<ApiResultBean<NwUploadResultBean>>() {
+                            });
+
+                            imgKey_carowner_shenfenzheng_back = shenfenzheng_back.getData().getKey();
+                            imgUrl_carowner_shenfenzheng_back = shenfenzheng_back.getData().getUrl();
+                            break;
+                    }
+
+                } else {
+                    showToast(rt.getMessage());
+                }
 
 
             }
