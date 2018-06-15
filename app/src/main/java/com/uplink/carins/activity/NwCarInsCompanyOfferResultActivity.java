@@ -8,12 +8,25 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
+import com.uplink.carins.Own.Config;
 import com.uplink.carins.R;
 import com.uplink.carins.activity.adapter.NwItemParentFieldAdapter;
+import com.uplink.carins.http.HttpResponseHandler;
+import com.uplink.carins.model.api.ApiResultBean;
+import com.uplink.carins.model.api.NwCarInsBaseInfoBean;
 import com.uplink.carins.model.api.NwCarInsCompanyBean;
+import com.uplink.carins.model.api.OrderDetailsCarInsureBean;
+import com.uplink.carins.model.api.Result;
 import com.uplink.carins.ui.swipebacklayout.SwipeBackActivity;
 import com.uplink.carins.utils.CommonUtil;
 import com.uplink.carins.utils.LogUtil;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import okhttp3.Request;
 
 public class NwCarInsCompanyOfferResultActivity extends SwipeBackActivity implements View.OnClickListener {
 
@@ -89,13 +102,39 @@ public class NwCarInsCompanyOfferResultActivity extends SwipeBackActivity implem
                 finish();
                 break;
             case R.id.btn_submit:
-                Intent intent = new Intent(NwCarInsCompanyOfferResultActivity.this, NwCarInsInsureActivity.class);
-//                Bundle b = new Bundle();
-//                b.putSerializable("dataBean", bean);
-//                intent.putExtras(b);
-                startActivity(intent);
+
+                submit();
 
                 break;
         }
+    }
+
+
+    private void submit() {
+
+        Map<String, String> params = new HashMap<>();
+        params.put("userId", this.getAppContext().getUser().getId() + "");
+        params.put("merchantId", this.getAppContext().getUser().getMerchantId() + "");
+        params.put("posMachineId", this.getAppContext().getUser().getPosMachineId() + "");
+        params.put("offerId", offerResult.getOfferId() + "");
+        getWithMy(Config.URL.getDetails, params, false, "", new HttpResponseHandler() {
+            @Override
+            public void onSuccess(String response) {
+                super.onSuccess(response);
+
+                ApiResultBean<NwCarInsBaseInfoBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<NwCarInsBaseInfoBean>>() {
+                });
+
+                if (rt.getResult() == Result.SUCCESS) {
+
+                    Intent intent = new Intent(NwCarInsCompanyOfferResultActivity.this, NwCarInsInsureActivity.class);
+                    Bundle b = new Bundle();
+                    b.putSerializable("dataBean", rt.getData());
+                    intent.putExtras(b);
+                    startActivity(intent);
+
+                }
+            }
+        });
     }
 }

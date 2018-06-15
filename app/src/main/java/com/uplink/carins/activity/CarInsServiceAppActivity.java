@@ -99,7 +99,7 @@ public class CarInsServiceAppActivity extends SwipeBackActivity implements View.
                                     startActivity(intent);
                                     break;
                                 case "com.uplink.carins.activity.NwCarInsGetCarInfoActivity":
-                                    intent = new Intent(CarInsServiceAppActivity.this, NwCarInsGetCarInfoActivity.class);
+                                    intent = new Intent(CarInsServiceAppActivity.this, NwCarInsInsureActivity.class);
                                     intent.putExtra("referenceId", referenceId);
                                     intent.putExtra("title", title);
                                     startActivity(intent);

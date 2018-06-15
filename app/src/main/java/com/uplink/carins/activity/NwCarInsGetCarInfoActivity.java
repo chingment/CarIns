@@ -260,4 +260,7 @@ public class NwCarInsGetCarInfoActivity extends ChoicePhotoAndCropAndSwipeBackAc
     public void OnCropFail(String error_tx) {
         LogUtil.i(TAG, "choice_index=" + choice_index + ">error>>" + error_tx);
     }
+
+
+
 }
