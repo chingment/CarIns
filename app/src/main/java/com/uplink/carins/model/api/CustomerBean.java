@@ -13,8 +13,11 @@ public class CustomerBean implements Serializable {
     private String mobile ;
     private String address ;
     private String identityFacePicKey ;
+    private String identityFacePicUrl ;
     private String identityBackPicKey ;
+    private String identityBackPicUrl ;
     private String orgPicKey ;
+    private String orgPicUrl ;
     private String insuredFlag;
 
     public String getName() {
@@ -79,5 +82,29 @@ public class CustomerBean implements Serializable {
 
     public void setInsuredFlag(String insuredFlag) {
         this.insuredFlag = insuredFlag;
+    }
+
+    public String getIdentityFacePicUrl() {
+        return identityFacePicUrl;
+    }
+
+    public void setIdentityFacePicUrl(String identityFacePicUrl) {
+        this.identityFacePicUrl = identityFacePicUrl;
+    }
+
+    public String getIdentityBackPicUrl() {
+        return identityBackPicUrl;
+    }
+
+    public void setIdentityBackPicUrl(String identityBackPicUrl) {
+        this.identityBackPicUrl = identityBackPicUrl;
+    }
+
+    public String getOrgPicUrl() {
+        return orgPicUrl;
+    }
+
+    public void setOrgPicUrl(String orgPicUrl) {
+        this.orgPicUrl = orgPicUrl;
     }
 }

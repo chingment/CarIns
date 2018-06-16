@@ -268,8 +268,13 @@ public class NwCarInsKindActivity extends SwipeBackActivity implements View.OnCl
             jsonObj_CarInfo.put("tonnage", carInfo.getCar().getTonnage());
             jsonObj_CarInfo.put("wholeWeight", carInfo.getCar().getWholeWeight());
             jsonObj_CarInfo.put("licensePicKey", carInfo.getCar().getLicensePicKey());
+            jsonObj_CarInfo.put("licensePicUrl", carInfo.getCar().getLicensePicUrl());
+            jsonObj_CarInfo.put("licenseOtherPicKey", carInfo.getCar().getLicenseOtherPicKey());
+            jsonObj_CarInfo.put("licenseOtherPicUrl", carInfo.getCar().getLicenseOtherPicUrl());
             jsonObj_CarInfo.put("carCertPicKey", carInfo.getCar().getCarCertPicKey());
+            jsonObj_CarInfo.put("carCertPicUrl", carInfo.getCar().getCarCertPicUrl());
             jsonObj_CarInfo.put("carInvoicePicKey", carInfo.getCar().getCarInvoicePicKey());
+            jsonObj_CarInfo.put("carInvoicePicUrl", carInfo.getCar().getCarInvoicePicUrl());
         } catch (JSONException e) {
             e.printStackTrace();
             return;
@@ -282,13 +287,16 @@ public class NwCarInsKindActivity extends SwipeBackActivity implements View.OnCl
             for (CustomerBean item : carInfo.getCustomers()) {
                 JSONObject jsonObj_Customer = new JSONObject();
                 jsonObj_Customer.put("insuredFlag", item.getInsuredFlag());
-                jsonObj_Customer.put("name", "黄大爷");
-                jsonObj_Customer.put("certNo", "440182198804141553");
-                jsonObj_Customer.put("mobile", "15989287032");
-                jsonObj_Customer.put("address", "广东省花都区");
+                jsonObj_Customer.put("name", item.getName());
+                jsonObj_Customer.put("certNo", item.getCertNo());
+                jsonObj_Customer.put("mobile", item.getMobile());
+                jsonObj_Customer.put("address", item.getAddress());
                 jsonObj_Customer.put("identityFacePicKey", item.getIdentityFacePicKey());
+                jsonObj_Customer.put("identityFacePicUrl", item.getIdentityFacePicUrl());
                 jsonObj_Customer.put("identityBackPicKey", item.getIdentityBackPicKey());
+                jsonObj_Customer.put("identityBackPicUrl", item.getIdentityBackPicUrl());
                 jsonObj_Customer.put("orgPicKey", item.getOrgPicKey());
+                jsonObj_Customer.put("orgPicUrl", item.getOrgPicUrl());
                 json_Customers.put(jsonObj_Customer);
             }
         } catch (JSONException e) {
@@ -299,7 +307,7 @@ public class NwCarInsKindActivity extends SwipeBackActivity implements View.OnCl
 
         params.put("customers", json_Customers);
 
-        postWithMy(Config.URL.carInsEditBaseInfo, params, null,true,"正在提交中", new HttpResponseHandler() {
+        postWithMy(Config.URL.carInsEditBaseInfo, params, null, true, "正在提交中", new HttpResponseHandler() {
 
             @Override
             public void onSuccess(String response) {
@@ -316,11 +324,10 @@ public class NwCarInsKindActivity extends SwipeBackActivity implements View.OnCl
                     Bundle b = new Bundle();
                     b.putSerializable("carInfoBean", rt.getData());
 
-
                     int plandIndex = Integer.parseInt(form_carinsurekind_rb_insurekind.getTag().toString());
                     CarInsPlanBean carInsPlan = carInsPlans.get(plandIndex);
                     List<CarInsKindBean> carInsKinds = carInsPlanKindMap.get(carInsPlan.getId());
-                    b.putSerializable("insKindsBean", (Serializable)carInsKinds);
+                    b.putSerializable("insKindsBean", (Serializable) carInsKinds);
 
                     intent.putExtras(b);
                     startActivity(intent);

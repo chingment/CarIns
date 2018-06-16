@@ -369,7 +369,6 @@ public class NwCarInsConfirmCarInfoActivity extends SwipeBackActivity implements
                 intent = new Intent(NwCarInsConfirmCarInfoActivity.this, NwCarInsKindActivity.class);
                 b = new Bundle();
                 carInfo.setAuto("1");
-
                 carInfo.getCar().setLicensePlateNo(licensePlateNo);
                 carInfo.getCar().setVin(vin);
                 carInfo.getCar().setModelName(modelName);
@@ -377,13 +376,11 @@ public class NwCarInsConfirmCarInfoActivity extends SwipeBackActivity implements
                 carInfo.getCar().setRatedPassengerCapacity(ratedPassengerCapacity);
                 carInfo.getCar().setFirstRegisterDate(firstRegisterDate);
                 carInfo.getCar().setChgownerDate(chgownerDate);
-                carInfo.getCustomers().get(2).setName(arowner_name);
-                carInfo.getCustomers().get(2).setCertNo(arowner_certno);
+                carInfo.getCustomers().get(0).setName(arowner_name);
+                carInfo.getCustomers().get(0).setCertNo(arowner_certno);
                 b.putSerializable("dataBean", carInfo);
                 intent.putExtras(b);
-
                 startActivity(intent);
-
                 break;
         }
     }

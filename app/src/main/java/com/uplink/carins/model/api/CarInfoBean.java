@@ -25,9 +25,46 @@ public class CarInfoBean implements Serializable {
     private String tonnage;
     private String wholeWeight;
     private String licensePicKey;
-    private String LlcenseOtherPicKey;
+    private String licensePicUrl;
+    private String licenseOtherPicKey;
+    private String licenseOtherPicUrl;
+
+    public String getLicensePicUrl() {
+        return licensePicUrl;
+    }
+
+    public void setLicensePicUrl(String licensePicUrl) {
+        this.licensePicUrl = licensePicUrl;
+    }
+
+    public String getLicenseOtherPicUrl() {
+        return licenseOtherPicUrl;
+    }
+
+    public void setLicenseOtherPicUrl(String licenseOtherPicUrl) {
+        this.licenseOtherPicUrl = licenseOtherPicUrl;
+    }
+
+    public String getCarCertPicUrl() {
+        return carCertPicUrl;
+    }
+
+    public void setCarCertPicUrl(String carCertPicUrl) {
+        this.carCertPicUrl = carCertPicUrl;
+    }
+
+    public String getCarInvoicePicUrl() {
+        return carInvoicePicUrl;
+    }
+
+    public void setCarInvoicePicUrl(String carInvoicePicUrl) {
+        this.carInvoicePicUrl = carInvoicePicUrl;
+    }
+
     private String carCertPicKey;
+    private String carCertPicUrl;
     private String carInvoicePicKey;
+    private String carInvoicePicUrl;
 
     public String getBelong() {
         return belong;
@@ -165,12 +202,12 @@ public class CarInfoBean implements Serializable {
         this.licensePicKey = licensePicKey;
     }
 
-    public String getLlcenseOtherPicKey() {
-        return LlcenseOtherPicKey;
+    public String getLicenseOtherPicKey() {
+        return licenseOtherPicKey;
     }
 
-    public void setLlcenseOtherPicKey(String llcenseOtherPicKey) {
-        LlcenseOtherPicKey = llcenseOtherPicKey;
+    public void setLicenseOtherPicKey(String licenseOtherPicKey) {
+        this.licenseOtherPicKey = licenseOtherPicKey;
     }
 
     public String getCarCertPicKey() {

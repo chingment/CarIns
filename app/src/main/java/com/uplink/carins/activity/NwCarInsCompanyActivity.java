@@ -81,7 +81,6 @@ public class NwCarInsCompanyActivity extends SwipeBackActivity implements View.O
         list_carinscompany.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                LogUtil.e("测试");
 
                 NwCarInsCompanyBean bean = insChannels.get(position);
 
@@ -277,14 +276,14 @@ public class NwCarInsCompanyActivity extends SwipeBackActivity implements View.O
 
             JSONArray json_CarInsKinds = new JSONArray();
 
-            try {
-                for (CarInsKindBean carInsKind : insKinds) {
-                    if (carInsKind.getIsCheck()) {
-                        JSONObject jsonFa1 = new JSONObject();
-                        jsonFa1.put("id", carInsKind.getId());
-                        jsonFa1.put("value", carInsKind.getInputValue());
-                        jsonFa1.put("isWaiverDeductible", carInsKind.getIsWaiverDeductible());
-                        json_CarInsKinds.put(jsonFa1);
+                        try {
+                            for (CarInsKindBean carInsKind : insKinds) {
+                                if (carInsKind.getIsCheck()) {
+                                    JSONObject jsonFa1 = new JSONObject();
+                                    jsonFa1.put("id", carInsKind.getId());
+                                    jsonFa1.put("value", carInsKind.getInputValue());
+                                    jsonFa1.put("isWaiverDeductible", carInsKind.getIsWaiverDeductible());
+                                    json_CarInsKinds.put(jsonFa1);
                     }
                 }
             } catch (JSONException e) {
