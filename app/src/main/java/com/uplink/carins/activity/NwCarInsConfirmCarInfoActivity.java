@@ -206,6 +206,10 @@ public class NwCarInsConfirmCarInfoActivity extends SwipeBackActivity implements
 
         if (StringUtil.isEmptyNotNull(carInfo.getCar().getModelCode())) {
             txt_carmodelinfo_tip.setText("* 车型匹配失败，请手动选择车型");
+        } else if (StringUtil.isEmptyNotNull(carInfo.getCar().getDisplacement())) {
+            txt_carmodelinfo_tip.setText("* 车型匹配失败，请手动选择车型");
+        } else if (StringUtil.isEmptyNotNull(carInfo.getCar().getDisplacement())) {
+            txt_carmodelinfo_tip.setText("* 车型匹配失败，请手动选择车型");
         } else {
             txt_carmodelinfo_tip.setText("* 以上是自动匹配车型，如有误请重新选择车型");
         }
@@ -354,6 +358,28 @@ public class NwCarInsConfirmCarInfoActivity extends SwipeBackActivity implements
                 break;
             case R.id.btn_submit:
 
+                if (StringUtil.isEmptyNotNull(carInfo.getCar().getDisplacement())) {
+                    showToast("车型匹配失败，请手动选择车型.");
+                    return;
+                }
+
+                if (StringUtil.isEmptyNotNull(carInfo.getCar().getReplacementValue())) {
+                    showToast("车型匹配失败，请手动选择车型..");
+                    return;
+                }
+
+                if (StringUtil.isEmptyNotNull(ratedPassengerCapacity)) {
+                    showToast("请输入座位数");
+                    return;
+                }
+
+                int iRatedPassengerCapacity = Integer.parseInt(ratedPassengerCapacity);
+
+                if (iRatedPassengerCapacity <= 0) {
+                    showToast("座位数必须大于0");
+                    return;
+                }
+
                 if (carInfo.getCar().getChgownerType().equals("1")) {
                     if (StringUtil.isEmptyNotNull(chgownerDate)) {
                         showToast("过户日期不能为空");
@@ -400,6 +426,7 @@ public class NwCarInsConfirmCarInfoActivity extends SwipeBackActivity implements
                 carInfo.getCar().setRatedPassengerCapacity(bean.getRatedPassengerCapacity());
                 carInfo.getCar().setDisplacement(bean.getDisplacement());
                 carInfo.getCar().setReplacementValue(bean.getReplacementValue());
+                carInfo.getCar().setMarketYear(bean.getMarketYear());
 
                 String carmodelinfo = bean.getModelName() + ":排量" + bean.getDisplacement() + " " + bean.getMarketYear() + "款" + " " + bean.getRatedPassengerCapacity() + "座" + "（参考价：" + bean.getReplacementValue() + "）";
                 txt_carmodelinfo.setText(carmodelinfo);

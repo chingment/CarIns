@@ -328,7 +328,7 @@ public class NwCarInsInsureActivity extends ChoicePhotoAndCropAndSwipeBackActivi
             switch (msg.what) {
                 case choice_index_carowner_shenfenzheng_face:
                     onLoad(img_carowner_shenfenzheng_face, path_carowner_shenfenzheng_face);
-                    getImageInfo(choice_index_carowner_shenfenzheng_face, "1", path_carowner_shenfenzheng_face);
+                    getImageInfo(choice_index_carowner_shenfenzheng_face, "11", path_carowner_shenfenzheng_face);
                     break;
                 case choice_index_carowner_shenfenzheng_back:
                     onLoad(img_carowner_shenfenzheng_back, path_carowner_shenfenzheng_back);
@@ -336,7 +336,7 @@ public class NwCarInsInsureActivity extends ChoicePhotoAndCropAndSwipeBackActivi
                     break;
                 case choice_index_carowner_xingshizheng:
                     onLoad(img_carowner_xingshizheng, path_carowner_xingshizheng);
-                    getImageInfo(choice_index_carowner_xingshizheng, "1", path_carowner_xingshizheng);
+                    getImageInfo(choice_index_carowner_xingshizheng, "10", path_carowner_xingshizheng);
                     break;
             }
 
@@ -390,8 +390,13 @@ public class NwCarInsInsureActivity extends ChoicePhotoAndCropAndSwipeBackActivi
                             ApiResultBean<NwUploadResultByIdentityBean> shenfenzheng_face = JSON.parseObject(response, new TypeReference<ApiResultBean<NwUploadResultByIdentityBean>>() {
                             });
 
-                            imgKey_carowner_shenfenzheng_face = shenfenzheng_face.getData().getKey();
-                            imgUrl_carowner_shenfenzheng_face = shenfenzheng_face.getData().getUrl();
+                            if (shenfenzheng_face.getData() != null) {
+                                if (shenfenzheng_face.getData().getInfo() != null) {
+                                    txt_carowner_name.setText(shenfenzheng_face.getData().getInfo().getName());
+                                    txt_carowner_certno.setText(shenfenzheng_face.getData().getInfo().getNum());
+                                    txt_carowner_address.setText(shenfenzheng_face.getData().getInfo().getAddress());
+                                }
+                            }
 
                             break;
                         case choice_index_carowner_shenfenzheng_back:

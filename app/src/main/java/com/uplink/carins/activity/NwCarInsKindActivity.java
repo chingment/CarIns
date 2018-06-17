@@ -261,7 +261,7 @@ public class NwCarInsKindActivity extends SwipeBackActivity implements View.OnCl
             jsonObj_CarInfo.put("firstRegisterDate", carInfo.getCar().getFirstRegisterDate());
             jsonObj_CarInfo.put("displacement", carInfo.getCar().getDisplacement());
             jsonObj_CarInfo.put("marketYear", carInfo.getCar().getMarketYear());
-            jsonObj_CarInfo.put("ratedPassengerCapacity", carInfo.getCar().getReplacementValue());
+            jsonObj_CarInfo.put("ratedPassengerCapacity", carInfo.getCar().getRatedPassengerCapacity());
             jsonObj_CarInfo.put("replacementValue", carInfo.getCar().getReplacementValue());
             jsonObj_CarInfo.put("chgownerType", carInfo.getCar().getChgownerType());
             jsonObj_CarInfo.put("chgownerDate", carInfo.getCar().getChgownerDate());

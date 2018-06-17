@@ -294,33 +294,6 @@ public class NwCarInsCompanyActivity extends SwipeBackActivity implements View.O
             params.put("insureKind", json_CarInsKinds);
 
 
-            JSONObject jsonObj_CarInfo = new JSONObject();
-            try {
-                jsonObj_CarInfo.put("belong", carInfo.getCar().getBelong());
-                jsonObj_CarInfo.put("carType", carInfo.getCar().getCarType());
-                jsonObj_CarInfo.put("licensePlateNo", carInfo.getCar().getLicensePlateNo());
-                jsonObj_CarInfo.put("vin", carInfo.getCar().getVin());
-                jsonObj_CarInfo.put("engineNo", carInfo.getCar().getEngineNo());
-                jsonObj_CarInfo.put("modelCode", carInfo.getCar().getModelCode());
-                jsonObj_CarInfo.put("modelName", carInfo.getCar().getModelName());
-                jsonObj_CarInfo.put("firstRegisterDate", carInfo.getCar().getFirstRegisterDate());
-                jsonObj_CarInfo.put("displacement", carInfo.getCar().getDisplacement());
-                jsonObj_CarInfo.put("marketYear", carInfo.getCar().getMarketYear());
-                jsonObj_CarInfo.put("ratedPassengerCapacity", carInfo.getCar().getReplacementValue());
-                jsonObj_CarInfo.put("replacementValue", carInfo.getCar().getReplacementValue());
-                jsonObj_CarInfo.put("chgownerType", carInfo.getCar().getChgownerType());
-                jsonObj_CarInfo.put("chgownerDate", carInfo.getCar().getChgownerDate());
-                jsonObj_CarInfo.put("tonnage", carInfo.getCar().getTonnage());
-                jsonObj_CarInfo.put("wholeWeight", carInfo.getCar().getWholeWeight());
-                jsonObj_CarInfo.put("licensePicKey", carInfo.getCar().getLicensePicKey());
-                jsonObj_CarInfo.put("carCertPicKey", carInfo.getCar().getCarCertPicKey());
-                jsonObj_CarInfo.put("carInvoicePicKey", carInfo.getCar().getCarInvoicePicKey());
-            } catch (JSONException e) {
-                e.printStackTrace();
-                return;
-            }
-            params.put("car", jsonObj_CarInfo);
-
             postWithMy(Config.URL.carInsInsInquiry, params, null, true, "正在报价中", new HttpResponseHandler() {
 
                 @Override
