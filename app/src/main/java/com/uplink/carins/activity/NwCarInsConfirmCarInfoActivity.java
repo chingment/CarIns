@@ -368,6 +368,11 @@ public class NwCarInsConfirmCarInfoActivity extends SwipeBackActivity implements
                     return;
                 }
 
+                if (StringUtil.isEmptyNotNull(engineNo)) {
+                    showToast("请输入发动机号");
+                    return;
+                }
+
                 if (StringUtil.isEmptyNotNull(ratedPassengerCapacity)) {
                     showToast("请输入座位数");
                     return;
@@ -415,8 +420,15 @@ public class NwCarInsConfirmCarInfoActivity extends SwipeBackActivity implements
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (resultCode) {
             case RESULT_OK:
+
+                String vin = data.getStringExtra("vin");
+
+                txt_vin.setText(vin);
+
                 CarInsCarModelInfoBean bean = (CarInsCarModelInfoBean) data.getSerializableExtra("dataBean");
 
+
+                txt_modelName.setText(bean.getModelCode());
 
                 txt_ratedPassengerCapacity.setText(bean.getRatedPassengerCapacity());
 

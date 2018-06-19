@@ -150,6 +150,29 @@ public class NwCarInsInsureActivity extends ChoicePhotoAndCropAndSwipeBackActivi
         txt_carowner_address.setText(carowner.getAddress());
 
 
+        imgKey_carowner_xingshizheng = carInsBaseInfo.getCar().getLicensePicKey();
+        imgUrl_carowner_xingshizheng = carInsBaseInfo.getCar().getLicensePicUrl();
+
+        if (!StringUtil.isEmptyNotNull(imgUrl_carowner_xingshizheng)) {
+            CommonUtil.loadImageFromUrl(NwCarInsInsureActivity.this, img_carowner_xingshizheng, imgUrl_carowner_xingshizheng);
+        }
+
+
+        imgKey_carowner_shenfenzheng_face = carInsBaseInfo.getCustomers().get(0).getIdentityFacePicKey();
+        imgUrl_carowner_shenfenzheng_face = carInsBaseInfo.getCustomers().get(0).getIdentityFacePicUrl();
+
+        LogUtil.e("imgUrl_carowner_shenfenzheng_face:"+imgUrl_carowner_shenfenzheng_face);
+        LogUtil.e("imgUrl_carowner_shenfenzheng_back:"+imgUrl_carowner_shenfenzheng_back);
+        if (!StringUtil.isEmptyNotNull(imgUrl_carowner_shenfenzheng_face)) {
+            CommonUtil.loadImageFromUrl(NwCarInsInsureActivity.this, img_carowner_shenfenzheng_face, imgUrl_carowner_shenfenzheng_face);
+        }
+
+        imgKey_carowner_shenfenzheng_back = carInsBaseInfo.getCustomers().get(0).getIdentityBackPicKey();
+        imgUrl_carowner_shenfenzheng_back = carInsBaseInfo.getCustomers().get(0).getIdentityBackPicUrl();
+
+        if (!StringUtil.isEmptyNotNull(imgUrl_carowner_shenfenzheng_back)) {
+            CommonUtil.loadImageFromUrl(NwCarInsInsureActivity.this, img_carowner_shenfenzheng_back, imgUrl_carowner_shenfenzheng_back);
+        }
     }
 
     @Override
@@ -238,13 +261,14 @@ public class NwCarInsInsureActivity extends ChoicePhotoAndCropAndSwipeBackActivi
             jsonObj_CarInfo.put("firstRegisterDate", carInsBaseInfo.getCar().getFirstRegisterDate());
             jsonObj_CarInfo.put("displacement", carInsBaseInfo.getCar().getDisplacement());
             jsonObj_CarInfo.put("marketYear", carInsBaseInfo.getCar().getMarketYear());
-            jsonObj_CarInfo.put("ratedPassengerCapacity", carInsBaseInfo.getCar().getReplacementValue());
+            jsonObj_CarInfo.put("ratedPassengerCapacity", carInsBaseInfo.getCar().getRatedPassengerCapacity());
             jsonObj_CarInfo.put("replacementValue", carInsBaseInfo.getCar().getReplacementValue());
             jsonObj_CarInfo.put("chgownerType", carInsBaseInfo.getCar().getChgownerType());
             jsonObj_CarInfo.put("chgownerDate", carInsBaseInfo.getCar().getChgownerDate());
             jsonObj_CarInfo.put("tonnage", carInsBaseInfo.getCar().getTonnage());
             jsonObj_CarInfo.put("wholeWeight", carInsBaseInfo.getCar().getWholeWeight());
-            jsonObj_CarInfo.put("licensePicKey", carInsBaseInfo.getCar().getLicensePicKey());
+            jsonObj_CarInfo.put("licensePicKey", imgKey_carowner_xingshizheng);
+            jsonObj_CarInfo.put("licensePicUrl", imgUrl_carowner_xingshizheng);
             jsonObj_CarInfo.put("carCertPicKey", carInsBaseInfo.getCar().getCarCertPicKey());
             jsonObj_CarInfo.put("carInvoicePicKey", carInsBaseInfo.getCar().getCarInvoicePicKey());
         } catch (JSONException e) {
@@ -259,12 +283,14 @@ public class NwCarInsInsureActivity extends ChoicePhotoAndCropAndSwipeBackActivi
             for (CustomerBean item : carInsBaseInfo.getCustomers()) {
                 JSONObject jsonObj_Customer = new JSONObject();
                 jsonObj_Customer.put("insuredFlag", item.getInsuredFlag());
-                jsonObj_Customer.put("name", txt_carowner_name);
-                jsonObj_Customer.put("certNo", txt_carowner_certno);
-                jsonObj_Customer.put("mobile", "15989287032");
-                jsonObj_Customer.put("address", txt_carowner_address);
-                jsonObj_Customer.put("identityFacePicKey", item.getIdentityFacePicKey());
-                jsonObj_Customer.put("identityBackPicKey", item.getIdentityBackPicKey());
+                jsonObj_Customer.put("name", txt_carowner_name.getText() + "");
+                jsonObj_Customer.put("certNo", txt_carowner_certno.getText() + "");
+                jsonObj_Customer.put("mobile", item.getMobile());
+                jsonObj_Customer.put("address", txt_carowner_address.getText() + "");
+                jsonObj_Customer.put("identityFacePicKey", imgKey_carowner_shenfenzheng_face);
+                jsonObj_Customer.put("identityFacePicUrl", imgUrl_carowner_shenfenzheng_face);
+                jsonObj_Customer.put("identityBackPicKey", imgKey_carowner_shenfenzheng_back);
+                jsonObj_Customer.put("identityBackPicUrl", imgUrl_carowner_shenfenzheng_back);
                 jsonObj_Customer.put("orgPicKey", item.getOrgPicKey());
                 json_Customers.put(jsonObj_Customer);
             }
@@ -272,6 +298,8 @@ public class NwCarInsInsureActivity extends ChoicePhotoAndCropAndSwipeBackActivi
             e.printStackTrace();
             return;
         }
+
+        params.put("customers", json_Customers);
 
         postWithMy(Config.URL.carInsInsure, params, null, true, "正在核保中", new HttpResponseHandler() {
 
@@ -282,6 +310,9 @@ public class NwCarInsInsureActivity extends ChoicePhotoAndCropAndSwipeBackActivi
                 });
                 showToast(rt.getMessage());
                 if (rt.getResult() == Result.SUCCESS) {
+
+
+
 
                 } else {
                     showToast(rt.getMessage());
@@ -327,15 +358,12 @@ public class NwCarInsInsureActivity extends ChoicePhotoAndCropAndSwipeBackActivi
             super.handleMessage(msg);
             switch (msg.what) {
                 case choice_index_carowner_shenfenzheng_face:
-                    onLoad(img_carowner_shenfenzheng_face, path_carowner_shenfenzheng_face);
                     getImageInfo(choice_index_carowner_shenfenzheng_face, "11", path_carowner_shenfenzheng_face);
                     break;
                 case choice_index_carowner_shenfenzheng_back:
-                    onLoad(img_carowner_shenfenzheng_back, path_carowner_shenfenzheng_back);
                     getImageInfo(choice_index_carowner_shenfenzheng_back, "1", path_carowner_shenfenzheng_back);
                     break;
                 case choice_index_carowner_xingshizheng:
-                    onLoad(img_carowner_xingshizheng, path_carowner_xingshizheng);
                     getImageInfo(choice_index_carowner_xingshizheng, "10", path_carowner_xingshizheng);
                     break;
             }
@@ -384,7 +412,7 @@ public class NwCarInsInsureActivity extends ChoicePhotoAndCropAndSwipeBackActivi
                             imgKey_carowner_xingshizheng = xingshizheng.getData().getKey();
                             imgUrl_carowner_xingshizheng = xingshizheng.getData().getUrl();
 
-
+                            onLoad(img_carowner_xingshizheng, path_carowner_xingshizheng);
                             break;
                         case choice_index_carowner_shenfenzheng_face:
                             ApiResultBean<NwUploadResultByIdentityBean> shenfenzheng_face = JSON.parseObject(response, new TypeReference<ApiResultBean<NwUploadResultByIdentityBean>>() {
@@ -398,6 +426,10 @@ public class NwCarInsInsureActivity extends ChoicePhotoAndCropAndSwipeBackActivi
                                 }
                             }
 
+                            imgKey_carowner_shenfenzheng_face = shenfenzheng_face.getData().getKey();
+                            imgUrl_carowner_shenfenzheng_face = shenfenzheng_face.getData().getUrl();
+
+                            onLoad(img_carowner_shenfenzheng_face, path_carowner_shenfenzheng_face);
                             break;
                         case choice_index_carowner_shenfenzheng_back:
                             ApiResultBean<NwUploadResultBean> shenfenzheng_back = JSON.parseObject(response, new TypeReference<ApiResultBean<NwUploadResultBean>>() {
@@ -405,11 +437,27 @@ public class NwCarInsInsureActivity extends ChoicePhotoAndCropAndSwipeBackActivi
 
                             imgKey_carowner_shenfenzheng_back = shenfenzheng_back.getData().getKey();
                             imgUrl_carowner_shenfenzheng_back = shenfenzheng_back.getData().getUrl();
+                            onLoad(img_carowner_shenfenzheng_back, path_carowner_shenfenzheng_back);
                             break;
                     }
 
                 } else {
                     showToast(rt.getMessage());
+
+//                    switch (choice_index) {
+//                        case choice_index_carowner_xingshizheng:
+//                            imgKey_carowner_xingshizheng = "";
+//                            imgUrl_carowner_xingshizheng = "";
+//                            break;
+//                        case choice_index_carowner_shenfenzheng_face:
+//                            imgKey_carowner_shenfenzheng_face = "";
+//                            imgUrl_carowner_shenfenzheng_face = "";
+//                            break;
+//                        case choice_index_carowner_shenfenzheng_back:
+//                            imgKey_carowner_shenfenzheng_back = "";
+//                            imgUrl_carowner_shenfenzheng_back = "";
+//                            break;
+//                    }
                 }
 
 

@@ -107,7 +107,7 @@ public class NwCarInsGetCarModelInfoActivity extends SwipeBackActivity implement
         params.put("keyword", keyword);
         params.put("vin", vin);
         params.put("firstRegisterDate", firstRegisterDate);
-        getWithMy(Config.URL.carInsGetCarModelInfo, params,true,"正在搜索中，请耐心等候", new HttpResponseHandler() {
+        getWithMy(Config.URL.carInsGetCarModelInfo, params, true, "正在搜索中，请耐心等候", new HttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
                 super.onSuccess(response);
@@ -189,6 +189,7 @@ public class NwCarInsGetCarModelInfoActivity extends SwipeBackActivity implement
                 CarInsCarModelInfoBean bean = carInsCarModels.get(position);
                 Intent intent = new Intent();
                 Bundle b = new Bundle();
+                b.putString("vin", txt_keyword.getText() + "");
                 b.putSerializable("dataBean", bean);
                 intent.putExtras(b);
                 setResult(RESULT_OK, intent);
