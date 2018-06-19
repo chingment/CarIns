@@ -22,6 +22,7 @@ import com.uplink.carins.model.api.Result;
 import com.uplink.carins.ui.swipebacklayout.SwipeBackActivity;
 import com.uplink.carins.utils.CommonUtil;
 import com.uplink.carins.utils.LogUtil;
+import com.uplink.carins.utils.NoDoubleClickUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -102,7 +103,9 @@ public class NwCarInsCompanyOfferResultActivity extends SwipeBackActivity implem
                 finish();
                 break;
             case R.id.btn_submit:
-                submit();
+                if (!NoDoubleClickUtils.isDoubleClick()) {
+                    submit();
+                }
                 break;
         }
     }

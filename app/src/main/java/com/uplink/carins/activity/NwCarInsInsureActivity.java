@@ -1,5 +1,6 @@
 package com.uplink.carins.activity;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
@@ -36,6 +37,7 @@ import com.uplink.carins.utils.AbFileUtil;
 import com.uplink.carins.utils.BitmapUtil;
 import com.uplink.carins.utils.CommonUtil;
 import com.uplink.carins.utils.LogUtil;
+import com.uplink.carins.utils.NoDoubleClickUtils;
 import com.uplink.carins.utils.StringUtil;
 
 import org.json.JSONArray;
@@ -183,7 +185,9 @@ public class NwCarInsInsureActivity extends ChoicePhotoAndCropAndSwipeBackActivi
                 finish();
                 break;
             case R.id.btn_submit:
-                submit();
+                if (!NoDoubleClickUtils.isDoubleClick()) {
+                    submit();
+                }
                 break;
             case R.id.layout_carowner_xingshizheng:
                 choice_index = choice_index_carowner_xingshizheng;
@@ -308,10 +312,14 @@ public class NwCarInsInsureActivity extends ChoicePhotoAndCropAndSwipeBackActivi
                 super.onSuccess(response);
                 ApiResultBean<Object> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<Object>>() {
                 });
-                showToast(rt.getMessage());
+
                 if (rt.getResult() == Result.SUCCESS) {
 
-
+                    Intent intent = new Intent(NwCarInsInsureActivity.this, NwCarInsInsureResultActivity.class);
+                    Bundle b = new Bundle();
+                    b.putSerializable("offerInfo", offerInfo);
+                    intent.putExtras(b);
+                    startActivity(intent);
 
 
                 } else {

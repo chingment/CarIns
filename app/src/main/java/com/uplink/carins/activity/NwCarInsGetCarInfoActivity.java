@@ -69,7 +69,7 @@ public class NwCarInsGetCarInfoActivity extends ChoicePhotoAndCropAndSwipeBackAc
         btn_submit = (Button) findViewById(R.id.btn_submit);
         txt_keyword = (EditText) findViewById(R.id.txt_keyword);
 
-        txt_keyword.setText("粤A9RS97");
+        txt_keyword.setText("粤H83K28");
         keyboardUtil = new CarKeyboardUtil(this, txt_keyword);
         // 车辆行驶证
         layout_carinsure_xingshizheng = (LinearLayout) findViewById(R.id.layout_carinsure_xingshizheng);

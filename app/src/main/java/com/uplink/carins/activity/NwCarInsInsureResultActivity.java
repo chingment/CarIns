@@ -1,5 +1,6 @@
 package com.uplink.carins.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -18,10 +19,12 @@ import com.uplink.carins.model.api.ApiResultBean;
 import com.uplink.carins.model.api.CarInsKindBean;
 import com.uplink.carins.model.api.NwCarInsCompanyBean;
 import com.uplink.carins.model.api.NwCarInsConfirmPayInfoBean;
+import com.uplink.carins.model.api.NwCarInsPayResultBean;
 import com.uplink.carins.model.api.Result;
 import com.uplink.carins.ui.swipebacklayout.SwipeBackActivity;
 import com.uplink.carins.utils.CommonUtil;
 import com.uplink.carins.utils.LogUtil;
+import com.uplink.carins.utils.NoDoubleClickUtils;
 import com.uplink.carins.utils.StringUtil;
 
 import org.json.JSONArray;
@@ -46,10 +49,13 @@ public class NwCarInsInsureResultActivity extends SwipeBackActivity implements V
     private EditText txt_receiptaddress_address;
     private ListView list_item_parent;
 
+    private NwCarInsCompanyBean offerInfo;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nwcarins_insureresult);
+        offerInfo = (NwCarInsCompanyBean) getIntent().getSerializableExtra("offerInfo");
         initView();
         initEvent();
         loadData();
@@ -93,7 +99,9 @@ public class NwCarInsInsureResultActivity extends SwipeBackActivity implements V
                 finish();
                 break;
             case R.id.btn_submit:
-                submit();
+                if (!NoDoubleClickUtils.isDoubleClick()) {
+                    submit();
+                }
                 break;
         }
     }
@@ -104,10 +112,10 @@ public class NwCarInsInsureResultActivity extends SwipeBackActivity implements V
         params.put("userId", this.getAppContext().getUser().getId() + "");
         params.put("merchantId", this.getAppContext().getUser().getMerchantId() + "");
         params.put("posMachineId", this.getAppContext().getUser().getPosMachineId() + "");
-        params.put("offerId", "");
+        params.put("offerId", offerInfo.getOfferId() + "");
 
 
-        getWithMy(Config.URL.getDetails, params, false, "", new HttpResponseHandler() {
+        getWithMy(Config.URL.carInsGetConfirmPayInfo, params, false, "", new HttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
                 super.onSuccess(response);
@@ -148,7 +156,7 @@ public class NwCarInsInsureResultActivity extends SwipeBackActivity implements V
         params.put("userId", this.getAppContext().getUser().getId());
         params.put("merchantId", this.getAppContext().getUser().getMerchantId());
         params.put("posMachineId", this.getAppContext().getUser().getPosMachineId());
-        params.put("offerId", "");
+        params.put("offerId", offerInfo.getOfferId());
 
 
         JSONObject json_ReceiptAddress = new JSONObject();
@@ -166,7 +174,7 @@ public class NwCarInsInsureResultActivity extends SwipeBackActivity implements V
 
         params.put("receiptAddress", json_ReceiptAddress);
 
-        postWithMy(Config.URL.submitInsure, params, null, true, "正在提交中", new HttpResponseHandler() {
+        postWithMy(Config.URL.carInsPay, params, null, true, "正在提交中", new HttpResponseHandler() {
 
             @Override
             public void onSuccess(String response) {
@@ -174,11 +182,17 @@ public class NwCarInsInsureResultActivity extends SwipeBackActivity implements V
 
                 LogUtil.i(TAG, "onSuccess====>>>" + response);
 
-                ApiResultBean<Object> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<Object>>() {
+                ApiResultBean<NwCarInsPayResultBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<NwCarInsPayResultBean>>() {
 
                 });
 
                 if (rt.getResult() == Result.SUCCESS) {
+
+                    Intent intent = new Intent(NwCarInsInsureResultActivity.this, NwCarInsPayActivity.class);
+                    Bundle b = new Bundle();
+                    b.putSerializable("payResult", rt.getData());
+                    intent.putExtras(b);
+                    startActivity(intent);
 
                 } else {
                     showToast(rt.getMessage());
