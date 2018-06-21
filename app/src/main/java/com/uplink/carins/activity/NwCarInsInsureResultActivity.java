@@ -19,6 +19,7 @@ import com.uplink.carins.model.api.ApiResultBean;
 import com.uplink.carins.model.api.CarInsKindBean;
 import com.uplink.carins.model.api.NwCarInsCompanyBean;
 import com.uplink.carins.model.api.NwCarInsConfirmPayInfoBean;
+import com.uplink.carins.model.api.NwCarInsInsureResult;
 import com.uplink.carins.model.api.NwCarInsPayResultBean;
 import com.uplink.carins.model.api.Result;
 import com.uplink.carins.ui.swipebacklayout.SwipeBackActivity;
@@ -50,15 +51,16 @@ public class NwCarInsInsureResultActivity extends SwipeBackActivity implements V
     private ListView list_item_parent;
 
     private NwCarInsCompanyBean offerInfo;
-
+    private NwCarInsInsureResult insureInfo;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nwcarins_insureresult);
         offerInfo = (NwCarInsCompanyBean) getIntent().getSerializableExtra("offerInfo");
+        insureInfo = (NwCarInsInsureResult) getIntent().getSerializableExtra("insureInfo");
         initView();
         initEvent();
-        loadData();
+        initData();
     }
 
     private void initView() {
@@ -74,13 +76,13 @@ public class NwCarInsInsureResultActivity extends SwipeBackActivity implements V
         list_item_parent = (ListView) findViewById(R.id.list_item_parent);
     }
 
-    private void setView(NwCarInsConfirmPayInfoBean bean) {
+    private void initData() {
 
-        txt_receiptaddress_consignee.setText(bean.getReceiptAddress().getConsignee());
-        txt_receiptaddress_mobile.setText(bean.getReceiptAddress().getMobile());
-        txt_receiptaddress_address.setText(bean.getReceiptAddress().getAddress());
+        txt_receiptaddress_consignee.setText(insureInfo.getReceiptAddress().getConsignee());
+        txt_receiptaddress_mobile.setText(insureInfo.getReceiptAddress().getMobile());
+        txt_receiptaddress_address.setText(insureInfo.getReceiptAddress().getAddress());
 
-        NwItemParentFieldAdapter adapter = new NwItemParentFieldAdapter(NwCarInsInsureResultActivity.this, bean.getInfoItems());
+        NwItemParentFieldAdapter adapter = new NwItemParentFieldAdapter(NwCarInsInsureResultActivity.this, insureInfo.getInfoItems());
 
         list_item_parent.setAdapter(adapter);
 
@@ -106,28 +108,6 @@ public class NwCarInsInsureResultActivity extends SwipeBackActivity implements V
         }
     }
 
-    private void loadData() {
-
-        Map<String, String> params = new HashMap<>();
-        params.put("userId", this.getAppContext().getUser().getId() + "");
-        params.put("merchantId", this.getAppContext().getUser().getMerchantId() + "");
-        params.put("posMachineId", this.getAppContext().getUser().getPosMachineId() + "");
-        params.put("offerId", offerInfo.getOfferId() + "");
-
-
-        getWithMy(Config.URL.carInsGetConfirmPayInfo, params, false, "", new HttpResponseHandler() {
-            @Override
-            public void onSuccess(String response) {
-                super.onSuccess(response);
-                ApiResultBean<NwCarInsConfirmPayInfoBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<NwCarInsConfirmPayInfoBean>>() {
-                });
-
-                if (rt.getResult() == Result.SUCCESS) {
-                    setView(rt.getData());
-                }
-            }
-        });
-    }
 
     private void submit() {
 
@@ -166,7 +146,7 @@ public class NwCarInsInsureResultActivity extends SwipeBackActivity implements V
             json_ReceiptAddress.put("mobile", receiptaddress_mobile);
             json_ReceiptAddress.put("address", receiptaddress_address);
             json_ReceiptAddress.put("email", "");
-            json_ReceiptAddress.put("areaId", "");
+            json_ReceiptAddress.put("areaId", "4401");
         } catch (JSONException e) {
             e.printStackTrace();
             return;

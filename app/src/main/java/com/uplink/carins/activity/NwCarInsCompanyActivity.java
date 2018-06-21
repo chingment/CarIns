@@ -1,5 +1,6 @@
 package com.uplink.carins.activity;
 
+import android.app.LauncherActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -7,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -24,18 +26,24 @@ import com.uplink.carins.model.api.NwCarInsCompanyBean;
 import com.uplink.carins.model.api.NwCarInsCompanyResultBean;
 import com.uplink.carins.model.api.Result;
 import com.uplink.carins.ui.ViewHolder;
+import com.uplink.carins.ui.dataPicker.CustomDatePicker;
 import com.uplink.carins.ui.dialog.CustomConfirmDialog;
 import com.uplink.carins.ui.swipebacklayout.SwipeBackActivity;
 import com.uplink.carins.utils.CommonUtil;
 import com.uplink.carins.utils.LogUtil;
+import com.uplink.carins.utils.StringUtil;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import okhttp3.Request;
@@ -53,12 +61,23 @@ public class NwCarInsCompanyActivity extends SwipeBackActivity implements View.O
 
     private List<NwCarInsCompanyBean> insChannels;
 
+    private LinearLayout layout_ci;
+    private LinearLayout layout_bi;
+
+    private CustomDatePicker datePicker_ci;
+    private CustomDatePicker datePicker_bi;
+
+
+    private TextView txt_date_ci;
+    private TextView txt_date_bi;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nwcarins_company);
         carInfo = (CarInfoResultBean) getIntent().getSerializableExtra("carInfoBean");
         insKinds = (List<CarInsKindBean>) getIntent().getSerializableExtra("insKindsBean");
+
         initView();
         initEvent();
 
@@ -73,10 +92,59 @@ public class NwCarInsCompanyActivity extends SwipeBackActivity implements View.O
         txtHeaderTitle.setText("报价");
         list_carinscompany = (ListView) findViewById(R.id.list_carinscompany);
 
+        layout_ci = (LinearLayout) findViewById(R.id.layout_ci);
+        layout_bi = (LinearLayout) findViewById(R.id.layout_bi);
+
+        txt_date_ci = (TextView) findViewById(R.id.txt_date_ci);
+        txt_date_bi = (TextView) findViewById(R.id.txt_date_bi);
+
+        for (CarInsKindBean bean :
+                insKinds) {
+
+            if (bean.getId() == 1) {
+                layout_ci.setVisibility(View.VISIBLE);
+            } else if (bean.getId() == 2) {
+                layout_ci.setVisibility(View.VISIBLE);
+            } else if (bean.getId() == 3) {
+                layout_bi.setVisibility(View.VISIBLE);
+            }
+        }
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.CHINA);
+
+        Calendar c = Calendar.getInstance();
+        c.add(Calendar.DAY_OF_MONTH, 1);
+        String now = sdf.format(c.getTime());
+        datePicker_ci = new CustomDatePicker(this, new CustomDatePicker.ResultHandler() {
+            @Override
+            public void handle(String time) { // 回调接口，获得选中的时间
+                txt_date_ci.setText(time.split(" ")[0]);
+            }
+        }, now, "2099-12-31 00:00"); // 初始化日期格式请用：yyyy-MM-dd HH:mm，否则不能正常运行
+
+        txt_date_ci.setText(now.split(" ")[0]);
+
+        datePicker_ci.showSpecificTime(false); // 不显示时和分
+        datePicker_ci.setIsLoop(false); // 不允许循环滚动
+
+        datePicker_bi = new CustomDatePicker(this, new CustomDatePicker.ResultHandler() {
+            @Override
+            public void handle(String time) { // 回调接口，获得选中的时间
+                txt_date_bi.setText(time.split(" ")[0]);
+            }
+        }, now, "2099-12-31 00:00"); // 初始化日期格式请用：yyyy-MM-dd HH:mm，否则不能正常运行
+
+        txt_date_bi.setText(now.split(" ")[0]);
+
+        datePicker_bi.showSpecificTime(false); // 不显示时和分
+        datePicker_bi.setIsLoop(false); // 不允许循环滚动
     }
+
 
     private void initEvent() {
         btnHeaderGoBack.setOnClickListener(this);
+        txt_date_ci.setOnClickListener(this);
+        txt_date_bi.setOnClickListener(this);
 
         list_carinscompany.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -139,9 +207,26 @@ public class NwCarInsCompanyActivity extends SwipeBackActivity implements View.O
     @Override
     public void onClick(View v) {
 
+        String date_ci = txt_date_ci.getText().toString();
+        String date_bi = txt_date_bi.getText().toString();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.CHINA);
+        String now = sdf.format(new Date());
         switch (v.getId()) {
             case R.id.btn_main_header_goback:
                 finish();
+                break;
+            case R.id.txt_date_ci:
+                if (StringUtil.isEmptyNotNull(date_ci)) {
+                    date_ci = now;
+                }
+                datePicker_ci.show(date_ci);
+                break;
+            case R.id.txt_date_bi:
+
+                if (StringUtil.isEmptyNotNull(date_bi)) {
+                    date_bi = now;
+                }
+                datePicker_bi.show(date_bi);
                 break;
         }
     }
@@ -261,6 +346,21 @@ public class NwCarInsCompanyActivity extends SwipeBackActivity implements View.O
 
         private void gefOffer(final int position) {
 
+
+            String data_ci = txt_date_ci.getText().toString();
+            String data_bi = txt_date_bi.getText().toString();
+
+
+            if (StringUtil.isEmptyNotNull(data_ci)) {
+                showToast("请选择交强险日期");
+                return;
+            }
+
+            if (StringUtil.isEmptyNotNull(data_bi)) {
+                showToast("请选择商业险日期");
+                return;
+            }
+
             Map<String, Object> params = new HashMap<>();
 
             params.put("userId", getAppContext().getUser().getId());
@@ -271,19 +371,19 @@ public class NwCarInsCompanyActivity extends SwipeBackActivity implements View.O
             params.put("channelId", carInsCompanys.get(position).getPartnerChannelId());
             params.put("companyCode", carInsCompanys.get(position).getPartnerCode());
             params.put("carInfoOrderId", carInfo.getCarInfoOrderId());
-            params.put("ciStartDate", "2018-06-20");
-            params.put("biStartDate", "2018-06-20");
+            params.put("ciStartDate", txt_date_ci.getText());
+            params.put("biStartDate", txt_date_bi.getText());
 
             JSONArray json_CarInsKinds = new JSONArray();
 
-                        try {
-                            for (CarInsKindBean carInsKind : insKinds) {
-                                if (carInsKind.getIsCheck()) {
-                                    JSONObject jsonFa1 = new JSONObject();
-                                    jsonFa1.put("id", carInsKind.getId());
-                                    jsonFa1.put("value", carInsKind.getInputValue());
-                                    jsonFa1.put("isWaiverDeductible", carInsKind.getIsWaiverDeductible());
-                                    json_CarInsKinds.put(jsonFa1);
+            try {
+                for (CarInsKindBean carInsKind : insKinds) {
+                    if (carInsKind.getIsCheck()) {
+                        JSONObject jsonFa1 = new JSONObject();
+                        jsonFa1.put("id", carInsKind.getId());
+                        jsonFa1.put("value", carInsKind.getInputValue());
+                        jsonFa1.put("isWaiverDeductible", carInsKind.getIsWaiverDeductible());
+                        json_CarInsKinds.put(jsonFa1);
                     }
                 }
             } catch (JSONException e) {

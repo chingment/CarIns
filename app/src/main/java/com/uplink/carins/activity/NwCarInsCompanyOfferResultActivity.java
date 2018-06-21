@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
@@ -43,7 +44,9 @@ public class NwCarInsCompanyOfferResultActivity extends SwipeBackActivity implem
     private ImageView company_img;
     private TextView company_name;
     private TextView company_desc;
+    private TextView company_offerpremium;
     private ListView list_offer_parent;
+    private RelativeLayout layout_company_info;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +70,9 @@ public class NwCarInsCompanyOfferResultActivity extends SwipeBackActivity implem
         company_img = (ImageView) findViewById(R.id.company_img);
         company_name = (TextView) findViewById(R.id.company_name);
         company_desc = (TextView) findViewById(R.id.company_desc);
+        company_offerpremium = (TextView) findViewById(R.id.company_offerpremium);
         list_offer_parent = (ListView) findViewById(R.id.list_offer_parent);
+        layout_company_info = (RelativeLayout) findViewById(R.id.layout_company_info);
     }
 
     private void initEvent() {
@@ -86,7 +91,7 @@ public class NwCarInsCompanyOfferResultActivity extends SwipeBackActivity implem
         CommonUtil.loadImageFromUrl(NwCarInsCompanyOfferResultActivity.this, company_img, bean.getImgUrl() + "");
         company_name.setText(bean.getName());
         company_desc.setText(bean.getDescp());
-
+        company_offerpremium.setText(bean.getOfferSumPremium() + "");
 
         NwItemParentFieldAdapter adapter = new NwItemParentFieldAdapter(NwCarInsCompanyOfferResultActivity.this, bean.getOfferInquirys());
 

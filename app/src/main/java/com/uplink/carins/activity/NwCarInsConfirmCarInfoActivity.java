@@ -69,10 +69,30 @@ public class NwCarInsConfirmCarInfoActivity extends SwipeBackActivity implements
 
         carInfo = (CarInfoResultBean) getIntent().getSerializableExtra("dataBean");
 
+        carInfo.setAuto("1");
+        carInfo.getCar().setLicensePlateNo("粤H83K28");
+        carInfo.getCar().setCarType("1");
+        carInfo.getCar().setBelong("1");
+        carInfo.getCar().setMarketYear("2014");
+        carInfo.getCar().setFirstRegisterDate("2016-08-26");
+        carInfo.getCar().setVin("LGBH52E01GY047454");
+        carInfo.getCar().setEngineNo("435087Y");
+        carInfo.getCar().setModelCode("DFL7168VBL2");
+        carInfo.getCar().setModelName("东风日产DFL7168VBL2轿车");
+        carInfo.getCar().setDisplacement("1598");
+        carInfo.getCar().setRatedPassengerCapacity("5");
+        carInfo.getCar().setReplacementValue("119000");
+        carInfo.getCar().setLicensePicKey("0a1e00f46402725401641591d84d0059.jpg");
+        carInfo.getCar().setLicensePicUrl("http://file.gzhaoyilian.com/Upload/d1.jpg");
+
+
+
         initView();
         initEvent();
         initData();
 
+        txt_customers_carowner_name.setText("张国威");
+        txt_customers_carowner_certno.setText("441421197908214016");
 
 //        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.CHINA);
 //        String now = sdf.format(new Date());

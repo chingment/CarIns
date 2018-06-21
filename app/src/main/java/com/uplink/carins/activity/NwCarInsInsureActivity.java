@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
@@ -26,6 +27,7 @@ import com.uplink.carins.model.api.CarInsKindBean;
 import com.uplink.carins.model.api.CustomerBean;
 import com.uplink.carins.model.api.NwCarInsBaseInfoBean;
 import com.uplink.carins.model.api.NwCarInsCompanyBean;
+import com.uplink.carins.model.api.NwCarInsInsureResult;
 import com.uplink.carins.model.api.NwUploadResultBean;
 import com.uplink.carins.model.api.NwUploadResultByIdentityBean;
 import com.uplink.carins.model.api.NwUploadResultByLicenseBean;
@@ -57,9 +59,10 @@ public class NwCarInsInsureActivity extends ChoicePhotoAndCropAndSwipeBackActivi
     private TextView txtHeaderTitle;
     private Button btn_submit;
 
-    private ImageView img_company_logo;
-    private TextView txt_company_name;
-    private TextView txt_company_sumpremium;
+    private ImageView company_img;
+    private TextView company_name;
+    private TextView company_offerpremium;
+    private LinearLayout layout_company_info;
 
     private EditText txt_carowner_name;
     private EditText txt_carowner_certno;
@@ -111,10 +114,10 @@ public class NwCarInsInsureActivity extends ChoicePhotoAndCropAndSwipeBackActivi
 
         btn_submit = (Button) findViewById(R.id.btn_submit);
 
-        img_company_logo = (ImageView) findViewById(R.id.img_company_logo);
-        txt_company_name = (TextView) findViewById(R.id.txt_company_name);
-        txt_company_sumpremium = (TextView) findViewById(R.id.txt_company_sumpremium);
-
+        company_img = (ImageView) findViewById(R.id.company_img);
+        company_name = (TextView) findViewById(R.id.company_name);
+        company_offerpremium = (TextView) findViewById(R.id.company_offerpremium);
+        layout_company_info=(LinearLayout) findViewById(R.id.layout_company_info);
         txt_carowner_name = (EditText) findViewById(R.id.txt_carowner_name);
         txt_carowner_certno = (EditText) findViewById(R.id.txt_carowner_certno);
         txt_carowner_address = (EditText) findViewById(R.id.txt_carowner_address);
@@ -134,7 +137,7 @@ public class NwCarInsInsureActivity extends ChoicePhotoAndCropAndSwipeBackActivi
     private void initEvent() {
         btnHeaderGoBack.setOnClickListener(this);
         btn_submit.setOnClickListener(this);
-
+        layout_company_info.setOnClickListener(this);
         layout_carowner_xingshizheng.setOnClickListener(this);
         layout_carowner_shenfenzheng_face.setOnClickListener(this);
         layout_carowner_shenfenzheng_back.setOnClickListener(this);
@@ -142,8 +145,9 @@ public class NwCarInsInsureActivity extends ChoicePhotoAndCropAndSwipeBackActivi
 
     private void initData() {
 
-        CommonUtil.loadImageFromUrl(NwCarInsInsureActivity.this, img_company_logo, offerInfo.getImgUrl() + "");
-        txt_company_name.setText(offerInfo.getName());
+        CommonUtil.loadImageFromUrl(NwCarInsInsureActivity.this, company_img, offerInfo.getImgUrl() + "");
+        company_name.setText(offerInfo.getName());
+        company_offerpremium.setText(offerInfo.getOfferSumPremium()+"");
 
         CustomerBean carowner = carInsBaseInfo.getCustomers().get(0);
 
@@ -182,6 +186,9 @@ public class NwCarInsInsureActivity extends ChoicePhotoAndCropAndSwipeBackActivi
         super.onClick(v);
         switch (v.getId()) {
             case R.id.btn_main_header_goback:
+                finish();
+                break;
+            case R.id.layout_company_info:
                 finish();
                 break;
             case R.id.btn_submit:
@@ -310,7 +317,7 @@ public class NwCarInsInsureActivity extends ChoicePhotoAndCropAndSwipeBackActivi
             @Override
             public void onSuccess(String response) {
                 super.onSuccess(response);
-                ApiResultBean<Object> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<Object>>() {
+                ApiResultBean<NwCarInsInsureResult> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<NwCarInsInsureResult>>() {
                 });
 
                 if (rt.getResult() == Result.SUCCESS) {
@@ -318,6 +325,7 @@ public class NwCarInsInsureActivity extends ChoicePhotoAndCropAndSwipeBackActivi
                     Intent intent = new Intent(NwCarInsInsureActivity.this, NwCarInsInsureResultActivity.class);
                     Bundle b = new Bundle();
                     b.putSerializable("offerInfo", offerInfo);
+                    b.putSerializable("insureInfo", rt.getData());
                     intent.putExtras(b);
                     startActivity(intent);
 
