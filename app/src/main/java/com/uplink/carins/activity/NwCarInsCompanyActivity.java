@@ -231,6 +231,43 @@ public class NwCarInsCompanyActivity extends SwipeBackActivity implements View.O
         }
     }
 
+
+    private CustomConfirmDialog dialog_Success;
+
+    private void showSuccessDialog() {
+        if (dialog_Success == null) {
+
+            dialog_Success = new CustomConfirmDialog(NwCarInsCompanyActivity.this, "投保订单提交成功", false);
+
+            dialog_Success.getBtnSure().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    dialog_Success.dismiss();
+
+                    Intent l_Intent = new Intent(NwCarInsCompanyActivity.this, OrderListActivity.class);
+                    l_Intent.putExtra("status", 1);
+                    startActivity(l_Intent);
+                    finish();
+
+                    //AppManager.getAppManager().finishAllActivity();
+                }
+            });
+
+            dialog_Success.getBtnCancle().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    dialog_Success.dismiss();
+                }
+            });
+
+
+        }
+
+        dialog_Success.show();
+    }
+
     private class CarInsCompanyAdapter extends BaseAdapter { // shoplist适配器
 
         private List<NwCarInsCompanyBean> carInsCompanys;
@@ -316,13 +353,13 @@ public class NwCarInsCompanyActivity extends SwipeBackActivity implements View.O
                     carInfo.setAuto("0");
                     if (dialog_ConfirmArtificial == null) {
 
-                        dialog_ConfirmArtificial = new CustomConfirmDialog(NwCarInsCompanyActivity.this, "提交人工报价需要等候1约0分钟，请注意查看我的订单？", true);
+                        dialog_ConfirmArtificial = new CustomConfirmDialog(NwCarInsCompanyActivity.this, "提交人工报价需要等候约10分钟，请注意查看我的订单？", true);
 
                         dialog_ConfirmArtificial.getBtnSure().setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
 
-                                gefOffer(position);
+                                gefOffer(position, "正在提交中");
 
                                 dialog_ConfirmArtificial.dismiss();
                             }
@@ -339,12 +376,12 @@ public class NwCarInsCompanyActivity extends SwipeBackActivity implements View.O
                     dialog_ConfirmArtificial.show();
                 } else {
                     carInfo.setAuto("1");
-                    gefOffer(position);
+                    gefOffer(position, "正在报价中");
                 }
             }
         };
 
-        private void gefOffer(final int position) {
+        private void gefOffer(final int position, final String loadingmsg) {
 
 
             String data_ci = txt_date_ci.getText().toString();
@@ -394,7 +431,7 @@ public class NwCarInsCompanyActivity extends SwipeBackActivity implements View.O
             params.put("insureKind", json_CarInsKinds);
 
 
-            postWithMy(Config.URL.carInsInsInquiry, params, null, true, "正在报价中", new HttpResponseHandler() {
+            postWithMy(Config.URL.carInsInsInquiry, params, null, true, loadingmsg, new HttpResponseHandler() {
 
                 @Override
                 public void onSuccess(String response) {
@@ -404,13 +441,23 @@ public class NwCarInsCompanyActivity extends SwipeBackActivity implements View.O
                     ApiResultBean<NwCarInsCompanyBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<NwCarInsCompanyBean>>() {
                     });
 
-                    if (rt.getResult() == Result.SUCCESS) {
-                        carInsCompanys.get(position).setOfferResult(1);//1 为自动报价成功，2为自动报价失败
-                        carInsCompanys.get(position).setOfferSumPremium(rt.getData().getOfferSumPremium());
-                        carInsCompanys.get(position).setOfferInquirys(rt.getData().getOfferInquirys());
-                        carInsCompanys.get(position).setOfferId(rt.getData().getOfferId());
+                    if (carInfo.getAuto().equals("1")) {
+                        if (rt.getResult() == Result.SUCCESS) {
+                            carInsCompanys.get(position).setOfferResult(1);//1 为自动报价成功，2为自动报价失败
+                            carInsCompanys.get(position).setOfferSumPremium(rt.getData().getOfferSumPremium());
+                            carInsCompanys.get(position).setOfferInquirys(rt.getData().getOfferInquirys());
+                            carInsCompanys.get(position).setOfferId(rt.getData().getOfferId());
+                        } else {
+                            carInsCompanys.get(position).setOfferResult(2);
+                        }
                     } else {
-                        carInsCompanys.get(position).setOfferResult(2);
+
+                        if (rt.getResult() == Result.SUCCESS) {
+                            showSuccessDialog();
+                        } else {
+
+                            showToast(rt.getMessage());
+                        }
                     }
 
                     carInsCompanys.get(position).setOfferMessage(rt.getMessage());
