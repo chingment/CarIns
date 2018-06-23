@@ -9,6 +9,16 @@ import java.util.List;
 
 public class NwCarInsInsureResult implements Serializable {
 
+    private int insureResult;
+
+    public int getInsureResult() {
+        return insureResult;
+    }
+
+    public void setInsureResult(int insureResult) {
+        this.insureResult = insureResult;
+    }
+
     private NwReceiptAddressBean receiptAddress;
 
     public NwReceiptAddressBean getReceiptAddress() {
@@ -28,4 +38,5 @@ public class NwCarInsInsureResult implements Serializable {
     }
 
     private List<NwItemParentFieldBean> infoItems;
+
 }

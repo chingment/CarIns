@@ -155,7 +155,7 @@ public class NwCarInsCompanyActivity extends SwipeBackActivity implements View.O
                 if (bean.getOfferResult() == 1) {
                     Intent intent = new Intent(NwCarInsCompanyActivity.this, NwCarInsCompanyOfferResultActivity.class);
                     Bundle b = new Bundle();
-                    b.putSerializable("dataBean", bean);
+                    b.putSerializable("offerInfo", bean);
                     intent.putExtras(b);
                     startActivity(intent);
                 }
@@ -249,8 +249,6 @@ public class NwCarInsCompanyActivity extends SwipeBackActivity implements View.O
                     l_Intent.putExtra("status", 1);
                     startActivity(l_Intent);
                     finish();
-
-                    //AppManager.getAppManager().finishAllActivity();
                 }
             });
 

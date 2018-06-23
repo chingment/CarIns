@@ -13,6 +13,8 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.uplink.carins.Own.Config;
 import com.uplink.carins.R;
+import com.uplink.carins.activity.NwCarInsCompanyOfferResultActivity;
+import com.uplink.carins.activity.NwCarInsInsureActivity;
 import com.uplink.carins.activity.OrderDetailsApplyLossAssessActivity;
 import com.uplink.carins.activity.OrderDetailsCarClaimsActivity;
 import com.uplink.carins.activity.OrderDetailsCarInsrueActivity;
@@ -28,8 +30,12 @@ import com.uplink.carins.activity.adapter.OrderListAdapter;
 import com.uplink.carins.http.HttpClient;
 import com.uplink.carins.http.HttpResponseHandler;
 import com.uplink.carins.model.api.ApiResultBean;
+import com.uplink.carins.model.api.NwCarInsBaseInfoBean;
+import com.uplink.carins.model.api.NwCarInsCompanyBean;
+import com.uplink.carins.model.api.NwCarInsCompanyResultBean;
 import com.uplink.carins.model.api.OrderListBean;
 import com.uplink.carins.model.api.OrderType;
+import com.uplink.carins.model.api.Result;
 import com.uplink.carins.ui.BaseLazyFragment;
 import com.uplink.carins.ui.refreshview.ItemDivider;
 import com.uplink.carins.ui.refreshview.SuperRefreshLayout;
@@ -70,16 +76,9 @@ public class OrderListFragment extends BaseLazyFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         view = inflater.inflate(R.layout.fragment_orderlist, container, false);
         status = getArguments().getInt("status");
         orderType = getArguments().getInt("productType");
-
-
-        LogUtil.e("当前状态:" + status);
-        LogUtil.e("当前类型4333333:" + orderType);
-
-        LogUtil.i(TAG, "onCreateView()");
         return view;
     }
 
@@ -96,10 +95,6 @@ public class OrderListFragment extends BaseLazyFragment {
         refresh = (SuperRefreshLayout) view.findViewById(R.id.refresh);
         mylistview = (RecyclerView) view.findViewById(R.id.mylistview);
 
-        TextView txt1 = (TextView) view.findViewById(R.id.tx1);
-
-        txt1.setText("状态：" + status + "");
-
         mylistview.setLayoutManager(new LinearLayoutManager(context));
         mylistview.addItemDecoration(new ItemDivider().setDividerWith(16).setDividerColor(getResources().getColor(R.color.default_bg)));
         adapter = new OrderListAdapter();
@@ -113,45 +108,74 @@ public class OrderListFragment extends BaseLazyFragment {
                 Intent intent = null;
 
                 if (StringUtil.isEmpty(dataBean.getDetailsUrl())) {
-
+                    Bundle b = new Bundle();
                     switch (orderType) {
                         case OrderType.CarInsure:
-                            intent = new Intent(context, OrderDetailsCarInsrueActivity.class);
+
+
+                            if (dataBean.getFollowStatus() == 9) {
+                                goInsure(dataBean.getId());
+                            } else {
+                                intent = new Intent(context, OrderDetailsCarInsrueActivity.class);
+                                b.putSerializable("dataBean", dataBean);
+                                intent.putExtras(b);
+                                startActivity(intent);
+                            }
+
+
                             break;
                         case OrderType.CarClaims:
                             intent = new Intent(context, OrderDetailsCarClaimsActivity.class);
+                            b.putSerializable("dataBean", dataBean);
+                            intent.putExtras(b);
+                            startActivity(intent);
                             break;
                         case OrderType.ServiceFee:
                             intent = new Intent(context, OrderDetailsServiceFeeActivity.class);
+                            b.putSerializable("dataBean", dataBean);
+                            intent.putExtras(b);
+                            startActivity(intent);
                             break;
                         case OrderType.TalentDeman:
                             intent = new Intent(context, OrderDetailsTalentDemandActivity.class);
+                            b.putSerializable("dataBean", dataBean);
+                            intent.putExtras(b);
+                            startActivity(intent);
                             break;
                         case OrderType.ApplylossAssess:
                             intent = new Intent(context, OrderDetailsApplyLossAssessActivity.class);
+                            b.putSerializable("dataBean", dataBean);
+                            intent.putExtras(b);
+                            startActivity(intent);
                             break;
                         case OrderType.LllegalQueryRecharg:
                             intent = new Intent(context, OrderDetailsLllegalQueryRechargeActivity.class);
+                            b.putSerializable("dataBean", dataBean);
+                            intent.putExtras(b);
+                            startActivity(intent);
                             break;
                         case OrderType.LllegalDealt:
                             intent = new Intent(context, OrderDetailsLllegalDealtActivity.class);
+                            b.putSerializable("dataBean", dataBean);
+                            intent.putExtras(b);
+                            startActivity(intent);
                             break;
                         case OrderType.Credit:
                             intent = new Intent(context, OrderDetailsCreditActivity.class);
+                            b.putSerializable("dataBean", dataBean);
+                            intent.putExtras(b);
+                            startActivity(intent);
                             break;
                         case OrderType.Insurance:
                             intent = new Intent(context, OrderDetailsInsuranceActivity.class);
+                            b.putSerializable("dataBean", dataBean);
+                            intent.putExtras(b);
+                            startActivity(intent);
                             break;
 
                     }
 
 
-                    if (intent != null) {
-                        Bundle b = new Bundle();
-                        b.putSerializable("dataBean", dataBean);
-                        intent.putExtras(b);
-                        startActivity(intent);
-                    }
                 } else {
                     intent = new Intent(context, WebViewActivity.class);
                     intent.putExtra("title", "查看详情");
@@ -222,6 +246,40 @@ public class OrderListFragment extends BaseLazyFragment {
 
         HttpClient.getWithMy(Config.URL.getOrderList, params, new onLoadDataCallBack());
     }
+
+    private void goInsure(final int orderId) {
+
+
+        Map<String, String> params = new HashMap<>();
+        params.put("userId", context.getAppContext().getUser().getId() + "");
+        params.put("merchantId", context.getAppContext().getUser().getMerchantId() + "");
+        params.put("posMachineId", context.getAppContext().getUser().getPosMachineId() + "");
+        params.put("orderId", orderId + "");
+        context.getWithMy(Config.URL.carInsGetOfferInfo, params, false, "", new HttpResponseHandler() {
+            @Override
+            public void onSuccess(String response) {
+                super.onSuccess(response);
+                LogUtil.i(TAG, "onSuccess====>>>" + response);
+                ApiResultBean<NwCarInsCompanyBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<NwCarInsCompanyBean>>() {
+                });
+
+                if (rt.getResult() == Result.SUCCESS) {
+
+                    Intent intent = new Intent(context, NwCarInsCompanyOfferResultActivity.class);
+                    Bundle b = new Bundle();
+                    b.putSerializable("offerInfo", rt.getData());
+                    intent.putExtras(b);
+                    startActivity(intent);
+
+                } else {
+                    showToast(rt.getMessage());
+                }
+            }
+        });
+
+
+    }
+
 
     @Override
     protected void lazyLoad() {

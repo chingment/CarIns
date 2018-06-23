@@ -56,7 +56,7 @@ public class NwCarInsCompanyOfferResultActivity extends SwipeBackActivity implem
         initView();
         initEvent();
 
-        offerResult = (NwCarInsCompanyBean) getIntent().getSerializableExtra("dataBean");
+        offerResult = (NwCarInsCompanyBean) getIntent().getSerializableExtra("offerInfo");
 
         initData(offerResult);
     }

@@ -9,10 +9,19 @@ import java.util.List;
  */
 
 public class NwCarInsCompanyBean implements Serializable {
+
     private  int id;
     private String imgUrl;
     private String name;
     private String descp;
+    private String partnerCode;
+    private int partnerChannelId;
+    private int offerId;
+    private float offerSumPremium;
+    private int offerResult;
+    private List<NwItemParentFieldBean>  offerInquirys;
+    private String offerMessage;
+
 
     public int getId() {
         return id;
@@ -101,14 +110,5 @@ public class NwCarInsCompanyBean implements Serializable {
     public void setOfferMessage(String offerMessage) {
         this.offerMessage = offerMessage;
     }
-
-    private String partnerCode;
-    private int partnerChannelId;
-    private int offerId;
-    private float offerSumPremium;
-    private int offerResult;
-    private List<NwItemParentFieldBean>  offerInquirys;
-    private String offerMessage;
-
 
 }

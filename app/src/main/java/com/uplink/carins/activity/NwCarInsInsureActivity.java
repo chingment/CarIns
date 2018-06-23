@@ -34,6 +34,7 @@ import com.uplink.carins.model.api.NwUploadResultByLicenseBean;
 import com.uplink.carins.model.api.OrderType;
 import com.uplink.carins.model.api.Result;
 import com.uplink.carins.ui.choicephoto.ChoicePhotoAndCropAndSwipeBackActivity;
+import com.uplink.carins.ui.dialog.CustomConfirmDialog;
 import com.uplink.carins.ui.swipebacklayout.SwipeBackActivity;
 import com.uplink.carins.utils.AbFileUtil;
 import com.uplink.carins.utils.BitmapUtil;
@@ -117,7 +118,7 @@ public class NwCarInsInsureActivity extends ChoicePhotoAndCropAndSwipeBackActivi
         company_img = (ImageView) findViewById(R.id.company_img);
         company_name = (TextView) findViewById(R.id.company_name);
         company_offerpremium = (TextView) findViewById(R.id.company_offerpremium);
-        layout_company_info=(LinearLayout) findViewById(R.id.layout_company_info);
+        layout_company_info = (LinearLayout) findViewById(R.id.layout_company_info);
         txt_carowner_name = (EditText) findViewById(R.id.txt_carowner_name);
         txt_carowner_certno = (EditText) findViewById(R.id.txt_carowner_certno);
         txt_carowner_address = (EditText) findViewById(R.id.txt_carowner_address);
@@ -147,7 +148,7 @@ public class NwCarInsInsureActivity extends ChoicePhotoAndCropAndSwipeBackActivi
 
         CommonUtil.loadImageFromUrl(NwCarInsInsureActivity.this, company_img, offerInfo.getImgUrl() + "");
         company_name.setText(offerInfo.getName());
-        company_offerpremium.setText(offerInfo.getOfferSumPremium()+"");
+        company_offerpremium.setText(offerInfo.getOfferSumPremium() + "");
 
         CustomerBean carowner = carInsBaseInfo.getCustomers().get(0);
 
@@ -167,8 +168,8 @@ public class NwCarInsInsureActivity extends ChoicePhotoAndCropAndSwipeBackActivi
         imgKey_carowner_shenfenzheng_face = carInsBaseInfo.getCustomers().get(0).getIdentityFacePicKey();
         imgUrl_carowner_shenfenzheng_face = carInsBaseInfo.getCustomers().get(0).getIdentityFacePicUrl();
 
-        LogUtil.e("imgUrl_carowner_shenfenzheng_face:"+imgUrl_carowner_shenfenzheng_face);
-        LogUtil.e("imgUrl_carowner_shenfenzheng_back:"+imgUrl_carowner_shenfenzheng_back);
+        LogUtil.e("imgUrl_carowner_shenfenzheng_face:" + imgUrl_carowner_shenfenzheng_face);
+        LogUtil.e("imgUrl_carowner_shenfenzheng_back:" + imgUrl_carowner_shenfenzheng_back);
         if (!StringUtil.isEmptyNotNull(imgUrl_carowner_shenfenzheng_face)) {
             CommonUtil.loadImageFromUrl(NwCarInsInsureActivity.this, img_carowner_shenfenzheng_face, imgUrl_carowner_shenfenzheng_face);
         }
@@ -214,9 +215,81 @@ public class NwCarInsInsureActivity extends ChoicePhotoAndCropAndSwipeBackActivi
         }
     }
 
+    private CustomConfirmDialog dialog_ConfirmArtificial;
+
+    int auto = 1;
 
     private void submit() {
 
+        if (auto == 1) {
+            insure("正在核保中");
+        } else {
+            if (dialog_ConfirmArtificial == null) {
+
+                dialog_ConfirmArtificial = new CustomConfirmDialog(NwCarInsInsureActivity.this, "提交人工报价需要等候约10分钟，请注意查看我的订单？", true);
+
+                dialog_ConfirmArtificial.getBtnSure().setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        insure("正在提交中");
+
+                        dialog_ConfirmArtificial.dismiss();
+                    }
+                });
+
+                dialog_ConfirmArtificial.getBtnCancle().setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog_ConfirmArtificial.dismiss();
+                    }
+                });
+            }
+
+            dialog_ConfirmArtificial.show();
+        }
+
+
+    }
+
+    private CustomConfirmDialog dialog_ArtificialSuccess;
+
+    private void showArtificialSuccessDialog() {
+        if (dialog_ArtificialSuccess == null) {
+
+            dialog_ArtificialSuccess = new CustomConfirmDialog(NwCarInsInsureActivity.this, "投保订单提交成功", false);
+
+            dialog_ArtificialSuccess.getBtnSure().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    dialog_ArtificialSuccess.dismiss();
+
+                    Intent l_Intent = new Intent(NwCarInsInsureActivity.this, OrderListActivity.class);
+                    l_Intent.putExtra("status", 1);
+                    startActivity(l_Intent);
+                    finish();
+
+                    //AppManager.getAppManager().finishAllActivity();
+                }
+            });
+
+            dialog_ArtificialSuccess.getBtnCancle().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    dialog_ArtificialSuccess.dismiss();
+                }
+            });
+
+
+        }
+
+        dialog_ArtificialSuccess.show();
+    }
+
+
+    public void insure(String loadingmsg) {
 
         if (StringUtil.isEmpty(imgKey_carowner_shenfenzheng_face)) {
             showToast("请上传身份证（正面）");
@@ -258,7 +331,7 @@ public class NwCarInsInsureActivity extends ChoicePhotoAndCropAndSwipeBackActivi
         params.put("merchantId", this.getAppContext().getUser().getMerchantId());
         params.put("posMachineId", this.getAppContext().getUser().getPosMachineId());
         params.put("offerId", offerInfo.getOfferId() + "");
-
+        params.put("auto", auto + "");
 
         JSONObject jsonObj_CarInfo = new JSONObject();
         try {
@@ -312,7 +385,7 @@ public class NwCarInsInsureActivity extends ChoicePhotoAndCropAndSwipeBackActivi
 
         params.put("customers", json_Customers);
 
-        postWithMy(Config.URL.carInsInsure, params, null, true, "正在核保中", new HttpResponseHandler() {
+        postWithMy(Config.URL.carInsInsure, params, null, true, loadingmsg, new HttpResponseHandler() {
 
             @Override
             public void onSuccess(String response) {
@@ -320,18 +393,50 @@ public class NwCarInsInsureActivity extends ChoicePhotoAndCropAndSwipeBackActivi
                 ApiResultBean<NwCarInsInsureResult> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<NwCarInsInsureResult>>() {
                 });
 
-                if (rt.getResult() == Result.SUCCESS) {
+                if (auto == 1) {
 
-                    Intent intent = new Intent(NwCarInsInsureActivity.this, NwCarInsInsureResultActivity.class);
-                    Bundle b = new Bundle();
-                    b.putSerializable("offerInfo", offerInfo);
-                    b.putSerializable("insureInfo", rt.getData());
-                    intent.putExtras(b);
-                    startActivity(intent);
+                    if (rt.getResult() == Result.SUCCESS) {
+                        Intent intent = new Intent(NwCarInsInsureActivity.this, NwCarInsInsureResultActivity.class);
+                        Bundle b = new Bundle();
+                        b.putSerializable("offerInfo", offerInfo);
+                        b.putSerializable("insureInfo", rt.getData());
+                        intent.putExtras(b);
+                        startActivity(intent);
+                    } else {
 
+                        if (dialog_ConfirmArtificial == null) {
+
+                            dialog_ConfirmArtificial = new CustomConfirmDialog(NwCarInsInsureActivity.this, "核保失败，提交人工核保需要等候约10分钟，请注意查看我的订单？", true);
+
+                            dialog_ConfirmArtificial.getBtnSure().setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+
+                                    insure("正在提交中");
+
+                                    dialog_ConfirmArtificial.dismiss();
+                                }
+                            });
+
+                            dialog_ConfirmArtificial.getBtnCancle().setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    dialog_ConfirmArtificial.dismiss();
+                                }
+                            });
+                        }
+
+                        dialog_ConfirmArtificial.show();
+
+                    }
 
                 } else {
-                    showToast(rt.getMessage());
+
+                    if (rt.getResult() == Result.SUCCESS) {
+                        showArtificialSuccessDialog();
+                    } else {
+                        showToast(rt.getMessage());
+                    }
                 }
             }
 
