@@ -3,6 +3,8 @@ package com.uplink.carins.activity;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +24,8 @@ import com.uplink.carins.Own.Config;
 import com.uplink.carins.http.HttpResponseHandler;
 import com.uplink.carins.model.api.ApiResultBean;
 import com.uplink.carins.model.api.Result;
+import com.uplink.carins.ui.city.CitycodeUtil;
+import com.uplink.carins.ui.city.ScrollerNumberPicker;
 import com.uplink.carins.ui.dialog.CustomConfirmDialog;
 import com.uplink.carins.utils.LogUtil;
 import com.uplink.carins.utils.NoDoubleClickUtils;
@@ -57,6 +61,7 @@ public class CarClaimActivity extends SwipeBackActivity implements View.OnClickL
 
     private LayoutInflater inflater;
     private List<CarInsCompanyBean> carInsCompanyCanClaims;
+    private TextView sel_area;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,6 +103,7 @@ public class CarClaimActivity extends SwipeBackActivity implements View.OnClickL
 
         popupWindowForCompanys = new PopupWindow(popupViewForCompanys, getWindowsDisplay().getWidth(), 500);
 
+        sel_area = (TextView) findViewById(R.id.sel_area);
     }
 
     private void initEvent() {
@@ -118,6 +124,8 @@ public class CarClaimActivity extends SwipeBackActivity implements View.OnClickL
                     popupWindowForCompanys.dismiss();
             }
         });
+
+        sel_area.setOnClickListener(this);
     }
 
 
@@ -204,6 +212,32 @@ public class CarClaimActivity extends SwipeBackActivity implements View.OnClickL
             case R.id.form_carclaim_select_company:
                 showPopuCompanys(v);
                 break;
+            case R.id.sel_area:
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(CarClaimActivity.this);
+                View view = LayoutInflater.from(CarClaimActivity.this).inflate(R.layout.dialog_address, null);
+                builder.setView(view);
+                LinearLayout addressdialog_linearlayout = (LinearLayout) view.findViewById(R.id.addressdialog_linearlayout);
+                final ScrollerNumberPicker provincePicker = (ScrollerNumberPicker) view.findViewById(R.id.province);
+                final ScrollerNumberPicker cityPicker = (ScrollerNumberPicker) view.findViewById(R.id.city);
+                final ScrollerNumberPicker counyPicker = (ScrollerNumberPicker) view.findViewById(R.id.couny);
+                final AlertDialog dialog = builder.show();
+                addressdialog_linearlayout.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+
+                        sel_area.setText(provincePicker.getSelectedText() + cityPicker.getSelectedText() + counyPicker.getSelectedText());
+                        LogUtil.i("kkkk", provincePicker.getSelectedText() + cityPicker.getSelectedText() + counyPicker.getSelectedText());
+
+                        String code = CitycodeUtil.getSingleton().getCouny_list_code().get(counyPicker.getSelected());
+                        LogUtil.i("kkkk:" + code);
+                        dialog.dismiss();
+
+                    }
+                });
+
+                break;
         }
     }
 
@@ -244,7 +278,7 @@ public class CarClaimActivity extends SwipeBackActivity implements View.OnClickL
         params.put("merchantId", this.getAppContext().getUser().getMerchantId());
         params.put("repairsType", "1");
 
-        postWithMy(Config.URL.submitClaim, params, null,true,"正在提交中", new HttpResponseHandler() {
+        postWithMy(Config.URL.submitClaim, params, null, true, "正在提交中", new HttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
                 super.onSuccess(response);

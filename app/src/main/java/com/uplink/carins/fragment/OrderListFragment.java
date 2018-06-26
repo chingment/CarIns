@@ -15,6 +15,7 @@ import com.uplink.carins.Own.Config;
 import com.uplink.carins.R;
 import com.uplink.carins.activity.NwCarInsCompanyOfferResultActivity;
 import com.uplink.carins.activity.NwCarInsInsureActivity;
+import com.uplink.carins.activity.NwCarInsInsureResultActivity;
 import com.uplink.carins.activity.OrderDetailsApplyLossAssessActivity;
 import com.uplink.carins.activity.OrderDetailsCarClaimsActivity;
 import com.uplink.carins.activity.OrderDetailsCarInsrueActivity;
@@ -33,6 +34,8 @@ import com.uplink.carins.model.api.ApiResultBean;
 import com.uplink.carins.model.api.NwCarInsBaseInfoBean;
 import com.uplink.carins.model.api.NwCarInsCompanyBean;
 import com.uplink.carins.model.api.NwCarInsCompanyResultBean;
+import com.uplink.carins.model.api.NwCarInsGetInsInsureInfoBean;
+import com.uplink.carins.model.api.NwCarInsInsureResult;
 import com.uplink.carins.model.api.OrderListBean;
 import com.uplink.carins.model.api.OrderType;
 import com.uplink.carins.model.api.Result;
@@ -115,6 +118,9 @@ public class OrderListFragment extends BaseLazyFragment {
 
                             if (dataBean.getFollowStatus() == 9) {
                                 goInsure(dataBean.getId());
+                            }
+                            if (dataBean.getFollowStatus() == 14) {
+                                goPay(dataBean.getId());
                             } else {
                                 intent = new Intent(context, OrderDetailsCarInsrueActivity.class);
                                 b.putSerializable("dataBean", dataBean);
@@ -229,33 +235,23 @@ public class OrderListFragment extends BaseLazyFragment {
     }
 
     private void onLoadData() {
-        LogUtil.i(TAG, "onLoadData()");
         Map<String, String> params = new HashMap<>();
-
-        LogUtil.i(" context.getAppContext().getUser().getId():" + context.getAppContext().getUser().getId());
-
         params.put("userId", context.getAppContext().getUser().getId() + "");
         params.put("merchantId", context.getAppContext().getUser().getMerchantId() + "");
         params.put("posMachineId", context.getAppContext().getUser().getPosMachineId() + "");
         params.put("pageIndex", String.valueOf(pageIndex));
         params.put("status", String.valueOf(status));
-
-        LogUtil.e("当前类型224454554545:" + orderType);
-
         params.put("type", String.valueOf(orderType));
-
         HttpClient.getWithMy(Config.URL.getOrderList, params, new onLoadDataCallBack());
     }
 
     private void goInsure(final int orderId) {
-
-
         Map<String, String> params = new HashMap<>();
         params.put("userId", context.getAppContext().getUser().getId() + "");
         params.put("merchantId", context.getAppContext().getUser().getMerchantId() + "");
         params.put("posMachineId", context.getAppContext().getUser().getPosMachineId() + "");
         params.put("orderId", orderId + "");
-        context.getWithMy(Config.URL.carInsGetOfferInfo, params, false, "", new HttpResponseHandler() {
+        context.getWithMy(Config.URL.carInsGetInsInquiryInfo, params, false, "", new HttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
                 super.onSuccess(response);
@@ -281,11 +277,41 @@ public class OrderListFragment extends BaseLazyFragment {
     }
 
 
+    private void goPay(final int orderId) {
+        Map<String, String> params = new HashMap<>();
+        params.put("userId", context.getAppContext().getUser().getId() + "");
+        params.put("merchantId", context.getAppContext().getUser().getMerchantId() + "");
+        params.put("posMachineId", context.getAppContext().getUser().getPosMachineId() + "");
+        params.put("orderId", orderId + "");
+
+        context.getWithMy(Config.URL.carInsGetInsInsureInfo, params, false, "", new HttpResponseHandler() {
+            @Override
+            public void onSuccess(String response) {
+                super.onSuccess(response);
+                LogUtil.i(TAG, "onSuccess====>>>" + response);
+                ApiResultBean<NwCarInsGetInsInsureInfoBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<NwCarInsGetInsInsureInfoBean>>() {
+                });
+
+                if (rt.getResult() == Result.SUCCESS) {
+
+                    Intent intent = new Intent(context, NwCarInsInsureResultActivity.class);
+                    Bundle b = new Bundle();
+                    b.putSerializable("offerInfo", rt.getData().getOfferInfo());
+                    b.putSerializable("insureInfo", rt.getData().getInsureInfo());
+                    intent.putExtras(b);
+                    startActivity(intent);
+
+                } else {
+                    showToast(rt.getMessage());
+                }
+            }
+        });
+
+
+    }
+
     @Override
     protected void lazyLoad() {
-        LogUtil.i(TAG, "lazyLoad()=====status>>>>" + status);
-        LogUtil.i(TAG, "lazyLoad()=====mHasLoadedOnce>>>>" + mHasLoadedOnce);
-
         if (!mHasLoadedOnce && context != null) {
             mHasLoadedOnce = true;
             refresh.setRefreshing(true);

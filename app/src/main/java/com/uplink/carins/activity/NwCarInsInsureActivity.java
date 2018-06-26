@@ -412,6 +412,7 @@ public class NwCarInsInsureActivity extends ChoicePhotoAndCropAndSwipeBackActivi
                                 @Override
                                 public void onClick(View v) {
 
+                                    auto=0;
                                     insure("正在提交中");
 
                                     dialog_ConfirmArtificial.dismiss();

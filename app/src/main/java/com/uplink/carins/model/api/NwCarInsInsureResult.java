@@ -10,6 +10,8 @@ import java.util.List;
 public class NwCarInsInsureResult implements Serializable {
 
     private int insureResult;
+    private NwReceiptAddressBean receiptAddress;
+    private List<NwItemParentFieldBean> infoItems;
 
     public int getInsureResult() {
         return insureResult;
@@ -19,7 +21,7 @@ public class NwCarInsInsureResult implements Serializable {
         this.insureResult = insureResult;
     }
 
-    private NwReceiptAddressBean receiptAddress;
+
 
     public NwReceiptAddressBean getReceiptAddress() {
         return receiptAddress;
@@ -37,6 +39,5 @@ public class NwCarInsInsureResult implements Serializable {
         this.infoItems = infoItems;
     }
 
-    private List<NwItemParentFieldBean> infoItems;
 
 }
