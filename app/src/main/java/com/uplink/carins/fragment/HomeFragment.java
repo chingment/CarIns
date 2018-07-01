@@ -65,7 +65,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     private MyGridView gridview_ninegrid_haoyilianapp;
     private RelativeLayout gridview_ninegrid_thirdpartyapp_title;
     private TextView txt_servicetelphone;
-    public static boolean isNeedUpdateActivity=false;
+    public static boolean isNeedUpdateActivity = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -104,7 +104,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         gridview_ninegrid_thirdpartyapp = (MyGridView) context.findViewById(R.id.gridview_ninegrid_thirdpartyapp);
         gridview_ninegrid_thirdpartyapp_title = (RelativeLayout) context.findViewById(R.id.gridview_ninegrid_thirdpartyapp_title);
 
-        txt_servicetelphone=(TextView)root.findViewById(R.id.txt_servicetelphone);
+        txt_servicetelphone = (TextView) root.findViewById(R.id.txt_servicetelphone);
     }
 
 
@@ -145,7 +145,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         List<NineGridItemBean> gridviewitems_thirdpartyapp = new ArrayList<NineGridItemBean>();
 
         for (ExtendedAppBean bean : thirdPartyApp) {
-            gridviewitems_thirdpartyapp.add(new NineGridItemBean(bean.getId(),bean.getReferenceId(), bean.getName(), NineGridItemType.Url, bean.getLinkUrl(), bean.getImgUrl()));
+            gridviewitems_thirdpartyapp.add(new NineGridItemBean(bean.getId(), bean.getReferenceId(), bean.getName(), NineGridItemType.Url, bean.getLinkUrl(), bean.getImgUrl()));
         }
 
         NineGridItemdapter nineGridItemdapter = new NineGridItemdapter(gridviewitems_thirdpartyapp);
@@ -156,24 +156,24 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     public void setHaoYiLianApp(List<ExtendedAppBean> thirdPartyApp) {
         List<NineGridItemBean> gridviewitems_haoyilian = new ArrayList<NineGridItemBean>();
 
-        gridviewitems_haoyilian.add(new NineGridItemBean(0,"0", "保险服务", NineGridItemType.Window, "com.uplink.carins.activity.CarInsServiceAppActivity", R.drawable.ic_app_yjtb));
-        gridviewitems_haoyilian.add(new NineGridItemBean(0,"0", "理赔服务", NineGridItemType.Window, "com.uplink.carins.activity.ClaimsServiceAppActivity", R.drawable.ic_app_yjlp));
-        gridviewitems_haoyilian.add(new NineGridItemBean(0,"0", "人才输送", NineGridItemType.Window, "com.uplink.carins.activity.TalentDemandActivity", R.drawable.ic_app_rcss));
-        gridviewitems_haoyilian.add(new NineGridItemBean(0,"0", "违章缴罚", NineGridItemType.Window, "com.uplink.carins.activity.LllegalQueryActivity", R.drawable.ic_app_wzcx));
+        gridviewitems_haoyilian.add(new NineGridItemBean(0, "0", "保险服务", NineGridItemType.Window, "com.uplink.carins.activity.CarInsServiceAppActivity", R.drawable.ic_app_yjtb));
+        gridviewitems_haoyilian.add(new NineGridItemBean(0, "0", "理赔服务", NineGridItemType.Window, "com.uplink.carins.activity.ClaimsServiceAppActivity", R.drawable.ic_app_yjlp));
+        gridviewitems_haoyilian.add(new NineGridItemBean(0, "0", "人才输送", NineGridItemType.Window, "com.uplink.carins.activity.TalentDemandActivity", R.drawable.ic_app_rcss));
+        gridviewitems_haoyilian.add(new NineGridItemBean(0, "0", "违章缴罚", NineGridItemType.Window, "com.uplink.carins.activity.LllegalQueryActivity", R.drawable.ic_app_wzcx));
         //gridviewitems_haoyilian.add(new NineGridItemBean(0, "POS贷款", NineGridItemType.Window, "com.uplink.carins.activity.LllegalQueryActivity", R.drawable.ic_app_wzcx));
-        //gridviewitems_haoyilian.add(new NineGridItemBean(0, "商城", NineGridItemType.Window, "com.uplink.carins.activity.MallMainActivity", R.drawable.ic_app_wzcx));
+        gridviewitems_haoyilian.add(new NineGridItemBean(0, "0", "商城", NineGridItemType.Window, "com.uplink.carins.activity.MallMainActivity", R.drawable.ic_app_wzcx));
 
         if (thirdPartyApp != null) {
             if (thirdPartyApp.size() > 0) {
                 for (ExtendedAppBean bean : thirdPartyApp) {
 
-                    gridviewitems_haoyilian.add(new NineGridItemBean(bean.getId(),bean.getReferenceId(), bean.getName(), bean.getLinkType(), bean.getLinkUrl(), bean.getImgUrl()));
+                    gridviewitems_haoyilian.add(new NineGridItemBean(bean.getId(), bean.getReferenceId(), bean.getName(), bean.getLinkType(), bean.getLinkUrl(), bean.getImgUrl()));
                 }
             }
         }
 
-        gridviewitems_haoyilian.add(new NineGridItemBean(0,"0", "我的订单", NineGridItemType.Window, "com.uplink.carins.activity.OrderListActivity", R.drawable.ic_app_wddd));
-        gridviewitems_haoyilian.add(new NineGridItemBean(0,"0", "退出", NineGridItemType.Window, "com.uplink.carins.activity.LoginActivity", R.drawable.ic_app_tc));
+        gridviewitems_haoyilian.add(new NineGridItemBean(0, "0", "我的订单", NineGridItemType.Window, "com.uplink.carins.activity.OrderListActivity", R.drawable.ic_app_wddd));
+        gridviewitems_haoyilian.add(new NineGridItemBean(0, "0", "退出", NineGridItemType.Window, "com.uplink.carins.activity.LoginActivity", R.drawable.ic_app_tc));
 
         NineGridItemdapter nineGridItemdapter = new NineGridItemdapter(gridviewitems_haoyilian);
 

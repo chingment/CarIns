@@ -12,7 +12,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.uplink.carins.R;
-import com.uplink.carins.fragment.MallPrdCategoryFragment;
+import com.uplink.carins.fragment.MallFragment_Productkind;
 import com.uplink.carins.fragment.MyFragment;
 import com.uplink.carins.ui.BaseFragmentActivity;
 import com.uplink.carins.utils.LogUtil;
@@ -25,7 +25,7 @@ public class MallMainActivity extends BaseFragmentActivity {
     private static int currIndex = 0;
     private FragmentManager fragmentManager;
     //Footer Fragment 集合
-    private ArrayList<String> fragmentTags = new ArrayList<>(Arrays.asList("MallPrdCategoryFragment", "MyFragment"));
+    private ArrayList<String> fragmentTags = new ArrayList<>(Arrays.asList("MallFragment_Productkind", "MyFragment"));
     private RadioGroup footerRadioGroup;
     private ImageView btnHeaderGoBack;
     private TextView txtHeaderTitle;
@@ -103,18 +103,18 @@ public class MallMainActivity extends BaseFragmentActivity {
     }
 
 
-    private MallPrdCategoryFragment mallPrdCategoryFragment;
+    private MallFragment_Productkind mallFragment_Productkind;
 
-    public MallPrdCategoryFragment getMallPrdCategoryFragment() {
-        return mallPrdCategoryFragment;
+    public MallFragment_Productkind getMallFragment_Productkind() {
+        return mallFragment_Productkind;
     }
 
     //构造Fragment
     private Fragment instantFragment(int currIndex) {
         switch (currIndex) {
             case 0:
-                mallPrdCategoryFragment = new MallPrdCategoryFragment();
-                return mallPrdCategoryFragment;
+                mallFragment_Productkind = new MallFragment_Productkind();
+                return mallFragment_Productkind;
             case 1:
                 return new MyFragment();
             default:
