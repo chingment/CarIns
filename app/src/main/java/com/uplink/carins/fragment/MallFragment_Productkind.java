@@ -21,8 +21,10 @@ import com.uplink.carins.model.api.OrderDetailsCarClaimsBean;
 import com.uplink.carins.model.api.ProductKindBean;
 import com.uplink.carins.model.api.Result;
 import com.uplink.carins.ui.BaseFragment;
+import com.uplink.carins.utils.CommonUtil;
 import com.uplink.carins.utils.LogUtil;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -72,6 +74,7 @@ public class MallFragment_Productkind extends BaseFragment {
             public void onItemClick(AdapterView<?> parent, View view, int position,
                                     long id) {
                 set_list_kind_name_position(position);
+                //list_kind_body.setSelection(position);
             }
         });
     }
@@ -82,8 +85,18 @@ public class MallFragment_Productkind extends BaseFragment {
         ProductKindNameAdapter list_kind_name_adapter = new ProductKindNameAdapter(context.getAppContext(), productKinds, position);
         list_kind_name.setAdapter(list_kind_name_adapter);
 
-        ProductKindBodyAdapter list_kind_body_adapter = new ProductKindBodyAdapter(context.getAppContext(), productKinds,position);
+        ProductKindBean child = productKinds.get(position);
+
+        List<ProductKindBean> childs = new ArrayList<>();
+
+        childs.add(child);
+
+        ProductKindBodyAdapter list_kind_body_adapter = new ProductKindBodyAdapter(context.getAppContext(), childs, position);
         list_kind_body.setAdapter(list_kind_body_adapter);
+
+        //CommonUtil.setListViewHeightBasedOnChildren(list_kind_body);
+
+        //CommonUtil.setListViewHeightBasedOnChildren(list_kind_body);
     }
 
     private void loadData() {
@@ -104,7 +117,6 @@ public class MallFragment_Productkind extends BaseFragment {
                 if (rt.getResult() == Result.SUCCESS) {
                     productKinds = rt.getData();
                     set_list_kind_name_position(0);
-
                 }
             }
 

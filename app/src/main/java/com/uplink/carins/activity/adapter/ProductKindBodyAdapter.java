@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -65,11 +66,6 @@ public class ProductKindBodyAdapter extends BaseAdapter {
             convertView = LayoutInflater.from(context).inflate(R.layout.item_list_productkind_body, parent, false);
         }
 
-        if (current_position == position) {
-            convertView.setVisibility(View.VISIBLE);
-        } else {
-            convertView.setVisibility(View.GONE);
-        }
 
         ProductKindBean bean = beans.get(position);
 
@@ -102,7 +98,6 @@ public class ProductKindBodyAdapter extends BaseAdapter {
         ProductChildKindAdapter productSkuAdapter = new ProductChildKindAdapter(context, bean.getChilds());
 
         list_kind_childs.setAdapter(productSkuAdapter);
-
 
         return convertView;
     }
