@@ -78,8 +78,34 @@ public class NwCarInsCompanyActivity extends SwipeBackActivity implements View.O
         carInfo = (CarInfoResultBean) getIntent().getSerializableExtra("carInfoBean");
         insKinds = (List<CarInsKindBean>) getIntent().getSerializableExtra("insKindsBean");
 
+
         initView();
         initEvent();
+
+        boolean isHasCi = false;
+        boolean isHasBi = false;
+        for (CarInsKindBean bean : insKinds) {
+
+            if (bean.getIsCheck()) {
+                if (bean.getId() == 1) {
+                    isHasCi = true;
+                } else if (bean.getId() > 3) {
+                    isHasBi = true;
+                }
+            }
+        }
+
+        if (isHasCi) {
+            layout_ci.setVisibility(View.VISIBLE);
+        } else {
+            layout_ci.setVisibility(View.GONE);
+        }
+
+        if (isHasBi) {
+            layout_bi.setVisibility(View.VISIBLE);
+        } else {
+            layout_bi.setVisibility(View.GONE);
+        }
 
         getComanyInfo();
 

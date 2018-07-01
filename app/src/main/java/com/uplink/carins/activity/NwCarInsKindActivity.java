@@ -392,14 +392,28 @@ public class NwCarInsKindActivity extends SwipeBackActivity implements View.OnCl
 
                     CarInsKindBean carInsKind = AppCacheManager.getCarInsKind(carInsPlanKindParent.getId());
 
+                    NwCarInsKindActivity.PlanKind planKind = new NwCarInsKindActivity.PlanKind(this.plandId, carInsKind.getId(), null);
+
+                    CarInsKindBean carInsKind2 = getCarInsPlanKind(planKind.planId, planKind.kindId);
 
                     convertView = inflater.inflate(R.layout.item_carinsplankind_content, parent, false);//交强险或车船税视图
 
                     TextView txt_carinskind_id = ViewHolder.get(convertView, R.id.item_carinskind_id);
                     TextView txt_carinskind_name = ViewHolder.get(convertView, R.id.item_carinskind_name);
+                    SlideSwitch ch_carinskind_isCheck = ViewHolder.get(convertView, R.id.item_carinskind_isCheck);
 
                     txt_carinskind_id.setText(carInsKind.getId() + "");
                     txt_carinskind_name.setText(carInsKind.getName() + "");
+
+                    boolean isCheck = carInsKind2.getIsCheck();//是否选择当前险种
+
+                    LogUtil.e("isCheck:" + isCheck);
+                    if (carInsKind.getId() == 1) {
+                        ch_carinskind_isCheck.setVisibility(View.VISIBLE);
+                        ch_carinskind_isCheck.setSlideCheckListener(mySlideIsCheckListener);
+                        ch_carinskind_isCheck.setTag(planKind);
+                        ch_carinskind_isCheck.setState(isCheck);
+                    }
 
 
                     ListView list_carinskind_childs = ViewHolder.get(convertView, R.id.form_carinsurekind_list_content);
@@ -420,6 +434,19 @@ public class NwCarInsKindActivity extends SwipeBackActivity implements View.OnCl
 
             return convertView;
         }
+
+        //投保开关
+        private SlideSwitch.SlideCheckListener mySlideIsCheckListener = new SlideSwitch.SlideCheckListener() {
+            @Override
+            public void check(View v, boolean ifCheck) {
+
+                NwCarInsKindActivity.PlanKind planKind = (NwCarInsKindActivity.PlanKind) v.getTag();
+                CarInsKindBean carInsKind = getCarInsPlanKind(planKind.planId, planKind.kindId);
+                carInsKind.setIsCheck(ifCheck);
+                setCarInsPlanKind(planKind.planId, carInsKind);
+                notifyDataSetChanged();
+            }
+        };
     }
 
 

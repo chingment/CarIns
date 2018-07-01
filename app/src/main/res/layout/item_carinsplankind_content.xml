@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:slideswitch="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/white"
@@ -18,13 +19,14 @@
         android:orientation="horizontal"
         android:paddingBottom="7dp"
         android:paddingLeft="8dp"
-        android:paddingRight="20dp"
+        android:paddingRight="9dp"
         android:paddingTop="7dp">
 
         <TextView
             android:id="@+id/item_carinskind_name"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="商业险"
             android:textColor="@color/item_carinsplankind_title_big"
             android:textSize="@dimen/text_size_12" />
@@ -36,8 +38,18 @@
             android:layout_height="wrap_content"
             android:text="id"
             android:textSize="12sp"
-            android:visibility="gone"
-            />
+            android:visibility="gone" />
+
+
+            <com.uplink.carins.ui.SlideSwitch
+                android:visibility="gone"
+                android:id="@+id/item_carinskind_isCheck"
+                android:layout_width="39dp"
+                android:layout_height="22dp"
+                slideswitch:isOpen="true"
+                slideswitch:shape="circle"
+                slideswitch:themeColor="@color/item_carinsplankind_text_checked_kuang_green"
+                slideswitch:themeColorFalse="@color/item_carinsplankind_text_checked_false" />
 
     </LinearLayout>
 
@@ -48,8 +60,8 @@
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        >
+        android:paddingRight="10dp">
+
         <ListView
             android:id="@+id/form_carinsurekind_list_content"
             android:layout_width="match_parent"

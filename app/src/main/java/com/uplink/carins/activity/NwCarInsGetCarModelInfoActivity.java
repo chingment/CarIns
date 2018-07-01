@@ -176,7 +176,29 @@ public class NwCarInsGetCarModelInfoActivity extends SwipeBackActivity implement
             item_box.setTag(position);
             item_box.setOnClickListener(myClick);
             TextView item_text = ViewHolder.get(convertView, R.id.item_text);
-            String txt = bean.getModelName() + ":排量" + bean.getDisplacement() + " " + bean.getMarketYear() + "款" + " " + bean.getRatedPassengerCapacity() + "座" + "（参考价：" + bean.getReplacementValue() + "）";
+
+            String txt = "";
+
+            if (!StringUtil.isEmptyNotNull(bean.getModelName())) {
+                txt += bean.getModelName() + " ";
+            }
+
+            if (!StringUtil.isEmptyNotNull(bean.getDisplacement())) {
+                txt += ":排量 " + bean.getDisplacement() + " ";
+            }
+
+            if (!StringUtil.isEmptyNotNull(bean.getMarketYear())) {
+                txt += bean.getMarketYear() + "款 ";
+            }
+
+            if (!StringUtil.isEmptyNotNull(bean.getRatedPassengerCapacity())) {
+                txt += bean.getRatedPassengerCapacity() + "座 ";
+            }
+
+            if (!StringUtil.isEmptyNotNull(bean.getReplacementValue())) {
+                txt += "（参考价：" + bean.getReplacementValue() + "）";
+            }
+
             item_text.setText(txt);
             return convertView;
         }

@@ -57,9 +57,6 @@ public class OrderListActivity extends SwipeBackActivity implements View.OnClick
         currentStatus = getIntent().getIntExtra("status", 0);
         currentProductType = getIntent().getIntExtra("productType", 0);
 
-        LogUtil.e("当前状态:" + currentStatus);
-        LogUtil.e("当前类型:" + currentProductType);
-
         initView();
         initViewPager();
         initEvent();

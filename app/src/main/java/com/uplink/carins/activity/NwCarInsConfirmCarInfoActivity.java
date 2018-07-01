@@ -70,20 +70,22 @@ public class NwCarInsConfirmCarInfoActivity extends SwipeBackActivity implements
         carInfo = (CarInfoResultBean) getIntent().getSerializableExtra("dataBean");
 
         carInfo.setAuto("1");
-        carInfo.getCar().setLicensePlateNo("粤H83K28");
-        carInfo.getCar().setCarType("1");
-        carInfo.getCar().setBelong("1");
-        carInfo.getCar().setMarketYear("2014");
-        carInfo.getCar().setFirstRegisterDate("2016-08-26");
-        carInfo.getCar().setVin("LGBH52E01GY047454");
-        carInfo.getCar().setEngineNo("435087Y");
-        carInfo.getCar().setModelCode("DFL7168VBL2");
-        carInfo.getCar().setModelName("东风日产DFL7168VBL2轿车");
-        carInfo.getCar().setDisplacement("1598");
-        carInfo.getCar().setRatedPassengerCapacity("5");
-        carInfo.getCar().setReplacementValue("119000");
-        carInfo.getCar().setLicensePicKey("0a1e00f46402725401641591d84d0059.jpg");
-        carInfo.getCar().setLicensePicUrl("http://file.gzhaoyilian.com/Upload/d1.jpg");
+//        carInfo.getCar().setLicensePlateNo("粤H83K28");
+//        carInfo.getCar().setCarType("1");
+//        carInfo.getCar().setBelong("1");
+//        carInfo.getCar().setMarketYear("2014");
+//        carInfo.getCar().setFirstRegisterDate("2016-08-26");
+//        carInfo.getCar().setVin("LGBH52E01GY047454");
+//        carInfo.getCar().setEngineNo("435087Y");
+//        carInfo.getCar().setModelCode("DFL7168VBL2");
+//        carInfo.getCar().setModelName("东风日产DFL7168VBL2轿车");
+//        carInfo.getCar().setDisplacement("1598");
+//        carInfo.getCar().setRatedPassengerCapacity("5");
+//        carInfo.getCar().setReplacementValue("119000");
+
+
+        //carInfo.getCar().setLicensePicKey("0a1e00f46402725401641591d84d0059.jpg");
+        //carInfo.getCar().setLicensePicUrl("http://file.gzhaoyilian.com/Upload/d1.jpg");
 
 
 
@@ -91,17 +93,17 @@ public class NwCarInsConfirmCarInfoActivity extends SwipeBackActivity implements
         initEvent();
         initData();
 
-        txt_customers_carowner_name.setText("张国威");
-        txt_customers_carowner_certno.setText("441421197908214016");
+        //txt_customers_carowner_name.setText("汤成驱");
+        //txt_customers_carowner_certno.setText("441421197908214016");
 
-//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.CHINA);
-//        String now = sdf.format(new Date());
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.CHINA);
+        String now = sdf.format(new Date());
         firstRegisterDatePicker = new CustomDatePicker(this, new CustomDatePicker.ResultHandler() {
             @Override
             public void handle(String time) { // 回调接口，获得选中的时间
                 txt_firstRegisterDate.setText(time.split(" ")[0]);
             }
-        }, "1960-01-01 00:00", "2099-12-31 00:00"); // 初始化日期格式请用：yyyy-MM-dd HH:mm，否则不能正常运行
+        }, "1990-01-01 00:00", now); // 初始化日期格式请用：yyyy-MM-dd HH:mm，否则不能正常运行
 
         firstRegisterDatePicker.showSpecificTime(false); // 不显示时和分
         firstRegisterDatePicker.setIsLoop(false); // 不允许循环滚动
@@ -111,7 +113,7 @@ public class NwCarInsConfirmCarInfoActivity extends SwipeBackActivity implements
             public void handle(String time) { // 回调接口，获得选中的时间
                 txt_chgownerDate.setText(time.split(" ")[0]);
             }
-        }, "1960-01-01 00:00", "2099-12-31 00:00"); // 初始化日期格式请用：yyyy-MM-dd HH:mm，否则不能正常运行
+        }, "1990-01-01 00:00", now); // 初始化日期格式请用：yyyy-MM-dd HH:mm，否则不能正常运行
 
         chgownerDatePicker.showSpecificTime(false); // 不显示时和分
         chgownerDatePicker.setIsLoop(false); // 不允许循环滚动
@@ -460,8 +462,30 @@ public class NwCarInsConfirmCarInfoActivity extends SwipeBackActivity implements
                 carInfo.getCar().setReplacementValue(bean.getReplacementValue());
                 carInfo.getCar().setMarketYear(bean.getMarketYear());
 
-                String carmodelinfo = bean.getModelName() + ":排量" + bean.getDisplacement() + " " + bean.getMarketYear() + "款" + " " + bean.getRatedPassengerCapacity() + "座" + "（参考价：" + bean.getReplacementValue() + "）";
-                txt_carmodelinfo.setText(carmodelinfo);
+
+                String txt = "";
+
+                if (!StringUtil.isEmptyNotNull(bean.getModelName())) {
+                    txt += bean.getModelName() + " ";
+                }
+
+                if (!StringUtil.isEmptyNotNull(bean.getDisplacement())) {
+                    txt += ":排量 " + bean.getDisplacement() + " ";
+                }
+
+                if (!StringUtil.isEmptyNotNull(bean.getMarketYear())) {
+                    txt += bean.getMarketYear() + "款 ";
+                }
+
+                if (!StringUtil.isEmptyNotNull(bean.getRatedPassengerCapacity())) {
+                    txt += bean.getRatedPassengerCapacity() + "座 ";
+                }
+
+                if (!StringUtil.isEmptyNotNull(bean.getReplacementValue())) {
+                    txt += "（参考价：" + bean.getReplacementValue() + "）";
+                }
+
+                txt_carmodelinfo.setText(txt);
 
                 break;
             default:

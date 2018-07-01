@@ -67,5 +67,6 @@ public class Config {
         public static final String carInsPay = BuildConfig.ENVIRONMENT + "/api/CarIns/Pay";
         public static final String carInsGetInsInquiryInfo = BuildConfig.ENVIRONMENT + "/api/CarIns/GetInsInquiryInfo";
         public static final String carInsGetInsInsureInfo = BuildConfig.ENVIRONMENT + "/api/CarIns/GetInsInsureInfo";
+        public static final String carInsGetFollowStatus = BuildConfig.ENVIRONMENT + "/api/CarIns/GetFollowStatus";
     }
 }

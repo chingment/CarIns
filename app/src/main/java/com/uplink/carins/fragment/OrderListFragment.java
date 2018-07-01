@@ -34,6 +34,7 @@ import com.uplink.carins.model.api.ApiResultBean;
 import com.uplink.carins.model.api.NwCarInsBaseInfoBean;
 import com.uplink.carins.model.api.NwCarInsCompanyBean;
 import com.uplink.carins.model.api.NwCarInsCompanyResultBean;
+import com.uplink.carins.model.api.NwCarInsGetFollowStatusBean;
 import com.uplink.carins.model.api.NwCarInsGetInsInsureInfoBean;
 import com.uplink.carins.model.api.NwCarInsInsureResult;
 import com.uplink.carins.model.api.OrderListBean;
@@ -115,19 +116,7 @@ public class OrderListFragment extends BaseLazyFragment {
                     switch (orderType) {
                         case OrderType.CarInsure:
 
-
-                            if (dataBean.getFollowStatus() == 9) {
-                                goInsure(dataBean.getId());
-                            }
-                            if (dataBean.getFollowStatus() == 14) {
-                                goPay(dataBean.getId());
-                            } else {
-                                intent = new Intent(context, OrderDetailsCarInsrueActivity.class);
-                                b.putSerializable("dataBean", dataBean);
-                                intent.putExtras(b);
-                                startActivity(intent);
-                            }
-
+                            goFollow(dataBean);
 
                             break;
                         case OrderType.CarClaims:
@@ -276,7 +265,6 @@ public class OrderListFragment extends BaseLazyFragment {
 
     }
 
-
     private void goPay(final int orderId) {
         Map<String, String> params = new HashMap<>();
         params.put("userId", context.getAppContext().getUser().getId() + "");
@@ -301,6 +289,47 @@ public class OrderListFragment extends BaseLazyFragment {
                     intent.putExtras(b);
                     startActivity(intent);
 
+                } else {
+                    showToast(rt.getMessage());
+                }
+            }
+        });
+
+
+    }
+
+    private void goFollow(final OrderListBean order) {
+        Map<String, String> params = new HashMap<>();
+        params.put("userId", context.getAppContext().getUser().getId() + "");
+        params.put("merchantId", context.getAppContext().getUser().getMerchantId() + "");
+        params.put("posMachineId", context.getAppContext().getUser().getPosMachineId() + "");
+        params.put("orderId", order.getId() + "");
+
+        context.getWithMy(Config.URL.carInsGetFollowStatus, params, false, "", new HttpResponseHandler() {
+            @Override
+            public void onSuccess(String response) {
+                super.onSuccess(response);
+                LogUtil.i(TAG, "onSuccess====>>>" + response);
+                ApiResultBean<NwCarInsGetFollowStatusBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<NwCarInsGetFollowStatusBean>>() {
+                });
+
+                if (rt.getResult() == Result.SUCCESS) {
+
+                    if (StringUtil.isEmptyNotNull(rt.getData().getPartnerOrderId())) {
+                        Intent intent = new Intent(context, OrderDetailsCarInsrueActivity.class);
+                        Bundle b = new Bundle();
+                        b.putSerializable("dataBean", order);
+                        intent.putExtras(b);
+                        startActivity(intent);
+                    } else {
+                        if (rt.getData().getFollowStatus() == 9) {
+                            goInsure(order.getId());
+                        }
+                        if (rt.getData().getFollowStatus() == 14) {
+                            goPay(order.getId());
+                        }
+                    }
+                    
                 } else {
                     showToast(rt.getMessage());
                 }
