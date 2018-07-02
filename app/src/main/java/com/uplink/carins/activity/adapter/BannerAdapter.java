@@ -23,8 +23,11 @@ public class BannerAdapter extends PagerAdapter {
     private ImageView.ScaleType scaleType;
 
     public BannerAdapter(Context context, List<ImgSetBean> beans, ImageView.ScaleType scaleType) {
+
         this.context = context;
-        this.beans = beans;
+        if (beans != null) {
+            this.beans = beans;
+        }
         this.scaleType = scaleType;
     }
 

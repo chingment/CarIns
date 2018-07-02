@@ -2,6 +2,7 @@
 <resources>
     <color name="colorPrimary">#0099CC</color>
     <color name="colorPrimaryDark">#1279CE</color>
+    <color name="colorPrimaryLight">#0099CC</color>
     <color name="colorAccent">#FF4081</color>
 
     <color name="white">#FFFFFF</color>
@@ -114,7 +115,8 @@
     <color name="text_f33">#f33</color>
     <color name="text_5ad485">#5ad485</color>
     <color name="text_333">#333333</color>
-
+    <color name="text_555">#555</color>
+    <color name="text_f4f4f4">#f4f4f4</color>
     <color name="custom_date_picker_background">#FFFFFF</color>
     <color name="custom_date_picker_split_line">#11112233</color>
     <color name="custom_date_picker_text1">#59B29C</color>

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="wrap_content"
+    android:layout_width="fill_parent"
+    android:gravity="center_horizontal">
+    <LinearLayout
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:layout_weight="1"
+            android:textColor="#333333"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:textSize="@dimen/text_size_13"
+            android:gravity="center"/>
+        <ImageView
+
+            android:id="@+id/img_main"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_weight="1"
+            android:contentDescription="@string/image_content_description"
+            />
+        <TextView
+            android:id="@+id/txt_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="#333333"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:text="商品名称"
+            android:textSize="@dimen/text_size_13"
+            android:gravity="center"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            />
+        <LinearLayout
+            android:baselineAligned="false"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1.2"
+                android:baselineAligned="false"
+                android:gravity="bottom">
+
+                <TextView
+                    android:id="@+id/txt_price_unit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="¥"
+                    android:textColor="@color/colorPrimaryLight"
+                    android:textSize="@dimen/text_size_18" />
+
+                <TextView
+                    android:id="@+id/txt_price_integer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="10."
+                    android:textColor="@color/colorPrimaryLight"
+                    android:textSize="@dimen/text_size_18" />
+
+                <TextView
+                    android:id="@+id/txt_price_decimal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="99"
+                    android:layout_gravity="top"
+                    android:textColor="@color/colorPrimaryLight"
+                    android:textSize="@dimen/text_size_18" />
+
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+    </LinearLayout>
+
+
+</RelativeLayout>

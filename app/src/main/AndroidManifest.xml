@@ -24,8 +24,9 @@
     <uses-permission android:name="android.permission.READ_LOGS" />
     <uses-permission android:name="android.permission.MANAGE_NEWLAND" />
     <uses-permission android:name="android.permission.MANAGE_NEWLANDUART3" />
-    <uses-permission android:name="android.permission.EXPAND_STATUS_BAR"/>
-    <uses-permission android:name="android.permission.STATUS_BAR"/>
+    <uses-permission android:name="android.permission.EXPAND_STATUS_BAR" />
+    <uses-permission android:name="android.permission.STATUS_BAR" />
+
     <application
         android:name=".Own.AppContext"
         android:allowBackup="true"
@@ -105,7 +106,9 @@
         <activity android:name=".activity.NwCarInsCompanyOfferResultActivity" />
         <activity android:name=".activity.NwCarInsInsureActivity" />
         <activity android:name=".activity.NwCarInsInsureResultActivity" />
-        <activity android:name=".activity.NwCarInsPayActivity"></activity>
+        <activity android:name=".activity.NwCarInsPayActivity" />
+        <activity android:name=".activity.ProductListByGoodsActivity" />
+        <activity android:name=".activity.ProductDetailsByGoodsActivity"></activity>
     </application>
 
 </manifest>

@@ -34,6 +34,7 @@ public class ProductKindBodyAdapter extends BaseAdapter {
         this.context = context;
         this.beans = beans;
         this.current_position = position;
+        notifyDataSetChanged();
     }
 
     @Override
@@ -99,6 +100,7 @@ public class ProductKindBodyAdapter extends BaseAdapter {
 
         list_kind_childs.setAdapter(productSkuAdapter);
 
+        CommonUtil.setGridViewHeightBasedOnChildren(list_kind_childs);
         return convertView;
     }
 }

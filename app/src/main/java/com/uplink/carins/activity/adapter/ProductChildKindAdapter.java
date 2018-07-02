@@ -1,6 +1,8 @@
 package com.uplink.carins.activity.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.uplink.carins.R;
+import com.uplink.carins.activity.ProductListByGoodsActivity;
 import com.uplink.carins.model.api.ProductChildKindBean;
 import com.uplink.carins.utils.CommonUtil;
 
@@ -57,16 +60,30 @@ public class ProductChildKindAdapter extends BaseAdapter {
         if (convertView == null) {
             convertView = LayoutInflater.from(context).inflate(R.layout.item_list_productkind_child, parent, false);
         }
-        ProductChildKindBean bean = beans.get(position);
+
+        final ProductChildKindBean bean = beans.get(position);
 
 
         TextView txt_name = (TextView) convertView.findViewById(R.id.txt_name);
         ImageView img_main = (ImageView) convertView.findViewById(R.id.img_main);
+        img_main.setTag(bean.getId());
 
         txt_name.setText(bean.getName());
 
         CommonUtil.loadImageFromUrl(context, img_main, bean.getImgUrl());
 
+
+        img_main.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(context, ProductListByGoodsActivity.class);
+                Bundle b = new Bundle();
+                b.putSerializable("dataBean", bean);
+                intent.putExtras(b);
+                context.startActivity(intent);
+            }
+        });
 
         return convertView;
     }
