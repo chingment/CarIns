@@ -1,5 +1,6 @@
 package com.uplink.carins.activity;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -7,12 +8,16 @@ import android.text.Html;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.uplink.carins.R;
 import com.uplink.carins.activity.adapter.BannerAdapter;
+import com.uplink.carins.model.api.CartOperateType;
 import com.uplink.carins.model.api.ProductListBean;
 import com.uplink.carins.model.api.ProductSkuBean;
+import com.uplink.carins.ui.BaseFragmentActivity;
 import com.uplink.carins.ui.loopviewpager.AutoLoopViewPager;
 import com.uplink.carins.ui.swipebacklayout.SwipeBackActivity;
 import com.uplink.carins.ui.viewpagerindicator.CirclePageIndicator;
@@ -40,10 +45,19 @@ public class ProductDetailsByGoodsActivity extends SwipeBackActivity implements 
     private WebView webview;
     private ProductSkuBean productSku;
 
+
+    private RelativeLayout btn_cart;
+    private LinearLayout btn_increase;
+    private LinearLayout btn_buy;
+    private TextView txt_cartcount;
+
+    private BaseFragmentActivity context;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_productdetailsbygoods);
+        context = this;
         productSku = (ProductSkuBean) getIntent().getSerializableExtra("dataBean");
         initView();
         initEvent();
@@ -64,6 +78,11 @@ public class ProductDetailsByGoodsActivity extends SwipeBackActivity implements 
         txt_price_unit = (TextView) findViewById(R.id.txt_price_unit);
         txt_price_integer = (TextView) findViewById(R.id.txt_price_integer);
         txt_price_decimal = (TextView) findViewById(R.id.txt_price_decimal);
+        txt_cartcount = (TextView) findViewById(R.id.txt_cartcount);
+
+        btn_increase = (LinearLayout) findViewById(R.id.btn_increase);
+        btn_buy = (LinearLayout) findViewById(R.id.btn_buy);
+        btn_cart = (RelativeLayout) findViewById(R.id.btn_cart);
 
         webview = (WebView) findViewById(R.id.webview);
 
@@ -79,6 +98,9 @@ public class ProductDetailsByGoodsActivity extends SwipeBackActivity implements 
     private void initEvent() {
 
         btnHeaderGoBack.setOnClickListener(this);
+        btn_increase.setOnClickListener(this);
+        btn_buy.setOnClickListener(this);
+        btn_cart.setOnClickListener(this);
     }
 
     private void setData(ProductSkuBean bean) {
@@ -91,7 +113,7 @@ public class ProductDetailsByGoodsActivity extends SwipeBackActivity implements 
         banner_indicator.setViewPager(banner_pager);
 
         txt_name.setText(bean.getName());
-        txt_briefInfo.setText(bean.getBriefInfo());
+        txt_briefInfo.setText(bean.getBriefIntro());
 
 
         String[] price = CommonUtil.getPrice(String.valueOf(bean.getUnitPrice()));
@@ -117,6 +139,18 @@ public class ProductDetailsByGoodsActivity extends SwipeBackActivity implements 
         switch (v.getId()) {
             case R.id.btn_main_header_goback:
                 finish();
+                break;
+            case R.id.btn_increase:
+                CartActivityActivity.operate(ProductDetailsByGoodsActivity.this, CartOperateType.INCREASE, productSku.getSkuId());
+                break;
+            case R.id.btn_buy:
+                Intent l_Intent1 = new Intent(ProductDetailsByGoodsActivity.this, MallOrderConfirmActivity.class);
+                startActivity(l_Intent1);
+                break;
+            case R.id.btn_cart:
+
+                Intent l_Intent2 = new Intent(ProductDetailsByGoodsActivity.this, CartActivityActivity.class);
+                startActivity(l_Intent2);
                 break;
         }
     }

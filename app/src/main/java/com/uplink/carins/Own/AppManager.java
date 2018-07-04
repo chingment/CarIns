@@ -116,4 +116,8 @@ public class AppManager {
     public int ActivityStackSize() {
         return activityStack == null ? 0 : activityStack.size();
     }
+
+    public LinkedList<Activity>  getActivityStack() {
+       return  activityStack;
+    }
 }

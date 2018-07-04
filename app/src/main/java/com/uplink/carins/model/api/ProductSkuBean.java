@@ -13,7 +13,7 @@ public class ProductSkuBean implements Serializable {
     private String mainImg;
     private float unitPrice;
     private float showPirce;
-    private String briefInfo;
+    private String briefIntro;
 
     public String getSkuId() {
         return skuId;
@@ -55,12 +55,12 @@ public class ProductSkuBean implements Serializable {
         this.showPirce = showPirce;
     }
 
-    public String getBriefInfo() {
-        return briefInfo;
+    public String getBriefIntro() {
+        return briefIntro;
     }
 
-    public void setBriefInfo(String briefInfo) {
-        this.briefInfo = briefInfo;
+    public void setBriefIntro(String briefIntro) {
+        this.briefIntro = briefIntro;
     }
 
     public boolean isHot() {

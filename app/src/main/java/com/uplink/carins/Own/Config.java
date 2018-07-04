@@ -70,5 +70,6 @@ public class Config {
         public static final String carInsGetFollowStatus = BuildConfig.ENVIRONMENT + "/api/CarIns/GetFollowStatus";
         public static final String mallProductGetKinds = BuildConfig.ENVIRONMENT + "/api/Product/GetKinds";
         public static final String mallProductGetSkuList = BuildConfig.ENVIRONMENT + "/api/Product/GetSkuList";
+        public static final String mallCartOperate = BuildConfig.ENVIRONMENT + "/api/Cart/Operate";
     }
 }
