@@ -106,7 +106,7 @@ public class ProductListByInsuranceActivity extends SwipeBackActivity implements
 
     private void onLoadData() {
 
-        LogUtil.e("onLoadData 数据，第" + pageIndex + "页");
+
         Map<String, String> params = new HashMap<>();
 
         params.put("userId", getAppContext().getUser().getId() + "");

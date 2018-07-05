@@ -144,7 +144,6 @@ public class ProductListByGoodsActivity extends SwipeBackActivity implements Vie
             @Override
             public void onSuccess(String response) {
                 super.onSuccess(response);
-                LogUtil.i(TAG, "onSuccess====>>>" + response);
 
                 ApiResultBean<List<ProductSkuBean>> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<List<ProductSkuBean>>>() {
                 });
@@ -175,12 +174,6 @@ public class ProductListByGoodsActivity extends SwipeBackActivity implements Vie
 
                 }
 
-            }
-
-            @Override
-            public void onFailure(Request request, Exception e) {
-                super.onFailure(request, e);
-                LogUtil.e(TAG, "onFailure====>>>" + e.getMessage());
             }
         });
     }

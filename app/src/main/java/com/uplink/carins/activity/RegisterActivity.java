@@ -190,8 +190,6 @@ public class RegisterActivity extends SwipeBackActivity implements View.OnClickL
 
         String validcode = form_register_txt_validcode.getText() + "";
 
-        LogUtil.e("createAccountCodeResult.getValidCode()>>>"+createAccountCodeResult.getValidCode());
-
 
         if (StringUtil.isEmpty(validcode)) {
             showToast("请输入验证码");
@@ -236,13 +234,6 @@ public class RegisterActivity extends SwipeBackActivity implements View.OnClickL
                     finish();
                     handler.sendEmptyMessage(1021);
                 }
-            }
-
-            @Override
-            public void onFailure(Request request, Exception e) {
-                super.onFailure(request, e);
-                LogUtil.e(TAG, "onFailure====>>>" + e.getMessage());
-                showToast("注册失败");
             }
         });
 

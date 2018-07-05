@@ -83,7 +83,7 @@ public class NwCarInsCompanyOfferResultActivity extends SwipeBackActivity implem
     private void initData(NwCarInsCompanyBean bean) {
 
         if (bean == null) {
-            LogUtil.e("bean为空");
+
             return;
         }
 

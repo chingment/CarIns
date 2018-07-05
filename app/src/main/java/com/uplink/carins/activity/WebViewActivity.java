@@ -257,13 +257,11 @@ public class WebViewActivity extends SwipeBackActivity implements View.OnClickLi
          */
         @JavascriptInterface
         public void showToast(String text) {
-            LogUtil.e("=>>>>>>>>>>" + text);
             ToastUtil.showMessage(WebViewActivity.this, text, Toast.LENGTH_LONG);
         }
 
         @JavascriptInterface
         public void submitOrderSuccess(String text) {
-            LogUtil.e("=>>>>>>>>>>" + text);
             showSuccessDialog(text);
         }
 

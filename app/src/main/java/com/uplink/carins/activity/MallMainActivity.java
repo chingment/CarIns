@@ -145,7 +145,7 @@ public class MallMainActivity extends BaseFragmentActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            LogUtil.i("moveTaskToBack");
+
             moveTaskToBack(true);
             return true;
         }

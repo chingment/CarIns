@@ -6,17 +6,20 @@ import java.io.Serializable;
  * Created by chingment on 2018/7/5.
  */
 
-public class ShippingAddressBean implements Serializable {
+public class RecipientAddressBean implements Serializable {
 
-    private  String receiver;
+    private  String recipient;
     private  String phoneNumber;
+    private  String areaName;
+    private  String areaCode;
+    private  String address;
 
-    public String getReceiver() {
-        return receiver;
+    public String getRecipient() {
+        return recipient;
     }
 
-    public void setReceiver(String receiver) {
-        this.receiver = receiver;
+    public void setRecipient(String recipient) {
+        this.recipient = recipient;
     }
 
     public String getPhoneNumber() {
@@ -27,12 +30,12 @@ public class ShippingAddressBean implements Serializable {
         this.phoneNumber = phoneNumber;
     }
 
-    public String getArea() {
-        return area;
+    public String getAreaName() {
+        return areaName;
     }
 
-    public void setArea(String area) {
-        this.area = area;
+    public void setAreaName(String areaName) {
+        this.areaName = areaName;
     }
 
     public String getAreaCode() {
@@ -50,9 +53,4 @@ public class ShippingAddressBean implements Serializable {
     public void setAddress(String address) {
         this.address = address;
     }
-
-    private  String area;
-    private  String areaCode;
-    private  String address;
-
 }

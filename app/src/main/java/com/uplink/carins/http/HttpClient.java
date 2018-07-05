@@ -219,7 +219,6 @@ public class HttpClient {
 
             @Override
             public void onFailure(Call call, IOException e) {
-                //LogUtil.e("Request onFailure:" + call.request());
                 handler.sendFailureMessage(call.request(), e);
                 handler.sendCompleteMessage();
             }
@@ -232,30 +231,8 @@ public class HttpClient {
             handler.sendCompleteMessage();
             return;
         }
-        //Toast.makeText(AppContext.getInstance(), "dsadaddd", Toast.LENGTH_SHORT).show();
-        handler.sendBeforeSendMessage();
 
-//        MultipartBody.Builder multipartBodyBuilder = new MultipartBody.Builder().setType(MultipartBody.FORM);
-//
-//        if (params != null){
-//            for (String key : params.keySet()) {
-//                multipartBodyBuilder.addFormDataPart(key, params.get(key).toString());
-//            }
-//        }
-//
-//
-//        if (filePaths != null){
-//            for (Map.Entry<String, String> filePath : filePaths.entrySet()) {
-//
-//                MediaType type=MediaType.parse("application/octet-stream");
-//                File file=new File(filePath.getValue());
-//
-//                LogUtil.i(filePath.getKey()+":"+filePath.getValue());
-//
-//                RequestBody fileBody=RequestBody.create(type,file);
-//                multipartBodyBuilder.addFormDataPart(filePath.getKey(), file.getName(), fileBody);
-//            }
-//        }
+        handler.sendBeforeSendMessage();
 
         JSONObject json = new JSONObject();
         try {
@@ -300,10 +277,11 @@ public class HttpClient {
             return;
         }
 
+
         String data = json.toString();
 
-        LogUtil.i("POST DATA:" + data);
-
+        LogUtil.e("Request Url:" + url);
+        LogUtil.e("Request Data:" + data);
 
         RequestBody body = RequestBody.create(MediaType_JSON, data);
 
@@ -326,6 +304,7 @@ public class HttpClient {
 
             @Override
             public void onFailure(Call call, IOException e) {
+
                 handler.sendFailureMessage(call.request(), e);
                 handler.sendCompleteMessage();
             }

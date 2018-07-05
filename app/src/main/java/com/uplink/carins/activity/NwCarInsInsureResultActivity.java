@@ -203,8 +203,6 @@ public class NwCarInsInsureResultActivity extends SwipeBackActivity implements V
             public void onSuccess(String response) {
                 super.onSuccess(response);
 
-                LogUtil.i(TAG, "onSuccess====>>>" + response);
-
                 ApiResultBean<NwCarInsPayResultBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<NwCarInsPayResultBean>>() {
 
                 });

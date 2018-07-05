@@ -185,8 +185,6 @@ public class NwCarInsGetCarInfoActivity extends ChoicePhotoAndCropAndSwipeBackAc
             public void onSuccess(String response) {
                 super.onSuccess(response);
 
-                LogUtil.i(TAG, "onSuccess====>>>" + response);
-
                 ApiResultBean<CarInfoResultBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<CarInfoResultBean>>() {
                 });
 
@@ -219,7 +217,7 @@ public class NwCarInsGetCarInfoActivity extends ChoicePhotoAndCropAndSwipeBackAc
                 loadImageHandler.sendEmptyMessage(choice_index_xingshizheng);
                 break;
         }
-        LogUtil.d(TAG, "choice_index=" + choice_index + ">>>" + photo_path);
+
         choice_index = 0;
     }
 
@@ -252,7 +250,7 @@ public class NwCarInsGetCarInfoActivity extends ChoicePhotoAndCropAndSwipeBackAc
 
     @Override
     public void OnCropFail(String error_tx) {
-        LogUtil.i(TAG, "choice_index=" + choice_index + ">error>>" + error_tx);
+
     }
 
 

@@ -108,8 +108,6 @@ public class MallCartActivityActivity extends SwipeBackActivity implements View.
             public void onSuccess(String response) {
                 super.onSuccess(response);
 
-                LogUtil.i("", "onSuccess====>>>" + response);
-
                 ApiResultBean<CartShoppingDataBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<CartShoppingDataBean>>() {
                 });
 
@@ -136,7 +134,6 @@ public class MallCartActivityActivity extends SwipeBackActivity implements View.
             @Override
             public void onSuccess(String response) {
                 super.onSuccess(response);
-                LogUtil.i("getShoppingData", "onSuccess====>>>" + response);
 
                 ApiResultBean<CartShoppingDataBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<CartShoppingDataBean>>() {
                 });
@@ -160,7 +157,6 @@ public class MallCartActivityActivity extends SwipeBackActivity implements View.
             @Override
             public void onSuccess(String response) {
                 super.onSuccess(response);
-                LogUtil.i("getPageData", "onSuccess====>>>" + response);
 
                 ApiResultBean<CartPageDataBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<CartPageDataBean>>() {
                 });

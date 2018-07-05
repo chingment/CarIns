@@ -204,14 +204,6 @@ public class BaseFragmentActivity extends FragmentActivity {
                     }
                 }
 
-                @Override
-                public void onFailure(Request request, Exception e) {
-                    super.onFailure(request, e);
-                    LogUtil.e(TAG, e);
-                    showToast("登陆失败");
-
-                }
-
             });
         }
     }
@@ -419,7 +411,7 @@ public class BaseFragmentActivity extends FragmentActivity {
                         }
                     });
                 } else {
-
+                    showToast("服务器数据异常");
                     LogUtil.e("解释错误：原始数据》》" + s);
                 }
             }
@@ -444,8 +436,6 @@ public class BaseFragmentActivity extends FragmentActivity {
         public void onSuccess(String response) {
             super.onSuccess(response);
 
-
-            LogUtil.i(TAG, "onSuccess====>>>" + response);
 
             ApiResultBean<HomePageBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<HomePageBean>>() {
             });

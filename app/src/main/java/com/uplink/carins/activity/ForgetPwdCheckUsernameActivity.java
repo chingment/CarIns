@@ -79,7 +79,7 @@ public class ForgetPwdCheckUsernameActivity extends SwipeBackActivity implements
             super.handleMessage(msg);
             switch (msg.what) {
                 case 1021:
-                    LogUtil.i("msg.arg1:"+msg.arg1);
+
                     daoji = msg.arg1;
                     btn_getvalidcode.setText(daoji + "s重新获取");
                     handler.sendEmptyMessageDelayed(1022, 1000);

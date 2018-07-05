@@ -86,6 +86,7 @@ public class HttpResponseHandler {
     //
     protected void sendSuccessMessage(String response) {
         try {
+            LogUtil.e("Request Result:" + response);
             sendMessage(obtainMessage(SUCCESS_MESSAGE, response));
         } catch (Exception e) {
             e.printStackTrace();

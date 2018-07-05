@@ -28,7 +28,6 @@ import com.uplink.carins.model.api.Result;
 import com.uplink.carins.ui.ViewHolder;
 import com.uplink.carins.ui.dialog.CustomConfirmDialog;
 import com.uplink.carins.ui.swipebacklayout.SwipeBackActivity;
-import com.uplink.carins.utils.LogUtil;
 import com.uplink.carins.utils.NoDoubleClickUtils;
 import com.uplink.carins.utils.StringUtil;
 

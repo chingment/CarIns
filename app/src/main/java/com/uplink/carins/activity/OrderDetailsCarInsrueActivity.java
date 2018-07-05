@@ -351,19 +351,12 @@ public class OrderDetailsCarInsrueActivity extends ChoicePhotoAndCropAndSwipeBac
                 }
 
             }
-
-            @Override
-            public void onFailure(Request request, Exception e) {
-                super.onFailure(request, e);
-                LogUtil.e(TAG,"onFailure====>>>" + e.getMessage());
-                showToast("提交失败");
-            }
         });
     }
 
     @Override
     public void OnCropSuccess(String photo_path) {
-        LogUtil.i("photo_path:" + photo_path);
+
         list_order_zj_path.add(index_photo, photo_path);
 
         if (index_photo < 3) {
@@ -392,7 +385,7 @@ public class OrderDetailsCarInsrueActivity extends ChoicePhotoAndCropAndSwipeBac
                 Bitmap bm = BitmapUtil.decodeSampledBitmapFromFd(imgPath, dip2px(150), dip2px(100));
                 iv.setImageBitmap(bm);
             } catch (Exception e) {
-                LogUtil.e(e.getMessage() + "");
+
             }
 
 
@@ -585,7 +578,7 @@ public class OrderDetailsCarInsrueActivity extends ChoicePhotoAndCropAndSwipeBac
             ImageView item_img = ViewHolder.get(convertView, R.id.item_company_choice_img);
             item_img.setTag(position);
             item_img.setOnClickListener(myImgClick);
-            LogUtil.i("");
+
             CommonUtil.loadImageFromUrl(convertView.getContext(), item_img, zj.getUrl());
             return convertView;
         }

@@ -10,7 +10,7 @@ import java.util.List;
 public class CartComfirmOrderData implements Serializable {
 
     private List<CartProductSkuBean> skus;
-    private ShippingAddressBean shippingAddress;
+    private RecipientAddressBean shippingAddress;
     private String actualAmount;
 
     public List<CartProductSkuBean> getSkus() {
@@ -21,11 +21,11 @@ public class CartComfirmOrderData implements Serializable {
         this.skus = skus;
     }
 
-    public ShippingAddressBean getShippingAddress() {
+    public RecipientAddressBean getShippingAddress() {
         return shippingAddress;
     }
 
-    public void setShippingAddress(ShippingAddressBean shippingAddress) {
+    public void setShippingAddress(RecipientAddressBean shippingAddress) {
         this.shippingAddress = shippingAddress;
     }
 

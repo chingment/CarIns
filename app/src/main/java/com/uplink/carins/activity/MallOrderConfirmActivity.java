@@ -107,7 +107,7 @@ public class MallOrderConfirmActivity extends SwipeBackActivity implements View.
 
                         String code = CitycodeUtil.getSingleton().getCouny_list_code().get(counyPicker.getSelected());
                         sel_area.setTag(code);
-                        Log.i("kkkk", provincePicker.getSelectedText() + cityPicker.getSelectedText() + counyPicker.getSelectedText());
+                        //Log.i("kkkk", provincePicker.getSelectedText() + cityPicker.getSelectedText() + counyPicker.getSelectedText());
                         dialog.dismiss();
 
                     }

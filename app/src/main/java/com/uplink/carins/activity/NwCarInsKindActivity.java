@@ -398,7 +398,6 @@ public class NwCarInsKindActivity extends SwipeBackActivity implements View.OnCl
 
                     boolean isCheck = carInsKind2.getIsCheck();//是否选择当前险种
 
-                    LogUtil.e("isCheck:" + isCheck);
                     if (carInsKind.getId() == 1) {
                         ch_carinskind_isCheck.setVisibility(View.VISIBLE);
                         ch_carinskind_isCheck.setSlideCheckListener(mySlideIsCheckListener);

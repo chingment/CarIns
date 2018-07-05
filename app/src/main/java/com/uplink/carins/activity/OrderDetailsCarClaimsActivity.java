@@ -333,9 +333,7 @@ public class OrderDetailsCarClaimsActivity extends ChoicePhotoAndCropAndSwipeBac
 
     @Override
     public void OnCropSuccess(String photo_path) {
-        LogUtil.i("photo_path:" + photo_path);
 
-        LogUtil.i("photo_path:" + photo_path);
         list_order_zj_path.add(index_photo, photo_path);
 
 //        if (index_photo < 3) {
@@ -356,7 +354,7 @@ public class OrderDetailsCarClaimsActivity extends ChoicePhotoAndCropAndSwipeBac
                 Bitmap bm = BitmapUtil.decodeSampledBitmapFromFd(imgPath, dip2px(150), dip2px(100));
                 iv.setImageBitmap(bm);
             } catch (Exception e) {
-                LogUtil.e(e.getMessage() + "");
+
             }
 
         }

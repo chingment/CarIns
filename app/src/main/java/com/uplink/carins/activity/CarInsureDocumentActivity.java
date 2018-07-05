@@ -245,7 +245,7 @@ public class CarInsureDocumentActivity extends ChoicePhotoAndCropAndSwipeBackAct
                 loadImageHandler.sendEmptyMessage(choice_index_shenfenzheng);
                 break;
         }
-        LogUtil.d(TAG, "choice_index=" + choice_index + ">>>" + photo_path);
+
         choice_index = 0;
     }
 
@@ -275,7 +275,7 @@ public class CarInsureDocumentActivity extends ChoicePhotoAndCropAndSwipeBackAct
 
     @Override
     public void OnCropFail(String error_tx) {
-        LogUtil.i(TAG, "choice_index=" + choice_index + ">error>>" + error_tx);
+
     }
 
     private CustomConfirmDialog dialog_Success;

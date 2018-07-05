@@ -228,10 +228,9 @@ public class CarClaimActivity extends SwipeBackActivity implements View.OnClickL
 
 
                         sel_area.setText(provincePicker.getSelectedText() + cityPicker.getSelectedText() + counyPicker.getSelectedText());
-                        LogUtil.i("kkkk", provincePicker.getSelectedText() + cityPicker.getSelectedText() + counyPicker.getSelectedText());
 
                         String code = CitycodeUtil.getSingleton().getCouny_list_code().get(counyPicker.getSelected());
-                        LogUtil.i("kkkk:" + code);
+
                         dialog.dismiss();
 
                     }

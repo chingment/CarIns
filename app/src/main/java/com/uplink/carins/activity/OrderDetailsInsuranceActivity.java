@@ -138,12 +138,6 @@ public class OrderDetailsInsuranceActivity extends SwipeBackActivity implements 
                 }
             }
 
-            @Override
-            public void onFailure(Request request, Exception e) {
-                super.onFailure(request, e);
-                LogUtil.e(TAG, "onFailure====>>>" + e.getMessage());
-            }
-
         });
     }
 
@@ -300,7 +294,7 @@ public class OrderDetailsInsuranceActivity extends SwipeBackActivity implements 
             ImageView item_img = ViewHolder.get(convertView, R.id.item_company_choice_img);
             item_img.setTag(position);
             item_img.setOnClickListener(myImgClick);
-            LogUtil.i("");
+
             CommonUtil.loadImageFromUrl(convertView.getContext(), item_img, zj.getUrl());
             return convertView;
         }

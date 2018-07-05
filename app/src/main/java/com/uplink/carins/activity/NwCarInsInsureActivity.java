@@ -168,8 +168,7 @@ public class NwCarInsInsureActivity extends ChoicePhotoAndCropAndSwipeBackActivi
         imgKey_carowner_shenfenzheng_face = carInsBaseInfo.getCustomers().get(0).getIdentityFacePicKey();
         imgUrl_carowner_shenfenzheng_face = carInsBaseInfo.getCustomers().get(0).getIdentityFacePicUrl();
 
-        LogUtil.e("imgUrl_carowner_shenfenzheng_face:" + imgUrl_carowner_shenfenzheng_face);
-        LogUtil.e("imgUrl_carowner_shenfenzheng_back:" + imgUrl_carowner_shenfenzheng_back);
+
         if (!StringUtil.isEmptyNotNull(imgUrl_carowner_shenfenzheng_face)) {
             CommonUtil.loadImageFromUrl(NwCarInsInsureActivity.this, img_carowner_shenfenzheng_face, imgUrl_carowner_shenfenzheng_face);
         }
@@ -491,7 +490,7 @@ public class NwCarInsInsureActivity extends ChoicePhotoAndCropAndSwipeBackActivi
             Bitmap bm = BitmapUtil.decodeSampledBitmapFromFd(imgPath, dip2px(150), dip2px(100));
             iv.setImageBitmap(bm);
         } catch (Exception e) {
-            LogUtil.e(e.getMessage() + "");
+
         }
     }
 
@@ -510,8 +509,6 @@ public class NwCarInsInsureActivity extends ChoicePhotoAndCropAndSwipeBackActivi
             @Override
             public void onSuccess(String response) {
                 super.onSuccess(response);
-
-                LogUtil.i(TAG, "onSuccess====>>>" + response);
 
                 ApiResultBean<NwUploadResultBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<NwUploadResultBean>>() {
                 });

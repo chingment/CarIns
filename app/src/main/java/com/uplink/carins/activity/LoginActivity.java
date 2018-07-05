@@ -276,7 +276,6 @@ public class LoginActivity extends BaseFragmentActivity implements View.OnClickL
                     }
 
                 }
-
             });
         } catch (Exception ex) {
             showToast(ex.getMessage());
