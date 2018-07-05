@@ -22,6 +22,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 
+import com.uplink.carins.utils.LogUtil;
 import com.uplink.carins.utils.StringUtil;
 
 import okhttp3.Request;
@@ -128,6 +129,7 @@ public class HttpResponseHandler {
     protected void handleMessage(Message msg) {
         switch (msg.what) {
             case SUCCESS_MESSAGE:
+                LogUtil.e("Request onResponse:" + (String) msg.obj);
                 handleSuccessMessage((String) msg.obj);
                 break;
             case FAILURE_MESSAGE:

@@ -3,6 +3,7 @@ package com.uplink.carins.activity;
 import android.app.Activity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.TextView;
 
@@ -109,29 +110,68 @@ public class CartActivityActivity extends SwipeBackActivity implements View.OnCl
 
                 if (rt.getResult() == Result.SUCCESS) {
 
-                    LinkedList<Activity> activityStack = AppManager.getAppManager().getActivityStack();
-
-
-                    for (Activity activity : activityStack) {
-
-                        if (activity instanceof ProductDetailsByGoodsActivity) {
-
-                            ProductDetailsByGoodsActivity ac = (ProductDetailsByGoodsActivity) context;
-                            TextView txt_cartcount = (TextView) ac.findViewById(R.id.txt_cartcount);
-                            if (rt.getData().getCount() <= 0) {
-                                txt_cartcount.setVisibility(View.GONE);
-                            } else {
-                                txt_cartcount.setVisibility(View.VISIBLE);
-                                txt_cartcount.setText(rt.getData().getCount() + "");
-                            }
-                        }
-                    }
-
+                    setCartView(context, rt.getData());
                 }
 
             }
         });
 
+    }
+
+    public static void getShoppingData(final BaseFragmentActivity context) {
+
+
+        Map<String, String> params = new HashMap<>();
+        params.put("userId", context.getAppContext().getUser().getId() + "");
+        params.put("merchantId", context.getAppContext().getUser().getMerchantId() + "");
+        params.put("posMachineId", context.getAppContext().getUser().getPosMachineId() + "");
+        HttpClient.getWithMy(Config.URL.mallCartGetShoppingData, params, new HttpResponseHandler() {
+            @Override
+            public void onSuccess(String response) {
+                super.onSuccess(response);
+                LogUtil.i("getShoppingData", "onSuccess====>>>" + response);
+
+                ApiResultBean<CartShoppingDataBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<CartShoppingDataBean>>() {
+                });
+
+                if (rt.getResult() == Result.SUCCESS) {
+                    setCartView(context, rt.getData());
+                }
+            }
+
+        });
+    }
+
+
+    private static void setCartView(final BaseFragmentActivity context, CartShoppingDataBean bean) {
+
+        LinkedList<Activity> activityStack = AppManager.getAppManager().getActivityStack();
+
+
+        for (Activity activity : activityStack) {
+
+            if (activity instanceof ProductDetailsByGoodsActivity) {
+
+                ProductDetailsByGoodsActivity ac = (ProductDetailsByGoodsActivity) context;
+                TextView txt_cartcount = (TextView) ac.findViewById(R.id.txt_cartcount);
+                if (bean.getCount() <= 0) {
+                    txt_cartcount.setVisibility(View.GONE);
+                } else {
+                    txt_cartcount.setVisibility(View.VISIBLE);
+
+                    if (bean.getCount() < 99) {
+                        if (bean.getCount() < 10) {
+                            txt_cartcount.setTextSize(TypedValue.COMPLEX_UNIT_SP, 9);
+                        } else {
+                            txt_cartcount.setTextSize(TypedValue.COMPLEX_UNIT_SP, 6);
+                        }
+                        txt_cartcount.setText(bean.getCount() + "");
+                    } else {
+                        txt_cartcount.setText("..");
+                    }
+                }
+            }
+        }
     }
 
 

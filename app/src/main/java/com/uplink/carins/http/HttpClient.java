@@ -201,6 +201,9 @@ public class HttpClient {
         requestBuilder.addHeader("sign", "" + sign);
         requestBuilder.addHeader("version", com.uplink.carins.BuildConfig.VERSION_NAME);
 
+
+        LogUtil.e("Request Url:" + url);
+
         Request request = requestBuilder.build();
         client.newCall(request).enqueue(new Callback() {
             @Override
@@ -216,6 +219,7 @@ public class HttpClient {
 
             @Override
             public void onFailure(Call call, IOException e) {
+                //LogUtil.e("Request onFailure:" + call.request());
                 handler.sendFailureMessage(call.request(), e);
                 handler.sendCompleteMessage();
             }
@@ -392,7 +396,7 @@ public class HttpClient {
             result = response.body().string();
         } catch (Exception ex) {
 
-            String x=ex.getMessage();
+            String x = ex.getMessage();
         }
 
         return result;
