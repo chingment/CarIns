@@ -140,9 +140,6 @@ public class OrderDetailsTalentDemandActivity extends SwipeBackActivity implemen
             @Override
             public void onSuccess(String response) {
                 super.onSuccess(response);
-
-                LogUtil.i(TAG,"onSuccess====>>>" + response);
-
                 ApiResultBean<OrderDetailsTalentDemandBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<OrderDetailsTalentDemandBean>>() {
                 });
 
@@ -150,13 +147,6 @@ public class OrderDetailsTalentDemandActivity extends SwipeBackActivity implemen
                     setView(rt.getData());
                 }
             }
-
-            @Override
-            public void onFailure(Request request, Exception e) {
-                super.onFailure(request, e);
-                LogUtil.e(TAG,"onFailure====>>>" + e.getMessage());
-            }
-
         });
     }
 }

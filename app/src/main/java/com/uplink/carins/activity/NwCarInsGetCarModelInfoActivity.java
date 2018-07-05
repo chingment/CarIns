@@ -112,8 +112,6 @@ public class NwCarInsGetCarModelInfoActivity extends SwipeBackActivity implement
             public void onSuccess(String response) {
                 super.onSuccess(response);
 
-                LogUtil.i("onSuccess===>>>" + response);
-
                 ApiResultBean<CarInsCarModelInfoResultBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<CarInsCarModelInfoResultBean>>() {
                 });
 
@@ -125,12 +123,6 @@ public class NwCarInsGetCarModelInfoActivity extends SwipeBackActivity implement
                     }
                     list_models.setAdapter(itemAdapter);
                 }
-            }
-
-            @Override
-            public void onFailure(Request request, Exception e) {
-                super.onFailure(request, e);
-                LogUtil.e("onFailure===>>>" + e.getMessage());
             }
 
         });

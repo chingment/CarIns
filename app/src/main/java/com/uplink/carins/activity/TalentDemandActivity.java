@@ -298,8 +298,6 @@ public class TalentDemandActivity extends SwipeBackActivity implements View.OnCl
             public void onSuccess(String response) {
                 super.onSuccess(response);
 
-                LogUtil.i(TAG,"onSuccess====>>>" +response);
-
                 ApiResultBean<Object> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<Object>>() {
                 });
 
@@ -309,13 +307,6 @@ public class TalentDemandActivity extends SwipeBackActivity implements View.OnCl
                     showSuccessDialog();
                 }
 
-            }
-
-            @Override
-            public void onFailure(Request request, Exception e) {
-                super.onFailure(request, e);
-                LogUtil.e(TAG,"onFailure====>>>" + e.getMessage());
-                showToast("提交失败");
             }
         });
     }

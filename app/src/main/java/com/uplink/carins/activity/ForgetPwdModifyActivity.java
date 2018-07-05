@@ -105,7 +105,6 @@ public class ForgetPwdModifyActivity extends SwipeBackActivity implements View.O
             public void onSuccess(String response) {
                 super.onSuccess(response);
 
-                LogUtil.i(TAG, "onSuccess====>>>" + response);
 
                 ApiResultBean<Object> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<Object>>() {
                 });
@@ -117,13 +116,6 @@ public class ForgetPwdModifyActivity extends SwipeBackActivity implements View.O
                     startActivity(intent);
                     finish();
                 }
-            }
-
-            @Override
-            public void onFailure(Request request, Exception e) {
-                super.onFailure(request, e);
-                LogUtil.e(TAG, "onFailure====>>>" + e.getMessage());
-                showToast("验证失败");
             }
         });
     }

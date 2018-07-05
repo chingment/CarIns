@@ -120,8 +120,6 @@ public class ForgetPwdCheckUsernameActivity extends SwipeBackActivity implements
             public void onSuccess(String response) {
                 super.onSuccess(response);
 
-                LogUtil.i("onSuccess===>>" + response);
-
                 ApiResultBean<GetForgetPwdCheckUsernameCodeResultBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<GetForgetPwdCheckUsernameCodeResultBean>>() {
                 });
 
@@ -139,12 +137,6 @@ public class ForgetPwdCheckUsernameActivity extends SwipeBackActivity implements
 
             }
 
-            @Override
-            public void onFailure(Request request, Exception e) {
-                super.onFailure(request, e);
-                LogUtil.e(TAG, "onFailure====>>>" + e.getMessage());
-                showToast("验证码获取失败");
-            }
         });
     }
 

@@ -202,8 +202,6 @@ public class InsProductPlanDetailsActivity extends ChoicePhotoAndCropAndSwipeBac
                 super.onSuccess(response);
 
 
-                LogUtil.i(TAG, "onSuccess====>>>" + response);
-
                 ApiResultBean<Object> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<Object>>() {
                 });
 
@@ -213,13 +211,6 @@ public class InsProductPlanDetailsActivity extends ChoicePhotoAndCropAndSwipeBac
                     showToast(rt.getMessage());
                 }
 
-            }
-
-            @Override
-            public void onFailure(Request request, Exception e) {
-                super.onFailure(request, e);
-                LogUtil.e(TAG, "onFailure====>>>" + e.getMessage());
-                showToast("提交失败");
             }
         });
     }

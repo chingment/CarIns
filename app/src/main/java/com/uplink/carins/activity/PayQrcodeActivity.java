@@ -108,8 +108,6 @@ public class PayQrcodeActivity extends SwipeBackActivity implements View.OnClick
             public void onSuccess(String response) {
                 super.onSuccess(response);
 
-                LogUtil.i(TAG, "onSuccess====>>>" + response);
-
                 ApiResultBean<PayResultQueryResultBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<PayResultQueryResultBean>>() {
                 });
 
@@ -130,12 +128,6 @@ public class PayQrcodeActivity extends SwipeBackActivity implements View.OnClick
 
                     }
                 }
-            }
-
-            @Override
-            public void onFailure(Request request, Exception e) {
-                super.onFailure(request, e);
-                LogUtil.e(TAG, "onFailure====>>>" + e.getMessage());
             }
         });
 

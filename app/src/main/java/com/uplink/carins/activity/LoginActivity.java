@@ -225,8 +225,6 @@ public class LoginActivity extends BaseFragmentActivity implements View.OnClickL
                 public void onSuccess(String response) {
                     super.onSuccess(response);
 
-                    LogUtil.i(TAG, "onSuccess===>>" + response);
-
                     ApiResultBean<LoginResultBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<LoginResultBean>>() {
                     });
 
@@ -276,14 +274,6 @@ public class LoginActivity extends BaseFragmentActivity implements View.OnClickL
                         }
 
                     }
-
-                }
-
-                @Override
-                public void onFailure(Request request, Exception e) {
-                    super.onFailure(request, e);
-                    LogUtil.e(TAG, e);
-                    showToast("登陆失败");
 
                 }
 

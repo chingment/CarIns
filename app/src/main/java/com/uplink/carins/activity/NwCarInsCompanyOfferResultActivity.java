@@ -127,7 +127,7 @@ public class NwCarInsCompanyOfferResultActivity extends SwipeBackActivity implem
             @Override
             public void onSuccess(String response) {
                 super.onSuccess(response);
-                LogUtil.i(TAG, "onSuccess====>>>" + response);
+
                 ApiResultBean<NwCarInsBaseInfoBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<NwCarInsBaseInfoBean>>() {
                 });
 

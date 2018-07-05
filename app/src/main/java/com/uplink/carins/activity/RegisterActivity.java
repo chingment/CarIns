@@ -157,8 +157,6 @@ public class RegisterActivity extends SwipeBackActivity implements View.OnClickL
             public void onSuccess(String response) {
                 super.onSuccess(response);
 
-                LogUtil.i("onSuccess===>>" + response);
-
                 ApiResultBean<GetCreateAccountCodeResultBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<GetCreateAccountCodeResultBean>>() {
                 });
 
@@ -174,13 +172,6 @@ public class RegisterActivity extends SwipeBackActivity implements View.OnClickL
                     handler.sendMessage(msg);
                 }
 
-            }
-
-            @Override
-            public void onFailure(Request request, Exception e) {
-                super.onFailure(request, e);
-                LogUtil.e(TAG, "onFailure====>>>" + e.getMessage());
-                showToast("验证码获取失败");
             }
         });
     }

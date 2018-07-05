@@ -113,8 +113,6 @@ public class InsProductPlanActivity extends SwipeBackActivity implements View.On
             public void onSuccess(String response) {
                 super.onSuccess(response);
 
-                LogUtil.i(TAG, "onSuccess====>>>" + response);
-
                 ApiResultBean<InsPlanBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<InsPlanBean>>() {
                 });
 
@@ -122,13 +120,6 @@ public class InsProductPlanActivity extends SwipeBackActivity implements View.On
                     setView(rt.getData());
                 }
             }
-
-            @Override
-            public void onFailure(Request request, Exception e) {
-                super.onFailure(request, e);
-                LogUtil.e(TAG, "onFailure====>>>" + e.getMessage());
-            }
-
         });
     }
 

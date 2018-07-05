@@ -313,8 +313,6 @@ public class NwCarInsKindActivity extends SwipeBackActivity implements View.OnCl
             public void onSuccess(String response) {
                 super.onSuccess(response);
 
-                LogUtil.i(TAG, "onSuccess====>>>" + response);
-
                 ApiResultBean<CarInfoResultBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<CarInfoResultBean>>() {
                 });
 
@@ -335,13 +333,6 @@ public class NwCarInsKindActivity extends SwipeBackActivity implements View.OnCl
                 } else {
                     showToast(rt.getMessage());
                 }
-            }
-
-            @Override
-            public void onFailure(Request request, Exception e) {
-                super.onFailure(request, e);
-                LogUtil.e(TAG, "onFailure====>>>" + e.getMessage());
-                showToast("提交失败");
             }
         });
 

@@ -205,8 +205,6 @@ public class NwCarInsCompanyActivity extends SwipeBackActivity implements View.O
             public void onSuccess(String response) {
                 super.onSuccess(response);
 
-                LogUtil.i(TAG, "onSuccess====>>>" + response);
-
                 ApiResultBean<NwCarInsCompanyResultBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<NwCarInsCompanyResultBean>>() {
                 });
 
@@ -221,12 +219,6 @@ public class NwCarInsCompanyActivity extends SwipeBackActivity implements View.O
                 }
             }
 
-            @Override
-            public void onFailure(Request request, Exception e) {
-                super.onFailure(request, e);
-                LogUtil.e(TAG, "onFailure====>>>" + e.getMessage());
-                showToast("提交失败");
-            }
         });
     }
 
@@ -461,7 +453,6 @@ public class NwCarInsCompanyActivity extends SwipeBackActivity implements View.O
                 public void onSuccess(String response) {
                     super.onSuccess(response);
 
-                    LogUtil.i(TAG, "onSuccess====>>>" + response);
                     ApiResultBean<NwCarInsCompanyBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<NwCarInsCompanyBean>>() {
                     });
 
@@ -489,12 +480,6 @@ public class NwCarInsCompanyActivity extends SwipeBackActivity implements View.O
                     setData(carInsCompanys);
                 }
 
-                @Override
-                public void onFailure(Request request, Exception e) {
-                    super.onFailure(request, e);
-                    LogUtil.e(TAG, "onFailure====>>>" + e.getMessage());
-                    showToast("提交失败");
-                }
             });
         }
 

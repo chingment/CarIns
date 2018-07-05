@@ -232,8 +232,6 @@ public class PayConfirmActivity extends SwipeBackActivity implements View.OnClic
             public void onSuccess(String response) {
                 super.onSuccess(response);
 
-                LogUtil.i(TAG, "onSuccess====>>>" + response);
-
                 ApiResultBean<PayUnifiedOrderResultBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<PayUnifiedOrderResultBean>>() {
                 });
 
@@ -249,12 +247,6 @@ public class PayConfirmActivity extends SwipeBackActivity implements View.OnClic
                 }
             }
 
-            @Override
-            public void onFailure(Request request, Exception e) {
-                super.onFailure(request, e);
-                LogUtil.e(TAG, "onFailure====>>>" + e.getMessage());
-                showToast("支付异常");
-            }
         });
 
 

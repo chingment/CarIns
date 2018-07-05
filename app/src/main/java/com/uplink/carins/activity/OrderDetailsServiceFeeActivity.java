@@ -175,9 +175,6 @@ public class OrderDetailsServiceFeeActivity extends SwipeBackActivity implements
             @Override
             public void onSuccess(String response) {
                 super.onSuccess(response);
-
-                LogUtil.i(TAG, "onSuccess====>>>" + response);
-
                 ApiResultBean<OrderDetailsServiceFeeBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<OrderDetailsServiceFeeBean>>() {
                 });
 
@@ -187,13 +184,6 @@ public class OrderDetailsServiceFeeActivity extends SwipeBackActivity implements
                     setView(orderDetails);
                 }
             }
-
-            @Override
-            public void onFailure(Request request, Exception e) {
-                super.onFailure(request, e);
-                LogUtil.e(TAG, "onFailure====>>>" + e.getMessage());
-            }
-
         });
     }
 }

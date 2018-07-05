@@ -137,8 +137,6 @@ public class ProductDetailsByInsuranceActivity extends SwipeBackActivity impleme
             public void onSuccess(String response) {
                 super.onSuccess(response);
 
-                LogUtil.i(TAG, "onSuccess====>>>" + response);
-
                 ApiResultBean<OrderInfoBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<OrderInfoBean>>() {
                 });
 
@@ -153,13 +151,6 @@ public class ProductDetailsByInsuranceActivity extends SwipeBackActivity impleme
                 }
 
                 dialog_Success.dismiss();
-            }
-
-            @Override
-            public void onFailure(Request request, Exception e) {
-                super.onFailure(request, e);
-                LogUtil.e(TAG, "onFailure====>>>" + e.getMessage());
-                showToast("提交失败");
             }
         });
     }

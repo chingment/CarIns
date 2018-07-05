@@ -185,7 +185,6 @@ public class OrderDetailsCarClaimsActivity extends ChoicePhotoAndCropAndSwipeBac
             @Override
             public void onSuccess(String response) {
                 super.onSuccess(response);
-                LogUtil.i(TAG,"onSuccess====>>>" + response);
 
                 ApiResultBean<OrderDetailsCarClaimsBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<OrderDetailsCarClaimsBean>>() {
                 });
@@ -194,13 +193,6 @@ public class OrderDetailsCarClaimsActivity extends ChoicePhotoAndCropAndSwipeBac
                     setView(rt.getData());
                 }
             }
-
-            @Override
-            public void onFailure(Request request, Exception e) {
-                super.onFailure(request, e);
-                LogUtil.e(TAG,"onFailure====>>>" + e.getMessage());
-            }
-
         });
     }
 

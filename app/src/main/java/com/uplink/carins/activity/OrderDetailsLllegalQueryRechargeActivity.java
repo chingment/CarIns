@@ -138,7 +138,6 @@ public class OrderDetailsLllegalQueryRechargeActivity extends SwipeBackActivity 
             @Override
             public void onSuccess(String response) {
                 super.onSuccess(response);
-                LogUtil.i(TAG, "onSuccess====>>>" + response);
 
                 ApiResultBean<OrderDetailsLllegalQueryRechargeBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<OrderDetailsLllegalQueryRechargeBean>>() {
                 });
@@ -147,12 +146,6 @@ public class OrderDetailsLllegalQueryRechargeActivity extends SwipeBackActivity 
                     orderDetails = rt.getData();
                     setView(rt.getData());
                 }
-            }
-
-            @Override
-            public void onFailure(Request request, Exception e) {
-                super.onFailure(request, e);
-                LogUtil.e(TAG, "onFailure====>>>" + e.getMessage());
             }
 
         });

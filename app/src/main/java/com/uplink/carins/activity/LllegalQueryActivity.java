@@ -269,7 +269,6 @@ public class LllegalQueryActivity extends SwipeBackActivity implements View.OnCl
             @Override
             public void onSuccess(String response) {
                 super.onSuccess(response);
-                LogUtil.i(TAG, "onSuccess====>>>" + response);
 
                 ApiResultBean<List<LllegalQueryLogBean>> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<List<LllegalQueryLogBean>>>() {
                 });
@@ -280,12 +279,6 @@ public class LllegalQueryActivity extends SwipeBackActivity implements View.OnCl
                     gridview_querylog.setAdapter(nineGridItemdapter);
                 }
 
-            }
-
-            @Override
-            public void onFailure(Request request, Exception e) {
-                super.onFailure(request, e);
-                LogUtil.e(TAG, "onFailure====>>>" + e.getMessage());
             }
         });
 

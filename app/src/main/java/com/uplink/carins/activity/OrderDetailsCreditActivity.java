@@ -137,8 +137,6 @@ public class OrderDetailsCreditActivity extends SwipeBackActivity implements Vie
             public void onSuccess(String response) {
                 super.onSuccess(response);
 
-                LogUtil.i(TAG,"onSuccess====>>>" + response);
-
                 ApiResultBean<OrderDetailsCreditBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<OrderDetailsCreditBean>>() {
                 });
 
@@ -147,11 +145,6 @@ public class OrderDetailsCreditActivity extends SwipeBackActivity implements Vie
                 }
             }
 
-            @Override
-            public void onFailure(Request request, Exception e) {
-                super.onFailure(request, e);
-                LogUtil.e(TAG,"onFailure====>>>" + e.getMessage());
-            }
 
         });
     }

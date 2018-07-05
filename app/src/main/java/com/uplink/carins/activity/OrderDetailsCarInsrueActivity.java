@@ -193,20 +193,12 @@ public class OrderDetailsCarInsrueActivity extends ChoicePhotoAndCropAndSwipeBac
             public void onSuccess(String response) {
                 super.onSuccess(response);
 
-                LogUtil.i("onSuccess===>>>" + response);
-
                 ApiResultBean<OrderDetailsCarInsureBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<OrderDetailsCarInsureBean>>() {
                 });
 
                 if (rt.getResult() == Result.SUCCESS) {
                     setView(rt.getData());
                 }
-            }
-
-            @Override
-            public void onFailure(Request request, Exception e) {
-                super.onFailure(request, e);
-                LogUtil.e("onFailure===>>>" + e.getMessage());
             }
 
         });
