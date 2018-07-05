@@ -8,10 +8,12 @@ import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.uplink.carins.R;
+import com.uplink.carins.fragment.MallFragment_Cart;
 import com.uplink.carins.fragment.MallFragment_Productkind;
 import com.uplink.carins.fragment.MyFragment;
 import com.uplink.carins.ui.BaseFragmentActivity;
@@ -22,10 +24,10 @@ import java.util.Arrays;
 
 public class MallMainActivity extends BaseFragmentActivity {
     private final static String TAG = "MallMainActivity";
-    private static int currIndex = 0;
+    private static int fragmentIndex = 0;
     private FragmentManager fragmentManager;
     //Footer Fragment 集合
-    private ArrayList<String> fragmentTags = new ArrayList<>(Arrays.asList("MallFragment_Productkind", "MyFragment"));
+    private ArrayList<String> fragmentTags = new ArrayList<>(Arrays.asList("MallFragment_Productkind", "MallFragment_Cart"));
     private RadioGroup footerRadioGroup;
     private ImageView btnHeaderGoBack;
     private TextView txtHeaderTitle;
@@ -40,6 +42,10 @@ public class MallMainActivity extends BaseFragmentActivity {
 
         initView();//加载视图控件
         initVent();//加载控件事件
+
+        fragmentIndex = getIntent().getIntExtra("fragmentIndex", 0);
+
+
         showFragment();//展示默认Fragment
     }
 
@@ -64,13 +70,13 @@ public class MallMainActivity extends BaseFragmentActivity {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switch (checkedId) {
                     case R.id.main_footbar_home:
-                        currIndex = 0;
+                        fragmentIndex = 0;
                         break;
                     case R.id.main_footbar_my:
-                        currIndex = 1;
+                        fragmentIndex = 1;
                         break;
                     default:
-                        currIndex = 0;
+                        fragmentIndex = 0;
                         break;
                 }
                 showFragment();
@@ -83,9 +89,9 @@ public class MallMainActivity extends BaseFragmentActivity {
     private void showFragment() {
 
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        Fragment fragment = fragmentManager.findFragmentByTag(fragmentTags.get(currIndex));
+        Fragment fragment = fragmentManager.findFragmentByTag(fragmentTags.get(fragmentIndex));
         if (fragment == null) {
-            fragment = instantFragment(currIndex);
+            fragment = instantFragment(fragmentIndex);
         }
         for (int i = 0; i < fragmentTags.size(); i++) {
             Fragment f = fragmentManager.findFragmentByTag(fragmentTags.get(i));
@@ -96,17 +102,30 @@ public class MallMainActivity extends BaseFragmentActivity {
         if (fragment.isAdded()) {
             fragmentTransaction.show(fragment);
         } else {
-            fragmentTransaction.add(R.id.fragment_container, fragment, fragmentTags.get(currIndex));
+            fragmentTransaction.add(R.id.fragment_container, fragment, fragmentTags.get(fragmentIndex));
         }
         fragmentTransaction.commitAllowingStateLoss();
         fragmentManager.executePendingTransactions();
+
+
+        for (int i = 0; i < footerRadioGroup.getChildCount(); i++) {
+            RadioButton rb = (RadioButton) footerRadioGroup.getChildAt(i);
+            if (i == fragmentIndex) {
+                rb.setChecked(true);
+            }
+        }
     }
 
 
     private MallFragment_Productkind mallFragment_Productkind;
+    private MallFragment_Cart mallFragment_Cart;
 
     public MallFragment_Productkind getMallFragment_Productkind() {
         return mallFragment_Productkind;
+    }
+
+    public MallFragment_Cart getMallFragment_Cart() {
+        return mallFragment_Cart;
     }
 
     //构造Fragment
@@ -116,7 +135,8 @@ public class MallMainActivity extends BaseFragmentActivity {
                 mallFragment_Productkind = new MallFragment_Productkind();
                 return mallFragment_Productkind;
             case 1:
-                return new MyFragment();
+                mallFragment_Cart = new MallFragment_Cart();
+                return mallFragment_Cart;
             default:
                 return null;
         }

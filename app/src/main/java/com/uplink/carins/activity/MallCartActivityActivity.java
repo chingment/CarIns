@@ -1,10 +1,10 @@
 package com.uplink.carins.activity;
 
 import android.app.Activity;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.View;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
@@ -12,12 +12,12 @@ import com.alibaba.fastjson.TypeReference;
 import com.uplink.carins.Own.AppManager;
 import com.uplink.carins.Own.Config;
 import com.uplink.carins.R;
-import com.uplink.carins.activity.handler.CarOperateHandler;
+import com.uplink.carins.activity.adapter.CartProductSkuAdapter;
 import com.uplink.carins.http.HttpClient;
 import com.uplink.carins.http.HttpResponseHandler;
 import com.uplink.carins.model.api.ApiResultBean;
-import com.uplink.carins.model.api.CarInsKindBean;
 import com.uplink.carins.model.api.CartOperateType;
+import com.uplink.carins.model.api.CartPageDataBean;
 import com.uplink.carins.model.api.CartShoppingDataBean;
 import com.uplink.carins.model.api.Result;
 import com.uplink.carins.ui.BaseFragmentActivity;
@@ -30,17 +30,16 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 
-import okhttp3.Request;
-
-public class CartActivityActivity extends SwipeBackActivity implements View.OnClickListener {
+public class MallCartActivityActivity extends SwipeBackActivity implements View.OnClickListener {
+    private final static String TAG = "MallCartActivityActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_cartactivity);
+        setContentView(R.layout.mallfragment_cart);
+
     }
 
     @Override
@@ -53,6 +52,7 @@ public class CartActivityActivity extends SwipeBackActivity implements View.OnCl
 
         }
     }
+
 
     public static void operate(final BaseFragmentActivity context, int type, String skuId) {
 
@@ -142,6 +142,30 @@ public class CartActivityActivity extends SwipeBackActivity implements View.OnCl
         });
     }
 
+    public static void getPageData(final BaseFragmentActivity context) {
+
+
+        Map<String, String> params = new HashMap<>();
+        params.put("userId", context.getAppContext().getUser().getId() + "");
+        params.put("merchantId", context.getAppContext().getUser().getMerchantId() + "");
+        params.put("posMachineId", context.getAppContext().getUser().getPosMachineId() + "");
+        HttpClient.getWithMy(Config.URL.mallCartGetPageData, params, new HttpResponseHandler() {
+            @Override
+            public void onSuccess(String response) {
+                super.onSuccess(response);
+                LogUtil.i("getPageData", "onSuccess====>>>" + response);
+
+                ApiResultBean<CartPageDataBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<CartPageDataBean>>() {
+                });
+
+                if (rt.getResult() == Result.SUCCESS) {
+                    setCartView(context, rt.getData().getShoppingData());
+                }
+
+            }
+
+        });
+    }
 
     private static void setCartView(final BaseFragmentActivity context, CartShoppingDataBean bean) {
 
@@ -149,27 +173,54 @@ public class CartActivityActivity extends SwipeBackActivity implements View.OnCl
 
 
         for (Activity activity : activityStack) {
-
+            LogUtil.e("activity instanceof" + activity.getLocalClassName());
             if (activity instanceof ProductDetailsByGoodsActivity) {
 
-                ProductDetailsByGoodsActivity ac = (ProductDetailsByGoodsActivity) context;
+                ProductDetailsByGoodsActivity ac = (ProductDetailsByGoodsActivity) activity;
                 TextView txt_cartcount = (TextView) ac.findViewById(R.id.txt_cartcount);
-                if (bean.getCount() <= 0) {
-                    txt_cartcount.setVisibility(View.GONE);
-                } else {
-                    txt_cartcount.setVisibility(View.VISIBLE);
 
-                    if (bean.getCount() < 99) {
-                        if (bean.getCount() < 10) {
-                            txt_cartcount.setTextSize(TypedValue.COMPLEX_UNIT_SP, 9);
-                        } else {
-                            txt_cartcount.setTextSize(TypedValue.COMPLEX_UNIT_SP, 6);
-                        }
-                        txt_cartcount.setText(bean.getCount() + "");
+                if (txt_cartcount != null) {
+                    if (bean.getCount() <= 0) {
+                        txt_cartcount.setVisibility(View.GONE);
                     } else {
-                        txt_cartcount.setText("..");
+                        txt_cartcount.setVisibility(View.VISIBLE);
+
+                        if (bean.getCount() < 99) {
+                            if (bean.getCount() < 10) {
+                                txt_cartcount.setTextSize(TypedValue.COMPLEX_UNIT_SP, 9);
+                            } else {
+                                txt_cartcount.setTextSize(TypedValue.COMPLEX_UNIT_SP, 6);
+                            }
+                            txt_cartcount.setText(bean.getCount() + "");
+                        } else {
+                            txt_cartcount.setText("..");
+                        }
                     }
                 }
+            }
+
+            if (activity instanceof MallMainActivity) {
+
+                MallMainActivity ac = (MallMainActivity) activity;
+                if (ac != null) {
+                    TextView txt_countbyselected = (TextView) ac.findViewById(R.id.txt_countbyselected);
+                    TextView txt_sumpricebyselected = (TextView) ac.findViewById(R.id.txt_sumpricebyselected);
+                    ListView list_skus = (ListView) ac.findViewById(R.id.list_skus);
+                    if (txt_countbyselected != null) {
+                        txt_countbyselected.setText(bean.getCountBySelected() + "");
+                    }
+
+                    if (txt_sumpricebyselected != null) {
+                        txt_sumpricebyselected.setText(bean.getSumPriceBySelected() + "");
+                    }
+
+                    if (list_skus != null) {
+
+                        CartProductSkuAdapter productSkuAdapter = new CartProductSkuAdapter(ac, bean.getSkus());
+                        list_skus.setAdapter(productSkuAdapter);
+                    }
+                }
+
             }
         }
     }

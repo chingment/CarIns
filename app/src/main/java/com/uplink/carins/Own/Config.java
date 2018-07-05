@@ -72,5 +72,6 @@ public class Config {
         public static final String mallProductGetSkuList = BuildConfig.ENVIRONMENT + "/api/Product/GetSkuList";
         public static final String mallCartOperate = BuildConfig.ENVIRONMENT + "/api/Cart/Operate";
         public static final String mallCartGetShoppingData= BuildConfig.ENVIRONMENT + "/api/Cart/GetShoppingData";
+        public static final String mallCartGetPageData= BuildConfig.ENVIRONMENT + "/api/Cart/GetPageData";
     }
 }

@@ -2,7 +2,6 @@ package com.uplink.carins.activity;
 
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.View;
@@ -12,32 +11,19 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.TypeReference;
-import com.uplink.carins.Own.Config;
 import com.uplink.carins.R;
 import com.uplink.carins.activity.adapter.BannerAdapter;
-import com.uplink.carins.http.HttpClient;
-import com.uplink.carins.http.HttpResponseHandler;
-import com.uplink.carins.model.api.ApiResultBean;
 import com.uplink.carins.model.api.CartOperateType;
-import com.uplink.carins.model.api.OrderDetailsInsuranceBean;
 import com.uplink.carins.model.api.ProductListBean;
 import com.uplink.carins.model.api.ProductSkuBean;
-import com.uplink.carins.model.api.Result;
 import com.uplink.carins.ui.BaseFragmentActivity;
 import com.uplink.carins.ui.loopviewpager.AutoLoopViewPager;
 import com.uplink.carins.ui.swipebacklayout.SwipeBackActivity;
 import com.uplink.carins.ui.viewpagerindicator.CirclePageIndicator;
 import com.uplink.carins.utils.CommonUtil;
-import com.uplink.carins.utils.LogUtil;
 import com.uplink.carins.utils.StringUtil;
 
 import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
-
-import okhttp3.Request;
 
 public class ProductDetailsByGoodsActivity extends SwipeBackActivity implements View.OnClickListener {
 
@@ -75,28 +61,8 @@ public class ProductDetailsByGoodsActivity extends SwipeBackActivity implements 
         initEvent();
         setData(productSku);
 
-        CartActivityActivity.getShoppingData(context);
+        MallCartActivityActivity.getShoppingData(context);
 
-
-//        Map<String, String> params = new HashMap<>();
-//        params.put("userId", this.getAppContext().getUser().getId() + "");
-//        params.put("merchantId", this.getAppContext().getUser().getMerchantId() + "");
-//        params.put("posMachineId", this.getAppContext().getUser().getPosMachineId() + "");
-//        HttpClient.getWithMy(Config.URL.mallCartGetPageData, params, new HttpResponseHandler() {
-//            @Override
-//            public void onSuccess(String response) {
-//                super.onSuccess(response);
-//                LogUtil.i(TAG, "onSuccess====>>>" + response);
-//
-//            }
-//
-//            @Override
-//            public void onFailure(Request request, Exception e) {
-//                super.onFailure(request, e);
-//                LogUtil.e(TAG, "onFailure====>>>" + e.getMessage());
-//            }
-//
-//        });
     }
 
     private void initView() {
@@ -176,7 +142,7 @@ public class ProductDetailsByGoodsActivity extends SwipeBackActivity implements 
                 finish();
                 break;
             case R.id.btn_increase:
-                CartActivityActivity.operate(ProductDetailsByGoodsActivity.this, CartOperateType.INCREASE, productSku.getSkuId());
+                MallCartActivityActivity.operate(ProductDetailsByGoodsActivity.this, CartOperateType.INCREASE, productSku.getSkuId());
                 break;
             case R.id.btn_buy:
                 Intent l_Intent1 = new Intent(ProductDetailsByGoodsActivity.this, MallOrderConfirmActivity.class);
@@ -184,8 +150,12 @@ public class ProductDetailsByGoodsActivity extends SwipeBackActivity implements 
                 break;
             case R.id.btn_cart:
 
-                Intent l_Intent2 = new Intent(ProductDetailsByGoodsActivity.this, CartActivityActivity.class);
+                Intent l_Intent2 = new Intent(context, MallMainActivity.class);
+
+                l_Intent2.putExtra("fragmentIndex", 1);
+
                 startActivity(l_Intent2);
+
                 break;
         }
     }

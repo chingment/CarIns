@@ -23,22 +23,6 @@ public class CartProductSkuBean implements Serializable {
         this.skuId = skuId;
     }
 
-    public String getSkuName() {
-        return skuName;
-    }
-
-    public void setSkuName(String skuName) {
-        this.skuName = skuName;
-    }
-
-    public String getSkuMainImg() {
-        return skuMainImg;
-    }
-
-    public void setSkuMainImg(String skuMainImg) {
-        this.skuMainImg = skuMainImg;
-    }
-
     public int getQuantity() {
         return quantity;
     }
@@ -81,8 +65,25 @@ public class CartProductSkuBean implements Serializable {
 
     private int cartId;
     private int skuId;
-    private String skuName;
-    private String skuMainImg;
+    private String name;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getMainImg() {
+        return mainImg;
+    }
+
+    public void setMainImg(String mainImg) {
+        this.mainImg = mainImg;
+    }
+
+    private String mainImg;
     private int quantity;
     private boolean selected;
     private float unitPrice;
