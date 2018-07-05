@@ -398,14 +398,12 @@ public class LllegalQueryActivity extends SwipeBackActivity implements View.OnCl
         params.put("userId", this.getAppContext().getUser().getId());
         params.put("merchantId", this.getAppContext().getUser().getMerchantId());
         params.put("posMachineId", this.getAppContext().getUser().getPosMachineId());
-        params.put("merchantId", this.getAppContext().getUser().getMerchantId());
         params.put("score", "50");
 
         postWithMy(Config.URL.submitLllegalQueryScoreRecharge, params, null, true, "正在提交中", new HttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
                 super.onSuccess(response);
-                LogUtil.i(TAG, "onSuccess====>>>" + response);
 
                 ApiResultBean<OrderInfoBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<OrderInfoBean>>() {
                 });
@@ -422,13 +420,6 @@ public class LllegalQueryActivity extends SwipeBackActivity implements View.OnCl
                     showToast(rt.getMessage());
                 }
 
-            }
-
-            @Override
-            public void onFailure(Request request, Exception e) {
-                super.onFailure(request, e);
-                LogUtil.e(TAG, "onFailure====>>>" + e.getMessage());
-                showToast("提交失败");
             }
         });
     }

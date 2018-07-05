@@ -93,11 +93,7 @@ public class ProductSkuAdapter extends RefreshAdapter {
             }
         });
 
-
         CommonUtil.loadImageFromUrl(context, img_main, bean.getMainImg());
-
-
-        LogUtil.e("测试测试");
     }
 
 

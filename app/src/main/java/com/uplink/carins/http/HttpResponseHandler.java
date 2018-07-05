@@ -86,7 +86,6 @@ public class HttpResponseHandler {
     //
     protected void sendSuccessMessage(String response) {
         try {
-            LogUtil.e("Request Result:" + response);
             sendMessage(obtainMessage(SUCCESS_MESSAGE, response));
         } catch (Exception e) {
             e.printStackTrace();
@@ -130,7 +129,7 @@ public class HttpResponseHandler {
     protected void handleMessage(Message msg) {
         switch (msg.what) {
             case SUCCESS_MESSAGE:
-                LogUtil.e("Request onResponse:" + (String) msg.obj);
+                LogUtil.e("Request Success onResponse:" + (String) msg.obj);
                 handleSuccessMessage((String) msg.obj);
                 break;
             case FAILURE_MESSAGE:

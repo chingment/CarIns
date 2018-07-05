@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.uplink.carins.R;
 import com.uplink.carins.model.api.ProductKindBean;
+import com.uplink.carins.ui.BaseFragmentActivity;
 import com.uplink.carins.ui.loopviewpager.AutoLoopViewPager;
 import com.uplink.carins.ui.viewpagerindicator.CirclePageIndicator;
 import com.uplink.carins.utils.CommonUtil;
@@ -26,11 +27,11 @@ import java.util.List;
 
 public class ProductKindBodyAdapter extends BaseAdapter {
 
-    private Context context;
+    private BaseFragmentActivity context;
     private List<ProductKindBean> beans = new ArrayList<>();
     private int current_position;
 
-    public ProductKindBodyAdapter(Context context, List<ProductKindBean> beans, int position) {
+    public ProductKindBodyAdapter(BaseFragmentActivity context, List<ProductKindBean> beans, int position) {
         this.context = context;
         this.beans = beans;
         this.current_position = position;

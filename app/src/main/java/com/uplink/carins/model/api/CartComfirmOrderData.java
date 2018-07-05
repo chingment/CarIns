@@ -10,8 +10,16 @@ import java.util.List;
 public class CartComfirmOrderData implements Serializable {
 
     private List<CartProductSkuBean> skus;
-    private RecipientAddressBean shippingAddress;
+    private RecipientAddressBean recipientAddress;
     private String actualAmount;
+
+    public RecipientAddressBean getRecipientAddress() {
+        return recipientAddress;
+    }
+
+    public void setRecipientAddress(RecipientAddressBean recipientAddress) {
+        this.recipientAddress = recipientAddress;
+    }
 
     public List<CartProductSkuBean> getSkus() {
         return skus;
@@ -19,14 +27,6 @@ public class CartComfirmOrderData implements Serializable {
 
     public void setSkus(List<CartProductSkuBean> skus) {
         this.skus = skus;
-    }
-
-    public RecipientAddressBean getShippingAddress() {
-        return shippingAddress;
-    }
-
-    public void setShippingAddress(RecipientAddressBean shippingAddress) {
-        this.shippingAddress = shippingAddress;
     }
 
     public String getActualAmount() {

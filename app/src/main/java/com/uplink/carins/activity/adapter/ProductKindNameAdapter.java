@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.uplink.carins.R;
 import com.uplink.carins.model.api.ProductKindBean;
+import com.uplink.carins.ui.BaseFragmentActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,11 +20,11 @@ import java.util.List;
 
 public class ProductKindNameAdapter extends BaseAdapter {
 
-    private Context context;
+    private BaseFragmentActivity context;
     private List<ProductKindBean> beans = new ArrayList<>();
     private int current_position;
 
-    public ProductKindNameAdapter(Context context, List<ProductKindBean> beans, int position) {
+    public ProductKindNameAdapter(BaseFragmentActivity context, List<ProductKindBean> beans, int position) {
         this.context = context;
         this.beans = beans;
         this.current_position = position;

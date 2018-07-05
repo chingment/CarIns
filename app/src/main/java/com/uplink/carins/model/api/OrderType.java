@@ -14,6 +14,6 @@ public class OrderType {
     public final static int LllegalDealt = 300007;
     public final static int Credit = 300008;
     public final static int Insurance = 2;
-
+    public final static int Goods = 1;
 
 }

@@ -131,13 +131,13 @@ public class BaseFragmentActivity extends FragmentActivity {
     private ServiceConnection serviceConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
-            Log.d(TAG, "bind device service");
+            //Log.d(TAG, "bind device service");
             aidlDeviceService = AidlDeviceService.Stub.asInterface(service);
         }
 
         @Override
         public void onServiceDisconnected(ComponentName name) {
-            Log.d(TAG, "unbind device service");
+            //Log.d(TAG, "unbind device service");
             aidlDeviceService = null;
         }
     };
@@ -235,7 +235,7 @@ public class BaseFragmentActivity extends FragmentActivity {
     protected void onRestart() {
         super.onRestart();
 
-        LogUtil.e("onRestart is invoke!!!");
+        //LogUtil.e("onRestart is invoke!!!");
     }
 
     /**
@@ -244,7 +244,7 @@ public class BaseFragmentActivity extends FragmentActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        LogUtil.e("onStart is invoke!!!");
+        //LogUtil.e("onStart is invoke!!!");
     }
 
 
@@ -263,7 +263,7 @@ public class BaseFragmentActivity extends FragmentActivity {
             isActive = true;
         }
 
-        LogUtil.e("onResume is invoke!!!");
+        //LogUtil.e("onResume is invoke!!!");
     }
 
     /**
@@ -273,7 +273,7 @@ public class BaseFragmentActivity extends FragmentActivity {
     protected void onPause() {
         super.onPause();
         MobclickAgent.onPause(this);
-        LogUtil.e("onPause is invoke!!!");
+        //LogUtil.e("onPause is invoke!!!");
     }
 
 

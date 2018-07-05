@@ -281,7 +281,7 @@ public class HttpClient {
         String data = json.toString();
 
         LogUtil.e("Request Url:" + url);
-        LogUtil.e("Request Data:" + data);
+        LogUtil.e("Request PostData:" + data);
 
         RequestBody body = RequestBody.create(MediaType_JSON, data);
 

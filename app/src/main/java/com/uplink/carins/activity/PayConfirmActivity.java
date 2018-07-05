@@ -15,6 +15,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.uplink.carins.Own.AppCacheManager;
 import com.uplink.carins.Own.AppContext;
+import com.uplink.carins.Own.AppManager;
 import com.uplink.carins.Own.Config;
 import com.uplink.carins.R;
 import com.uplink.carins.http.HttpResponseHandler;
@@ -172,9 +173,15 @@ public class PayConfirmActivity extends SwipeBackActivity implements View.OnClic
                     stopMyTask();
                     Intent intent = new Intent(PayConfirmActivity.this, LoginActivity.class);
                     startActivityForResult(intent, 1);
+                } else if (orderInfo.getOrderType() == OrderType.Goods) {
+                    Intent l_Intent = new Intent(PayConfirmActivity.this, OrderListActivity.class);
+                    l_Intent.putExtra("status", 3);
+                    startActivity(l_Intent);
+                    AppManager.getAppManager().finishAllActivity();
                 } else {
                     finish();
                 }
+
 
                 break;
             case R.id.btn_submit_gopay:

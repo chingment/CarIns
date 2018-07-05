@@ -82,7 +82,7 @@ public class MallFragment_Productkind extends BaseFragment {
 
     private void set_list_kind_name_position(int position) {
 
-        ProductKindNameAdapter list_kind_name_adapter = new ProductKindNameAdapter(context.getAppContext(), productKinds, position);
+        ProductKindNameAdapter list_kind_name_adapter = new ProductKindNameAdapter(context, productKinds, position);
         list_kind_name.setAdapter(list_kind_name_adapter);
 
         ProductKindBean child = productKinds.get(position);
@@ -91,12 +91,9 @@ public class MallFragment_Productkind extends BaseFragment {
 
         childs.add(child);
 
-        ProductKindBodyAdapter list_kind_body_adapter = new ProductKindBodyAdapter(context.getAppContext(), childs, position);
+        ProductKindBodyAdapter list_kind_body_adapter = new ProductKindBodyAdapter(context, childs, position);
         list_kind_body.setAdapter(list_kind_body_adapter);
 
-        //CommonUtil.setListViewHeightBasedOnChildren(list_kind_body);
-
-        //CommonUtil.setListViewHeightBasedOnChildren(list_kind_body);
     }
 
     private void loadData() {

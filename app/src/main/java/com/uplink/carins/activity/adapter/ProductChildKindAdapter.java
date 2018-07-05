@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.uplink.carins.R;
 import com.uplink.carins.activity.ProductListByGoodsActivity;
 import com.uplink.carins.model.api.ProductChildKindBean;
+import com.uplink.carins.ui.BaseFragmentActivity;
 import com.uplink.carins.utils.CommonUtil;
 
 import java.util.ArrayList;
@@ -25,11 +26,11 @@ import java.util.List;
 
 public class ProductChildKindAdapter extends BaseAdapter {
 
-    private Context context;
+    private BaseFragmentActivity context;
     private List<ProductChildKindBean> beans = new ArrayList<>();
 
 
-    public ProductChildKindAdapter(Context context, List<ProductChildKindBean> beans) {
+    public ProductChildKindAdapter(BaseFragmentActivity context, List<ProductChildKindBean> beans) {
         this.context = context;
         this.beans = beans;
     }
