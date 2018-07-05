@@ -14,6 +14,8 @@ import android.widget.TextView;
 import com.uplink.carins.R;
 import com.uplink.carins.activity.adapter.BannerAdapter;
 import com.uplink.carins.model.api.CartOperateType;
+import com.uplink.carins.model.api.CartProductSkuBean;
+import com.uplink.carins.model.api.CartProductSkuByOpreateBean;
 import com.uplink.carins.model.api.ProductListBean;
 import com.uplink.carins.model.api.ProductSkuBean;
 import com.uplink.carins.ui.BaseFragmentActivity;
@@ -24,6 +26,8 @@ import com.uplink.carins.utils.CommonUtil;
 import com.uplink.carins.utils.StringUtil;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ProductDetailsByGoodsActivity extends SwipeBackActivity implements View.OnClickListener {
 
@@ -145,8 +149,16 @@ public class ProductDetailsByGoodsActivity extends SwipeBackActivity implements 
                 MallCartActivityActivity.operate(ProductDetailsByGoodsActivity.this, CartOperateType.INCREASE, productSku.getSkuId());
                 break;
             case R.id.btn_buy:
-                Intent l_Intent1 = new Intent(ProductDetailsByGoodsActivity.this, MallOrderConfirmActivity.class);
-                startActivity(l_Intent1);
+
+
+                List<CartProductSkuByOpreateBean> skusByOpreate = new ArrayList<CartProductSkuByOpreateBean>();
+
+
+                skusByOpreate.add(new CartProductSkuByOpreateBean(0, productSku.getSkuId(), 1));
+
+
+                MallCartActivityActivity.goComfirmPage(ProductDetailsByGoodsActivity.this, skusByOpreate);
+
                 break;
             case R.id.btn_cart:
 

@@ -8,18 +8,18 @@ import java.util.List;
  */
 
 public class ProductSkuBean implements Serializable {
-    private String skuId;
+    private int skuId;
     private String name;
     private String mainImg;
     private float unitPrice;
     private float showPirce;
     private String briefIntro;
 
-    public String getSkuId() {
+    public int getSkuId() {
         return skuId;
     }
 
-    public void setSkuId(String skuId) {
+    public void setSkuId(int skuId) {
         this.skuId = skuId;
     }
 

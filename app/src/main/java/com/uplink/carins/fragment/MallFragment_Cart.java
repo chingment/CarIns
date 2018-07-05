@@ -22,6 +22,8 @@ import com.uplink.carins.activity.adapter.ProductKindNameAdapter;
 import com.uplink.carins.http.HttpClient;
 import com.uplink.carins.http.HttpResponseHandler;
 import com.uplink.carins.model.api.ApiResultBean;
+import com.uplink.carins.model.api.CartProductSkuBean;
+import com.uplink.carins.model.api.CartProductSkuByOpreateBean;
 import com.uplink.carins.model.api.ProductKindBean;
 import com.uplink.carins.model.api.Result;
 import com.uplink.carins.ui.BaseFragment;
@@ -45,7 +47,8 @@ public class MallFragment_Cart extends BaseFragment {
     private LayoutInflater inflater;
     private MallMainActivity context;
 
-    private  LinearLayout btn_buy;
+    private LinearLayout btn_buy;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return root = inflater.inflate(R.layout.mallfragment_cart, container, false);
@@ -72,13 +75,41 @@ public class MallFragment_Cart extends BaseFragment {
             @Override
             public void onClick(View v) {
 
-                Intent l_Intent1 = new Intent(context, MallOrderConfirmActivity.class);
-                startActivity(l_Intent1);
+
+                if (MallCartActivityActivity.mCartShoppingData == null) {
+                    showToast("购物车为空");
+                    return;
+                }
+
+                boolean isFlag = false;
+
+
+                if (MallCartActivityActivity.mCartShoppingData.getCountBySelected() <= 0) {
+                    showToast("至少选择一种商品");
+                    return;
+                }
+
+                List<CartProductSkuByOpreateBean> skusByOpreate = new ArrayList<CartProductSkuByOpreateBean>();
+
+                List<CartProductSkuBean> skus = MallCartActivityActivity.mCartShoppingData.getSkus();
+
+
+                for (CartProductSkuBean sku :
+                        skus) {
+
+                    if (sku.getSelected()) {
+                        skusByOpreate.add(new CartProductSkuByOpreateBean(sku.getCartId(), sku.getSkuId(), sku.getQuantity()));
+                    }
+                }
+
+
+                MallCartActivityActivity.goComfirmPage(context, skusByOpreate);
+
 
             }
         });
 
 
     }
-    
+
 }

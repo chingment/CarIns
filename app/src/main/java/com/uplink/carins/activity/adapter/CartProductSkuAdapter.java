@@ -90,7 +90,7 @@ public class CartProductSkuAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
 
-                MallCartActivityActivity.operate(mContext, CartOperateType.SELECTED, bean.getSkuId() + "");
+                MallCartActivityActivity.operate(mContext, CartOperateType.SELECTED, bean.getSkuId());
             }
         });
         ;
@@ -99,7 +99,7 @@ public class CartProductSkuAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
 
-                MallCartActivityActivity.operate(mContext, CartOperateType.DECREASE, bean.getSkuId() + "");
+                MallCartActivityActivity.operate(mContext, CartOperateType.DECREASE, bean.getSkuId());
             }
         });
 
@@ -107,7 +107,7 @@ public class CartProductSkuAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
 
-                MallCartActivityActivity.operate(mContext, CartOperateType.INCREASE, bean.getSkuId() + "");
+                MallCartActivityActivity.operate(mContext, CartOperateType.INCREASE, bean.getSkuId());
             }
         });
 

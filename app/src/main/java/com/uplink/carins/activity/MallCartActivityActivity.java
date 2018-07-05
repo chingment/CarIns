@@ -1,6 +1,7 @@
 package com.uplink.carins.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.View;
@@ -16,8 +17,10 @@ import com.uplink.carins.activity.adapter.CartProductSkuAdapter;
 import com.uplink.carins.http.HttpClient;
 import com.uplink.carins.http.HttpResponseHandler;
 import com.uplink.carins.model.api.ApiResultBean;
+import com.uplink.carins.model.api.CartComfirmOrderData;
 import com.uplink.carins.model.api.CartOperateType;
 import com.uplink.carins.model.api.CartPageDataBean;
+import com.uplink.carins.model.api.CartProductSkuByOpreateBean;
 import com.uplink.carins.model.api.CartShoppingDataBean;
 import com.uplink.carins.model.api.Result;
 import com.uplink.carins.ui.BaseFragmentActivity;
@@ -30,10 +33,13 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 public class MallCartActivityActivity extends SwipeBackActivity implements View.OnClickListener {
     private final static String TAG = "MallCartActivityActivity";
+
+    public static CartShoppingDataBean mCartShoppingData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +60,7 @@ public class MallCartActivityActivity extends SwipeBackActivity implements View.
     }
 
 
-    public static void operate(final BaseFragmentActivity context, int type, String skuId) {
+    public static void operate(final BaseFragmentActivity context, int type, int skuId) {
 
 
         switch (type) {
@@ -109,6 +115,7 @@ public class MallCartActivityActivity extends SwipeBackActivity implements View.
 
 
                 if (rt.getResult() == Result.SUCCESS) {
+
 
                     setCartView(context, rt.getData());
                 }
@@ -167,7 +174,70 @@ public class MallCartActivityActivity extends SwipeBackActivity implements View.
         });
     }
 
+
+    public static void goComfirmPage(final BaseFragmentActivity context, List<CartProductSkuByOpreateBean> skus) {
+
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("userId", context.getAppContext().getUser().getId());
+        params.put("merchantId", context.getAppContext().getUser().getMerchantId());
+        params.put("posMachineId", context.getAppContext().getUser().getPosMachineId());
+
+        JSONArray jsonObj_Skus = new JSONArray();
+
+        try {
+
+            for (CartProductSkuByOpreateBean sku :
+                    skus) {
+
+                JSONObject jsonFa1 = new JSONObject();
+                jsonFa1.put("cartId", sku.getCartId());
+                jsonFa1.put("skuId", sku.getSkuId());
+                jsonFa1.put("quantity", sku.getQuantity());
+                jsonObj_Skus.put(jsonFa1);
+            }
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return;
+        }
+
+
+        params.put("skus", jsonObj_Skus);
+
+
+        HttpClient.postWithMy(Config.URL.mallCartGetComfirmOrderData, params, null, new HttpResponseHandler() {
+            @Override
+            public void onSuccess(String response) {
+                super.onSuccess(response);
+
+
+                ApiResultBean<CartComfirmOrderData> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<CartComfirmOrderData>>() {
+                });
+
+                if (rt.getResult() == Result.SUCCESS) {
+
+                    Intent l_Intent1 = new Intent(context, MallOrderConfirmActivity.class);
+                    Bundle b = new Bundle();
+                    b.putSerializable("dataBean", rt.getData());
+                    l_Intent1.putExtras(b);
+
+                    context.startActivity(l_Intent1);
+                } else {
+                    context.showToast(rt.getMessage());
+                }
+
+
+            }
+        });
+
+
+    }
+
     private static void setCartView(final BaseFragmentActivity context, CartShoppingDataBean bean) {
+
+        mCartShoppingData = bean;
 
         LinkedList<Activity> activityStack = AppManager.getAppManager().getActivityStack();
 
