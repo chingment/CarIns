@@ -31,14 +31,6 @@ public class CartProductSkuBean implements Serializable {
         this.quantity = quantity;
     }
 
-    public boolean isSelected() {
-        return selected;
-    }
-
-    public void setSelected(boolean selected) {
-        this.selected = selected;
-    }
-
     public float getUnitPrice() {
         return unitPrice;
     }
@@ -87,6 +79,15 @@ public class CartProductSkuBean implements Serializable {
     private int quantity;
     private boolean selected;
     private float unitPrice;
+
+    public boolean getSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
+    }
+
     private float showPrice;
     private float sumPrice;
 }

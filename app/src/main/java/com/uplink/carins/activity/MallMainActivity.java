@@ -69,10 +69,10 @@ public class MallMainActivity extends BaseFragmentActivity {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switch (checkedId) {
-                    case R.id.main_footbar_home:
+                    case R.id.mall_main_footer_bar_productkind:
                         fragmentIndex = 0;
                         break;
-                    case R.id.main_footbar_my:
+                    case R.id.mall_main_footer_bar_cart:
                         fragmentIndex = 1;
                         break;
                     default:

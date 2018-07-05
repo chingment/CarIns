@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layoutFooter"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:background="@color/main_footer_bg"
+    >
+
+    <View
+        android:id="@+id/viewSplit"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/dividerline" />
+
+    <RadioGroup
+        android:id="@+id/main_footer_radiogroup"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/mall_main_footer_bar_productkind"
+            style="@style/main_footer_bar_radio"
+            android:checked="true"
+            android:drawableTop="@drawable/mall_main_footer_bar_productkind"
+            android:text="商品分类" />
+        <RadioButton
+            android:id="@+id/mall_main_footer_bar_cart"
+            style="@style/main_footer_bar_radio"
+            android:drawableTop="@drawable/mall_main_footer_bar_cart"
+            android:text="购物车" />
+    </RadioGroup>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@null"
+        android:orientation="horizontal"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+    </LinearLayout>
+</RelativeLayout>

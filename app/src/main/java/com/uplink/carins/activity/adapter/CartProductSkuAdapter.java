@@ -7,11 +7,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.uplink.carins.R;
+import com.uplink.carins.activity.MallCartActivityActivity;
+import com.uplink.carins.model.api.CartOperateType;
 import com.uplink.carins.model.api.CartProductSkuBean;
+import com.uplink.carins.ui.BaseFragmentActivity;
 import com.uplink.carins.utils.CommonUtil;
 
 import java.util.ArrayList;
@@ -23,12 +27,12 @@ import java.util.List;
 
 public class CartProductSkuAdapter extends BaseAdapter {
 
-    private Context context;
+    private BaseFragmentActivity mContext;
     private List<CartProductSkuBean> beans = new ArrayList<>();
 
 
-    public CartProductSkuAdapter(Context context, List<CartProductSkuBean> beans) {
-        this.context = context;
+    public CartProductSkuAdapter(BaseFragmentActivity context, List<CartProductSkuBean> beans) {
+        this.mContext = context;
         this.beans = beans;
     }
 
@@ -56,23 +60,58 @@ public class CartProductSkuAdapter extends BaseAdapter {
 
         // TODO Auto-generated method stub
         if (convertView == null) {
-            convertView = LayoutInflater.from(context).inflate(R.layout.item_list_cart_sku, parent, false);
+            convertView = LayoutInflater.from(mContext).inflate(R.layout.item_list_cart_sku, parent, false);
         }
 
         final CartProductSkuBean bean = beans.get(position);
 
+        CheckBox cb_selected = (CheckBox) convertView.findViewById(R.id.cb_selected);
         ImageView img_main = (ImageView) convertView.findViewById(R.id.img_main);
         TextView txt_name = (TextView) convertView.findViewById(R.id.txt_name);
         TextView txt_unitprice = (TextView) convertView.findViewById(R.id.txt_unitprice);
         TextView txt_quantity = (TextView) convertView.findViewById(R.id.txt_quantity);
+        ImageView btn_decrease = (ImageView) convertView.findViewById(R.id.btn_decrease);
+        ImageView btn_increase = (ImageView) convertView.findViewById(R.id.btn_increase);
 
+        if (bean.getSelected()) {
+            cb_selected.setChecked(true);
+        } else {
+            cb_selected.setChecked(false);
 
-        //img_main.setTag(bean.getId());
+        }
 
         txt_name.setText(bean.getName());
-        txt_unitprice.setText(bean.getUnitPrice() + "");
+        txt_unitprice.setText(bean.getSumPrice() + "");
         txt_quantity.setText(bean.getQuantity() + "");
-        CommonUtil.loadImageFromUrl(context, img_main, bean.getMainImg());
+        CommonUtil.loadImageFromUrl(mContext, img_main, bean.getMainImg());
+
+
+        cb_selected.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                MallCartActivityActivity.operate(mContext, CartOperateType.SELECTED, bean.getSkuId() + "");
+            }
+        });
+        ;
+
+        btn_decrease.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                MallCartActivityActivity.operate(mContext, CartOperateType.DECREASE, bean.getSkuId() + "");
+            }
+        });
+
+        btn_increase.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                MallCartActivityActivity.operate(mContext, CartOperateType.INCREASE, bean.getSkuId() + "");
+            }
+        });
+
+
         return convertView;
     }
 

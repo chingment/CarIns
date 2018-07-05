@@ -109,7 +109,7 @@
         <activity android:name=".activity.NwCarInsPayActivity" />
         <activity android:name=".activity.ProductListByGoodsActivity" />
         <activity android:name=".activity.ProductDetailsByGoodsActivity" />
-        <activity android:name=".activity.CartActivityActivity" />
+        <activity android:name=".activity.MallCartActivityActivity" />
         <activity android:name=".activity.MallOrderConfirmActivity"></activity>
     </application>
 

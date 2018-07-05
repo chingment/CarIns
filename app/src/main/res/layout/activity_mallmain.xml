@@ -15,5 +15,5 @@
         android:layout_weight="1.0"
         android:background="@color/main_frame_bg" />
 
-    <include layout="@layout/layout_main_footer" />
+    <include layout="@layout/layout_mall_main_footer" />
 </LinearLayout>

@@ -4,7 +4,7 @@
     <color name="colorPrimaryDark">#1279CE</color>
     <color name="colorPrimaryLight">#0099CC</color>
     <color name="colorAccent">#FF4081</color>
-
+    <color name="colorNormal">#333333</color>
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
     <color name="red">#FF0000</color>
@@ -18,6 +18,7 @@
     <color name="main_footer_line">#140000</color>
     <color name="main_footer_text_color_normal">#333333</color>
     <color name="main_footer_text_color_selected">#FA931E</color>
+
     <color name="dividerline">#E6E6E6</color>
 
     <color name="main_header_bg">#FFF</color>
