@@ -4,14 +4,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.uplink.carins.Own.Config;
 import com.uplink.carins.R;
+import com.uplink.carins.activity.adapter.OrderDetailsProductSkuAdapter;
 import com.uplink.carins.http.HttpResponseHandler;
 import com.uplink.carins.model.api.ApiResultBean;
 import com.uplink.carins.model.api.OrderDetailsServiceFeeBean;
@@ -40,12 +43,28 @@ public class OrderDetailsShoppingActivity extends SwipeBackActivity implements V
     private TextView txt_order_cancletime;
     private TextView txt_order_price;
 
+
+    private TextView txt_recipientAddress_recipient;
+    private TextView txt_recipientAddress_address;
+    private TextView txt_recipientAddress_areaName;
+    private TextView txt_recipientAddress_phoneNumber;
+
+
+    private EditText edit_recipientAddress_recipient;
+    private EditText edit_recipientAddress_address;
+    private TextView edit_recipientAddress_areaName;
+    private EditText edit_recipientAddress_phoneNumber;
+
+
     private LinearLayout layout_submittime;
     private LinearLayout layout_paytime;
     private LinearLayout layout_completetime;
     private LinearLayout layout_cancletime;
 
+    private ListView list_skus;
+
     private OrderDetailsShoppingBean orderDetails;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,11 +105,25 @@ public class OrderDetailsShoppingActivity extends SwipeBackActivity implements V
         txt_order_completetime = (TextView) findViewById(R.id.txt_order_completetime);
         txt_order_cancletime = (TextView) findViewById(R.id.txt_order_cancletime);
 
+
+        txt_recipientAddress_recipient = (TextView) findViewById(R.id.txt_recipientAddress_recipient);
+        txt_recipientAddress_address = (TextView) findViewById(R.id.txt_recipientAddress_address);
+        txt_recipientAddress_areaName = (TextView) findViewById(R.id.txt_recipientAddress_areaName);
+        txt_recipientAddress_phoneNumber = (TextView) findViewById(R.id.txt_recipientAddress_phoneNumber);
+
+
+        edit_recipientAddress_recipient = (EditText) findViewById(R.id.edit_recipientAddress_recipient);
+        edit_recipientAddress_address = (EditText) findViewById(R.id.edit_recipientAddress_address);
+        edit_recipientAddress_areaName = (TextView) findViewById(R.id.edit_recipientAddress_areaName);
+        edit_recipientAddress_phoneNumber = (EditText) findViewById(R.id.edit_recipientAddress_phoneNumber);
+
+
         layout_submittime = (LinearLayout) findViewById(R.id.layout_submittime);
         layout_paytime = (LinearLayout) findViewById(R.id.layout_paytime);
         layout_completetime = (LinearLayout) findViewById(R.id.layout_completetime);
         layout_cancletime = (LinearLayout) findViewById(R.id.layout_cancletime);
 
+        list_skus = (ListView) findViewById(R.id.list_skus);
     }
 
     private void initEvent() {
@@ -110,12 +143,32 @@ public class OrderDetailsShoppingActivity extends SwipeBackActivity implements V
 
         txt_order_price.setText(bean.getPrice());
 
+
+        txt_recipientAddress_recipient.setText(bean.getRecipientAddress().getRecipient());
+        txt_recipientAddress_address.setText(bean.getRecipientAddress().getAddress());
+        txt_recipientAddress_areaName.setText(bean.getRecipientAddress().getAreaName());
+        txt_recipientAddress_phoneNumber.setText(bean.getRecipientAddress().getPhoneNumber());
+
+        edit_recipientAddress_recipient.setText(bean.getRecipientAddress().getRecipient());
+        edit_recipientAddress_address.setText(bean.getRecipientAddress().getAddress());
+        edit_recipientAddress_areaName.setText(bean.getRecipientAddress().getAreaName());
+        edit_recipientAddress_phoneNumber.setText(bean.getRecipientAddress().getPhoneNumber());
+
         switch (bean.getStatus()) {
             case 1:
                 break;
             case 2:
                 break;
             case 3:
+                txt_recipientAddress_recipient.setVisibility(View.GONE);
+                txt_recipientAddress_address.setVisibility(View.GONE);
+                txt_recipientAddress_areaName.setVisibility(View.GONE);
+                txt_recipientAddress_phoneNumber.setVisibility(View.GONE);
+
+                edit_recipientAddress_recipient.setVisibility(View.VISIBLE);
+                edit_recipientAddress_address.setVisibility(View.VISIBLE);
+                edit_recipientAddress_areaName.setVisibility(View.VISIBLE);
+                edit_recipientAddress_phoneNumber.setVisibility(View.VISIBLE);
                 break;
             case 4:
                 layout_paytime.setVisibility(View.VISIBLE);
@@ -125,6 +178,9 @@ public class OrderDetailsShoppingActivity extends SwipeBackActivity implements V
                 layout_cancletime.setVisibility(View.VISIBLE);
                 break;
         }
+
+        OrderDetailsProductSkuAdapter adapter = new OrderDetailsProductSkuAdapter(OrderDetailsShoppingActivity.this, bean.getSkus());
+        list_skus.setAdapter(adapter);
     }
 
     private void loadData() {

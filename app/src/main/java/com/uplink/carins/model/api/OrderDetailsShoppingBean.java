@@ -1,5 +1,7 @@
 package com.uplink.carins.model.api;
 
+import java.util.List;
+
 /**
  * Created by chingment on 2018/7/6.
  */
@@ -106,4 +108,23 @@ public class OrderDetailsShoppingBean {
     private String remarks;
     private int followStatus;
     private String price;
+
+    public RecipientAddressBean getRecipientAddress() {
+        return recipientAddress;
+    }
+
+    public void setRecipientAddress(RecipientAddressBean recipientAddress) {
+        this.recipientAddress = recipientAddress;
+    }
+
+    private RecipientAddressBean recipientAddress;
+    private List<CartProductSkuBean> skus;
+
+    public List<CartProductSkuBean> getSkus() {
+        return skus;
+    }
+
+    public void setSkus(List<CartProductSkuBean> skus) {
+        this.skus = skus;
+    }
 }
