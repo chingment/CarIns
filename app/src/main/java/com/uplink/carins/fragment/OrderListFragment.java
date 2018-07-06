@@ -24,6 +24,7 @@ import com.uplink.carins.activity.OrderDetailsInsuranceActivity;
 import com.uplink.carins.activity.OrderDetailsLllegalDealtActivity;
 import com.uplink.carins.activity.OrderDetailsLllegalQueryRechargeActivity;
 import com.uplink.carins.activity.OrderDetailsServiceFeeActivity;
+import com.uplink.carins.activity.OrderDetailsShoppingActivity;
 import com.uplink.carins.activity.OrderDetailsTalentDemandActivity;
 import com.uplink.carins.activity.OrderListActivity;
 import com.uplink.carins.activity.WebViewActivity;
@@ -163,6 +164,12 @@ public class OrderListFragment extends BaseLazyFragment {
                             break;
                         case OrderType.Insurance:
                             intent = new Intent(context, OrderDetailsInsuranceActivity.class);
+                            b.putSerializable("dataBean", dataBean);
+                            intent.putExtras(b);
+                            startActivity(intent);
+                            break;
+                        case OrderType.Goods:
+                            intent = new Intent(context, OrderDetailsShoppingActivity.class);
                             b.putSerializable("dataBean", dataBean);
                             intent.putExtras(b);
                             startActivity(intent);
