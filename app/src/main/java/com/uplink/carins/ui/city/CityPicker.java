@@ -152,7 +152,7 @@ public class CityPicker extends LinearLayout {
 			@Override
 			public void endSelect(int id, String text) {
 				// TODO Auto-generated method stub
-				Log.i("kkkk" ,id + "text----->" + text);
+				Log.i("点击事件" ,id + "text----->" + text);
 				if (text.equals("") || text == null)
 					return;
 				if (tempProvinceIndex != id) {

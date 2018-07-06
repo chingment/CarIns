@@ -285,11 +285,11 @@ public class BaseFragmentActivity extends FragmentActivity {
         super.onStop();
 
         if (!isAppOnForeground()) {
-            LogUtil.e("后台 onStop is invoke!!!");
+            //LogUtil.e("后台 onStop is invoke!!!");
             stopMyTask();
             isActive = false;
         } else {
-            LogUtil.e("前台 onStop is invoke!!!");
+            //LogUtil.e("前台 onStop is invoke!!!");
         }
     }
 
@@ -301,7 +301,7 @@ public class BaseFragmentActivity extends FragmentActivity {
         super.onDestroy();
         unbindService(serviceConnection);
         //aidlPrinter = null;
-        LogUtil.e("onDestroy is invoke!!!");
+        //LogUtil.e("onDestroy is invoke!!!");
         // 结束Activity从堆栈中移除
         AppManager.getAppManager().finishActivity(this);
     }
@@ -461,20 +461,17 @@ public class BaseFragmentActivity extends FragmentActivity {
 
                 if (bean.getOrderInfo() != null) {
 
-                    LogUtil.i("bean.getOrderInfo():hasdata 0");
-
                     Bundle b = new Bundle();
                     b.putSerializable("dataBean", bean.getOrderInfo());
                     Activity act = AppManager.getAppManager().currentActivity();
 
                     if (act != null) {
-                        LogUtil.i("bean.getOrderInfo():hasdata 1");
+
                         if (getAppContext().getUser() != null) {
-                            LogUtil.i("bean.getOrderInfo():hasdata 2");
+
                             Boolean isPayConfirmActivity = act instanceof PayConfirmActivity;
                             Boolean isPayQrcodeActivity = act instanceof PayQrcodeActivity;
                             if (isPayConfirmActivity.equals(false) && isPayQrcodeActivity.equals(false)) {
-                                LogUtil.i("bean.getOrderInfo():hasdata 3");
                                 Intent intent = new Intent(act, PayConfirmActivity.class);
                                 intent.putExtras(b);
                                 stopMyTask();
@@ -483,18 +480,8 @@ public class BaseFragmentActivity extends FragmentActivity {
                         }
 
                     }
-                } else {
-                    LogUtil.i("bean.getOrderInfo():null");
                 }
-
             }
-        }
-
-        @Override
-        public void onFailure(Request request, Exception e) {
-            super.onFailure(request, e);
-            LogUtil.e(TAG, "onFailure====>>>" + e.getMessage());
-            //showToast("数据加载失败");
         }
     }
 

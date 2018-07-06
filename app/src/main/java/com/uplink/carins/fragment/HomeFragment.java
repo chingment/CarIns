@@ -161,7 +161,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         gridviewitems_haoyilian.add(new NineGridItemBean(0, "0", "人才输送", NineGridItemType.Window, "com.uplink.carins.activity.TalentDemandActivity", R.drawable.ic_app_rcss));
         gridviewitems_haoyilian.add(new NineGridItemBean(0, "0", "违章缴罚", NineGridItemType.Window, "com.uplink.carins.activity.LllegalQueryActivity", R.drawable.ic_app_wzcx));
         //gridviewitems_haoyilian.add(new NineGridItemBean(0, "POS贷款", NineGridItemType.Window, "com.uplink.carins.activity.LllegalQueryActivity", R.drawable.ic_app_wzcx));
-        gridviewitems_haoyilian.add(new NineGridItemBean(0, "0", "商城", NineGridItemType.Window, "com.uplink.carins.activity.MallMainActivity", R.drawable.ic_app_wzcx));
+        gridviewitems_haoyilian.add(new NineGridItemBean(0, "0", "商城", NineGridItemType.Window, "com.uplink.carins.activity.MallMainActivity", R.drawable.ic_shopping));
 
         if (thirdPartyApp != null) {
             if (thirdPartyApp.size() > 0) {
