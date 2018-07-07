@@ -29,6 +29,7 @@ import com.uplink.carins.model.api.OrderInfoBean;
 import com.uplink.carins.model.api.Result;
 import com.uplink.carins.ui.city.CitycodeUtil;
 import com.uplink.carins.ui.city.ScrollerNumberPicker;
+import com.uplink.carins.ui.my.MyListView;
 import com.uplink.carins.ui.swipebacklayout.SwipeBackActivity;
 import com.uplink.carins.utils.CommonUtil;
 import com.uplink.carins.utils.LogUtil;
@@ -53,7 +54,7 @@ public class MallOrderConfirmActivity extends SwipeBackActivity implements View.
     private TextView txt_recipientAddress_areaName;
     private EditText txt_recipientAddress_address;
     private TextView txt_recipientAddress_phoneNumber;
-    private ListView list_skus;
+    private MyListView list_skus;
 
     private CartComfirmOrderData cartComfirmOrderData;
 
@@ -78,7 +79,7 @@ public class MallOrderConfirmActivity extends SwipeBackActivity implements View.
         txt_recipientAddress_areaName = (TextView) findViewById(R.id.txt_recipientAddress_areaName);
         txt_recipientAddress_address = (EditText) findViewById(R.id.txt_recipientAddress_address);
         txt_recipientAddress_phoneNumber = (EditText) findViewById(R.id.txt_recipientAddress_phoneNumber);
-        list_skus = (ListView) findViewById(R.id.list_skus);
+        list_skus = (MyListView) findViewById(R.id.list_skus);
     }
 
     private void initData() {
@@ -104,77 +105,77 @@ public class MallOrderConfirmActivity extends SwipeBackActivity implements View.
     @Override
     public void onClick(View v) {
 
-        switch (v.getId()) {
-            case R.id.btn_main_header_goback:
-                finish();
-                break;
-            case R.id.btn_submit:
-                if (!NoDoubleClickUtils.isDoubleClick()) {
+        if (!NoDoubleClickUtils.isDoubleClick()) {
+            switch (v.getId()) {
+                case R.id.btn_main_header_goback:
+                    finish();
+                    break;
+                case R.id.btn_submit:
                     submit();
-                }
-                break;
-            case R.id.txt_recipientAddress_areaName:
+                    break;
+                case R.id.txt_recipientAddress_areaName:
 
-                String txt_areaName = txt_recipientAddress_areaName.getText().toString();
+                    String txt_areaName = txt_recipientAddress_areaName.getText().toString();
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(MallOrderConfirmActivity.this);
-                View view = LayoutInflater.from(MallOrderConfirmActivity.this).inflate(R.layout.dialog_address, null);
-                builder.setView(view);
-                LinearLayout addressdialog_linearlayout = (LinearLayout) view.findViewById(R.id.addressdialog_linearlayout);
-                final ScrollerNumberPicker provincePicker = (ScrollerNumberPicker) view.findViewById(R.id.province);
-                final ScrollerNumberPicker cityPicker = (ScrollerNumberPicker) view.findViewById(R.id.city);
-                final ScrollerNumberPicker counyPicker = (ScrollerNumberPicker) view.findViewById(R.id.couny);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(MallOrderConfirmActivity.this);
+                    View view = LayoutInflater.from(MallOrderConfirmActivity.this).inflate(R.layout.dialog_address, null);
+                    builder.setView(view);
+                    LinearLayout addressdialog_linearlayout = (LinearLayout) view.findViewById(R.id.addressdialog_linearlayout);
+                    final ScrollerNumberPicker provincePicker = (ScrollerNumberPicker) view.findViewById(R.id.province);
+                    final ScrollerNumberPicker cityPicker = (ScrollerNumberPicker) view.findViewById(R.id.city);
+                    final ScrollerNumberPicker counyPicker = (ScrollerNumberPicker) view.findViewById(R.id.couny);
 
-                String[] arr_AreaName = txt_areaName.split("-");
+                    String[] arr_AreaName = txt_areaName.split("-");
 
-                if (arr_AreaName.length == 1) {
-                    provincePicker.setDefaultByName(arr_AreaName[0]);
-                }
-
-                if (arr_AreaName.length == 2) {
-                    provincePicker.setDefaultByName(arr_AreaName[0]);
-                    cityPicker.setDefaultByName(arr_AreaName[1]);
-                }
-
-                if (arr_AreaName.length == 3) {
-                    provincePicker.setDefaultByName(arr_AreaName[0]);
-                    cityPicker.setDefaultByName(arr_AreaName[1]);
-                    counyPicker.setDefaultByName(arr_AreaName[2]);
-                }
-
-
-                final AlertDialog dialog = builder.show();
-                addressdialog_linearlayout.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                        String areaName = "";
-
-                        if (!StringUtil.isEmptyNotNull(provincePicker.getSelectedText())) {
-                            areaName = provincePicker.getSelectedText();
-                        }
-
-                        if (!StringUtil.isEmptyNotNull(cityPicker.getSelectedText())) {
-                            areaName += "-" + cityPicker.getSelectedText();
-                        }
-
-                        if (!StringUtil.isEmptyNotNull(counyPicker.getSelectedText())) {
-                            areaName += "-" + counyPicker.getSelectedText();
-                        }
-
-                        txt_recipientAddress_areaName.setText(areaName);
-
-                        String areaCode = CitycodeUtil.getSingleton().getCouny_list_code().get(counyPicker.getSelected());
-
-                        txt_recipientAddress_areaName.setTag(areaCode);
-
-                        dialog.dismiss();
-
+                    if (arr_AreaName.length == 1) {
+                        provincePicker.setDefaultByName(arr_AreaName[0]);
                     }
-                });
+
+                    if (arr_AreaName.length == 2) {
+                        provincePicker.setDefaultByName(arr_AreaName[0]);
+                        cityPicker.setDefaultByName(arr_AreaName[1]);
+                    }
+
+                    if (arr_AreaName.length == 3) {
+                        provincePicker.setDefaultByName(arr_AreaName[0]);
+                        cityPicker.setDefaultByName(arr_AreaName[1]);
+                        counyPicker.setDefaultByName(arr_AreaName[2]);
+                    }
 
 
-                break;
+                    final AlertDialog dialog = builder.show();
+                    addressdialog_linearlayout.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+                            String areaName = "";
+
+                            if (!StringUtil.isEmptyNotNull(provincePicker.getSelectedText())) {
+                                areaName = provincePicker.getSelectedText();
+                            }
+
+                            if (!StringUtil.isEmptyNotNull(cityPicker.getSelectedText())) {
+                                areaName += "-" + cityPicker.getSelectedText();
+                            }
+
+                            if (!StringUtil.isEmptyNotNull(counyPicker.getSelectedText())) {
+                                areaName += "-" + counyPicker.getSelectedText();
+                            }
+
+                            txt_recipientAddress_areaName.setText(areaName);
+
+                            String areaCode = CitycodeUtil.getSingleton().getCouny_list_code().get(counyPicker.getSelected());
+
+                            txt_recipientAddress_areaName.setTag(areaCode);
+
+                            dialog.dismiss();
+
+                        }
+                    });
+
+
+                    break;
+            }
         }
     }
 
@@ -185,6 +186,28 @@ public class MallOrderConfirmActivity extends SwipeBackActivity implements View.
         String recipient_areaCode = txt_recipientAddress_areaName.getTag().toString();
         String recipient_phoneNumber = txt_recipientAddress_phoneNumber.getText().toString();
         String recipient_address = txt_recipientAddress_address.getText().toString();
+
+
+        if (StringUtil.isEmptyNotNull(recipient)) {
+            showToast("请输入收件人姓名");
+            return;
+        }
+
+        if (StringUtil.isEmptyNotNull(recipient_phoneNumber)) {
+            showToast("请输入联系电话");
+            return;
+        }
+
+        if (StringUtil.isEmptyNotNull(recipient_areaCode)) {
+            showToast("请选择地区");
+            return;
+        }
+
+        if (StringUtil.isEmptyNotNull(recipient_address)) {
+            showToast("请输入详细地址");
+            return;
+        }
+
 
         Map<String, Object> params = new HashMap<>();
         params.put("userId", this.getAppContext().getUser().getId());

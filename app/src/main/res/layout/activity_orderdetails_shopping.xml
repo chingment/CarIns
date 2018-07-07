@@ -55,6 +55,7 @@
             android:background="@color/white"
             android:orientation="vertical">
 
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="8dp"
@@ -85,6 +86,7 @@
                     android:textColor="@color/main_header_title"
                     android:textSize="@dimen/text_size_12" />
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -237,6 +239,48 @@
                 </LinearLayout>
 
             </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="8dp"
+                android:background="@color/default_bg" />
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:gravity="left|center_vertical"
+                android:orientation="horizontal"
+                android:paddingBottom="10dp"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:paddingTop="10dp">
+
+                <View
+                    android:layout_width="5dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/gradient_box" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal|center"
+                    android:text="商品信息"
+                    android:textColor="@color/main_header_title"
+                    android:textSize="@dimen/text_size_12" />
+            </LinearLayout>
+
+            <com.uplink.carins.ui.my.MyListView
+                android:id="@+id/list_skus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:divider="@null"
+                android:scrollbars="none"
+
+                />
+
 
             <View
                 android:layout_width="match_parent"
@@ -445,48 +489,13 @@
                 android:background="@color/default_bg" />
 
 
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:gravity="left|center_vertical"
-                android:orientation="horizontal"
-                android:paddingBottom="10dp"
-                android:paddingLeft="5dp"
-                android:paddingRight="5dp"
-                android:paddingTop="10dp">
-
-                <View
-                    android:layout_width="5dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginEnd="10dp"
-                    android:layout_marginRight="10dp"
-                    android:background="@drawable/gradient_box" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_horizontal|center"
-                    android:text="商品信息"
-                    android:textColor="@color/main_header_title"
-                    android:textSize="@dimen/text_size_12" />
-            </LinearLayout>
-
-            <ListView
-                android:id="@+id/list_skus"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:divider="@null"
-                android:scrollbars="none"
-
-                />
 
 
         </LinearLayout>
     </com.uplink.carins.ui.my.MyScrollView>
 
     <Button
-        android:id="@+id/btn_pay"
+        android:id="@+id/btn_gopay"
         android:layout_width="match_parent"
         android:layout_height="42dp"
         android:layout_alignParentBottom="true"
@@ -499,5 +508,23 @@
         android:text="支付"
         android:textColor="@color/white"
         android:textSize="@dimen/text_size_14"
+        android:visibility="gone"
+        />
+
+    <Button
+        android:id="@+id/btn_printer"
+        android:layout_width="match_parent"
+        android:layout_height="42dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="12dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/widget_common_btn"
+        android:text="打印小票"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size_14"
+        android:visibility="gone"
         />
 </LinearLayout>

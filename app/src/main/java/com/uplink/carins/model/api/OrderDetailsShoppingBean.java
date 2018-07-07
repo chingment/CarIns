@@ -105,9 +105,19 @@ public class OrderDetailsShoppingBean {
     private String completeTime;
     private String cancleTime;
     private String payTime;
+
+    public PrintDataBean getPrintData() {
+        return printData;
+    }
+
+    public void setPrintData(PrintDataBean printData) {
+        this.printData = printData;
+    }
+
     private String remarks;
     private int followStatus;
     private String price;
+    private PrintDataBean printData;
 
     public RecipientAddressBean getRecipientAddress() {
         return recipientAddress;

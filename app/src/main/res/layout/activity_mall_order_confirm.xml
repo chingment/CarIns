@@ -155,7 +155,7 @@
                     android:layout_width="80dp"
                     android:layout_height="match_parent"
                     android:gravity="center_vertical|left"
-                    android:text="收件地址"
+                    android:text="详细地址"
                     android:textColor="@color/text_333"
                     android:textSize="@dimen/text_size_12" />
 
@@ -211,7 +211,7 @@
                 android:textSize="@dimen/text_size_12" />
         </LinearLayout>
 
-        <ListView
+        <com.uplink.carins.ui.my.MyListView
             android:id="@+id/list_skus"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

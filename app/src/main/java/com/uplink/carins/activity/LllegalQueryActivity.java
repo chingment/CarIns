@@ -39,6 +39,7 @@ import com.uplink.carins.ui.my.MyGridView;
 import com.uplink.carins.ui.swipebacklayout.SwipeBackActivity;
 import com.uplink.carins.utils.CarKeyboardUtil;
 import com.uplink.carins.utils.LogUtil;
+import com.uplink.carins.utils.NoDoubleClickUtils;
 import com.uplink.carins.utils.StringUtil;
 
 import java.util.ArrayList;
@@ -287,25 +288,27 @@ public class LllegalQueryActivity extends SwipeBackActivity implements View.OnCl
     @Override
     public void onClick(View v) {
 
-        switch (v.getId()) {
-            case R.id.btn_main_header_goback:
-                finish();
-                break;
-            case R.id.btn_submit_query:
-                submitQuery();
-                break;
-            case R.id.sel_lllegalquery_cartype:
-                showPopupCarTypes(v);
-                break;
-            case R.id.btn_recharge:
-                recharge();
-                break;
-            case R.id.txt_main_header_right:
-                Intent intent = new Intent(this, OrderListActivity.class);
-                intent.putExtra("status", 0);//默认状态为 全部
-                intent.putExtra("productType", OrderType.LllegalDealt);//默认产品类型为 违章处理
-                startActivity(intent);
-                break;
+        if (!NoDoubleClickUtils.isDoubleClick()) {
+            switch (v.getId()) {
+                case R.id.btn_main_header_goback:
+                    finish();
+                    break;
+                case R.id.btn_submit_query:
+                    submitQuery();
+                    break;
+                case R.id.sel_lllegalquery_cartype:
+                    showPopupCarTypes(v);
+                    break;
+                case R.id.btn_recharge:
+                    recharge();
+                    break;
+                case R.id.txt_main_header_right:
+                    Intent intent = new Intent(this, OrderListActivity.class);
+                    intent.putExtra("status", 0);//默认状态为 全部
+                    intent.putExtra("productType", OrderType.LllegalDealt);//默认产品类型为 违章处理
+                    startActivity(intent);
+                    break;
+            }
         }
     }
 
