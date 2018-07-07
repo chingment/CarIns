@@ -12,10 +12,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.uplink.carins.R;
+import com.uplink.carins.activity.CarInsureDocumentActivity;
 import com.uplink.carins.activity.MallCartActivityActivity;
+import com.uplink.carins.activity.OrderListActivity;
 import com.uplink.carins.model.api.CartOperateType;
 import com.uplink.carins.model.api.CartProductSkuBean;
 import com.uplink.carins.ui.BaseFragmentActivity;
+import com.uplink.carins.ui.dialog.CustomConfirmDialog;
 import com.uplink.carins.utils.CommonUtil;
 
 import java.util.ArrayList;
@@ -70,8 +73,8 @@ public class CartProductSkuAdapter extends BaseAdapter {
         TextView txt_name = (TextView) convertView.findViewById(R.id.txt_name);
         TextView txt_unitprice = (TextView) convertView.findViewById(R.id.txt_unitprice);
         TextView txt_quantity = (TextView) convertView.findViewById(R.id.txt_quantity);
-        ImageView btn_decrease = (ImageView) convertView.findViewById(R.id.btn_decrease);
-        ImageView btn_increase = (ImageView) convertView.findViewById(R.id.btn_increase);
+        View btn_decrease = convertView.findViewById(R.id.btn_decrease);
+        View btn_increase = convertView.findViewById(R.id.btn_increase);
 
         if (bean.getSelected()) {
             cb_selected.setChecked(true);
@@ -99,7 +102,14 @@ public class CartProductSkuAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
 
-                MallCartActivityActivity.operate(mContext, CartOperateType.DECREASE, bean.getSkuId());
+                if (bean.getQuantity() == 1) {
+                    showConfirmDialogDelete(bean);
+
+                } else {
+                    MallCartActivityActivity.operate(mContext, CartOperateType.DECREASE, bean.getSkuId());
+                }
+
+
             }
         });
 
@@ -113,6 +123,37 @@ public class CartProductSkuAdapter extends BaseAdapter {
 
 
         return convertView;
+    }
+
+    private CustomConfirmDialog dialog_Delete;
+
+    private void showConfirmDialogDelete(final CartProductSkuBean bean) {
+        if (dialog_Delete == null) {
+
+            dialog_Delete = new CustomConfirmDialog(mContext, "确定移除该商品[" + bean.getName() + "]？", true);
+
+            dialog_Delete.getBtnSure().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    MallCartActivityActivity.operate(mContext, CartOperateType.DELETE, bean.getSkuId());
+
+                    dialog_Delete.dismiss();
+                }
+            });
+
+            dialog_Delete.getBtnCancle().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    dialog_Delete.dismiss();
+                }
+            });
+
+
+        }
+
+        dialog_Delete.show();
     }
 
 }

@@ -25,12 +25,11 @@
 
         />
 
-    <ListView
+    <com.uplink.carins.ui.my.MyListView
         android:id="@+id/list_skus"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/layout_footer"
-        android:divider="@color/dialog_chooselist_dividerline"
+        android:divider="@color/dividerline"
         android:dividerHeight="1px"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"

@@ -275,7 +275,7 @@ public class OrderDetailsShoppingActivity extends SwipeBackActivity implements V
         params.put("userId", this.getAppContext().getUser().getId());
         params.put("merchantId", this.getAppContext().getUser().getMerchantId());
         params.put("posMachineId", this.getAppContext().getUser().getPosMachineId());
-
+        params.put("orderId", orderDetails.getId());
 
         JSONArray jsonObj_Skus = new JSONArray();
 

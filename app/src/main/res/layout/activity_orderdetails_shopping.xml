@@ -274,11 +274,13 @@
 
             <com.uplink.carins.ui.my.MyListView
                 android:id="@+id/list_skus"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:divider="@null"
                 android:scrollbars="none"
-
+                android:divider="@color/dividerline"
+                android:dividerHeight="1px"
                 />
 
 

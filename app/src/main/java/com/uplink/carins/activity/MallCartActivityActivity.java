@@ -25,6 +25,7 @@ import com.uplink.carins.model.api.CartProductSkuByOpreateBean;
 import com.uplink.carins.model.api.CartShoppingDataBean;
 import com.uplink.carins.model.api.Result;
 import com.uplink.carins.ui.BaseFragmentActivity;
+import com.uplink.carins.ui.my.MyListView;
 import com.uplink.carins.ui.swipebacklayout.SwipeBackActivity;
 import com.uplink.carins.utils.LogUtil;
 
@@ -272,7 +273,7 @@ public class MallCartActivityActivity extends SwipeBackActivity implements View.
                 if (ac != null) {
                     TextView txt_countbyselected = (TextView) ac.findViewById(R.id.txt_countbyselected);
                     TextView txt_sumpricebyselected = (TextView) ac.findViewById(R.id.txt_sumpricebyselected);
-                    ListView list_skus = (ListView) ac.findViewById(R.id.list_skus);
+                    MyListView list_skus = (MyListView) ac.findViewById(R.id.list_skus);
                     ImageView data_empty_tip = (ImageView) ac.findViewById(R.id.data_empty_tip);
 
                     if (txt_countbyselected != null) {

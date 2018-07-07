@@ -215,9 +215,11 @@
             android:id="@+id/list_skus"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:divider="@null"
+            android:divider="@color/dividerline"
+            android:dividerHeight="1px"
             android:scrollbars="none"
-
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
             />
     </LinearLayout>
 

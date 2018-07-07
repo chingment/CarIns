@@ -33,9 +33,9 @@
     <LinearLayout
         android:layout_width="80dp"
         android:layout_height="match_parent"
-        android:orientation="horizontal"
         android:layout_gravity="center"
         android:gravity="center"
+        android:orientation="horizontal"
         tools:ignore="UselessParent">
 
         <ImageView
@@ -75,21 +75,20 @@
     <LinearLayout
         android:layout_width="50dp"
         android:layout_height="match_parent"
-        android:orientation="horizontal"
-        tools:ignore="UselessParent"
         android:layout_gravity="center_vertical"
-        >
+        android:orientation="horizontal"
+        tools:ignore="UselessParent">
 
         <TextView
-            android:layout_gravity="center_vertical"
-            android:gravity="center_horizontal"
             android:id="@+id/txt_unitprice"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:layout_marginBottom="8dp"
             android:layout_marginTop="8dp"
             android:layout_weight="1"
             android:ellipsize="end"
+            android:gravity="center_horizontal"
             android:maxLines="1"
             android:text="99.00"
             android:textColor="#333333"
@@ -100,44 +99,76 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_vertical"
         android:baselineAligned="false"
         android:gravity="right"
-        android:layout_gravity="center_vertical"
         android:orientation="horizontal"
-
 
         >
 
-
-        <ImageView
+        <LinearLayout
             android:id="@+id/btn_decrease"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:background="@null"
-            android:src="@drawable/ic_cart_decrease"
-            android:contentDescription="@string/image_content_description" />
-
-        <TextView
-            android:id="@+id/txt_quantity"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:width="25dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:baselineAligned="false"
             android:gravity="center"
-            android:text="1"
-            android:textColor="#333333"
-            android:textSize="@dimen/text_size_9" />
+            >
 
-        <ImageView
-            android:src="@drawable/ic_cart_increase"
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:background="@null"
+                android:contentDescription="@string/image_content_description"
+                android:gravity="center"
+                android:src="@drawable/ic_cart_decrease" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:baselineAligned="false"
+            android:gravity="center"
+            >
+
+            <TextView
+                android:id="@+id/txt_quantity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:width="25dp"
+                android:gravity="center"
+                android:text="1"
+                android:textColor="#333333"
+                android:textSize="@dimen/text_size_9" />
+        </LinearLayout>
+
+
+        <LinearLayout
             android:id="@+id/btn_increase"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:background="@null"
-            android:contentDescription="@string/image_content_description"
-            android:scaleType="fitXY" />
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:baselineAligned="false"
+            android:gravity="center"
+            >
 
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:background="@null"
+                android:contentDescription="@string/image_content_description"
+                android:gravity="center"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_cart_increase" />
+
+        </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>

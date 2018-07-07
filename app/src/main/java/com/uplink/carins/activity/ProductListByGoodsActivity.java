@@ -89,15 +89,11 @@ public class ProductListByGoodsActivity extends SwipeBackActivity implements Vie
         list_refresh = (SuperRefreshLayout) findViewById(R.id.list_refresh);
         list_data = (RecyclerView) findViewById(R.id.list_data);
         data_empty_tip = (View) findViewById(R.id.data_empty_tip);
-        ;
     }
 
 
     private void initEvent() {
         btnHeaderGoBack.setOnClickListener(this);
-
-        //list_data.setLayoutManager(new LinearLayoutManager(this));
-        //list_data.addItemDecoration(new ItemDivider().setDividerWith(16).setDividerColor(getResources().getColor(R.color.default_bg)));
 
         list_data.setLayoutManager(new GridLayoutManager(getAppContext(), 2));
 
@@ -154,8 +150,6 @@ public class ProductListByGoodsActivity extends SwipeBackActivity implements Vie
                     List<ProductSkuBean> list = rt.getData();
 
                     if (list != null && list.size() > 0) {
-                         list_refresh.setVisibility(View.VISIBLE);
-                         data_empty_tip.setVisibility(View.GONE);
                         if (list_pageIndex == 0) {
                             list_refresh.setRefreshing(false);
                             list_refresh.loadComplete(true);
@@ -164,14 +158,20 @@ public class ProductListByGoodsActivity extends SwipeBackActivity implements Vie
                             list_refresh.loadComplete(true);
                             list_adapter.addData(list, ProductListByGoodsActivity.this);
                         }
+                        list_refresh.setVisibility(View.VISIBLE);
+                        data_empty_tip.setVisibility(View.GONE);
                     } else {
-                        list_refresh.setVisibility(View.GONE);
-                        data_empty_tip.setVisibility(View.VISIBLE);
                         if (list_pageIndex == 0) {
                             list_refresh.setRefreshing(false);
                             list_adapter.setData(new ArrayList<ProductSkuBean>(), ProductListByGoodsActivity.this);
+
+                            list_refresh.setVisibility(View.GONE);
+                            data_empty_tip.setVisibility(View.VISIBLE);
                         }
+
                         list_refresh.loadComplete(false);
+
+
                     }
 
 
