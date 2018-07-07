@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -272,6 +273,8 @@ public class MallCartActivityActivity extends SwipeBackActivity implements View.
                     TextView txt_countbyselected = (TextView) ac.findViewById(R.id.txt_countbyselected);
                     TextView txt_sumpricebyselected = (TextView) ac.findViewById(R.id.txt_sumpricebyselected);
                     ListView list_skus = (ListView) ac.findViewById(R.id.list_skus);
+                    ImageView data_empty_tip = (ImageView) ac.findViewById(R.id.data_empty_tip);
+
                     if (txt_countbyselected != null) {
                         txt_countbyselected.setText(bean.getCountBySelected() + "");
                     }
@@ -281,6 +284,16 @@ public class MallCartActivityActivity extends SwipeBackActivity implements View.
                     }
 
                     if (list_skus != null) {
+
+                        if(bean.getSkus()!=null) {
+                            if (bean.getSkus().size() > 0) {
+                                list_skus.setVisibility(View.VISIBLE);
+                                data_empty_tip.setVisibility(View.GONE);
+                            } else {
+                                list_skus.setVisibility(View.GONE);
+                                data_empty_tip.setVisibility(View.VISIBLE);
+                            }
+                        }
 
                         CartProductSkuAdapter productSkuAdapter = new CartProductSkuAdapter(ac, bean.getSkus());
                         list_skus.setAdapter(productSkuAdapter);

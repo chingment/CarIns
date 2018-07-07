@@ -47,7 +47,7 @@ public class ProductListByGoodsActivity extends SwipeBackActivity implements Vie
     private RecyclerView list_data;
     private ProductSkuAdapter list_adapter;
     private int list_pageIndex = 0;
-
+    private View data_empty_tip;
     private ProductChildKindBean productChildKind;
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,8 +88,8 @@ public class ProductListByGoodsActivity extends SwipeBackActivity implements Vie
 
         list_refresh = (SuperRefreshLayout) findViewById(R.id.list_refresh);
         list_data = (RecyclerView) findViewById(R.id.list_data);
-
-;
+        data_empty_tip = (View) findViewById(R.id.data_empty_tip);
+        ;
     }
 
 
@@ -154,22 +154,25 @@ public class ProductListByGoodsActivity extends SwipeBackActivity implements Vie
                     List<ProductSkuBean> list = rt.getData();
 
                     if (list != null && list.size() > 0) {
+                         list_refresh.setVisibility(View.VISIBLE);
+                         data_empty_tip.setVisibility(View.GONE);
                         if (list_pageIndex == 0) {
                             list_refresh.setRefreshing(false);
                             list_refresh.loadComplete(true);
-                            list_adapter.setData(list,ProductListByGoodsActivity.this);
+                            list_adapter.setData(list, ProductListByGoodsActivity.this);
                         } else {
                             list_refresh.loadComplete(true);
-                            list_adapter.addData(list,ProductListByGoodsActivity.this);
+                            list_adapter.addData(list, ProductListByGoodsActivity.this);
                         }
                     } else {
+                        list_refresh.setVisibility(View.GONE);
+                        data_empty_tip.setVisibility(View.VISIBLE);
                         if (list_pageIndex == 0) {
                             list_refresh.setRefreshing(false);
-                            list_adapter.setData(new ArrayList<ProductSkuBean>(),ProductListByGoodsActivity.this);
+                            list_adapter.setData(new ArrayList<ProductSkuBean>(), ProductListByGoodsActivity.this);
                         }
                         list_refresh.loadComplete(false);
                     }
-
 
 
                 }

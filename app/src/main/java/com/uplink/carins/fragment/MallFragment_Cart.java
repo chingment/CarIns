@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
@@ -48,7 +49,6 @@ public class MallFragment_Cart extends BaseFragment {
     private MallMainActivity context;
 
     private LinearLayout btn_buy;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return root = inflater.inflate(R.layout.mallfragment_cart, container, false);

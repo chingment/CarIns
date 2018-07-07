@@ -69,7 +69,7 @@ public class OrderListFragment extends BaseLazyFragment {
     private int status = 0;//订单状态，0：全部，1：已提交，2：跟进中，3：待支付，4：已完成,5:已取消
     private boolean mHasLoadedOnce;//是否已被加载过一次，第二次就不再去请求数据了
     private View view;
-
+    private View data_empty_tip;
     public static OrderListFragment newInstance(int status, int productType) {
         Bundle bundle = new Bundle();
         bundle.putInt("status", status);
@@ -99,7 +99,7 @@ public class OrderListFragment extends BaseLazyFragment {
 
         refresh = (SuperRefreshLayout) view.findViewById(R.id.refresh);
         mylistview = (RecyclerView) view.findViewById(R.id.mylistview);
-
+        data_empty_tip = (View) view.findViewById(R.id.data_empty_tip);
         mylistview.setLayoutManager(new LinearLayoutManager(context));
         mylistview.addItemDecoration(new ItemDivider().setDividerWith(16).setDividerColor(getResources().getColor(R.color.default_bg)));
         adapter = new OrderListAdapter();
@@ -383,7 +383,8 @@ public class OrderListFragment extends BaseLazyFragment {
             }
 
             if (isHasData) {
-
+                refresh.setVisibility(View.VISIBLE);
+                data_empty_tip.setVisibility(View.GONE);
                 if (pageIndex == 0) {
                     refresh.setRefreshing(false);
                     adapter.setData(data);
@@ -403,6 +404,10 @@ public class OrderListFragment extends BaseLazyFragment {
                 if (pageIndex > 0) {
                     refresh.loadComplete(false);
                 } else {
+
+                    refresh.setVisibility(View.GONE);
+                    data_empty_tip.setVisibility(View.VISIBLE);
+
                     adapter.setData(new ArrayList<OrderListBean>());
                     refresh.setRefreshing(false);
                 }
