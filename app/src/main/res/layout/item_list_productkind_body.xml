@@ -2,48 +2,56 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
     android:background="@color/white"
-    >
+    android:orientation="vertical">
 
     <LinearLayout
-        android:id="@+id/banner"
+        android:id="@+id/top"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
 
         >
 
-        <com.uplink.carins.ui.loopviewpager.AutoLoopViewPager
-            android:id="@+id/banner_pager"
+        <LinearLayout
+            android:id="@+id/banner"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="100dp"
+            android:orientation="vertical"
 
-        <com.uplink.carins.ui.viewpagerindicator.CirclePageIndicator
-            android:id="@+id/banner_indicator"
+            >
+
+            <com.uplink.carins.ui.loopviewpager.AutoLoopViewPager
+                android:id="@+id/banner_pager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <com.uplink.carins.ui.viewpagerindicator.CirclePageIndicator
+                android:id="@+id/banner_indicator"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:padding="5dp" />
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:padding="5dp" />
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/txt_name"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginBottom="3dp"
+                android:layout_marginTop="3dp"
+                android:gravity="center"
+                android:text="标题"
+                android:textColor="@color/black" />
+
+        </LinearLayout>
+
     </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:id="@+id/txt_name"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_marginBottom="3dp"
-            android:layout_marginTop="3dp"
-            android:gravity="center"
-            android:text="标题"
-            android:textColor="@color/black" />
-
-    </LinearLayout>
-
 
     <GridView
         android:id="@+id/list_kind_childs"

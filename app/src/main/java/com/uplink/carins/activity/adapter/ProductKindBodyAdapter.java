@@ -8,6 +8,7 @@ import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -70,7 +71,7 @@ public class ProductKindBodyAdapter extends BaseAdapter {
 
 
         ProductKindBean bean = beans.get(position);
-
+        LinearLayout top = (LinearLayout) convertView.findViewById(R.id.top);
 
         AutoLoopViewPager banner_pager = (AutoLoopViewPager) convertView.findViewById(R.id.banner_pager);
         CirclePageIndicator banner_indicator = (CirclePageIndicator) convertView.findViewById(R.id.banner_indicator);
@@ -80,6 +81,11 @@ public class ProductKindBodyAdapter extends BaseAdapter {
         banner_pager.setInterval(5000);
         banner_indicator.setPadding(5, 5, 10, 5);
 
+        if (bean.getBanners() == null) {
+            top.setVisibility(View.GONE);
+        } else if (bean.getBanners().size() == 0) {
+            top.setVisibility(View.GONE);
+        }
 
         BannerAdapter banner_adapter = new BannerAdapter(context, bean.getBanners(), ImageView.ScaleType.CENTER_INSIDE);
         banner_pager.setAdapter(banner_adapter);
