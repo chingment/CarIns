@@ -28,6 +28,7 @@ import com.uplink.carins.model.api.CartProductSkuByOpreateBean;
 import com.uplink.carins.model.api.ProductKindBean;
 import com.uplink.carins.model.api.Result;
 import com.uplink.carins.ui.BaseFragment;
+import com.uplink.carins.ui.BaseFragmentActivity;
 import com.uplink.carins.utils.LogUtil;
 
 import java.util.ArrayList;
@@ -49,15 +50,25 @@ public class MallFragment_Cart extends BaseFragment {
     private MallMainActivity context;
 
     private LinearLayout btn_buy;
+
+    public void setContext(MallMainActivity context) {
+        this.context = context;
+    }
+
+    public MallMainActivity getContext() {
+        return this.context;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return root = inflater.inflate(R.layout.mallfragment_cart, container, false);
     }
 
+
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        context = (MallMainActivity) getActivity();
+        //context = (MallMainActivity) getActivity();
         inflater = LayoutInflater.from(context);
         initView();
         initEvent();

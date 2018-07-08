@@ -111,7 +111,8 @@
         <activity android:name=".activity.ProductDetailsByGoodsActivity" />
         <activity android:name=".activity.MallCartActivityActivity" />
         <activity android:name=".activity.MallOrderConfirmActivity" />
-        <activity android:name=".activity.OrderDetailsShoppingActivity"></activity>
+        <activity android:name=".activity.OrderDetailsShoppingActivity" />
+        <activity android:name=".activity.MallOrderListActivity"></activity>
     </application>
 
 </manifest>

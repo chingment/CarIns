@@ -17,6 +17,7 @@ import android.widget.RelativeLayout;
 import com.uplink.carins.Own.AppContext;
 import com.uplink.carins.Own.AppManager;
 import com.uplink.carins.R;
+import com.uplink.carins.ui.RadioGroupCheckBean;
 
 /**
  * 图片移动的动画效果
@@ -52,18 +53,13 @@ public class AnimationUtil {
         v.startAnimation(anim);
     }
 
-    public static void SetTab1ImageSlide(RadioGroup group,Activity activity) {
+    public static void SetTab1ImageSlide(RadioGroup group, Activity activity) {
 
         if (group == null)
             return;
 
         if (group.getTag() == null)
             return;
-
-       // Activity activity = AppManager.getAppManager().currentActivity();
-
-        //LogUtil.i("tab当前选择getCheckedRadioButtonId:"+group.getCheckedRadioButtonId());
-
 
 
         RadioButton currentCheckedRadio = (RadioButton) activity.findViewById(group.getCheckedRadioButtonId());
@@ -100,6 +96,52 @@ public class AnimationUtil {
         group.setTag(tabCurrentSelectPisition);
 
         //group.check(group.getCheckedRadioButtonId());
+
+    }
+
+
+    public static void SetTab1ImageSlide2(RadioGroup group, Activity activity) {
+
+        if (group == null)
+            return;
+
+        if (group.getTag() == null)
+            return;
+
+
+        RadioButton currentCheckedRadio = (RadioButton) activity.findViewById(group.getCheckedRadioButtonId());
+
+        if (currentCheckedRadio == null) {
+            //LogUtil.i("tab当前选择:null");
+            return;
+        }
+        if (currentCheckedRadio.getTag() == null) {
+            //LogUtil.i("tab当前选择tag:null");
+            return;
+        }
+
+        RadioGroupCheckBean bean = (RadioGroupCheckBean) group.getTag();
+
+        int tabCurrentSelectPisition = bean.getCurrentPosition();
+        int tabLastSelectPisition = bean.getLastPosition();
+
+
+        int currentWidth = currentCheckedRadio.getWidth();
+
+        View v = activity.findViewById(R.id.tab1_bottom_selected);
+
+        RelativeLayout.LayoutParams linearParams = new RelativeLayout.LayoutParams(currentWidth, 2);
+        linearParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+
+        v.setLayoutParams(linearParams); //使设置好的布局参数应用到控件
+
+        TranslateAnimation anim = new TranslateAnimation(tabLastSelectPisition * currentWidth, tabCurrentSelectPisition * currentWidth, 0, 0);
+        anim.setDuration(200);
+        anim.setFillAfter(true);
+        v.startAnimation(anim);
+
+        group.setTag(new RadioGroupCheckBean(tabCurrentSelectPisition, tabCurrentSelectPisition));
+
 
     }
 

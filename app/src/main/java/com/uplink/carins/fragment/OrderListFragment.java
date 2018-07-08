@@ -213,6 +213,7 @@ public class OrderListFragment extends BaseLazyFragment {
     @Override
     public void onResume() {
         super.onResume();
+
         if (!mHasLoadedOnce && context.isFirstLoad && context.currentStatus == status) {
             mHasLoadedOnce = true;
             refresh.setRefreshing(true);
@@ -348,6 +349,7 @@ public class OrderListFragment extends BaseLazyFragment {
 
     @Override
     protected void lazyLoad() {
+
         if (!mHasLoadedOnce && context != null) {
             mHasLoadedOnce = true;
             refresh.setRefreshing(true);

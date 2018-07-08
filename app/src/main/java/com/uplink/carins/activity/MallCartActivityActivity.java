@@ -241,7 +241,7 @@ public class MallCartActivityActivity extends SwipeBackActivity implements View.
 
 
         for (Activity activity : activityStack) {
-            LogUtil.e("activity instanceof" + activity.getLocalClassName());
+
             if (activity instanceof ProductDetailsByGoodsActivity) {
 
                 ProductDetailsByGoodsActivity ac = (ProductDetailsByGoodsActivity) activity;
@@ -270,11 +270,13 @@ public class MallCartActivityActivity extends SwipeBackActivity implements View.
             if (activity instanceof MallMainActivity) {
 
                 MallMainActivity ac = (MallMainActivity) activity;
-                if (ac != null) {
-                    TextView txt_countbyselected = (TextView) ac.findViewById(R.id.txt_countbyselected);
-                    TextView txt_sumpricebyselected = (TextView) ac.findViewById(R.id.txt_sumpricebyselected);
-                    MyListView list_skus = (MyListView) ac.findViewById(R.id.list_skus);
-                    ImageView data_empty_tip = (ImageView) ac.findViewById(R.id.data_empty_tip);
+
+                View mallfragment_cart = ac.findViewById(R.id.mallfragment_cart);
+                if (mallfragment_cart != null) {
+                    TextView txt_countbyselected = (TextView) mallfragment_cart.findViewById(R.id.txt_countbyselected);
+                    TextView txt_sumpricebyselected = (TextView) mallfragment_cart.findViewById(R.id.txt_sumpricebyselected);
+                    MyListView list_skus = (MyListView) mallfragment_cart.findViewById(R.id.list_skus);
+                    ImageView data_empty_tip = (ImageView) mallfragment_cart.findViewById(R.id.data_empty_tip);
 
                     if (txt_countbyselected != null) {
                         txt_countbyselected.setText(bean.getCountBySelected() + "");
@@ -286,7 +288,7 @@ public class MallCartActivityActivity extends SwipeBackActivity implements View.
 
                     if (list_skus != null) {
 
-                        if(bean.getSkus()!=null) {
+                        if (bean.getSkus() != null) {
                             if (bean.getSkus().size() > 0) {
                                 list_skus.setVisibility(View.VISIBLE);
                                 data_empty_tip.setVisibility(View.GONE);

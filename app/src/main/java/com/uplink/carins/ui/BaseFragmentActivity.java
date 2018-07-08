@@ -32,7 +32,7 @@ import com.uplink.carins.activity.MainActivity;
 import com.uplink.carins.activity.PayConfirmActivity;
 import com.uplink.carins.activity.PayQrcodeActivity;
 import com.uplink.carins.activity.adapter.AcountBaseInfoHandler;
-import com.uplink.carins.fragment.HomeFragment;
+import com.uplink.carins.fragment.MainFragment_Home;
 import com.uplink.carins.http.HttpClient;
 import com.uplink.carins.http.HttpResponseHandler;
 import com.uplink.carins.model.api.AcountBaseInfoResultBean;
@@ -97,14 +97,14 @@ public class BaseFragmentActivity extends FragmentActivity {
                                 if (act instanceof MainActivity) {
                                     MainActivity act_main = (MainActivity) act;
                                     if (act_main.getHomeFragment() != null) {
-                                        if (HomeFragment.isNeedUpdateActivity) {
+                                        if (MainFragment_Home.isNeedUpdateActivity) {
                                             LogUtil.i("更新HomeFragment界面");
-                                            HomeFragment homeFragment = act_main.getHomeFragment();
+                                            MainFragment_Home homeFragment = act_main.getHomeFragment();
                                             homeFragment.setBanner(AppCacheManager.getBanner());
                                             homeFragment.setThirdPartyApp(AppCacheManager.getExtendedAppByThirdPartyApp());
                                             homeFragment.setHaoYiLianApp(AppCacheManager.getExtendedAppByHaoYiLianApp());
                                             homeFragment.setServiceTelphone(AppCacheManager.getServiceTelPhone());
-                                            HomeFragment.isNeedUpdateActivity = false;
+                                            homeFragment.isNeedUpdateActivity = false;
                                         }
                                     }
                                 }
@@ -456,7 +456,7 @@ public class BaseFragmentActivity extends FragmentActivity {
                 AppCacheManager.setExtendedApp(bean.getExtendedApp());
                 AppCacheManager.setServiceTelPhone(bean.getServiceTelphone());
 
-                HomeFragment.isNeedUpdateActivity = true;
+                MainFragment_Home.isNeedUpdateActivity = true;
 
 
                 if (bean.getOrderInfo() != null) {

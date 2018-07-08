@@ -13,7 +13,7 @@ import com.uplink.carins.ui.BaseFragment;
  * Created by chingment on 2017/8/23.
  */
 
-public class MyFragment extends BaseFragment implements View.OnClickListener {
+public class MainFragment_My extends BaseFragment implements View.OnClickListener {
 
     private View root;
     private MainActivity context;

@@ -9,6 +9,8 @@
     <include layout="@layout/layout_main_header" />
 
     <LinearLayout
+        android:id="@+id/layout_1"
+        android:layout_below="@+id/layout_header"
         android:layout_width="match_parent"
         android:layout_height="32dp"
         android:background="@color/white"
@@ -45,7 +47,7 @@
     <com.uplink.carins.ui.my.MyScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_below="@+id/layout_header"
+        android:layout_below="@+id/layout_1"
         android:layout_weight="1"
         android:scrollbars="none">
 

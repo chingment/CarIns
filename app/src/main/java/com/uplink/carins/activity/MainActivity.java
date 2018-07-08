@@ -9,8 +9,8 @@ import android.view.KeyEvent;
 import android.widget.*;
 
 import com.uplink.carins.R;
-import com.uplink.carins.fragment.HomeFragment;
-import com.uplink.carins.fragment.MyFragment;
+import com.uplink.carins.fragment.MainFragment_Home;
+import com.uplink.carins.fragment.MainFragment_My;
 import com.uplink.carins.ui.*;
 import com.uplink.carins.utils.LogUtil;
 
@@ -25,7 +25,7 @@ public class MainActivity extends BaseFragmentActivity {
     private FragmentManager fragmentManager;
 
     //Footer Fragment 集合
-    private ArrayList<String> fragmentTags = new ArrayList<>(Arrays.asList("HomeFragment", "MyFragment"));
+    private ArrayList<String> fragmentTags = new ArrayList<>(Arrays.asList("MainFragment_Home", "MainFragment_My"));
 
     private RadioGroup footerRadioGroup;
 
@@ -109,9 +109,9 @@ public class MainActivity extends BaseFragmentActivity {
     }
 
 
-    private HomeFragment homeFragment;
+    private MainFragment_Home homeFragment;
 
-    public HomeFragment getHomeFragment() {
+    public MainFragment_Home getHomeFragment() {
         return homeFragment;
     }
 
@@ -119,10 +119,10 @@ public class MainActivity extends BaseFragmentActivity {
     private Fragment instantFragment(int currIndex) {
         switch (currIndex) {
             case 0:
-                homeFragment = new HomeFragment();
+                homeFragment = new MainFragment_Home();
                 return homeFragment;
             case 1:
-                return new MyFragment();
+                return new MainFragment_My();
             default:
                 return null;
         }

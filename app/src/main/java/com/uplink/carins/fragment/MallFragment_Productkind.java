@@ -45,6 +45,14 @@ public class MallFragment_Productkind extends BaseFragment {
 
     private List<ProductKindBean> productKinds;
 
+    public void setContext(MallMainActivity context) {
+        this.context = context;
+    }
+
+    public MallMainActivity getContext() {
+        return this.context;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return root = inflater.inflate(R.layout.mallfragment_productkind, container, false);
@@ -53,7 +61,6 @@ public class MallFragment_Productkind extends BaseFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        context = (MallMainActivity) getActivity();
         inflater = LayoutInflater.from(context);
         initView();
         initEvent();
@@ -106,7 +113,6 @@ public class MallFragment_Productkind extends BaseFragment {
             @Override
             public void onSuccess(String response) {
                 super.onSuccess(response);
-                LogUtil.i(TAG, "onSuccess====>>>" + response);
 
                 ApiResultBean<List<ProductKindBean>> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<List<ProductKindBean>>>() {
                 });
@@ -115,12 +121,6 @@ public class MallFragment_Productkind extends BaseFragment {
                     productKinds = rt.getData();
                     set_list_kind_name_position(0);
                 }
-            }
-
-            @Override
-            public void onFailure(Request request, Exception e) {
-                super.onFailure(request, e);
-                LogUtil.e(TAG, "onFailure====>>>" + e.getMessage());
             }
         });
     }

@@ -47,9 +47,9 @@ import java.util.List;
  * Created by chingment on 2017/8/23.
  */
 
-public class HomeFragment extends BaseFragment implements View.OnClickListener {
+public class MainFragment_Home extends BaseFragment implements View.OnClickListener {
 
-    private String TAG = "HomeFragment";
+    private String TAG = "MainFragment_Home";
     private View root;
     private MainActivity context;
     private RelativeLayout home_banner;//banner根节点
