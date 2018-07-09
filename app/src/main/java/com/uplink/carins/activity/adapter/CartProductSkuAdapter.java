@@ -86,6 +86,9 @@ public class CartProductSkuAdapter extends BaseAdapter {
         txt_name.setText(bean.getName());
         txt_unitprice.setText(bean.getSumPrice() + "");
         txt_quantity.setText(bean.getQuantity() + "");
+
+        img_main.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+
         CommonUtil.loadImageFromUrl(mContext, img_main, bean.getMainImg());
 
 

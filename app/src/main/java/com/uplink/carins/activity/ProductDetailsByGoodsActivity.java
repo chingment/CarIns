@@ -5,6 +5,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.View;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -131,10 +132,27 @@ public class ProductDetailsByGoodsActivity extends SwipeBackActivity implements 
             detailsDes = bean.getDetailsDesc();
         }
 
-        String html = "<html><head><title></title></head><body>"
+
+        String linkCss = "<style type=\"text/css\"> " +
+                "img {" +
+                "width:100%;" +
+                "height:auto;" +
+                "}" +
+                "body {" +
+                "margin-right:15px;" +
+                "margin-left:15px;" +
+                "margin-top:15px;" +
+                "font-size:45px;" +
+                "}" +
+                "</style>";
+
+
+        String html = "<html><head><title></title>"+linkCss+"</head><body>"
                 + detailsDes
                 + "</body></html>";
 
+        WebSettings settings = webview.getSettings();
+        settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
         webview.loadData(html, "text/html", "uft-8");
     }
 

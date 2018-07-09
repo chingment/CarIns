@@ -202,11 +202,12 @@ public class PayConfirmActivity extends SwipeBackActivity implements View.OnClic
         if (data == null) {
             LogUtil.e("data 数据为空");
         } else {
+            Intent l_Intent;
             LogUtil.e("OrderType" + orderInfo.getOrderType());
             switch (orderInfo.getOrderType()) {
                 case OrderType.ServiceFee:
-                    Intent intent = new Intent(PayConfirmActivity.this, MainActivity.class);
-                    startActivity(intent);
+                    l_Intent = new Intent(PayConfirmActivity.this, MainActivity.class);
+                    startActivity(l_Intent);
                     startMyTask();
                     finish();
                     break;
@@ -216,6 +217,12 @@ public class PayConfirmActivity extends SwipeBackActivity implements View.OnClic
                     break;
                 case OrderType.LllegalDealt:
                     setResult(1, null);
+                    finish();
+                    break;
+                case OrderType.Goods:
+                    l_Intent = new Intent(PayConfirmActivity.this, OrderListActivity.class);
+                    l_Intent.putExtra("status", 4);
+                    startActivity(l_Intent);
                     finish();
                     break;
             }
