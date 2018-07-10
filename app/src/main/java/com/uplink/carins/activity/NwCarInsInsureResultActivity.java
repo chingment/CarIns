@@ -26,6 +26,7 @@ import com.uplink.carins.model.api.NwCarInsPayResultBean;
 import com.uplink.carins.model.api.Result;
 import com.uplink.carins.ui.city.CitycodeUtil;
 import com.uplink.carins.ui.city.ScrollerNumberPicker;
+import com.uplink.carins.ui.dialog.CustomConfirmDialog;
 import com.uplink.carins.ui.swipebacklayout.SwipeBackActivity;
 import com.uplink.carins.utils.CommonUtil;
 import com.uplink.carins.utils.LogUtil;
@@ -56,6 +57,8 @@ public class NwCarInsInsureResultActivity extends SwipeBackActivity implements V
     private NwCarInsCompanyBean offerInfo;
     private NwCarInsInsureResult insureInfo;
 
+    private AlertDialog.Builder area_control_builder;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,6 +68,10 @@ public class NwCarInsInsureResultActivity extends SwipeBackActivity implements V
         initView();
         initEvent();
         initData();
+
+        area_control_builder = new AlertDialog.Builder(NwCarInsInsureResultActivity.this);
+
+
     }
 
     private void initView() {
@@ -85,7 +92,17 @@ public class NwCarInsInsureResultActivity extends SwipeBackActivity implements V
 
         if (!StringUtil.isEmptyNotNull(insureInfo.getReceiptAddress().getAreaName())) {
             sel_area.setText(insureInfo.getReceiptAddress().getAreaName());
+
+        } else {
+            sel_area.setText("选择地区");
         }
+
+        if (!StringUtil.isEmptyNotNull(insureInfo.getReceiptAddress().getAreaId())) {
+            sel_area.setTag(insureInfo.getReceiptAddress().getAreaId());
+        } else {
+            sel_area.setTag("");
+        }
+
         txt_receiptaddress_consignee.setText(insureInfo.getReceiptAddress().getConsignee());
         txt_receiptaddress_mobile.setText(insureInfo.getReceiptAddress().getMobile());
         txt_receiptaddress_address.setText(insureInfo.getReceiptAddress().getAddress());
@@ -118,57 +135,54 @@ public class NwCarInsInsureResultActivity extends SwipeBackActivity implements V
 
                 String txt_areaName = sel_area.getText().toString();
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(NwCarInsInsureResultActivity.this);
-                View view = LayoutInflater.from(NwCarInsInsureResultActivity.this).inflate(R.layout.dialog_address, null);
-                builder.setView(view);
-                LinearLayout addressdialog_linearlayout = (LinearLayout) view.findViewById(R.id.addressdialog_linearlayout);
-                final ScrollerNumberPicker provincePicker = (ScrollerNumberPicker) view.findViewById(R.id.province);
-                final ScrollerNumberPicker cityPicker = (ScrollerNumberPicker) view.findViewById(R.id.city);
-                final ScrollerNumberPicker counyPicker = (ScrollerNumberPicker) view.findViewById(R.id.couny);
-
+                View area_control_builder_view = LayoutInflater.from(NwCarInsInsureResultActivity.this).inflate(R.layout.dialog_address, null);
+                area_control_builder.setView(area_control_builder_view);
+                LinearLayout area_control_linearlayout = (LinearLayout) area_control_builder_view.findViewById(R.id.addressdialog_linearlayout);
+                final ScrollerNumberPicker area_control_provincePicker = (ScrollerNumberPicker) area_control_builder_view.findViewById(R.id.province);
+                final ScrollerNumberPicker area_control_cityPicker = (ScrollerNumberPicker) area_control_builder_view.findViewById(R.id.city);
+                final ScrollerNumberPicker area_control_counyPicker = (ScrollerNumberPicker) area_control_builder_view.findViewById(R.id.couny);
                 String[] arr_AreaName = txt_areaName.split("-");
 
                 if (arr_AreaName.length == 1) {
-                    provincePicker.setDefaultByName(arr_AreaName[0]);
+                    area_control_provincePicker.setDefaultByName(arr_AreaName[0]);
                 }
 
                 if (arr_AreaName.length == 2) {
-                    provincePicker.setDefaultByName(arr_AreaName[0]);
-                    cityPicker.setDefaultByName(arr_AreaName[1]);
+                    area_control_provincePicker.setDefaultByName(arr_AreaName[0]);
+                    area_control_cityPicker.setDefaultByName(arr_AreaName[1]);
                 }
 
                 if (arr_AreaName.length == 3) {
-                    provincePicker.setDefaultByName(arr_AreaName[0]);
-                    cityPicker.setDefaultByName(arr_AreaName[1]);
-                    counyPicker.setDefaultByName(arr_AreaName[2]);
+                    area_control_provincePicker.setDefaultByName(arr_AreaName[0]);
+                    area_control_cityPicker.setDefaultByName(arr_AreaName[1]);
+                    area_control_counyPicker.setDefaultByName(arr_AreaName[2]);
                 }
 
 
-                final AlertDialog dialog = builder.show();
-                addressdialog_linearlayout.setOnClickListener(new View.OnClickListener() {
+                final AlertDialog dialog = area_control_builder.show();
+                area_control_linearlayout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
 
                         String areaName = "";
 
-                        if (!StringUtil.isEmptyNotNull(provincePicker.getSelectedText())) {
-                            areaName = provincePicker.getSelectedText();
+                        if (!StringUtil.isEmptyNotNull(area_control_provincePicker.getSelectedText())) {
+                            areaName = area_control_provincePicker.getSelectedText();
                         }
 
-                        if (!StringUtil.isEmptyNotNull(cityPicker.getSelectedText())) {
-                            areaName += "-" + cityPicker.getSelectedText();
+                        if (!StringUtil.isEmptyNotNull(area_control_cityPicker.getSelectedText())) {
+                            areaName += "-" + area_control_cityPicker.getSelectedText();
                         }
 
-                        if (!StringUtil.isEmptyNotNull(counyPicker.getSelectedText())) {
-                            areaName += "-" + counyPicker.getSelectedText();
+                        if (!StringUtil.isEmptyNotNull(area_control_counyPicker.getSelectedText())) {
+                            areaName += "-" + area_control_counyPicker.getSelectedText();
                         }
 
                         sel_area.setText(areaName);
 
 
-                        String code = CitycodeUtil.getSingleton().getCouny_list_code().get(counyPicker.getSelected());
+                        String code = CitycodeUtil.getSingleton().getCouny_list_code().get(area_control_counyPicker.getSelected());
                         sel_area.setTag(code);
-                        Log.i("kkkk", provincePicker.getSelectedText() + cityPicker.getSelectedText() + counyPicker.getSelectedText());
                         dialog.dismiss();
 
                     }
@@ -178,8 +192,77 @@ public class NwCarInsInsureResultActivity extends SwipeBackActivity implements V
         }
     }
 
+    private CustomConfirmDialog dialog_ConfirmArtificial;
+    int auto = 1;
+
+    private CustomConfirmDialog dialog_ArtificialSuccess;
+
+    private void showArtificialSuccessDialog() {
+        if (dialog_ArtificialSuccess == null) {
+
+            dialog_ArtificialSuccess = new CustomConfirmDialog(NwCarInsInsureResultActivity.this, "支付订单提交成功", false);
+
+            dialog_ArtificialSuccess.getBtnSure().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    dialog_ArtificialSuccess.dismiss();
+
+                    Intent l_Intent = new Intent(NwCarInsInsureResultActivity.this, OrderListActivity.class);
+                    l_Intent.putExtra("status", 1);
+                    startActivity(l_Intent);
+                    finish();
+                }
+            });
+
+            dialog_ArtificialSuccess.getBtnCancle().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    dialog_ArtificialSuccess.dismiss();
+                }
+            });
+
+
+        }
+
+        dialog_ArtificialSuccess.show();
+    }
 
     private void submit() {
+
+        if (auto == 1) {
+            pay("正在支付申请中");
+        } else {
+            if (dialog_ConfirmArtificial == null) {
+
+                dialog_ConfirmArtificial = new CustomConfirmDialog(NwCarInsInsureResultActivity.this, "提交人工申请支付需要等候约10分钟，请注意查看我的订单？", true);
+
+                dialog_ConfirmArtificial.getBtnSure().setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        pay("正在支付申请中");
+
+                        dialog_ConfirmArtificial.dismiss();
+                    }
+                });
+
+                dialog_ConfirmArtificial.getBtnCancle().setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog_ConfirmArtificial.dismiss();
+                    }
+                });
+            }
+
+            dialog_ConfirmArtificial.show();
+        }
+
+
+    }
+
+    private void pay(String loadingmsg) {
 
 
         String receiptaddress_consignee = txt_receiptaddress_consignee.getText().toString();
@@ -246,17 +329,53 @@ public class NwCarInsInsureResultActivity extends SwipeBackActivity implements V
                 ApiResultBean<NwCarInsPayResultBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<NwCarInsPayResultBean>>() {
 
                 });
+                if (auto == 1) {
+                    if (rt.getResult() == Result.SUCCESS) {
 
-                if (rt.getResult() == Result.SUCCESS) {
+                        Intent intent = new Intent(NwCarInsInsureResultActivity.this, NwCarInsPayActivity.class);
+                        Bundle b = new Bundle();
+                        b.putSerializable("payResult", rt.getData());
+                        intent.putExtras(b);
+                        startActivity(intent);
 
-                    Intent intent = new Intent(NwCarInsInsureResultActivity.this, NwCarInsPayActivity.class);
-                    Bundle b = new Bundle();
-                    b.putSerializable("payResult", rt.getData());
-                    intent.putExtras(b);
-                    startActivity(intent);
+                    } else {
+                        if (dialog_ConfirmArtificial == null) {
 
+                            dialog_ConfirmArtificial = new CustomConfirmDialog(NwCarInsInsureResultActivity.this, "核保失败，提交人工核保需要等候约10分钟，请注意查看我的订单？", true);
+
+                            dialog_ConfirmArtificial.getBtnSure().setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    auto = 0;
+                                    pay("正在提交中");
+                                    dialog_ConfirmArtificial.dismiss();
+                                }
+                            });
+
+                            dialog_ConfirmArtificial.getBtnCancle().setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    dialog_ConfirmArtificial.dismiss();
+                                }
+                            });
+                        }
+
+                        dialog_ConfirmArtificial.show();
+                    }
                 } else {
-                    showToast(rt.getMessage());
+
+                    if (rt.getResult() == Result.SUCCESS) {
+
+                        Intent intent = new Intent(NwCarInsInsureResultActivity.this, NwCarInsPayActivity.class);
+                        Bundle b = new Bundle();
+                        b.putSerializable("payResult", rt.getData());
+                        intent.putExtras(b);
+                        startActivity(intent);
+
+                    } else {
+
+                        showToast(rt.getMessage());
+                    }
                 }
             }
         });
