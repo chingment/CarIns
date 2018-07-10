@@ -43,6 +43,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/list_data"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
@@ -55,6 +56,37 @@
             android:scrollbars="none"
 
             />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/data_empty_tip"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:orientation="vertical"
+
+        >
+
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
+            android:layout_marginLeft="32dp"
+            android:layout_marginRight="32dp"
+            android:layout_marginTop="50dp"
+            android:src="@drawable/icon_img_empty" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="暂无数据"
+            android:textSize="11sp" />
+
     </LinearLayout>
 
 </LinearLayout>

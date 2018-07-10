@@ -53,4 +53,14 @@ public class NwReceiptAddressBean implements Serializable {
 
     private String email;
     private String areaId;
+
+    public String getAreaName() {
+        return areaName;
+    }
+
+    public void setAreaName(String areaName) {
+        this.areaName = areaName;
+    }
+
+    private String areaName;
 }

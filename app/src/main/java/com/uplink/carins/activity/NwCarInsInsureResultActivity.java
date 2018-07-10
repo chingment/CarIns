@@ -27,6 +27,7 @@ import com.uplink.carins.model.api.Result;
 import com.uplink.carins.ui.city.CitycodeUtil;
 import com.uplink.carins.ui.city.ScrollerNumberPicker;
 import com.uplink.carins.ui.swipebacklayout.SwipeBackActivity;
+import com.uplink.carins.utils.CommonUtil;
 import com.uplink.carins.utils.LogUtil;
 import com.uplink.carins.utils.NoDoubleClickUtils;
 import com.uplink.carins.utils.StringUtil;
@@ -77,11 +78,14 @@ public class NwCarInsInsureResultActivity extends SwipeBackActivity implements V
         txt_receiptaddress_mobile = (EditText) findViewById(R.id.txt_receiptaddress_mobile);
         txt_receiptaddress_address = (EditText) findViewById(R.id.txt_receiptaddress_address);
         list_item_parent = (ListView) findViewById(R.id.list_item_parent);
-        sel_area= (TextView) findViewById(R.id.sel_area);
+        sel_area = (TextView) findViewById(R.id.sel_area);
     }
 
     private void initData() {
 
+        if (!StringUtil.isEmptyNotNull(insureInfo.getReceiptAddress().getAreaName())) {
+            sel_area.setText(insureInfo.getReceiptAddress().getAreaName());
+        }
         txt_receiptaddress_consignee.setText(insureInfo.getReceiptAddress().getConsignee());
         txt_receiptaddress_mobile.setText(insureInfo.getReceiptAddress().getMobile());
         txt_receiptaddress_address.setText(insureInfo.getReceiptAddress().getAddress());
@@ -112,23 +116,59 @@ public class NwCarInsInsureResultActivity extends SwipeBackActivity implements V
                 break;
             case R.id.sel_area:
 
-                AlertDialog.Builder builder=new AlertDialog.Builder(NwCarInsInsureResultActivity.this);
+                String txt_areaName = sel_area.getText().toString();
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(NwCarInsInsureResultActivity.this);
                 View view = LayoutInflater.from(NwCarInsInsureResultActivity.this).inflate(R.layout.dialog_address, null);
                 builder.setView(view);
-                LinearLayout addressdialog_linearlayout = (LinearLayout)view.findViewById(R.id.addressdialog_linearlayout);
-                final ScrollerNumberPicker provincePicker = (ScrollerNumberPicker)view.findViewById(R.id.province);
-                final ScrollerNumberPicker cityPicker = (ScrollerNumberPicker)view.findViewById(R.id.city);
-                final ScrollerNumberPicker counyPicker = (ScrollerNumberPicker)view.findViewById(R.id.couny);
+                LinearLayout addressdialog_linearlayout = (LinearLayout) view.findViewById(R.id.addressdialog_linearlayout);
+                final ScrollerNumberPicker provincePicker = (ScrollerNumberPicker) view.findViewById(R.id.province);
+                final ScrollerNumberPicker cityPicker = (ScrollerNumberPicker) view.findViewById(R.id.city);
+                final ScrollerNumberPicker counyPicker = (ScrollerNumberPicker) view.findViewById(R.id.couny);
+
+                String[] arr_AreaName = txt_areaName.split("-");
+
+                if (arr_AreaName.length == 1) {
+                    provincePicker.setDefaultByName(arr_AreaName[0]);
+                }
+
+                if (arr_AreaName.length == 2) {
+                    provincePicker.setDefaultByName(arr_AreaName[0]);
+                    cityPicker.setDefaultByName(arr_AreaName[1]);
+                }
+
+                if (arr_AreaName.length == 3) {
+                    provincePicker.setDefaultByName(arr_AreaName[0]);
+                    cityPicker.setDefaultByName(arr_AreaName[1]);
+                    counyPicker.setDefaultByName(arr_AreaName[2]);
+                }
+
+
                 final AlertDialog dialog = builder.show();
                 addressdialog_linearlayout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
 
-                        sel_area.setText(provincePicker.getSelectedText()+cityPicker.getSelectedText()+counyPicker.getSelectedText());
+                        String areaName = "";
+
+                        if (!StringUtil.isEmptyNotNull(provincePicker.getSelectedText())) {
+                            areaName = provincePicker.getSelectedText();
+                        }
+
+                        if (!StringUtil.isEmptyNotNull(cityPicker.getSelectedText())) {
+                            areaName += "-" + cityPicker.getSelectedText();
+                        }
+
+                        if (!StringUtil.isEmptyNotNull(counyPicker.getSelectedText())) {
+                            areaName += "-" + counyPicker.getSelectedText();
+                        }
+
+                        sel_area.setText(areaName);
+
 
                         String code = CitycodeUtil.getSingleton().getCouny_list_code().get(counyPicker.getSelected());
                         sel_area.setTag(code);
-                        Log.i("kkkk",provincePicker.getSelectedText()+cityPicker.getSelectedText()+counyPicker.getSelectedText());
+                        Log.i("kkkk", provincePicker.getSelectedText() + cityPicker.getSelectedText() + counyPicker.getSelectedText());
                         dialog.dismiss();
 
                     }

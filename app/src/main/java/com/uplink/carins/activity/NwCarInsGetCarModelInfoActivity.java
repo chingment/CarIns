@@ -46,6 +46,9 @@ public class NwCarInsGetCarModelInfoActivity extends SwipeBackActivity implement
     private CarInsGetCarModelInfoPmsBean pms;
     private ListView list_models;
 
+    private LinearLayout list_data;
+    private LinearLayout data_empty_tip;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,6 +72,10 @@ public class NwCarInsGetCarModelInfoActivity extends SwipeBackActivity implement
         txt_keyword = (EditText) findViewById(R.id.txt_keyword);
         btn_submit = (Button) findViewById(R.id.btn_submit);
         list_models = (ListView) findViewById(R.id.list_models);
+
+        list_data = (LinearLayout) findViewById(R.id.list_data);
+        data_empty_tip = (LinearLayout) findViewById(R.id.data_empty_tip);
+
     }
 
     private void initEvent() {
@@ -117,11 +124,20 @@ public class NwCarInsGetCarModelInfoActivity extends SwipeBackActivity implement
 
                 if (rt.getResult() == Result.SUCCESS) {
 
+
                     CarModelsItemAdapter itemAdapter = new CarModelsItemAdapter();
-                    if (rt.getData().getModels() != null) {
+                    if (rt.getData().getModels() == null) {
+                        list_data.setVisibility(View.GONE);
+                        data_empty_tip.setVisibility(View.VISIBLE);
+                    } else if (rt.getData().getModels().size() == 0) {
+                        list_data.setVisibility(View.GONE);
+                        data_empty_tip.setVisibility(View.VISIBLE);
+                    } else {
+                        list_data.setVisibility(View.VISIBLE);
+                        data_empty_tip.setVisibility(View.GONE);
                         itemAdapter.setData(rt.getData().getModels());
+                        list_models.setAdapter(itemAdapter);
                     }
-                    list_models.setAdapter(itemAdapter);
                 }
             }
 
