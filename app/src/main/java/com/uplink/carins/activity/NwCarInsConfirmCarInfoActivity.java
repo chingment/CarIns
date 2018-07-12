@@ -70,18 +70,18 @@ public class NwCarInsConfirmCarInfoActivity extends SwipeBackActivity implements
         carInfo = (CarInfoResultBean) getIntent().getSerializableExtra("dataBean");
 
         carInfo.setAuto("1");
-        carInfo.getCar().setLicensePlateNo("粤ANK248");
-        carInfo.getCar().setCarType("1");
-        carInfo.getCar().setBelong("1");
-        carInfo.getCar().setMarketYear("2014");
-        carInfo.getCar().setFirstRegisterDate("2016-05-18");
-        carInfo.getCar().setVin("LGBG22E0X6Y021745");
-        carInfo.getCar().setEngineNo("435087Y");
-        carInfo.getCar().setModelCode("DFL7168VBL2");
-        carInfo.getCar().setModelName("东风日产DFL7168VBL2轿车");
-        carInfo.getCar().setDisplacement("1598");
-        carInfo.getCar().setRatedPassengerCapacity("5");
-        carInfo.getCar().setReplacementValue("119000");
+//        carInfo.getCar().setLicensePlateNo("粤ANK248");
+//        carInfo.getCar().setCarType("1");
+//        carInfo.getCar().setBelong("1");
+//        carInfo.getCar().setMarketYear("2014");
+//        carInfo.getCar().setFirstRegisterDate("2016-05-18");
+//        carInfo.getCar().setVin("LGBG22E0X6Y021745");
+//        carInfo.getCar().setEngineNo("435087Y");
+//        carInfo.getCar().setModelCode("DFL7168VBL2");
+//        carInfo.getCar().setModelName("东风日产DFL7168VBL2轿车");
+//        carInfo.getCar().setDisplacement("1598");
+//        carInfo.getCar().setRatedPassengerCapacity("5");
+//        carInfo.getCar().setReplacementValue("119000");
 
 
         //carInfo.getCar().setLicensePicKey("0a1e00f46402725401641591d84d0059.jpg");
