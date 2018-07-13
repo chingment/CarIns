@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
@@ -323,14 +325,20 @@ public class NwCarInsCompanyActivity extends SwipeBackActivity implements View.O
                 convertView = LayoutInflater.from(NwCarInsCompanyActivity.this).inflate(R.layout.item_company_insoffer, parent, false);
             }
             ImageView item_img = ViewHolder.get(convertView, R.id.item_company_img);
+
+            final ImageView item_loading = ViewHolder.get(convertView, R.id.item_loading_img);
+
             TextView item_name = ViewHolder.get(convertView, R.id.item_company_name);
             TextView item_desc = ViewHolder.get(convertView, R.id.item_company_desc);
             TextView item_offerpremium = ViewHolder.get(convertView, R.id.item_company_offerpremium);
-            TextView item_offermsg = ViewHolder.get(convertView, R.id.item_company_offermsg);
+            final TextView item_offermsg = ViewHolder.get(convertView, R.id.item_company_offermsg);
             TextView item_btnoffer0 = ViewHolder.get(convertView, R.id.item_company_btnoffer0);
+            item_btnoffer0.setTag(convertView);
             item_btnoffer0.setTag(position);
-            TextView item_btnoffer1 = ViewHolder.get(convertView, R.id.item_company_btnoffer1);
+
+            final TextView item_btnoffer1 = ViewHolder.get(convertView, R.id.item_company_btnoffer1);
             item_btnoffer1.setTag(position);
+            item_btnoffer1.setTag(convertView);
 
             LinearLayout item_arrow_right = ViewHolder.get(convertView, R.id.item_layout_arrow_right);
             if (bean.getOfferResult() == 1) {
@@ -340,32 +348,31 @@ public class NwCarInsCompanyActivity extends SwipeBackActivity implements View.O
                 item_btnoffer0.setVisibility(View.GONE);
                 item_btnoffer1.setVisibility(View.GONE);
                 item_offermsg.setVisibility(View.INVISIBLE);
+                item_loading.setVisibility(View.GONE);
+                item_loading.clearAnimation();
             } else if (bean.getOfferResult() == 2) {
                 item_arrow_right.setVisibility(View.INVISIBLE);
                 item_offerpremium.setVisibility(View.GONE);
                 item_btnoffer0.setVisibility(View.VISIBLE);
                 item_btnoffer1.setVisibility(View.GONE);
                 item_offermsg.setVisibility(View.VISIBLE);
+                item_offermsg.setText(bean.getOfferMessage());
+                item_loading.setVisibility(View.GONE);
+                item_loading.clearAnimation();
             }
+
 
             CommonUtil.loadImageFromUrl(NwCarInsCompanyActivity.this, item_img, bean.getImgUrl() + "");
 
             item_name.setText(bean.getName());
             item_desc.setText(bean.getDescp());
 
-            item_btnoffer0.setOnClickListener(autoOfferClickListener);
-            item_btnoffer1.setOnClickListener(autoOfferClickListener);
 
-            return convertView;
-        }
+            final int pos = position;
+            item_btnoffer0.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
-        //下拉选择
-        private TextView.OnClickListener autoOfferClickListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final int position = Integer.parseInt(v.getTag().toString());
-                NwCarInsCompanyBean bean = carInsCompanys.get(position);
-                if (bean.getOfferResult() == 2) {
                     carInfo.setAuto("0");
                     if (dialog_ConfirmArtificial == null) {
 
@@ -375,7 +382,7 @@ public class NwCarInsCompanyActivity extends SwipeBackActivity implements View.O
                             @Override
                             public void onClick(View v) {
 
-                                gefOffer(position, "正在提交中");
+                                gefOffer(pos, true, "正在提交中");
 
                                 dialog_ConfirmArtificial.dismiss();
                             }
@@ -390,14 +397,32 @@ public class NwCarInsCompanyActivity extends SwipeBackActivity implements View.O
                     }
 
                     dialog_ConfirmArtificial.show();
-                } else {
-                    carInfo.setAuto("1");
-                    gefOffer(position, "正在报价中");
-                }
-            }
-        };
 
-        private void gefOffer(final int position, final String loadingmsg) {
+                }
+            });
+
+
+            item_btnoffer1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    Animation m_animation = AnimationUtils.loadAnimation(NwCarInsCompanyActivity.this,
+                            R.anim.dialog_load_animation2);
+                    item_loading.startAnimation(m_animation);
+                    item_loading.setVisibility(View.VISIBLE);
+                    item_btnoffer1.setVisibility(View.GONE);
+                    item_offermsg.setText("报价中，稍等");
+                    item_offermsg.setVisibility(View.VISIBLE);
+                    carInfo.setAuto("1");
+                    gefOffer(pos, false, "正在报价中");
+                }
+            });
+
+
+            return convertView;
+        }
+
+        private void gefOffer(final int position, final boolean isShowLoading, final String loadingmsg) {
 
 
             String data_ci = txt_date_ci.getText().toString();
@@ -447,7 +472,7 @@ public class NwCarInsCompanyActivity extends SwipeBackActivity implements View.O
             params.put("insureKind", json_CarInsKinds);
 
 
-            postWithMy(Config.URL.carInsInsInquiry, params, null, true, loadingmsg, new HttpResponseHandler() {
+            postWithMy(Config.URL.carInsInsInquiry, params, null, isShowLoading, loadingmsg, new HttpResponseHandler() {
 
                 @Override
                 public void onSuccess(String response) {

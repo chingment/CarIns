@@ -97,6 +97,17 @@
                 android:textColor="@color/widget_btn_1_n"
                 android:textSize="@dimen/text_size_12"
                 android:visibility="gone" />
+
+
+            <ImageView
+                android:id="@+id/item_loading_img"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginLeft="15dp"
+                android:src="@drawable/dialog_loading_icon"
+                android:visibility="gone"
+                />
         </LinearLayout>
 
         <TextView
