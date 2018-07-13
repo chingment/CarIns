@@ -19,6 +19,7 @@ import com.uplink.carins.activity.NwCarInsInsureResultActivity;
 import com.uplink.carins.activity.OrderDetailsApplyLossAssessActivity;
 import com.uplink.carins.activity.OrderDetailsCarClaimsActivity;
 import com.uplink.carins.activity.OrderDetailsCarInsrueActivity;
+import com.uplink.carins.activity.OrderDetailsCarInsrueInfoActivity;
 import com.uplink.carins.activity.OrderDetailsCreditActivity;
 import com.uplink.carins.activity.OrderDetailsInsuranceActivity;
 import com.uplink.carins.activity.OrderDetailsLllegalDealtActivity;
@@ -70,6 +71,7 @@ public class OrderListFragment extends BaseLazyFragment {
     private boolean mHasLoadedOnce;//是否已被加载过一次，第二次就不再去请求数据了
     private View view;
     private View data_empty_tip;
+
     public static OrderListFragment newInstance(int status, int productType) {
         Bundle bundle = new Bundle();
         bundle.putInt("status", status);
@@ -335,9 +337,23 @@ public class OrderListFragment extends BaseLazyFragment {
                         }
                         if (rt.getData().getFollowStatus() == 14) {
                             goPay(order.getId());
+                        } else {
+                            if (rt.getData() != null) {
+                                if (rt.getData().getOrderInfo() != null) {
+                                    Intent intent = new Intent(context, OrderDetailsCarInsrueInfoActivity.class);
+                                    Bundle b = new Bundle();
+                                    b.putSerializable("dataBean", rt.getData().getOrderInfo());
+                                    intent.putExtras(b);
+                                    startActivity(intent);
+                                } else {
+                                    showToast(rt.getMessage());
+                                }
+                            } else {
+                                showToast(rt.getMessage());
+                            }
                         }
                     }
-                    
+
                 } else {
                     showToast(rt.getMessage());
                 }

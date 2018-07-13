@@ -60,6 +60,13 @@ public class OrderListAdapter extends RefreshAdapter {
         TextView txt_status_name = (TextView) holder.itemView.findViewById(R.id.item_order_status_name);
         TextView txt_remarks = (TextView) holder.itemView.findViewById(R.id.item_order_remarks);
         ListView list_fields = (ListView) holder.itemView.findViewById(R.id.item_order_fields);
+
+
+        list_fields.setFocusable(false);
+        list_fields.setClickable(false);
+        list_fields.setPressed(false);
+        list_fields.setEnabled(false);
+
         TextView btn_cancle = (TextView) holder.itemView.findViewById(R.id.item_order_btn_cancel);
         TextView btn_details = (TextView) holder.itemView.findViewById(R.id.item_order_btn_details);
 

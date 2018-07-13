@@ -7,8 +7,16 @@ import java.io.Serializable;
  */
 
 public class NwCarInsGetFollowStatusBean implements Serializable {
+    public NwCarInsCompanyBean getOrderInfo() {
+        return orderInfo;
+    }
+
+    public void setOrderInfo(NwCarInsCompanyBean orderInfo) {
+        this.orderInfo = orderInfo;
+    }
 
     private int followStatus;
+    private NwCarInsCompanyBean orderInfo;
 
     public String getPartnerOrderId() {
         return partnerOrderId;
