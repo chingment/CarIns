@@ -11,6 +11,25 @@ public class PayResultQueryResultBean implements Serializable {
     private int orderType;
     private int status;
     private String remarks;
+    private String payTime;
+
+    public String getPayTime() {
+        return payTime;
+    }
+
+    public void setPayTime(String payTime) {
+        this.payTime = payTime;
+    }
+
+    public String getPrice() {
+        return price;
+    }
+
+    public void setPrice(String price) {
+        this.price = price;
+    }
+
+    private String price;
     private PrintDataBean printData;
 
 

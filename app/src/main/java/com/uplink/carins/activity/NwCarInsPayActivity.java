@@ -3,6 +3,7 @@ package com.uplink.carins.activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.KeyEvent;
 import android.view.View;
 import android.webkit.JavascriptInterface;
@@ -16,13 +17,25 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
+import com.uplink.carins.Own.Config;
 import com.uplink.carins.R;
+import com.uplink.carins.http.HttpClient;
+import com.uplink.carins.http.HttpResponseHandler;
+import com.uplink.carins.model.api.ApiResultBean;
 import com.uplink.carins.model.api.NwCarInsPayResultBean;
+import com.uplink.carins.model.api.PayResultQueryResultBean;
+import com.uplink.carins.model.api.Result;
 import com.uplink.carins.ui.dialog.CustomConfirmDialog;
 import com.uplink.carins.ui.swipebacklayout.SwipeBackActivity;
+import com.uplink.carins.utils.CommonUtil;
 import com.uplink.carins.utils.LogUtil;
 import com.uplink.carins.utils.StringUtil;
 import com.uplink.carins.utils.ToastUtil;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class NwCarInsPayActivity extends SwipeBackActivity implements View.OnClickListener {
 
@@ -33,6 +46,8 @@ public class NwCarInsPayActivity extends SwipeBackActivity implements View.OnCli
     private ProgressBar mainProgressBar = null;
 
     private NwCarInsPayResultBean payResult;
+    private Handler handler;
+    private Runnable runnable;
 
     @Override
     public void onPause() {
@@ -163,6 +178,50 @@ public class NwCarInsPayActivity extends SwipeBackActivity implements View.OnCli
         webSettings.setJavaScriptEnabled(true);
 
         mainWebView.loadUrl(url);
+
+
+        handler = new Handler();
+        runnable = new Runnable() {
+            @Override
+            public void run() {
+                LogUtil.i("支付结果查询:" + CommonUtil.getCurrentTime());
+                payQuery();
+                handler.postDelayed(this, 2000);
+            }
+        };
+
+        handler.postDelayed(runnable, 2000);//每两秒执行一次runnable.
+    }
+
+    public void payQuery() {
+
+        Map<String, String> params = new HashMap<>();
+        params.put("userId", this.getAppContext().getUser().getId() + "");
+        params.put("merchantId", this.getAppContext().getUser().getMerchantId() + "");
+        params.put("posMachineId", this.getAppContext().getUser().getPosMachineId() + "");
+        params.put("orderSn", payResult.getOrderSn());
+
+        HttpClient.getWithMy(Config.URL.orderPayResultQuery, params, new HttpResponseHandler() {
+            @Override
+            public void onSuccess(String response) {
+                super.onSuccess(response);
+
+                ApiResultBean<PayResultQueryResultBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<PayResultQueryResultBean>>() {
+                });
+
+                if (rt.getResult() == Result.SUCCESS) {
+
+                    PayResultQueryResultBean d = rt.getData();
+
+                    if (d.getStatus() == 4) {
+                        handler.removeCallbacks(runnable); //关闭定时执行操作
+                        printTicket(d.getPrintData());
+                    }
+                }
+            }
+        });
+
+
     }
 
     private void initEvent() {
