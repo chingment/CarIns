@@ -32,8 +32,6 @@ public class OrderDetailsCarInsrueInfoActivity extends SwipeBackActivity impleme
     String TAG = "OrderDetailsCarInsrueInfoActivity";
     private ImageView btnHeaderGoBack;
     private TextView txtHeaderTitle;
-    private Button btn_submit;
-
     private NwCarInsCompanyBean offerResult;
 
 
@@ -62,18 +60,21 @@ public class OrderDetailsCarInsrueInfoActivity extends SwipeBackActivity impleme
         btnHeaderGoBack.setVisibility(View.VISIBLE);
         txtHeaderTitle = (TextView) findViewById(R.id.txt_main_header_title);
         txtHeaderTitle.setText("订单详情");
-        btn_submit = (Button) findViewById(R.id.btn_submit);
         company_img = (ImageView) findViewById(R.id.company_img);
         company_name = (TextView) findViewById(R.id.company_name);
         company_desc = (TextView) findViewById(R.id.company_desc);
         company_offerpremium = (TextView) findViewById(R.id.company_offerpremium);
         list_offer_parent = (ListView) findViewById(R.id.list_offer_parent);
         layout_company_info = (RelativeLayout) findViewById(R.id.layout_company_info);
+
+        list_offer_parent.setFocusable(false);
+        list_offer_parent.setClickable(false);
+        list_offer_parent.setPressed(false);
+        list_offer_parent.setEnabled(false);
     }
 
     private void initEvent() {
         btnHeaderGoBack.setOnClickListener(this);
-        btn_submit.setOnClickListener(this);
     }
 
     private void initData(NwCarInsCompanyBean bean) {

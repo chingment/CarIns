@@ -73,6 +73,10 @@ public class NwItemParentFieldAdapter extends BaseAdapter {
         NwItemChildFieldAdapter adapter=new NwItemChildFieldAdapter(context,bean.getChild());
 
         item_child.setAdapter(adapter);
+        item_child.setFocusable(false);
+        item_child.setClickable(false);
+        item_child.setPressed(false);
+        item_child.setEnabled(false);
 
         CommonUtil.setListViewHeightBasedOnChildren(item_child);
 

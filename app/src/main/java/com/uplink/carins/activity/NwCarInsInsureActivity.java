@@ -466,7 +466,7 @@ public class NwCarInsInsureActivity extends ChoicePhotoAndCropAndSwipeBackActivi
         switch (choice_index) {
             case choice_index_carowner_xingshizheng:
                 path_carowner_xingshizheng = photo_path;
-                img_carowner_xingshizheng .setVisibility(View.GONE);
+                img_carowner_xingshizheng.setVisibility(View.GONE);
                 layout_carowner_xingshizheng_select.setVisibility(View.GONE);
                 img_carowner_xingshizheng_loading.setVisibility(View.VISIBLE);
                 img_carowner_xingshizheng_loading.startAnimation(m_animation);
@@ -550,10 +550,13 @@ public class NwCarInsInsureActivity extends ChoicePhotoAndCropAndSwipeBackActivi
                             ApiResultBean<NwUploadResultByLicenseBean> xingshizheng = JSON.parseObject(response, new TypeReference<ApiResultBean<NwUploadResultByLicenseBean>>() {
                             });
 
-                            imgKey_carowner_xingshizheng = xingshizheng.getData().getKey();
-                            imgUrl_carowner_xingshizheng = xingshizheng.getData().getUrl();
-
-                            onLoad(img_carowner_xingshizheng, path_carowner_xingshizheng);
+                            if (xingshizheng.getData().getKey() == null) {
+                                failureDealt(choice_index);
+                            } else {
+                                imgKey_carowner_xingshizheng = xingshizheng.getData().getKey();
+                                imgUrl_carowner_xingshizheng = xingshizheng.getData().getUrl();
+                                onLoad(img_carowner_xingshizheng, path_carowner_xingshizheng);
+                            }
                             break;
                         case choice_index_carowner_shenfenzheng_face:
                             ApiResultBean<NwUploadResultByIdentityBean> shenfenzheng_face = JSON.parseObject(response, new TypeReference<ApiResultBean<NwUploadResultByIdentityBean>>() {
@@ -570,7 +573,11 @@ public class NwCarInsInsureActivity extends ChoicePhotoAndCropAndSwipeBackActivi
                             imgKey_carowner_shenfenzheng_face = shenfenzheng_face.getData().getKey();
                             imgUrl_carowner_shenfenzheng_face = shenfenzheng_face.getData().getUrl();
 
-                            onLoad(img_carowner_shenfenzheng_face, path_carowner_shenfenzheng_face);
+                            if (shenfenzheng_face.getData().getKey() == null) {
+                                failureDealt(choice_index);
+                            } else {
+                                onLoad(img_carowner_shenfenzheng_face, path_carowner_shenfenzheng_face);
+                            }
                             break;
                         case choice_index_carowner_shenfenzheng_back:
                             ApiResultBean<NwUploadResultBean> shenfenzheng_back = JSON.parseObject(response, new TypeReference<ApiResultBean<NwUploadResultBean>>() {
@@ -578,32 +585,61 @@ public class NwCarInsInsureActivity extends ChoicePhotoAndCropAndSwipeBackActivi
 
                             imgKey_carowner_shenfenzheng_back = shenfenzheng_back.getData().getKey();
                             imgUrl_carowner_shenfenzheng_back = shenfenzheng_back.getData().getUrl();
-                            onLoad(img_carowner_shenfenzheng_back, path_carowner_shenfenzheng_back);
+
+                            if (shenfenzheng_back.getData().getKey() == null) {
+                                failureDealt(choice_index);
+                            } else {
+                                onLoad(img_carowner_shenfenzheng_back, path_carowner_shenfenzheng_back);
+                            }
                             break;
                     }
 
                 } else {
                     showToast(rt.getMessage());
 
-//                    switch (choice_index) {
-//                        case choice_index_carowner_xingshizheng:
-//                            imgKey_carowner_xingshizheng = "";
-//                            imgUrl_carowner_xingshizheng = "";
-//                            break;
-//                        case choice_index_carowner_shenfenzheng_face:
-//                            imgKey_carowner_shenfenzheng_face = "";
-//                            imgUrl_carowner_shenfenzheng_face = "";
-//                            break;
-//                        case choice_index_carowner_shenfenzheng_back:
-//                            imgKey_carowner_shenfenzheng_back = "";
-//                            imgUrl_carowner_shenfenzheng_back = "";
-//                            break;
-//                    }
+                    failureDealt(choice_index);
                 }
+            }
 
-
+            @Override
+            public void onFailure(Request request, Exception e) {
+                failureDealt(choice_index);
             }
         });
+    }
+
+
+    private void failureDealt(int choice_index) {
+        switch (choice_index) {
+            case choice_index_carowner_xingshizheng:
+                imgKey_carowner_xingshizheng = "";
+                imgUrl_carowner_xingshizheng = "";
+
+                img_carowner_xingshizheng.setVisibility(View.GONE);
+                layout_carowner_xingshizheng_select.setVisibility(View.VISIBLE);
+                img_carowner_xingshizheng_loading.setVisibility(View.GONE);
+                img_carowner_xingshizheng_loading.clearAnimation();
+
+                break;
+            case choice_index_carowner_shenfenzheng_face:
+                imgKey_carowner_shenfenzheng_face = "";
+                imgUrl_carowner_shenfenzheng_face = "";
+                img_carowner_shenfenzheng_face.setVisibility(View.GONE);
+                layout_carowner_shenfenzheng_face_select.setVisibility(View.VISIBLE);
+                img_carowner_shenfenzheng_face_loading.setVisibility(View.GONE);
+                img_carowner_shenfenzheng_face_loading.clearAnimation();
+
+                break;
+            case choice_index_carowner_shenfenzheng_back:
+                imgKey_carowner_shenfenzheng_back = "";
+                imgUrl_carowner_shenfenzheng_back = "";
+                img_carowner_shenfenzheng_back.setVisibility(View.GONE);
+                layout_carowner_shenfenzheng_back_select.setVisibility(View.VISIBLE);
+                img_carowner_shenfenzheng_back_loading.setVisibility(View.GONE);
+                img_carowner_shenfenzheng_back_loading.clearAnimation();
+
+                break;
+        }
     }
 
     @Override
