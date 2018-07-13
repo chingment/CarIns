@@ -231,33 +231,36 @@ public class NwCarInsInsureResultActivity extends SwipeBackActivity implements V
 
     private void submit() {
 
-        if (auto == 1) {
-            pay("正在支付申请中");
-        } else {
-            if (dialog_ConfirmArtificial == null) {
+        pay("正在支付申请中");
 
-                dialog_ConfirmArtificial = new CustomConfirmDialog(NwCarInsInsureResultActivity.this, "提交人工申请支付需要等候约10分钟，请注意查看我的订单？", true);
 
-                dialog_ConfirmArtificial.getBtnSure().setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                        pay("正在支付申请中");
-
-                        dialog_ConfirmArtificial.dismiss();
-                    }
-                });
-
-                dialog_ConfirmArtificial.getBtnCancle().setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialog_ConfirmArtificial.dismiss();
-                    }
-                });
-            }
-
-            dialog_ConfirmArtificial.show();
-        }
+//        if (auto == 1) {
+//            pay("正在支付申请中");
+//        } else {
+//            if (dialog_ConfirmArtificial == null) {
+//
+//                dialog_ConfirmArtificial = new CustomConfirmDialog(NwCarInsInsureResultActivity.this, "提交人工申请支付需要等候约10分钟，请注意查看我的订单？", true);
+//
+//                dialog_ConfirmArtificial.getBtnSure().setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//
+//                        pay("正在支付申请中");
+//
+//                        dialog_ConfirmArtificial.dismiss();
+//                    }
+//                });
+//
+//                dialog_ConfirmArtificial.getBtnCancle().setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        dialog_ConfirmArtificial.dismiss();
+//                    }
+//                });
+//            }
+//
+//            dialog_ConfirmArtificial.show();
+//        }
 
 
     }
@@ -329,54 +332,68 @@ public class NwCarInsInsureResultActivity extends SwipeBackActivity implements V
                 ApiResultBean<NwCarInsPayResultBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<NwCarInsPayResultBean>>() {
 
                 });
-                if (auto == 1) {
-                    if (rt.getResult() == Result.SUCCESS) {
 
-                        Intent intent = new Intent(NwCarInsInsureResultActivity.this, NwCarInsPayActivity.class);
-                        Bundle b = new Bundle();
-                        b.putSerializable("payResult", rt.getData());
-                        intent.putExtras(b);
-                        startActivity(intent);
+                if (rt.getResult() == Result.SUCCESS) {
+                    Intent intent = new Intent(NwCarInsInsureResultActivity.this, NwCarInsPayActivity.class);
+                    Bundle b = new Bundle();
+                    b.putSerializable("payResult", rt.getData());
+                    intent.putExtras(b);
+                    startActivity(intent);
 
-                    } else {
-                        if (dialog_ConfirmArtificial == null) {
-
-                            dialog_ConfirmArtificial = new CustomConfirmDialog(NwCarInsInsureResultActivity.this, "核保失败，提交人工核保需要等候约10分钟，请注意查看我的订单？", true);
-
-                            dialog_ConfirmArtificial.getBtnSure().setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    auto = 0;
-                                    pay("正在提交中");
-                                    dialog_ConfirmArtificial.dismiss();
-                                }
-                            });
-
-                            dialog_ConfirmArtificial.getBtnCancle().setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    dialog_ConfirmArtificial.dismiss();
-                                }
-                            });
-                        }
-
-                        dialog_ConfirmArtificial.show();
-                    }
                 } else {
 
-                    if (rt.getResult() == Result.SUCCESS) {
-
-                        Intent intent = new Intent(NwCarInsInsureResultActivity.this, NwCarInsPayActivity.class);
-                        Bundle b = new Bundle();
-                        b.putSerializable("payResult", rt.getData());
-                        intent.putExtras(b);
-                        startActivity(intent);
-
-                    } else {
-
-                        showToast(rt.getMessage());
-                    }
+                    showToast(rt.getMessage());
                 }
+
+
+//                if (auto == 1) {
+//                    if (rt.getResult() == Result.SUCCESS) {
+//
+//                        Intent intent = new Intent(NwCarInsInsureResultActivity.this, NwCarInsPayActivity.class);
+//                        Bundle b = new Bundle();
+//                        b.putSerializable("payResult", rt.getData());
+//                        intent.putExtras(b);
+//                        startActivity(intent);
+//
+//                    } else {
+//                        if (dialog_ConfirmArtificial == null) {
+//
+//                            dialog_ConfirmArtificial = new CustomConfirmDialog(NwCarInsInsureResultActivity.this, "核保失败，提交人工核保需要等候约10分钟，请注意查看我的订单？", true);
+//
+//                            dialog_ConfirmArtificial.getBtnSure().setOnClickListener(new View.OnClickListener() {
+//                                @Override
+//                                public void onClick(View v) {
+//                                    auto = 0;
+//                                    pay("正在提交中");
+//                                    dialog_ConfirmArtificial.dismiss();
+//                                }
+//                            });
+//
+//                            dialog_ConfirmArtificial.getBtnCancle().setOnClickListener(new View.OnClickListener() {
+//                                @Override
+//                                public void onClick(View v) {
+//                                    dialog_ConfirmArtificial.dismiss();
+//                                }
+//                            });
+//                        }
+//
+//                        dialog_ConfirmArtificial.show();
+//                    }
+//                } else {
+//
+//                    if (rt.getResult() == Result.SUCCESS) {
+//
+//                        Intent intent = new Intent(NwCarInsInsureResultActivity.this, NwCarInsPayActivity.class);
+//                        Bundle b = new Bundle();
+//                        b.putSerializable("payResult", rt.getData());
+//                        intent.putExtras(b);
+//                        startActivity(intent);
+//
+//                    } else {
+//
+//                        showToast(rt.getMessage());
+//                    }
+//                }
             }
         });
 

@@ -210,6 +210,7 @@
 
 
                         <LinearLayout
+                            android:id="@+id/layout_carowner_shenfenzheng_face_select"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_marginBottom="4dp"
@@ -232,7 +233,17 @@
                                 android:text="选择图片"
                                 android:textColor="@color/uploadimg_selectimg"
                                 android:textSize="@dimen/text_size_11" />
+
                         </LinearLayout>
+
+                        <ImageView
+                            android:id="@+id/img_carowner_shenfenzheng_face_loading"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_centerHorizontal="true"
+                            android:layout_centerVertical="true"
+                            android:src="@drawable/dialog_loading_icon"
+                            />
 
                         <ImageView
                             android:id="@+id/img_carowner_shenfenzheng_face"
@@ -291,6 +302,7 @@
 
 
                         <LinearLayout
+                            android:id="@+id/layout_carowner_shenfenzheng_back_select"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_marginBottom="4dp"
@@ -314,6 +326,16 @@
                                 android:textColor="@color/uploadimg_selectimg"
                                 android:textSize="@dimen/text_size_11" />
                         </LinearLayout>
+
+                        <ImageView
+                            android:id="@+id/img_carowner_shenfenzheng_back_loading"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_centerHorizontal="true"
+                            android:layout_centerVertical="true"
+                            android:src="@drawable/dialog_loading_icon"
+                            android:visibility="gone"
+                            />
 
                         <ImageView
                             android:id="@+id/img_carowner_shenfenzheng_back"
@@ -374,6 +396,7 @@
 
 
                         <LinearLayout
+                            android:id="@+id/layout_carowner_xingshizheng_select"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_marginBottom="4dp"
@@ -397,6 +420,16 @@
                                 android:textColor="@color/uploadimg_selectimg"
                                 android:textSize="@dimen/text_size_11" />
                         </LinearLayout>
+
+                        <ImageView
+                            android:id="@+id/img_carowner_xingshizheng_loading"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_centerHorizontal="true"
+                            android:layout_centerVertical="true"
+                            android:src="@drawable/dialog_loading_icon"
+                            android:visibility="gone"
+                            />
 
                         <ImageView
                             android:id="@+id/img_carowner_xingshizheng"

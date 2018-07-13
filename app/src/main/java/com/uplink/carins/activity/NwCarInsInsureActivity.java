@@ -7,6 +7,8 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.NavUtils;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -75,15 +77,21 @@ public class NwCarInsInsureActivity extends ChoicePhotoAndCropAndSwipeBackActivi
     private final int choice_index_carowner_shenfenzheng_back = 103;
 
     private LinearLayout layout_carowner_xingshizheng;
+    private LinearLayout layout_carowner_xingshizheng_select;
     private ImageView img_carowner_xingshizheng;
+    private ImageView img_carowner_xingshizheng_loading;
     private String path_carowner_xingshizheng = "";
 
     private LinearLayout layout_carowner_shenfenzheng_face;
+    private LinearLayout layout_carowner_shenfenzheng_face_select;
     private ImageView img_carowner_shenfenzheng_face;
+    private ImageView img_carowner_shenfenzheng_face_loading;
     private String path_carowner_shenfenzheng_face = "";
 
     private LinearLayout layout_carowner_shenfenzheng_back;
+    private LinearLayout layout_carowner_shenfenzheng_back_select;
     private ImageView img_carowner_shenfenzheng_back;
+    private ImageView img_carowner_shenfenzheng_back_loading;
     private String path_carowner_shenfenzheng_back = "";
 
     private NwCarInsBaseInfoBean carInsBaseInfo;
@@ -125,13 +133,19 @@ public class NwCarInsInsureActivity extends ChoicePhotoAndCropAndSwipeBackActivi
 
         // 车辆行驶证
         layout_carowner_xingshizheng = (LinearLayout) findViewById(R.id.layout_carowner_xingshizheng);
+        layout_carowner_xingshizheng_select = (LinearLayout) findViewById(R.id.layout_carowner_xingshizheng_select);
         img_carowner_xingshizheng = (ImageView) findViewById(R.id.img_carowner_xingshizheng);
+        img_carowner_xingshizheng_loading = (ImageView) findViewById(R.id.img_carowner_xingshizheng_loading);
         // 身份证正面
         layout_carowner_shenfenzheng_face = (LinearLayout) findViewById(R.id.layout_carowner_shenfenzheng_face);
+        layout_carowner_shenfenzheng_face_select = (LinearLayout) findViewById(R.id.layout_carowner_shenfenzheng_face_select);
         img_carowner_shenfenzheng_face = (ImageView) findViewById(R.id.img_carowner_shenfenzheng_face);
+        img_carowner_shenfenzheng_face_loading = (ImageView) findViewById(R.id.img_carowner_shenfenzheng_face_loading);
         // 身份证反面
         layout_carowner_shenfenzheng_back = (LinearLayout) findViewById(R.id.layout_carowner_shenfenzheng_back);
+        layout_carowner_shenfenzheng_back_select = (LinearLayout) findViewById(R.id.layout_carowner_shenfenzheng_back_select);
         img_carowner_shenfenzheng_back = (ImageView) findViewById(R.id.img_carowner_shenfenzheng_back);
+        img_carowner_shenfenzheng_back_loading = (ImageView) findViewById(R.id.img_carowner_shenfenzheng_back_loading);
 
     }
 
@@ -411,7 +425,7 @@ public class NwCarInsInsureActivity extends ChoicePhotoAndCropAndSwipeBackActivi
                                 @Override
                                 public void onClick(View v) {
 
-                                    auto=0;
+                                    auto = 0;
                                     insure("正在提交中");
 
                                     dialog_ConfirmArtificial.dismiss();
@@ -445,20 +459,34 @@ public class NwCarInsInsureActivity extends ChoicePhotoAndCropAndSwipeBackActivi
 
     @Override
     public void OnCropSuccess(String photo_path) {
+
+        Animation m_animation = AnimationUtils.loadAnimation(NwCarInsInsureActivity.this,
+                R.anim.dialog_load_animation2);
+
         switch (choice_index) {
             case choice_index_carowner_xingshizheng:
                 path_carowner_xingshizheng = photo_path;
-                img_carowner_xingshizheng.setVisibility(View.VISIBLE);
+                img_carowner_xingshizheng .setVisibility(View.GONE);
+                layout_carowner_xingshizheng_select.setVisibility(View.GONE);
+                img_carowner_xingshizheng_loading.setVisibility(View.VISIBLE);
+                img_carowner_xingshizheng_loading.startAnimation(m_animation);
                 loadImageHandler.sendEmptyMessage(choice_index_carowner_xingshizheng);
                 break;
             case choice_index_carowner_shenfenzheng_face:
                 path_carowner_shenfenzheng_face = photo_path;
-                img_carowner_shenfenzheng_face.setVisibility(View.VISIBLE);
+                img_carowner_shenfenzheng_face.setVisibility(View.GONE);
+                layout_carowner_shenfenzheng_face_select.setVisibility(View.GONE);
+                img_carowner_shenfenzheng_face_loading.setVisibility(View.VISIBLE);
+                img_carowner_shenfenzheng_face_loading.startAnimation(m_animation);
                 loadImageHandler.sendEmptyMessage(choice_index_carowner_shenfenzheng_face);
                 break;
             case choice_index_carowner_shenfenzheng_back:
                 path_carowner_shenfenzheng_back = photo_path;
-                img_carowner_shenfenzheng_back.setVisibility(View.VISIBLE);
+                img_carowner_shenfenzheng_face_loading.setVisibility(View.VISIBLE);
+                img_carowner_shenfenzheng_back.setVisibility(View.GONE);
+                layout_carowner_shenfenzheng_back_select.setVisibility(View.GONE);
+                img_carowner_shenfenzheng_back_loading.setVisibility(View.VISIBLE);
+                img_carowner_shenfenzheng_back_loading.startAnimation(m_animation);
                 loadImageHandler.sendEmptyMessage(choice_index_carowner_shenfenzheng_back);
                 break;
         }
@@ -489,6 +517,7 @@ public class NwCarInsInsureActivity extends ChoicePhotoAndCropAndSwipeBackActivi
         try {
             Bitmap bm = BitmapUtil.decodeSampledBitmapFromFd(imgPath, dip2px(150), dip2px(100));
             iv.setImageBitmap(bm);
+            iv.setVisibility(View.VISIBLE);
         } catch (Exception e) {
 
         }
@@ -504,7 +533,7 @@ public class NwCarInsInsureActivity extends ChoicePhotoAndCropAndSwipeBackActivi
             files.put("certPic", filePath);
         }
 
-        postWithMy(Config.URL.carInsUploadImg, params, files, true, "正在上传中", new HttpResponseHandler() {
+        postWithMy(Config.URL.carInsUploadImg, params, files, false, "正在上传中", new HttpResponseHandler() {
 
             @Override
             public void onSuccess(String response) {

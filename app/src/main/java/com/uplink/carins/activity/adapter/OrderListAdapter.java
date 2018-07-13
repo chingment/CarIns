@@ -97,7 +97,7 @@ public class OrderListAdapter extends RefreshAdapter {
                 break;
             case 3://待支付
                 if (order_type == OrderType.CarInsure) {
-                    btn_cancle.setVisibility(View.VISIBLE);
+                    //btn_cancle.setVisibility(View.VISIBLE);
                 } else if (order_type == OrderType.CarClaims) {
                 }
                 break;
