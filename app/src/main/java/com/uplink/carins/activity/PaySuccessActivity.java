@@ -15,8 +15,8 @@ public class PaySuccessActivity extends BaseFragmentActivity implements View.OnC
 
     private String TAG = "PaySuccessActivity";
 
-    private Button btn_gopage;
-    private Button btn_details;
+    private TextView btn_gopage;
+    private TextView btn_details;
     private TextView txt_order_sn;
     private TextView txt_order_price;
     private TextView txt_order_paytime;
@@ -34,12 +34,12 @@ public class PaySuccessActivity extends BaseFragmentActivity implements View.OnC
     }
 
     public void initView() {
-        btn_gopage = (Button) findViewById(R.id.btn_gopage);
-        btn_details = (Button) findViewById(R.id.btn_details);
+        btn_gopage = (TextView) findViewById(R.id.btn_gopage);
+        btn_details = (TextView) findViewById(R.id.btn_details);
 
-        txt_order_sn = (TextView) findViewById(R.id.btn_details);
-        txt_order_price = (TextView) findViewById(R.id.btn_details);
-        txt_order_paytime = (TextView) findViewById(R.id.btn_details);
+        txt_order_sn = (TextView) findViewById(R.id.txt_order_sn);
+        txt_order_price = (TextView) findViewById(R.id.txt_order_price);
+        txt_order_paytime = (TextView) findViewById(R.id.txt_order_paytime);
     }
 
     public void initEvent() {

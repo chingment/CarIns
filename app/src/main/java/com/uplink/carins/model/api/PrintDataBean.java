@@ -1,6 +1,9 @@
 package com.uplink.carins.model.api;
 
+import android.content.ClipData;
+
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created by chingment on 2018/3/2.
@@ -13,12 +16,21 @@ public class PrintDataBean implements Serializable {
     private  String productName;
     private  String orderSn;
     private  String tradeType;
+
+    public List<ItemFieldBean> getExtField() {
+        return extField;
+    }
+
+    public void setExtField(List<ItemFieldBean> extField) {
+        this.extField = extField;
+    }
+
     private  String tradeNo;
     private  String tradeDateTime;
     private  String tradePayMethod;
     private  String tradeAmount;
     private  String serviceHotline;
-
+    private  List<ItemFieldBean> extField;
     public String getOrderSn() {
         return orderSn;
     }
@@ -98,5 +110,6 @@ public class PrintDataBean implements Serializable {
     public void setServiceHotline(String serviceHotline) {
         this.serviceHotline = serviceHotline;
     }
+
 
 }

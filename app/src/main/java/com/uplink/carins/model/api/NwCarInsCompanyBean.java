@@ -17,7 +17,7 @@ public class NwCarInsCompanyBean implements Serializable {
     private String partnerCode;
     private int partnerChannelId;
     private int offerId;
-    private float offerSumPremium;
+    private String offerSumPremium;
     private int offerResult;
     private List<NwItemParentFieldBean>  offerInquirys;
     private String offerMessage;
@@ -79,11 +79,11 @@ public class NwCarInsCompanyBean implements Serializable {
         this.offerId = offerId;
     }
 
-    public float getOfferSumPremium() {
+    public String getOfferSumPremium() {
         return offerSumPremium;
     }
 
-    public void setOfferSumPremium(float offerSumPremium) {
+    public void setOfferSumPremium(String offerSumPremium) {
         this.offerSumPremium = offerSumPremium;
     }
 

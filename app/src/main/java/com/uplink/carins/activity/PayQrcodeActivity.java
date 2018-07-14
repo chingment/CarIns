@@ -117,7 +117,7 @@ public class PayQrcodeActivity extends SwipeBackActivity implements View.OnClick
                     //4 为 已完成支付
                     if (d.getStatus() == 4) {
                         handler.removeCallbacks(runnable); //关闭定时执行操作
-                        //printTicket(d.getPrintData());
+                        printTicket(d.getPrintData());
                         Intent intent= new Intent(PayQrcodeActivity.this, PaySuccessActivity.class);
                         Bundle bundle=new Bundle();
                         bundle.putSerializable("dataBean", d);
@@ -128,8 +128,6 @@ public class PayQrcodeActivity extends SwipeBackActivity implements View.OnClick
                 }
             }
         });
-
-
     }
 
     public void initView() {

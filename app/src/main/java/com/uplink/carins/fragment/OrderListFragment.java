@@ -334,8 +334,7 @@ public class OrderListFragment extends BaseLazyFragment {
                     } else {
                         if (rt.getData().getFollowStatus() == 4 || rt.getData().getFollowStatus() == 7 || rt.getData().getFollowStatus() == 9 || rt.getData().getFollowStatus() == 12) {
                             goInsure(order.getId());
-                        }
-                        if (rt.getData().getFollowStatus() == 21) {
+                        } else if (rt.getData().getFollowStatus() == 21) {
                             goPay(order.getId());
                         } else {
                             if (rt.getData() != null) {

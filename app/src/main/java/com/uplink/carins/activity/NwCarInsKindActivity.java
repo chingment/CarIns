@@ -540,8 +540,7 @@ public class NwCarInsKindActivity extends SwipeBackActivity implements View.OnCl
 
                     switch (inputType) {
                         case 1:
-                            txt_input.setVisibility(View.VISIBLE);
-                            txt_input.setOnClickListener(myTextlickListener);
+                            txt_input.setVisibility(View.GONE);
                             break;
                         case 2:
                             txt_input.setVisibility(View.VISIBLE);

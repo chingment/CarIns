@@ -212,10 +212,16 @@ public class NwCarInsPayActivity extends SwipeBackActivity implements View.OnCli
                 if (rt.getResult() == Result.SUCCESS) {
 
                     PayResultQueryResultBean d = rt.getData();
-
+                    //4 为 已完成支付
                     if (d.getStatus() == 4) {
                         handler.removeCallbacks(runnable); //关闭定时执行操作
-                        printTicket(d.getPrintData());
+                        //printTicket(d.getPrintData());
+                        Intent intent = new Intent(NwCarInsPayActivity.this, PaySuccessActivity.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("dataBean", d);
+                        intent.putExtras(bundle);
+                        startActivity(intent);
+                        finish();
                     }
                 }
             }

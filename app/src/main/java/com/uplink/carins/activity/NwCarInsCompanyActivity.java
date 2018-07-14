@@ -257,7 +257,7 @@ public class NwCarInsCompanyActivity extends SwipeBackActivity implements View.O
     private void showSuccessDialog() {
         if (dialog_Success == null) {
 
-            dialog_Success = new CustomConfirmDialog(NwCarInsCompanyActivity.this, "投保订单提交成功", false);
+            dialog_Success = new CustomConfirmDialog(NwCarInsCompanyActivity.this, "报价订单提交成功", false);
 
             dialog_Success.getBtnSure().setOnClickListener(new View.OnClickListener() {
                 @Override

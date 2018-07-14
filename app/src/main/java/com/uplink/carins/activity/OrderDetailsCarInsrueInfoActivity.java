@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -20,6 +21,7 @@ import com.uplink.carins.model.api.ApiResultBean;
 import com.uplink.carins.model.api.NwCarInsBaseInfoBean;
 import com.uplink.carins.model.api.NwCarInsCompanyBean;
 import com.uplink.carins.model.api.Result;
+import com.uplink.carins.ui.my.MyListView;
 import com.uplink.carins.ui.swipebacklayout.SwipeBackActivity;
 import com.uplink.carins.utils.CommonUtil;
 import com.uplink.carins.utils.NoDoubleClickUtils;
@@ -39,8 +41,8 @@ public class OrderDetailsCarInsrueInfoActivity extends SwipeBackActivity impleme
     private TextView company_name;
     private TextView company_desc;
     private TextView company_offerpremium;
-    private ListView list_offer_parent;
-    private RelativeLayout layout_company_info;
+    private MyListView list_offer_parent;
+    private LinearLayout layout_company_info;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,8 +66,8 @@ public class OrderDetailsCarInsrueInfoActivity extends SwipeBackActivity impleme
         company_name = (TextView) findViewById(R.id.company_name);
         company_desc = (TextView) findViewById(R.id.company_desc);
         company_offerpremium = (TextView) findViewById(R.id.company_offerpremium);
-        list_offer_parent = (ListView) findViewById(R.id.list_offer_parent);
-        layout_company_info = (RelativeLayout) findViewById(R.id.layout_company_info);
+        list_offer_parent = (MyListView) findViewById(R.id.list_offer_parent);
+        layout_company_info = (LinearLayout) findViewById(R.id.layout_company_info);
 
         list_offer_parent.setFocusable(false);
         list_offer_parent.setClickable(false);

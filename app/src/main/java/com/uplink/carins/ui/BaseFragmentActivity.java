@@ -38,6 +38,7 @@ import com.uplink.carins.http.HttpResponseHandler;
 import com.uplink.carins.model.api.AcountBaseInfoResultBean;
 import com.uplink.carins.model.api.ApiResultBean;
 import com.uplink.carins.model.api.HomePageBean;
+import com.uplink.carins.model.api.ItemFieldBean;
 import com.uplink.carins.model.api.PrintDataBean;
 import com.uplink.carins.model.api.Result;
 import com.uplink.carins.ui.dialog.CustomDialogLoading;
@@ -519,7 +520,7 @@ public class BaseFragmentActivity extends FragmentActivity {
 
             printItems.add(new PrintItemObj("签购单", PrinterConstant.FontScale.FONTSCALE_DW_H, PrinterConstant.FontType.FONTTYPE_N, PrintItemObj.ALIGN.CENTER, false, 6));
             printItems.add(new PrintItemObj("商户存根/MERCHANT COPY", PrinterConstant.FontScale.FONTSCALE_DW_H, PrinterConstant.FontType.FONTTYPE_N, PrintItemObj.ALIGN.CENTER, false, 6));
-            printItems.add(new PrintItemObj("商户名称:" + data.getMerchantName(),  PrinterConstant.FontScale.FONTSCALE_W_H, PrinterConstant.FontType.FONTTYPE_N, PrintItemObj.ALIGN.LEFT, false, 6));
+            printItems.add(new PrintItemObj("商户名称:" + data.getMerchantName(), PrinterConstant.FontScale.FONTSCALE_W_H, PrinterConstant.FontType.FONTTYPE_N, PrintItemObj.ALIGN.LEFT, false, 6));
             printItems.add(new PrintItemObj("交易类型:" + data.getTradeType(), PrinterConstant.FontScale.FONTSCALE_W_H, PrinterConstant.FontType.FONTTYPE_N, PrintItemObj.ALIGN.LEFT, false, 6));
             printItems.add(new PrintItemObj("商品名称:" + data.getProductName(), PrinterConstant.FontScale.FONTSCALE_W_H, PrinterConstant.FontType.FONTTYPE_N, PrintItemObj.ALIGN.LEFT, false, 6));
             printItems.add(new PrintItemObj("交易单号:" + data.getTradeNo(), PrinterConstant.FontScale.FONTSCALE_W_H, PrinterConstant.FontType.FONTTYPE_N, PrintItemObj.ALIGN.LEFT, false, 6));
@@ -527,6 +528,20 @@ public class BaseFragmentActivity extends FragmentActivity {
             printItems.add(new PrintItemObj("支付方式:" + data.getTradePayMethod(), PrinterConstant.FontScale.FONTSCALE_W_H, PrinterConstant.FontType.FONTTYPE_N, PrintItemObj.ALIGN.LEFT, false, 6));
             printItems.add(new PrintItemObj("日期时间:" + data.getTradeDateTime(), PrinterConstant.FontScale.FONTSCALE_W_H, PrinterConstant.FontType.FONTTYPE_N, PrintItemObj.ALIGN.LEFT, false, 6));
             printItems.add(new PrintItemObj("金 额:RMB " + data.getTradeAmount(), PrinterConstant.FontScale.FONTSCALE_W_H, PrinterConstant.FontType.FONTTYPE_N, PrintItemObj.ALIGN.LEFT, false, 6));
+
+            //扩展字段
+            if (data.getExtField() != null) {
+
+                if (data.getExtField().size() > 0) {
+                    List<ItemFieldBean> fields = data.getExtField();
+                    for (ItemFieldBean field :
+                            fields) {
+                        printItems.add(new PrintItemObj(field.getField() + ":" + field.getValue(), PrinterConstant.FontScale.FONTSCALE_W_H, PrinterConstant.FontType.FONTTYPE_N, PrintItemObj.ALIGN.LEFT, false, 6));
+                    }
+                }
+            }
+
+
             printItems.add(new PrintItemObj("服务热线:" + data.getServiceHotline(), PrinterConstant.FontScale.FONTSCALE_W_H, PrinterConstant.FontType.FONTTYPE_N, PrintItemObj.ALIGN.LEFT, false, 6));
             printItems.add(new PrintItemObj("\r"));
             printItems.add(new PrintItemObj("\r"));
