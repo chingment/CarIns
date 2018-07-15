@@ -63,15 +63,6 @@
                             android:textColor="#333333"
                             android:textSize="16dp" />
                     </LinearLayout>
-
-                    <TextView
-                        android:id="@+id/company_desc"
-                        android:layout_width="match_parent"
-                        android:layout_height="22dp"
-                        android:gravity="left"
-                        android:text=""
-                        android:textColor="@color/gray"
-                        android:textSize="13dp" />
                 </LinearLayout>
 
                 <LinearLayout

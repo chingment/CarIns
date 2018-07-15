@@ -36,10 +36,8 @@ public class OrderDetailsCarInsrueInfoActivity extends SwipeBackActivity impleme
     private TextView txtHeaderTitle;
     private NwCarInsCompanyBean offerResult;
 
-
     private ImageView company_img;
     private TextView company_name;
-    private TextView company_desc;
     private TextView company_offerpremium;
     private MyListView list_offer_parent;
     private LinearLayout layout_company_info;
@@ -64,7 +62,6 @@ public class OrderDetailsCarInsrueInfoActivity extends SwipeBackActivity impleme
         txtHeaderTitle.setText("订单详情");
         company_img = (ImageView) findViewById(R.id.company_img);
         company_name = (TextView) findViewById(R.id.company_name);
-        company_desc = (TextView) findViewById(R.id.company_desc);
         company_offerpremium = (TextView) findViewById(R.id.company_offerpremium);
         list_offer_parent = (MyListView) findViewById(R.id.list_offer_parent);
         layout_company_info = (LinearLayout) findViewById(R.id.layout_company_info);
@@ -89,7 +86,6 @@ public class OrderDetailsCarInsrueInfoActivity extends SwipeBackActivity impleme
 
         CommonUtil.loadImageFromUrl(OrderDetailsCarInsrueInfoActivity.this, company_img, bean.getImgUrl() + "");
         company_name.setText(bean.getName());
-        company_desc.setText(bean.getDescp());
         company_offerpremium.setText(bean.getOfferSumPremium() + "");
 
         NwItemParentFieldAdapter adapter = new NwItemParentFieldAdapter(OrderDetailsCarInsrueInfoActivity.this, bean.getOfferInquirys());
