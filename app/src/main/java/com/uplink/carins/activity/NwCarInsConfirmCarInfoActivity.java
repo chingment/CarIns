@@ -20,6 +20,7 @@ import com.uplink.carins.model.api.CarInsGetCarModelInfoPmsBean;
 import com.uplink.carins.ui.dataPicker.CustomDatePicker;
 import com.uplink.carins.ui.swipebacklayout.SwipeBackActivity;
 import com.uplink.carins.utils.CarKeyboardUtil;
+import com.uplink.carins.utils.LogUtil;
 import com.uplink.carins.utils.StringUtil;
 
 import java.text.SimpleDateFormat;
@@ -86,7 +87,6 @@ public class NwCarInsConfirmCarInfoActivity extends SwipeBackActivity implements
 
         //carInfo.getCar().setLicensePicKey("0a1e00f46402725401641591d84d0059.jpg");
         //carInfo.getCar().setLicensePicUrl("http://file.gzhaoyilian.com/Upload/d1.jpg");
-
 
 
         initView();
@@ -424,6 +424,10 @@ public class NwCarInsConfirmCarInfoActivity extends SwipeBackActivity implements
                 carInfo.setAuto("1");
                 carInfo.getCar().setLicensePlateNo(licensePlateNo);
                 carInfo.getCar().setVin(vin);
+
+
+                LogUtil.e("carInfo.getCar().:" + carInfo.getCar().getModelCode());
+
                 carInfo.getCar().setModelName(modelName);
                 carInfo.getCar().setEngineNo(engineNo);
                 carInfo.getCar().setRatedPassengerCapacity(ratedPassengerCapacity);
@@ -450,7 +454,7 @@ public class NwCarInsConfirmCarInfoActivity extends SwipeBackActivity implements
                 CarInsCarModelInfoBean bean = (CarInsCarModelInfoBean) data.getSerializableExtra("dataBean");
 
 
-                txt_modelName.setText(bean.getModelCode());
+                txt_modelName.setText(bean.getModelName());
 
                 txt_ratedPassengerCapacity.setText(bean.getRatedPassengerCapacity());
 

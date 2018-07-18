@@ -347,7 +347,7 @@ public class NwCarInsCompanyActivity extends SwipeBackActivity implements View.O
                 item_offerpremium.setText(bean.getOfferSumPremium() + "");
                 item_btnoffer0.setVisibility(View.GONE);
                 item_btnoffer1.setVisibility(View.GONE);
-                item_offermsg.setVisibility(View.INVISIBLE);
+                item_offermsg.setVisibility(View.GONE);
                 item_loading.setVisibility(View.GONE);
                 item_loading.clearAnimation();
             } else if (bean.getOfferResult() == 2) {

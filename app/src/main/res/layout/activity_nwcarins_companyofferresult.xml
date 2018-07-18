@@ -119,7 +119,11 @@
             </LinearLayout>
 
 
-            <ListView
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="8dp"
+                android:background="@color/default_bg" />
+            <com.uplink.carins.ui.my.MyListView
                 android:id="@+id/list_offer_parent"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
