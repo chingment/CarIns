@@ -390,6 +390,17 @@ public class NwCarInsCompanyActivity extends SwipeBackActivity implements View.O
                     item_loading.setVisibility(View.GONE);
                     item_loading.clearAnimation();
                     break;
+                case 4://人报价提交成功
+                    item_arrow_right.setVisibility(View.GONE);
+                    item_offerpremium.setVisibility(View.VISIBLE);
+                    item_offerpremium.setText("提交成功");
+                    item_btnoffer0.setVisibility(View.GONE);
+                    item_btnoffer1.setVisibility(View.GONE);
+                    item_offermsg.setVisibility(View.VISIBLE);
+                    item_offermsg.setText("请留意我的订单");
+                    item_loading.setVisibility(View.GONE);
+                    item_loading.clearAnimation();
+                    break;
             }
 
             CommonUtil.loadImageFromUrl(NwCarInsCompanyActivity.this, item_img, bean.getImgUrl() + "");
@@ -401,21 +412,19 @@ public class NwCarInsCompanyActivity extends SwipeBackActivity implements View.O
             item_btnoffer0.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
-                    final int pos = Integer.parseInt(v.getTag().toString());
+                    final int pos1 = Integer.parseInt(v.getTag().toString());
+                    LogUtil.e("gefOffer position:" + pos1);
 
 
                     if (dialog_ConfirmArtificial == null) {
 
                         dialog_ConfirmArtificial = new CustomConfirmDialog(NwCarInsCompanyActivity.this, "提交人工报价需要等候约10分钟，请注意查看我的订单？", true);
 
-
                         dialog_ConfirmArtificial.getBtnSure().setOnClickListener(new View.OnClickListener() {
                             @Override
-                            public void onClick(View v) {
-
-                                gefOffer(pos, 0, true, "正在提交中");
-
+                            public void onClick(View v2) {
+                                int pos2 = Integer.parseInt(v2.getTag().toString());
+                                gefOffer(pos2, 0, true, "正在提交中");
                                 dialog_ConfirmArtificial.dismiss();
                             }
                         });
@@ -427,6 +436,8 @@ public class NwCarInsCompanyActivity extends SwipeBackActivity implements View.O
                             }
                         });
                     }
+
+                    dialog_ConfirmArtificial.getBtnSure().setTag(pos1);
 
                     dialog_ConfirmArtificial.show();
 
@@ -450,10 +461,8 @@ public class NwCarInsCompanyActivity extends SwipeBackActivity implements View.O
 
         private void gefOffer(final int position, final int auto, final boolean isShowLoading, final String loadingmsg) {
 
-
             String data_ci = txt_date_ci.getText().toString();
             String data_bi = txt_date_bi.getText().toString();
-
 
             if (StringUtil.isEmptyNotNull(data_ci)) {
                 showToast("请选择交强险日期");
@@ -517,9 +526,9 @@ public class NwCarInsCompanyActivity extends SwipeBackActivity implements View.O
                             carInsCompanys.get(position).setOfferStatus(3);//3为自动报价失败
                         }
                     } else {
-
                         if (rt.getResult() == Result.SUCCESS) {
-                            showSuccessDialog();
+                            carInsCompanys.get(position).setOfferStatus(4);//2 为人工报价提交成功
+                            //showSuccessDialog();
                         } else {
 
                             showToast(rt.getMessage());
