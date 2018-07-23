@@ -10,6 +10,7 @@ import java.util.List;
 
 public class NwCarInsCompanyBean implements Serializable {
 
+    private String auto ;
     private  int id;
     private String imgUrl;
     private String name;
@@ -18,7 +19,26 @@ public class NwCarInsCompanyBean implements Serializable {
     private int partnerChannelId;
     private int offerId;
     private String offerSumPremium;
-    private int offerResult;
+
+    public String getAuto() {
+        return auto;
+    }
+
+    public void setAuto(String auto) {
+        this.auto = auto;
+    }
+
+    //private int offerResult;
+    private int offerStatus;
+
+    public int getOfferStatus() {
+        return offerStatus;
+    }
+
+    public void setOfferStatus(int offerStatus) {
+        this.offerStatus = offerStatus;
+    }
+
     private List<NwItemParentFieldBean>  offerInquirys;
     private String offerMessage;
 
@@ -87,13 +107,13 @@ public class NwCarInsCompanyBean implements Serializable {
         this.offerSumPremium = offerSumPremium;
     }
 
-    public int getOfferResult() {
-        return offerResult;
-    }
-
-    public void setOfferResult(int offerResult) {
-        this.offerResult = offerResult;
-    }
+//    public int getOfferResult() {
+//        return offerResult;
+//    }
+//
+//    public void setOfferResult(int offerResult) {
+//        this.offerResult = offerResult;
+//    }
 
     public List<NwItemParentFieldBean> getOfferInquirys() {
         return offerInquirys;

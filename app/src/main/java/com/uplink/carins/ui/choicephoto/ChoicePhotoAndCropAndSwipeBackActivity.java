@@ -521,7 +521,9 @@ public abstract class ChoicePhotoAndCropAndSwipeBackActivity extends SwipeBackAc
         String mFileName = System.currentTimeMillis() + ".jpg";
         String path = PHOTO_DIR + File.separator + mFileName;
         try {
-            LogUtil.d("tupandaxiao=" + getBitmapsize(bitmap));
+            LogUtil.e("mFileName=" + mFileName);
+            LogUtil.e("path=" + path);
+            LogUtil.e("tupandaxiao=" + getBitmapsize(bitmap));
             // if (getBitmapsize(bitmap) > ) {
             //
             // }

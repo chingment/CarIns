@@ -180,7 +180,7 @@ public class NwCarInsCompanyActivity extends SwipeBackActivity implements View.O
 
                 NwCarInsCompanyBean bean = insChannels.get(position);
 
-                if (bean.getOfferResult() == 1) {
+                if (bean.getOfferStatus() == 2) {
                     Intent intent = new Intent(NwCarInsCompanyActivity.this, NwCarInsCompanyOfferResultActivity.class);
                     Bundle b = new Bundle();
                     b.putSerializable("offerInfo", bean);
@@ -325,42 +325,72 @@ public class NwCarInsCompanyActivity extends SwipeBackActivity implements View.O
                 convertView = LayoutInflater.from(NwCarInsCompanyActivity.this).inflate(R.layout.item_company_insoffer, parent, false);
             }
             ImageView item_img = ViewHolder.get(convertView, R.id.item_company_img);
-
+            Animation m_animation = AnimationUtils.loadAnimation(NwCarInsCompanyActivity.this,
+                    R.anim.dialog_load_animation2);
             final ImageView item_loading = ViewHolder.get(convertView, R.id.item_loading_img);
 
             TextView item_name = ViewHolder.get(convertView, R.id.item_company_name);
+            TextView item_pos = ViewHolder.get(convertView, R.id.item_company_pos);
+            item_pos.setText(position + "");
+
             TextView item_desc = ViewHolder.get(convertView, R.id.item_company_desc);
             TextView item_offerpremium = ViewHolder.get(convertView, R.id.item_company_offerpremium);
             final TextView item_offermsg = ViewHolder.get(convertView, R.id.item_company_offermsg);
             TextView item_btnoffer0 = ViewHolder.get(convertView, R.id.item_company_btnoffer0);
-            item_btnoffer0.setTag(convertView);
             item_btnoffer0.setTag(position);
-
             final TextView item_btnoffer1 = ViewHolder.get(convertView, R.id.item_company_btnoffer1);
             item_btnoffer1.setTag(position);
-            item_btnoffer1.setTag(convertView);
 
             LinearLayout item_arrow_right = ViewHolder.get(convertView, R.id.item_layout_arrow_right);
-            if (bean.getOfferResult() == 1) {
-                item_arrow_right.setVisibility(View.VISIBLE);
-                item_offerpremium.setVisibility(View.VISIBLE);
-                item_offerpremium.setText(bean.getOfferSumPremium() + "");
-                item_btnoffer0.setVisibility(View.GONE);
-                item_btnoffer1.setVisibility(View.GONE);
-                item_offermsg.setVisibility(View.GONE);
-                item_loading.setVisibility(View.GONE);
-                item_loading.clearAnimation();
-            } else if (bean.getOfferResult() == 2) {
-                item_arrow_right.setVisibility(View.INVISIBLE);
-                item_offerpremium.setVisibility(View.GONE);
-                item_btnoffer0.setVisibility(View.VISIBLE);
-                item_btnoffer1.setVisibility(View.GONE);
-                item_offermsg.setVisibility(View.VISIBLE);
-                item_offermsg.setText(bean.getOfferMessage());
-                item_loading.setVisibility(View.GONE);
-                item_loading.clearAnimation();
-            }
 
+            switch (bean.getOfferStatus()) {
+                case 0://初始
+                    item_arrow_right.setVisibility(View.GONE);
+                    item_offerpremium.setVisibility(View.GONE);
+                    item_offerpremium.setText("");
+                    item_btnoffer0.setVisibility(View.GONE);
+                    item_btnoffer1.setVisibility(View.VISIBLE);
+                    item_offermsg.setVisibility(View.GONE);
+                    item_offermsg.setText("");
+                    item_loading.setVisibility(View.GONE);
+                    item_loading.clearAnimation();
+
+                    break;
+                case 1://自动报价中
+                    item_arrow_right.setVisibility(View.GONE);
+                    item_offerpremium.setVisibility(View.GONE);
+                    item_offerpremium.setText("");
+                    item_btnoffer0.setVisibility(View.GONE);
+                    item_btnoffer1.setVisibility(View.GONE);
+                    item_offermsg.setVisibility(View.VISIBLE);
+                    item_offermsg.setText("报价中，稍等");
+                    item_loading.setVisibility(View.VISIBLE);
+                    item_loading.startAnimation(m_animation);
+
+                    break;
+                case 2://自动报价成功
+                    item_arrow_right.setVisibility(View.VISIBLE);
+                    item_offerpremium.setVisibility(View.VISIBLE);
+                    item_offerpremium.setText(bean.getOfferSumPremium());
+                    item_btnoffer0.setVisibility(View.GONE);
+                    item_btnoffer1.setVisibility(View.GONE);
+                    item_offermsg.setVisibility(View.GONE);
+                    item_offermsg.setText("");
+                    item_loading.setVisibility(View.GONE);
+                    item_loading.clearAnimation();
+                    break;
+                case 3://自动报价失败
+                    item_arrow_right.setVisibility(View.GONE);
+                    item_offerpremium.setVisibility(View.GONE);
+                    item_offerpremium.setText("");
+                    item_btnoffer0.setVisibility(View.VISIBLE);
+                    item_btnoffer1.setVisibility(View.GONE);
+                    item_offermsg.setVisibility(View.VISIBLE);
+                    item_offermsg.setText(bean.getOfferMessage());
+                    item_loading.setVisibility(View.GONE);
+                    item_loading.clearAnimation();
+                    break;
+            }
 
             CommonUtil.loadImageFromUrl(NwCarInsCompanyActivity.this, item_img, bean.getImgUrl() + "");
 
@@ -368,21 +398,23 @@ public class NwCarInsCompanyActivity extends SwipeBackActivity implements View.O
             item_desc.setText(bean.getDescp());
 
 
-            final int pos = position;
             item_btnoffer0.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
-                    carInfo.setAuto("0");
+                    final int pos = Integer.parseInt(v.getTag().toString());
+
+
                     if (dialog_ConfirmArtificial == null) {
 
                         dialog_ConfirmArtificial = new CustomConfirmDialog(NwCarInsCompanyActivity.this, "提交人工报价需要等候约10分钟，请注意查看我的订单？", true);
+
 
                         dialog_ConfirmArtificial.getBtnSure().setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
 
-                                gefOffer(pos, true, "正在提交中");
+                                gefOffer(pos, 0, true, "正在提交中");
 
                                 dialog_ConfirmArtificial.dismiss();
                             }
@@ -405,16 +437,10 @@ public class NwCarInsCompanyActivity extends SwipeBackActivity implements View.O
             item_btnoffer1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
-                    Animation m_animation = AnimationUtils.loadAnimation(NwCarInsCompanyActivity.this,
-                            R.anim.dialog_load_animation2);
-                    item_loading.startAnimation(m_animation);
-                    item_loading.setVisibility(View.VISIBLE);
-                    item_btnoffer1.setVisibility(View.GONE);
-                    item_offermsg.setText("报价中，稍等");
-                    item_offermsg.setVisibility(View.VISIBLE);
-                    carInfo.setAuto("1");
-                    gefOffer(pos, false, "正在报价中");
+                    int pos = Integer.parseInt(v.getTag().toString());
+                    carInsCompanys.get(pos).setOfferStatus(1);// 自动报价中
+                    setData(carInsCompanys);
+                    gefOffer(pos, 1, false, "正在报价中");
                 }
             });
 
@@ -422,7 +448,7 @@ public class NwCarInsCompanyActivity extends SwipeBackActivity implements View.O
             return convertView;
         }
 
-        private void gefOffer(final int position, final boolean isShowLoading, final String loadingmsg) {
+        private void gefOffer(final int position, final int auto, final boolean isShowLoading, final String loadingmsg) {
 
 
             String data_ci = txt_date_ci.getText().toString();
@@ -444,7 +470,7 @@ public class NwCarInsCompanyActivity extends SwipeBackActivity implements View.O
             params.put("userId", getAppContext().getUser().getId());
             params.put("merchantId", getAppContext().getUser().getMerchantId());
             params.put("posMachineId", getAppContext().getUser().getPosMachineId());
-            params.put("auto", carInfo.getAuto());
+            params.put("auto", auto + "");
             params.put("carInfoOrderId", carInfo.getCarInfoOrderId());
             params.put("channelId", carInsCompanys.get(position).getPartnerChannelId());
             params.put("companyCode", carInsCompanys.get(position).getPartnerCode());
@@ -481,14 +507,14 @@ public class NwCarInsCompanyActivity extends SwipeBackActivity implements View.O
                     ApiResultBean<NwCarInsCompanyBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<NwCarInsCompanyBean>>() {
                     });
 
-                    if (carInfo.getAuto().equals("1")) {
+                    if (auto == 1) {
                         if (rt.getResult() == Result.SUCCESS) {
-                            carInsCompanys.get(position).setOfferResult(1);//1 为自动报价成功，2为自动报价失败
+                            carInsCompanys.get(position).setOfferStatus(2);//2 为自动报价成功
                             carInsCompanys.get(position).setOfferSumPremium(rt.getData().getOfferSumPremium());
                             carInsCompanys.get(position).setOfferInquirys(rt.getData().getOfferInquirys());
                             carInsCompanys.get(position).setOfferId(rt.getData().getOfferId());
                         } else {
-                            carInsCompanys.get(position).setOfferResult(2);
+                            carInsCompanys.get(position).setOfferStatus(3);//3为自动报价失败
                         }
                     } else {
 
