@@ -110,6 +110,8 @@ public class NwCarInsInsureActivity extends ChoicePhotoAndCropAndSwipeBackActivi
         setContentView(R.layout.activity_nwcarins_insure);
         carInsBaseInfo = (NwCarInsBaseInfoBean) getIntent().getSerializableExtra("carInsBaseInfo");
         offerInfo = (NwCarInsCompanyBean) getIntent().getSerializableExtra("offerInfo");
+
+        LogUtil.e("offerInfo.getAuto():" + offerInfo.getAuto());
         initView();
         initEvent();
         initData();
@@ -122,6 +124,12 @@ public class NwCarInsInsureActivity extends ChoicePhotoAndCropAndSwipeBackActivi
         txtHeaderTitle.setText("投保信息");
 
         btn_submit = (Button) findViewById(R.id.btn_submit);
+
+        if (offerInfo.getAuto().equals("0")) {
+            btn_submit.setText("提交核保");
+        } else {
+            btn_submit.setText("快速核保");
+        }
 
         company_img = (ImageView) findViewById(R.id.company_img);
         company_name = (TextView) findViewById(R.id.company_name);
@@ -230,16 +238,15 @@ public class NwCarInsInsureActivity extends ChoicePhotoAndCropAndSwipeBackActivi
 
     private CustomConfirmDialog dialog_ConfirmArtificial;
 
-    int auto = 1;
 
     private void submit() {
 
-        if (auto == 1) {
+        if (offerInfo.getAuto().equals("1")) {
             insure("正在核保中");
         } else {
             if (dialog_ConfirmArtificial == null) {
 
-                dialog_ConfirmArtificial = new CustomConfirmDialog(NwCarInsInsureActivity.this, "提交人工报价需要等候约10分钟，请注意查看我的订单？", true);
+                dialog_ConfirmArtificial = new CustomConfirmDialog(NwCarInsInsureActivity.this, "提交核保需要等候约10分钟，请注意查看我的订单？", true);
 
                 dialog_ConfirmArtificial.getBtnSure().setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -270,7 +277,7 @@ public class NwCarInsInsureActivity extends ChoicePhotoAndCropAndSwipeBackActivi
     private void showArtificialSuccessDialog() {
         if (dialog_ArtificialSuccess == null) {
 
-            dialog_ArtificialSuccess = new CustomConfirmDialog(NwCarInsInsureActivity.this, "投保订单提交成功", false);
+            dialog_ArtificialSuccess = new CustomConfirmDialog(NwCarInsInsureActivity.this, "核保订单提交成功", false);
 
             dialog_ArtificialSuccess.getBtnSure().setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -283,7 +290,6 @@ public class NwCarInsInsureActivity extends ChoicePhotoAndCropAndSwipeBackActivi
                     startActivity(l_Intent);
                     finish();
 
-                    //AppManager.getAppManager().finishAllActivity();
                 }
             });
 
@@ -344,7 +350,7 @@ public class NwCarInsInsureActivity extends ChoicePhotoAndCropAndSwipeBackActivi
         params.put("merchantId", this.getAppContext().getUser().getMerchantId());
         params.put("posMachineId", this.getAppContext().getUser().getPosMachineId());
         params.put("offerId", offerInfo.getOfferId() + "");
-        params.put("auto", auto + "");
+        params.put("auto", offerInfo.getAuto() + "");
 
         JSONObject jsonObj_CarInfo = new JSONObject();
         try {
@@ -406,7 +412,7 @@ public class NwCarInsInsureActivity extends ChoicePhotoAndCropAndSwipeBackActivi
                 ApiResultBean<NwCarInsInsureResult> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<NwCarInsInsureResult>>() {
                 });
 
-                if (auto == 1) {
+                if (offerInfo.getAuto().equals("1")) {
 
                     if (rt.getResult() == Result.SUCCESS) {
                         Intent intent = new Intent(NwCarInsInsureActivity.this, NwCarInsInsureResultActivity.class);
@@ -425,7 +431,6 @@ public class NwCarInsInsureActivity extends ChoicePhotoAndCropAndSwipeBackActivi
                                 @Override
                                 public void onClick(View v) {
 
-                                    auto = 0;
                                     insure("正在提交中");
 
                                     dialog_ConfirmArtificial.dismiss();

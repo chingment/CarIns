@@ -332,7 +332,7 @@ public class OrderListFragment extends BaseLazyFragment {
                         intent.putExtras(b);
                         startActivity(intent);
                     } else {
-                        if (rt.getData().getFollowStatus() == 4 || rt.getData().getFollowStatus() == 7 || rt.getData().getFollowStatus() == 9 || rt.getData().getFollowStatus() == 12) {
+                        if (rt.getData().getFollowStatus() == 9) {
                             goInsure(order.getId());
                         } else if (rt.getData().getFollowStatus() == 21) {
                             goPay(order.getId());

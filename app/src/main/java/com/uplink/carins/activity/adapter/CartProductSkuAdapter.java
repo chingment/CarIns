@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.uplink.carins.R;
@@ -68,6 +69,7 @@ public class CartProductSkuAdapter extends BaseAdapter {
 
         final CartProductSkuBean bean = beans.get(position);
 
+        LinearLayout layout_cb_selected = (LinearLayout) convertView.findViewById(R.id.layout_cb_selected);
         CheckBox cb_selected = (CheckBox) convertView.findViewById(R.id.cb_selected);
         ImageView img_main = (ImageView) convertView.findViewById(R.id.img_main);
         TextView txt_name = (TextView) convertView.findViewById(R.id.txt_name);
@@ -99,7 +101,15 @@ public class CartProductSkuAdapter extends BaseAdapter {
                 MallCartActivityActivity.operate(mContext, CartOperateType.SELECTED, bean.getSkuId());
             }
         });
-        ;
+
+        layout_cb_selected.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                MallCartActivityActivity.operate(mContext, CartOperateType.SELECTED, bean.getSkuId());
+            }
+        });
+
 
         btn_decrease.setOnClickListener(new View.OnClickListener() {
             @Override

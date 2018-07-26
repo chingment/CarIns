@@ -75,10 +75,10 @@ public class NwCarInsCompanyOfferResultActivity extends SwipeBackActivity implem
         list_offer_parent = (MyListView) findViewById(R.id.list_offer_parent);
 
 
-        //list_offer_parent.setFocusable(false);
-        //list_offer_parent.setClickable(false);
-        //list_offer_parent.setPressed(false);
-        //list_offer_parent.setEnabled(false);
+        list_offer_parent.setFocusable(false);
+        list_offer_parent.setClickable(false);
+        list_offer_parent.setPressed(false);
+        list_offer_parent.setEnabled(false);
     }
 
     private void initEvent() {

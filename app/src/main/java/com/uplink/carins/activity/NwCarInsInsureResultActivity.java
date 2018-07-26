@@ -3,7 +3,6 @@ package com.uplink.carins.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -28,8 +27,6 @@ import com.uplink.carins.ui.city.CitycodeUtil;
 import com.uplink.carins.ui.city.ScrollerNumberPicker;
 import com.uplink.carins.ui.dialog.CustomConfirmDialog;
 import com.uplink.carins.ui.swipebacklayout.SwipeBackActivity;
-import com.uplink.carins.utils.CommonUtil;
-import com.uplink.carins.utils.LogUtil;
 import com.uplink.carins.utils.NoDoubleClickUtils;
 import com.uplink.carins.utils.StringUtil;
 
@@ -192,77 +189,9 @@ public class NwCarInsInsureResultActivity extends SwipeBackActivity implements V
         }
     }
 
-    private CustomConfirmDialog dialog_ConfirmArtificial;
-    int auto = 1;
-
-    private CustomConfirmDialog dialog_ArtificialSuccess;
-
-    private void showArtificialSuccessDialog() {
-        if (dialog_ArtificialSuccess == null) {
-
-            dialog_ArtificialSuccess = new CustomConfirmDialog(NwCarInsInsureResultActivity.this, "支付订单提交成功", false);
-
-            dialog_ArtificialSuccess.getBtnSure().setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    dialog_ArtificialSuccess.dismiss();
-
-                    Intent l_Intent = new Intent(NwCarInsInsureResultActivity.this, OrderListActivity.class);
-                    l_Intent.putExtra("status", 1);
-                    startActivity(l_Intent);
-                    finish();
-                }
-            });
-
-            dialog_ArtificialSuccess.getBtnCancle().setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    dialog_ArtificialSuccess.dismiss();
-                }
-            });
-
-
-        }
-
-        dialog_ArtificialSuccess.show();
-    }
-
     private void submit() {
 
         pay("正在支付申请中");
-
-
-//        if (auto == 1) {
-//            pay("正在支付申请中");
-//        } else {
-//            if (dialog_ConfirmArtificial == null) {
-//
-//                dialog_ConfirmArtificial = new CustomConfirmDialog(NwCarInsInsureResultActivity.this, "提交人工申请支付需要等候约10分钟，请注意查看我的订单？", true);
-//
-//                dialog_ConfirmArtificial.getBtnSure().setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//
-//                        pay("正在支付申请中");
-//
-//                        dialog_ConfirmArtificial.dismiss();
-//                    }
-//                });
-//
-//                dialog_ConfirmArtificial.getBtnCancle().setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        dialog_ConfirmArtificial.dismiss();
-//                    }
-//                });
-//            }
-//
-//            dialog_ConfirmArtificial.show();
-//        }
-
-
     }
 
     private void pay(String loadingmsg) {
@@ -339,61 +268,9 @@ public class NwCarInsInsureResultActivity extends SwipeBackActivity implements V
                     b.putSerializable("payResult", rt.getData());
                     intent.putExtras(b);
                     startActivity(intent);
-
                 } else {
-
                     showToast(rt.getMessage());
                 }
-
-
-//                if (auto == 1) {
-//                    if (rt.getResult() == Result.SUCCESS) {
-//
-//                        Intent intent = new Intent(NwCarInsInsureResultActivity.this, NwCarInsPayActivity.class);
-//                        Bundle b = new Bundle();
-//                        b.putSerializable("payResult", rt.getData());
-//                        intent.putExtras(b);
-//                        startActivity(intent);
-//
-//                    } else {
-//                        if (dialog_ConfirmArtificial == null) {
-//
-//                            dialog_ConfirmArtificial = new CustomConfirmDialog(NwCarInsInsureResultActivity.this, "核保失败，提交人工核保需要等候约10分钟，请注意查看我的订单？", true);
-//
-//                            dialog_ConfirmArtificial.getBtnSure().setOnClickListener(new View.OnClickListener() {
-//                                @Override
-//                                public void onClick(View v) {
-//                                    auto = 0;
-//                                    pay("正在提交中");
-//                                    dialog_ConfirmArtificial.dismiss();
-//                                }
-//                            });
-//
-//                            dialog_ConfirmArtificial.getBtnCancle().setOnClickListener(new View.OnClickListener() {
-//                                @Override
-//                                public void onClick(View v) {
-//                                    dialog_ConfirmArtificial.dismiss();
-//                                }
-//                            });
-//                        }
-//
-//                        dialog_ConfirmArtificial.show();
-//                    }
-//                } else {
-//
-//                    if (rt.getResult() == Result.SUCCESS) {
-//
-//                        Intent intent = new Intent(NwCarInsInsureResultActivity.this, NwCarInsPayActivity.class);
-//                        Bundle b = new Bundle();
-//                        b.putSerializable("payResult", rt.getData());
-//                        intent.putExtras(b);
-//                        startActivity(intent);
-//
-//                    } else {
-//
-//                        showToast(rt.getMessage());
-//                    }
-//                }
             }
         });
 
