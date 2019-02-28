@@ -29,8 +29,6 @@
         android:layout_below="@+id/txt_carinsurecounttips"
         android:divider="@color/dialog_chooselist_dividerline"
         android:dividerHeight="1px"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
         android:scrollbars="none"
 
         />

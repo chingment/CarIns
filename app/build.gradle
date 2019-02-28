@@ -66,7 +66,7 @@ android {
 
     buildTypes {
         debug {
-            buildConfigField "String", "ENVIRONMENT", "\"http://120.79.233.231:\""
+            buildConfigField "String", "ENVIRONMENT", "\"http://api.gzhaoyilian.com\""
             buildConfigField "String", "APPKEY", "\"test\""
             buildConfigField "String", "APPSECRET", "\"6ZB97cdVz211O08EKZ6yriAYrHXFBowC\""
             buildConfigField "boolean", "SHOWDEBUG", "true"
